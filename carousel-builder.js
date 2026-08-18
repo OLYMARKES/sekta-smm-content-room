@@ -38,6 +38,7 @@
     download: document.querySelector("#builderDownload"),
     addGrid: document.querySelector("#builderAddGrid"),
     copyScript: document.querySelector("#builderCopyScript"),
+    tasteFont: document.querySelector("#builderTasteFont"),
   };
 
   const extraHooks = {
@@ -92,7 +93,7 @@
   };
 
   const styleLabels = { dark: "Фото + контраст", pink: "Розовая серия", blue: "Синяя серия", lime: "Лайм-серия", paper: "Редакционная бумага" };
-  const fontLabels = { condensed: "плотная", grotesk: "гротеск", editorial: "редакционная" };
+  const fontLabels = { condensed: "плотная", grotesk: "гротеск", editorial: "редакционная", taste: "из примерочной" };
   const textColors = { white: "#ffffff", ink: "#17221f", pink: "#f35ba7", blue: "#3155e4", lime: "#d4f04a" };
   const folderLabels = new Map(library.map((item) => [item.folder, item.folderLabel]).filter(([id]) => id));
 
@@ -101,6 +102,7 @@
   let activePlacement = "bottom";
   let activeFont = "condensed";
   let activeTextColor = "white";
+  let tasteFont = null;
   let hookIndex = 0;
   let scriptVariant = 0;
   let selectedIdeaKey = "";
@@ -128,6 +130,40 @@
       [next[index], next[target]] = [next[target], next[index]];
     }
     return next;
+  }
+
+  function readLocalJson(key, fallback) {
+    try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; }
+  }
+
+  function selectedTasteFont() {
+    const layoutPrefs = readLocalJson("olymarkes-text-layout-prefs-v1", {});
+    const pickerPrefs = readLocalJson("olymarkes-type-studio-picker-v1", {});
+    const votes = readLocalJson("olymarkes-cyrillic-font-taste-v1", {});
+    const choice = layoutPrefs.choice || pickerPrefs.choice || Object.keys(votes).find((key) => key.includes("|") && votes[key] === "like");
+    if (!choice) return null;
+    const [family, caseKind] = choice.split("|");
+    return family && ["lower", "upper"].includes(caseKind) ? { family, caseKind } : null;
+  }
+
+  function ensureTasteFont(font) {
+    if (!font || document.querySelector(`link[data-taste-font="${CSS.escape(font.family)}"]`)) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.dataset.tasteFont = font.family;
+    link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(font.family).replace(/%20/g, "+")}:wght@700;800;900&display=swap`;
+    document.head.append(link);
+  }
+
+  function refreshTasteFont(activate = false) {
+    tasteFont = selectedTasteFont();
+    ui.tasteFont.disabled = !tasteFont;
+    ui.tasteFont.textContent = tasteFont ? `${tasteFont.family} · ${tasteFont.caseKind === "upper" ? "КАПС" : "строчные"}` : "Из примерочной";
+    if (!tasteFont) return false;
+    fontLabels.taste = tasteFont.family;
+    ensureTasteFont(tasteFont);
+    if (activate) activeFont = "taste";
+    return true;
   }
 
   function setStatus(message) {
@@ -226,6 +262,8 @@
     ui.cover.className = `builder-cover builder-cover-${activeStyle}`;
     ui.cover.dataset.placement = activePlacement;
     ui.cover.dataset.font = activeFont;
+    ui.cover.dataset.tasteCase = tasteFont?.caseKind || "lower";
+    ui.cover.style.setProperty("--builder-headline-font", tasteFont ? `"${tasteFont.family}"` : '"Golos Text"');
     ui.cover.dataset.textColor = activeTextColor;
     ui.cover.style.setProperty("--focus-x", `${ui.focusX.value}%`);
     ui.cover.style.setProperty("--focus-y", `${ui.focusY.value}%`);
@@ -233,7 +271,7 @@
     ui.coverHeadline.textContent = ui.hook.value;
     ui.coverPromise.textContent = ui.subtitle.value;
     ui.coverAccount.textContent = ui.account.value;
-    ui.coverStatus.textContent = `${styleLabels[activeStyle]} · ${fontLabels[activeFont]}`;
+    ui.coverStatus.textContent = `${styleLabels[activeStyle]} · ${fontLabels[activeFont] || activeFont}`;
     document.querySelectorAll("[data-builder-style]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderStyle === activeStyle));
     document.querySelectorAll("[data-builder-placement]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderPlacement === activePlacement));
     document.querySelectorAll("[data-builder-font]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderFont === activeFont));
@@ -394,6 +432,9 @@
     const context = canvas.getContext("2d");
     const image = await loadImage(selectedPhoto.thumb);
     const scale = width / 1080;
+    if (activeFont === "taste" && tasteFont) {
+      try { await document.fonts.load(`800 ${96 * scale}px "${tasteFont.family}"`); } catch {}
+    }
     drawCoverImage(context, image, 0, 0, width, height);
 
     if (activeStyle === "dark") {
@@ -417,16 +458,18 @@
 
     const isSide = activePlacement === "left" || activePlacement === "right";
     const maxWidth = width * (isSide ? .58 : .82);
-    let fontSize = (activeFont === "editorial" ? 78 : activeFont === "grotesk" ? 86 : 96) * scale;
-    const family = activeFont === "editorial" ? "Georgia, serif" : activeFont === "grotesk" ? "Arial, sans-serif" : "Arial Narrow, Arial, sans-serif";
+    let fontSize = (activeFont === "editorial" ? 78 : activeFont === "grotesk" || activeFont === "taste" ? 86 : 96) * scale;
+    const family = activeFont === "taste" && tasteFont ? `"${tasteFont.family}", sans-serif` : activeFont === "editorial" ? "Georgia, serif" : activeFont === "grotesk" ? "Arial, sans-serif" : "Arial Narrow, Arial, sans-serif";
+    const headline = activeFont === "taste" && tasteFont?.caseKind === "upper" ? ui.hook.value.toLocaleUpperCase("ru-RU") : activeFont === "taste" && tasteFont?.caseKind === "lower" ? ui.hook.value.toLocaleLowerCase("ru-RU") : ui.hook.value;
+    const headlineWeight = activeFont === "editorial" ? 700 : activeFont === "taste" ? 800 : 900;
     let lines = [];
     do {
-      context.font = `${activeFont === "editorial" ? 700 : 900} ${fontSize}px ${family}`;
-      lines = wrapLines(context, ui.hook.value, maxWidth);
+      context.font = `${headlineWeight} ${fontSize}px ${family}`;
+      lines = wrapLines(context, headline, maxWidth);
       if (lines.length > 5) fontSize -= 5 * scale;
     } while (lines.length > 5 && fontSize > 50 * scale);
 
-    const lineHeight = fontSize * (activeFont === "editorial" ? 1.03 : .93);
+    const lineHeight = fontSize * (activeFont === "editorial" ? 1.03 : activeFont === "taste" ? .96 : .93);
     const textBlockHeight = lines.length * lineHeight;
     const x = activePlacement === "right" ? width - 58 * scale : activePlacement === "middle" ? width / 2 : 58 * scale;
     const startY = activePlacement === "middle" ? (height - textBlockHeight) / 2 : height - textBlockHeight - 118 * scale;
@@ -508,6 +551,11 @@
   document.querySelectorAll("[data-builder-style]").forEach((button) => button.addEventListener("click", () => { activeStyle = button.dataset.builderStyle; renderCover(); }));
   document.querySelectorAll("[data-builder-placement]").forEach((button) => button.addEventListener("click", () => { activePlacement = button.dataset.builderPlacement; renderCover(); }));
   document.querySelectorAll("[data-builder-font]").forEach((button) => button.addEventListener("click", () => { activeFont = button.dataset.builderFont; renderCover(); }));
+  window.addEventListener("sekta:apply-type-taste", () => {
+    if (!refreshTasteFont(true)) return setStatus("Сначала отметьте хотя бы один шрифтовой кадр как понравившийся.");
+    renderCover();
+    setStatus(`${tasteFont.family} · ${tasteFont.caseKind === "upper" ? "КАПС" : "строчные"} применён к обложке.`);
+  });
   document.querySelectorAll("[data-builder-text-color]").forEach((button) => button.addEventListener("click", () => { activeTextColor = button.dataset.builderTextColor; renderCover(); }));
   ui.hook.addEventListener("input", syncCoverToSlide);
   ui.subtitle.addEventListener("input", renderCover);
@@ -551,6 +599,7 @@
   ui.subtitle.value = subtitleForGoal();
   refreshIdeas({ initial: true });
   selectedPhoto = currentMediaPool()[0] || library[0] || null;
+  refreshTasteFont(false);
   renderMedia();
   renderCover();
   renderSlides();

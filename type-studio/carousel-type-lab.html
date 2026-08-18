@@ -1,0 +1,1022 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <script>if(window.self!==window.top)document.documentElement.classList.add("is-embedded")</script>
+  <style>@media(max-width:700px){html.is-embedded .topbar{display:none!important}html.is-embedded body{padding-top:0!important}}</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Тиндер кириллических шрифтовых пар — Olymarkes</title>
+  <link rel="stylesheet" href="fonts.css">
+  <style>
+    :root {
+      --bg: #f1f2ef;
+      --surface: #fbfbf9;
+      --surface-strong: #ffffff;
+      --text: #171815;
+      --muted: #6b6e67;
+      --border: #d9dcd4;
+      --border-strong: #aeb2a8;
+      --accent: #f05232;
+      --like: #147a4e;
+      --maybe: #b8740c;
+      --no: #8a433c;
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 22px;
+      --shadow: 0 18px 50px rgba(26, 29, 22, .08);
+      --cover-image: none;
+      --cover-y: 50%;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      background: var(--bg);
+      font-family: "Onest", system-ui, sans-serif;
+    }
+    button, input, select, textarea { font: inherit; }
+    button, input, select, textarea { color: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 3px solid rgba(240, 82, 50, .28); outline-offset: 2px; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      min-height: 70px;
+      padding: 12px 22px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 20px;
+      background: rgba(251, 251, 249, .95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+    }
+    .brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      flex: none;
+      border-radius: 11px;
+      color: #fff;
+      background: var(--text);
+      font-family: "Geologica", sans-serif;
+      font-size: 21px;
+      font-weight: 760;
+      font-variation-settings: "wght" 760, "SHRP" 70;
+    }
+    .brand h1 { margin: 0; font-size: 15px; line-height: 1.1; font-weight: 760; }
+    .brand p { margin: 3px 0 0; color: var(--muted); font-size: 11px; }
+    .mode-nav {
+      padding: 4px;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #f2f3ef;
+    }
+    .mode-nav a {
+      padding: 8px 12px;
+      color: var(--muted);
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .mode-nav a[aria-current="page"] { color: #fff; background: var(--text); }
+    .top-stats { justify-self: end; display: flex; gap: 18px; color: var(--muted); font-size: 11px; }
+    .top-stats strong { display: block; color: var(--text); font-size: 15px; line-height: 1.1; text-align: right; }
+
+    .builder-wrap { padding: 18px 22px 4px; }
+    .cover-builder {
+      max-width: 1460px;
+      margin: 0 auto;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: minmax(290px, 1.15fr) minmax(280px, 1fr) minmax(230px, .72fr);
+      gap: 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface-strong);
+      box-shadow: 0 10px 34px rgba(26, 29, 22, .05);
+    }
+    .builder-step { min-width: 0; padding: 12px; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; align-items: start; border-radius: 14px; background: #f3f4f0; }
+    .step-number { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: var(--text); font-size: 11px; font-weight: 800; }
+    .step-copy strong { display: block; margin: 1px 0 4px; font-size: 12px; }
+    .step-copy > span, .step-copy label > span { display: block; color: var(--muted); font-size: 9px; line-height: 1.35; }
+    .photo-picker-button { width: 100%; margin-top: 9px; padding: 6px; display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; align-items: center; gap: 9px; border: 1px solid var(--border); border-radius: 11px; background: #fff; text-align: left; }
+    .selected-photo-thumb { width: 42px; height: 50px; border-radius: 7px; background: #222 var(--cover-image) center var(--cover-y) / cover no-repeat; }
+    .photo-picker-button strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
+    .photo-picker-button small { color: var(--muted); font-size: 9px; }
+    .photo-picker-button b { padding: 5px 7px; border-radius: 7px; background: #eef0ea; font-size: 9px; }
+    .photo-tools { margin-top: 8px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+    .crop-control { display: grid; grid-template-columns: auto minmax(70px, 1fr); gap: 7px; align-items: center; color: var(--muted); font-size: 9px; }
+    .crop-control input { width: 100%; accent-color: var(--text); }
+    .tone-switch { padding: 3px; display: flex; border-radius: 9px; background: #e6e8e2; }
+    .tone-button { min-height: 28px; padding: 0 8px; border: 0; border-radius: 7px; color: var(--muted); background: transparent; font-size: 9px; font-weight: 750; }
+    .tone-button[aria-pressed="true"] { color: var(--text); background: #fff; }
+    .headline-input { width: 100%; min-height: 44px; margin-top: 9px; padding: 0 11px; border: 1px solid var(--border); border-radius: 10px; background: #fff; font-weight: 650; }
+    .case-switch { margin-top: 7px; padding: 3px; display: grid; grid-template-columns: 1fr 1.25fr 1fr; gap: 3px; border-radius: 9px; background: #e6e8e2; }
+    .case-button { min-height: 29px; padding: 0 7px; border: 0; border-radius: 7px; color: var(--muted); background: transparent; font-size: 9px; font-weight: 750; }
+    .case-button[aria-pressed="true"] { color: var(--text); background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    .pair-step { background: #e9eee8; }
+    .pair-step .step-copy { align-self: center; }
+    .pair-step em { display: block; margin-top: 8px; color: var(--like); font-size: 10px; font-style: normal; font-weight: 760; }
+
+    .toolbar-wrap {
+      position: sticky;
+      top: 70px;
+      z-index: 20;
+      padding: 12px 22px;
+      background: rgba(241, 242, 239, .94);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+    }
+    .toolbar { max-width: 1460px; margin: 0 auto; display: grid; gap: 10px; }
+    .toolbar-main { display: grid; grid-template-columns: minmax(240px, 1.5fr) repeat(2, minmax(130px, .55fr)) auto; gap: 8px; }
+    .control {
+      min-height: 42px;
+      padding: 0 12px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface-strong);
+    }
+    .search { position: relative; }
+    .search input { width: 100%; padding-left: 38px; }
+    .search::before { content: "⌕"; position: absolute; left: 14px; top: 9px; z-index: 1; color: var(--muted); font-size: 19px; transform: rotate(-18deg); }
+    .view-switch { padding: 4px; display: flex; gap: 3px; border: 1px solid var(--border); border-radius: 11px; background: #e8eae5; }
+    .view-button { min-width: 74px; padding: 0 10px; border: 0; border-radius: 8px; color: var(--muted); background: transparent; font-size: 11px; font-weight: 700; }
+    .view-button[aria-pressed="true"] { color: var(--text); background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.07); }
+    .state-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+    .state-tabs::-webkit-scrollbar { display: none; }
+    .state-tab {
+      min-height: 34px;
+      padding: 6px 11px;
+      flex: none;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255,255,255,.58);
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .state-tab[aria-pressed="true"] { color: #fff; background: var(--text); border-color: var(--text); }
+    .state-tab output { margin-left: 5px; opacity: .74; font-variant-numeric: tabular-nums; }
+
+    .app-layout {
+      max-width: 1504px;
+      margin: 0 auto;
+      padding: 22px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 18px;
+      align-items: start;
+    }
+    .content-head { min-height: 38px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+    .content-head p { margin: 0; color: var(--muted); font-size: 12px; }
+    .shuffle {
+      min-height: 34px;
+      padding: 0 11px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--text);
+      background: #fff;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .font-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .font-card {
+      position: relative;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--surface-strong);
+      transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+      contain: content;
+    }
+    .font-card:hover { transform: translateY(-2px); border-color: var(--border-strong); box-shadow: 0 12px 28px rgba(25,29,20,.08); }
+    .font-card[data-font-status="error"]::after { content: "не загрузился"; position: absolute; right: 17px; top: 54px; z-index: 3; padding: 5px 7px; border-radius: 6px; color: #fff; background: var(--no); font: 600 9px/1 "Onest", sans-serif; }
+    .card-head { min-height: 34px; padding: 2px 3px 9px; display: flex; justify-content: space-between; gap: 10px; color: var(--muted); font-size: 9px; }
+    .card-head strong { color: var(--text); font: 720 11px/1.2 "Onest", sans-serif; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .card-head span { flex: none; }
+    .cover-variants { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-items: start; }
+    .case-candidate { min-width: 0; padding: 5px; border: 1px solid var(--border); border-radius: 13px; background: #f7f8f4; }
+    .case-candidate[data-state="like"] { border-color: rgba(20, 122, 78, .56); box-shadow: inset 0 3px 0 var(--like); }
+    .case-candidate[data-state="maybe"] { border-color: rgba(184, 116, 12, .5); box-shadow: inset 0 3px 0 var(--maybe); }
+    .case-candidate[data-state="no"] { opacity: .56; }
+    html[data-case-mode="lower"] .cover-variants,
+    html[data-case-mode="upper"] .cover-variants { grid-template-columns: minmax(0, 1fr); }
+    html[data-case-mode="lower"] .case-candidate[data-case="upper"],
+    html[data-case-mode="upper"] .case-candidate[data-case="lower"] { display: none; }
+    .cover-preview {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      container-type: inline-size;
+      overflow: hidden;
+      isolation: isolate;
+      color: #fff;
+      background-color: #111;
+      background-image: var(--cover-image);
+      background-position: center var(--cover-y);
+      background-size: cover;
+      background-repeat: no-repeat;
+      border-radius: 10px;
+    }
+    .cover-preview::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: var(--cover-overlay, rgba(0, 0, 0, .08));
+    }
+    .cover-kicker {
+      position: absolute;
+      top: 5.8cqw;
+      left: 6cqw;
+      font: 720 3.2cqw/1 "Onest", sans-serif;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .cover-number {
+      position: absolute;
+      top: 5.8cqw;
+      right: 6cqw;
+      font: 650 3.2cqw/1 "Onest", sans-serif;
+      font-variant-numeric: tabular-nums;
+    }
+    .font-sample {
+      position: absolute;
+      top: 18cqw;
+      left: 5.5cqw;
+      width: 81cqw;
+      margin: 0;
+      color: inherit;
+      text-shadow: var(--cover-shadow, 0 2px 18px rgba(0, 0, 0, .22));
+      font-size: 11.1cqw;
+      line-height: .91;
+      letter-spacing: -.04em;
+      overflow-wrap: normal;
+      hyphens: none;
+      text-wrap: balance;
+    }
+    .font-sample[data-case="lower"] { text-transform: lowercase; }
+    .font-sample[data-case="upper"] { font-size: 9.35cqw; line-height: .96; letter-spacing: .01em; text-transform: uppercase; }
+    .case-badge { position: absolute; top: 11.6cqw; left: 6cqw; padding: 1.3cqw 1.7cqw; border-radius: 999px; color: #fff; background: rgba(23,24,21,.72); font: 720 2.45cqw/1 "Onest", sans-serif; letter-spacing: .035em; text-transform: uppercase; }
+    .cover-caption {
+      position: absolute;
+      left: 6cqw;
+      bottom: 6.2cqw;
+      width: 39cqw;
+      margin: 0;
+      font-size: 3.5cqw;
+      line-height: 1.23;
+      letter-spacing: -.015em;
+    }
+    .cover-pair {
+      position: absolute;
+      right: 6cqw;
+      bottom: 6.2cqw;
+      max-width: 38cqw;
+      padding: 1.6cqw 1.9cqw;
+      border-radius: 1.8cqw;
+      color: #fff;
+      background: rgba(23, 24, 21, .76);
+      font: 700 2.8cqw/1.15 "Onest", sans-serif;
+      text-align: right;
+      text-transform: uppercase;
+      letter-spacing: .035em;
+    }
+    html[data-cover-tone="light"] .cover-preview { color: #fff; --cover-overlay: rgba(0, 0, 0, .1); --cover-shadow: 0 2px 18px rgba(0, 0, 0, .25); }
+    html[data-cover-tone="dark"] .cover-preview { color: #171815; --cover-overlay: rgba(255, 255, 255, .1); --cover-shadow: 0 2px 16px rgba(255, 255, 255, .25); }
+    .card-actions { margin-top: 5px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+    .vote {
+      min-height: 34px;
+      padding: 5px 3px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--muted);
+      background: #f8f8f5;
+      font-size: 8px;
+      font-weight: 700;
+    }
+    .vote:hover { border-color: var(--border-strong); color: var(--text); }
+    .vote[data-vote="like"][aria-pressed="true"] { color: #fff; background: var(--like); border-color: var(--like); }
+    .vote[data-vote="maybe"][aria-pressed="true"] { color: #fff; background: var(--maybe); border-color: var(--maybe); }
+    .vote[data-vote="no"][aria-pressed="true"] { color: #fff; background: var(--no); border-color: var(--no); }
+
+    .taste-panel {
+      position: sticky;
+      top: 174px;
+      padding: 17px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .taste-panel h2 { margin: 0; font-size: 17px; letter-spacing: -.02em; }
+    .taste-panel > p { margin: 6px 0 16px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .taste-meter { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 15px; }
+    .taste-stat { padding: 8px; border-radius: 10px; background: #eef0ea; text-align: center; }
+    .taste-stat strong { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
+    .taste-stat span { color: var(--muted); font-size: 9px; }
+    .liked-list { min-height: 84px; max-height: 320px; overflow: auto; display: grid; align-content: start; gap: 5px; }
+    .liked-chip { padding: 7px 9px; display: flex; justify-content: space-between; gap: 8px; border-radius: 9px; background: #e7f1eb; font-size: 10px; }
+    .liked-chip button { border: 0; color: var(--muted); background: transparent; font-size: 12px; }
+    .taste-empty { padding: 18px 8px; color: var(--muted); text-align: center; font-size: 10px; line-height: 1.4; }
+    .panel-actions { display: grid; gap: 7px; margin-top: 14px; }
+    .panel-action { min-height: 38px; border: 1px solid var(--border); border-radius: 10px; background: #fff; font-size: 10px; font-weight: 720; }
+    .panel-action.primary { color: #fff; background: var(--text); border-color: var(--text); }
+    .panel-action.danger { color: var(--no); }
+    .data-note { margin: 12px 0 0; color: var(--muted); font-size: 9px; line-height: 1.4; }
+
+    .media-modal[hidden] { display: none; }
+    .media-modal { position: fixed; inset: 0; z-index: 100; padding: 24px; display: grid; place-items: center; background: rgba(20, 22, 18, .58); backdrop-filter: blur(7px); }
+    .media-dialog { width: min(1100px, 100%); height: min(780px, calc(100vh - 48px)); display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; overflow: hidden; border: 1px solid rgba(255,255,255,.2); border-radius: 22px; background: var(--surface-strong); box-shadow: 0 30px 100px rgba(0,0,0,.28); }
+    .media-head { padding: 18px 20px 14px; display: flex; align-items: start; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--border); }
+    .media-head h2 { margin: 0; font-size: 20px; letter-spacing: -.025em; }
+    .media-head p { margin: 4px 0 0; color: var(--muted); font-size: 11px; }
+    .media-close { width: 36px; height: 36px; flex: none; border: 1px solid var(--border); border-radius: 10px; background: #f3f4f0; font-size: 20px; line-height: 1; }
+    .media-controls { padding: 12px 20px; display: grid; grid-template-columns: minmax(220px, 1fr) 220px auto; gap: 8px; border-bottom: 1px solid var(--border); }
+    .media-controls .control { width: 100%; }
+    .upload-photo { min-height: 42px; padding: 0 13px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--text); border-radius: 11px; color: #fff; background: var(--text); font-size: 10px; font-weight: 760; cursor: pointer; white-space: nowrap; }
+    .upload-photo input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+    .media-gallery { min-height: 0; padding: 16px 20px 24px; overflow: auto; }
+    .media-count { margin: 0 0 10px; color: var(--muted); font-size: 10px; }
+    .media-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+    .media-item { min-width: 0; padding: 5px; border: 1px solid var(--border); border-radius: 11px; background: #f7f8f4; text-align: left; }
+    .media-item:hover { border-color: var(--border-strong); }
+    .media-item[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(240,82,50,.16); }
+    .media-item img { width: 100%; aspect-ratio: 4 / 5; display: block; object-fit: cover; border-radius: 7px; background: #e8eae5; }
+    .media-item span { margin: 6px 2px 2px; display: block; overflow: hidden; color: var(--muted); font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+    .media-empty { padding: 60px 20px; color: var(--muted); text-align: center; font-size: 12px; }
+    .media-foot { padding: 11px 20px; display: flex; justify-content: space-between; gap: 18px; border-top: 1px solid var(--border); color: var(--muted); background: #f4f5f1; font-size: 9px; line-height: 1.4; }
+    .media-foot code { color: var(--text); font: 650 9px/1.4 "Onest", sans-serif; }
+
+    .focus-view[hidden], .grid-view[hidden] { display: none; }
+    .focus-card {
+      height: clamp(490px, calc(100vh - 230px), 760px);
+      min-height: 0;
+      padding: 26px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .focus-head { display: flex; justify-content: space-between; gap: 20px; }
+    .focus-name { margin: 0; font: 760 20px/1.15 "Onest", sans-serif; }
+    .focus-meta { margin: 5px 0 0; color: var(--muted); font-size: 11px; }
+    .focus-position { color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+    .focus-stage { min-height: 0; padding: 18px 0; display: grid; place-items: center; }
+    .focus-variants { width: 100%; height: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; justify-content: center; }
+    .focus-candidate { min-width: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 9px; }
+    .focus-cover { width: 100%; max-width: 100%; height: auto; align-self: center; box-shadow: 0 24px 65px rgba(27, 27, 22, .18); }
+    html[data-case-mode="lower"] .focus-variants,
+    html[data-case-mode="upper"] .focus-variants { grid-template-columns: minmax(0, 560px); }
+    .focus-case-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .focus-vote { min-height: 42px; border: 1px solid var(--border); border-radius: 10px; background: #f7f8f4; font-size: 10px; font-weight: 740; }
+    .focus-vote[data-vote="like"] { color: var(--like); }.focus-vote[data-vote="maybe"] { color: var(--maybe); }.focus-vote[data-vote="no"] { color: var(--no); }
+    .focus-vote[aria-pressed="true"] { color: #fff; }.focus-vote[data-vote="like"][aria-pressed="true"] { background: var(--like); border-color: var(--like); }.focus-vote[data-vote="maybe"][aria-pressed="true"] { background: var(--maybe); border-color: var(--maybe); }.focus-vote[data-vote="no"][aria-pressed="true"] { background: var(--no); border-color: var(--no); }
+    .focus-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }.focus-actions button { min-height: 44px; border: 1px solid var(--border); border-radius: 11px; background: #f7f8f4; font-size: 10px; font-weight: 740; }
+
+    .empty-state { padding: 90px 24px; border: 1px dashed var(--border-strong); border-radius: var(--radius-lg); text-align: center; background: rgba(255,255,255,.45); }
+    .empty-state h2 { margin: 0 0 6px; font-size: 18px; }
+    .empty-state p { margin: 0; color: var(--muted); font-size: 12px; }
+
+    @media (max-width: 1180px) {
+      .toolbar-main { grid-template-columns: 1fr 150px 140px auto; }
+      .cover-builder { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .pair-step { grid-column: 1 / -1; }
+      .media-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    }
+    @media (max-width: 900px) {
+      .topbar { grid-template-columns: 1fr auto; }
+      .mode-nav { justify-self: end; }
+      .top-stats { display: none; }
+      .app-layout { grid-template-columns: 1fr; }
+      .taste-panel { position: static; }
+      .liked-list { max-height: 150px; }
+      .toolbar-wrap { top: 70px; }
+      .media-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    @media (max-width: 680px) {
+      .topbar { padding-inline: 14px; }
+      .brand p { display: none; }
+      .mode-nav a { padding-inline: 9px; font-size: 10px; }
+      .builder-wrap { padding: 12px 14px 2px; }
+      .cover-builder { padding: 8px; grid-template-columns: 1fr; border-radius: 17px; }
+      .pair-step { grid-column: auto; }
+      .photo-tools { grid-template-columns: 1fr; }
+      .toolbar-wrap { padding: 10px 14px; }
+      .toolbar-main { min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .toolbar-main > * { min-width: 0; width: 100%; }
+      .search { grid-column: 1 / -1; }
+      .view-switch { grid-column: 1 / -1; min-height: 42px; }
+      .view-button { flex: 1; }
+      .app-layout { padding: 14px; }
+      .font-grid { grid-template-columns: 1fr; }
+      .focus-card { min-height: 650px; height: auto; padding: 14px; }
+      .focus-stage { padding: 14px 0; }
+      .focus-variants { height: auto; grid-template-columns: 1fr; }
+      .focus-cover { width: min(100%, 440px); height: auto; justify-self: center; }
+      .focus-actions { grid-template-columns: 1fr 1fr; }
+      .media-modal { padding: 0; place-items: stretch; }
+      .media-dialog { width: 100%; height: 100%; border: 0; border-radius: 0; }
+      .media-controls { grid-template-columns: 1fr 1fr; padding-inline: 14px; }
+      .media-controls .search { grid-column: 1 / -1; }
+      .upload-photo { white-space: normal; text-align: center; }
+      .media-gallery { padding-inline: 14px; }
+      .media-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .media-foot { padding-inline: 14px; display: block; }
+      .media-foot span:last-child { display: block; margin-top: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">Ж</div>
+      <div><h1>Тиндер шрифтовых пар</h1><p>Смотри сразу на реальной обложке</p></div>
+    </div>
+    <nav class="mode-nav" aria-label="Режимы типографики">
+      <a href="carousel-type-lab.html" aria-current="page">1 · Шрифты</a>
+      <a href="text-layout-lab.html">2 · Верстка</a>
+      <a href="type-system-studio.html">3 · Система</a>
+    </nav>
+    <div class="top-stats">
+      <span><strong id="reviewedTop">0</strong>оценено</span>
+      <span><strong id="likedTop">0</strong>нравятся</span>
+    </div>
+  </header>
+
+  <section class="builder-wrap" aria-label="Конструктор обложки">
+    <div class="cover-builder">
+      <div class="builder-step">
+        <span class="step-number">1</span>
+        <div class="step-copy">
+          <strong>Выбери фотографию</strong>
+          <span>Медиатека с Рабочего стола подключена локально.</span>
+          <button class="photo-picker-button" id="openMediaButton" type="button">
+            <span class="selected-photo-thumb" aria-hidden="true"></span>
+            <span><strong id="selectedPhotoName">Загрузка медиатеки…</strong><small id="selectedPhotoCategory"></small></span>
+            <b><span id="mediaCount">0</span> фото</b>
+          </button>
+          <div class="photo-tools">
+            <label class="crop-control">Кадр <input id="cropRange" type="range" min="0" max="100" value="50" aria-label="Положение фотографии по вертикали"></label>
+            <div class="tone-switch" aria-label="Цвет текста на обложке">
+              <button class="tone-button" data-tone="light" type="button" aria-pressed="false">Светлый</button>
+              <button class="tone-button" data-tone="dark" type="button" aria-pressed="true">Тёмный</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="builder-step">
+        <span class="step-number">2</span>
+        <div class="step-copy">
+          <label for="sampleInput"><strong>Напиши заголовок</strong><span>Строчный и капсовый кадры оцениваются независимо.</span></label>
+          <input class="headline-input" id="sampleInput" type="text" value="Мне важно жить свою жизнь" aria-label="Заголовок обложки">
+          <div class="case-switch" aria-label="Регистр заголовка">
+            <button class="case-button" data-case-mode="lower" type="button" aria-pressed="false">строчные</button>
+            <button class="case-button" data-case-mode="both" type="button" aria-pressed="true">оба рядом</button>
+            <button class="case-button" data-case-mode="upper" type="button" aria-pressed="false">КАПС</button>
+          </div>
+        </div>
+      </div>
+      <div class="builder-step pair-step">
+        <span class="step-number">3</span>
+        <div class="step-copy">
+          <strong>Оцени каждый кадр</strong>
+          <span>У строчных и КАПСА свои отдельные кнопки.</span>
+          <em>Нравится · Возможно · Не моё</em>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="toolbar-wrap" aria-label="Фильтры библиотеки">
+    <div class="toolbar">
+      <div class="toolbar-main">
+        <div class="search"><input class="control" id="searchInput" type="search" placeholder="Найти гарнитуру…" aria-label="Поиск по названию"></div>
+        <select class="control" id="categorySelect" aria-label="Категория">
+          <option value="all">Все категории</option>
+          <option>Sans Serif</option><option>Serif</option><option>Display</option><option>Handwriting</option><option>Monospace</option>
+        </select>
+        <select class="control" id="sortSelect" aria-label="Сортировка">
+          <option value="popular">Сначала популярные</option>
+          <option value="newest">Сначала новые</option>
+          <option value="az">От А до Я</option>
+        </select>
+        <div class="view-switch" aria-label="Вид библиотеки">
+          <button class="view-button" data-view="grid" type="button" aria-pressed="true">Сетка</button>
+          <button class="view-button" data-view="focus" type="button" aria-pressed="false">По одному</button>
+        </div>
+      </div>
+      <div class="state-tabs" id="stateTabs">
+        <button class="state-tab" data-filter="all" type="button" aria-pressed="true">Все <output id="countAll">588</output></button>
+        <button class="state-tab" data-filter="like" type="button" aria-pressed="false">Нравятся <output id="countLike">0</output></button>
+        <button class="state-tab" data-filter="maybe" type="button" aria-pressed="false">Возможно <output id="countMaybe">0</output></button>
+        <button class="state-tab" data-filter="no" type="button" aria-pressed="false">Не моё <output id="countNo">0</output></button>
+        <button class="state-tab" data-filter="unseen" type="button" aria-pressed="false">Не смотрела <output id="countUnseen">588</output></button>
+      </div>
+    </div>
+  </section>
+
+  <main class="app-layout">
+    <div>
+      <div class="content-head"><p id="resultLabel">Показано 588 из 588 кадров</p><button class="shuffle" id="shuffleButton" type="button">Перемешать</button></div>
+      <section class="grid-view" id="gridView" aria-label="Сетка обложек">
+        <div class="font-grid" id="fontGrid"></div>
+        <div class="empty-state" id="emptyState" hidden><h2>Ничего не нашлось</h2><p>Сбрось фильтр или измени поисковый запрос.</p></div>
+      </section>
+      <section class="focus-view" id="focusView" aria-label="Поштучная примерка" hidden>
+        <article class="focus-card" id="focusCard">
+          <div class="focus-head"><div><h2 class="focus-name" id="focusName"></h2><p class="focus-meta" id="focusMeta"></p></div><div class="focus-position" id="focusPosition"></div></div>
+          <div class="focus-stage"><div class="focus-variants cover-variants">
+            <div class="case-candidate focus-candidate" data-case="lower"><div class="cover-preview focus-cover" data-case="lower">
+              <span class="cover-kicker">Личный опыт</span><span class="cover-number">01 / 10</span>
+              <span class="case-badge">строчные</span><div class="font-sample" data-case="lower" id="focusSampleLower"></div>
+              <p class="cover-caption focus-caption">Почему чужие ожидания незаметно становятся нашим планом на жизнь</p>
+              <span class="cover-pair focus-pair"></span>
+            </div><div class="focus-case-actions" aria-label="Оценить строчный кадр"><button class="focus-vote" data-vote="no" type="button">Не моё</button><button class="focus-vote" data-vote="maybe" type="button">Возможно</button><button class="focus-vote" data-vote="like" type="button">Нравится</button></div></div>
+            <div class="case-candidate focus-candidate" data-case="upper"><div class="cover-preview focus-cover" data-case="upper">
+              <span class="cover-kicker">Личный опыт</span><span class="cover-number">01 / 10</span>
+              <span class="case-badge">КАПС</span><div class="font-sample" data-case="upper" id="focusSampleUpper"></div>
+              <p class="cover-caption focus-caption">Почему чужие ожидания незаметно становятся нашим планом на жизнь</p>
+              <span class="cover-pair focus-pair"></span>
+            </div><div class="focus-case-actions" aria-label="Оценить капсовый кадр"><button class="focus-vote" data-vote="no" type="button">Не моё</button><button class="focus-vote" data-vote="maybe" type="button">Возможно</button><button class="focus-vote" data-vote="like" type="button">Нравится</button></div></div>
+          </div></div>
+          <div class="focus-actions"><button class="nav-arrow" id="prevButton" type="button">← Предыдущая гарнитура</button><button class="nav-arrow" id="nextButton" type="button">Следующая гарнитура →</button></div>
+        </article>
+      </section>
+    </div>
+
+    <aside class="taste-panel" aria-label="Профиль шрифтового вкуса">
+      <h2>Твой вкус</h2>
+      <p>Отметки сохраняются на этом Mac и не пропадают после закрытия страницы.</p>
+      <div class="taste-meter"><div class="taste-stat"><strong id="panelLike">0</strong><span>нравятся</span></div><div class="taste-stat"><strong id="panelMaybe">0</strong><span>возможно</span></div><div class="taste-stat"><strong id="panelReviewed">0</strong><span>оценено</span></div></div>
+      <div class="liked-list" id="likedList"></div>
+      <div class="panel-actions"><button class="panel-action primary" id="copyFavorites" type="button">Скопировать любимые</button><button class="panel-action" id="exportProfile" type="button">Скачать профиль JSON</button><button class="panel-action danger" id="resetVotes" type="button">Сбросить оценки</button></div>
+      <p class="data-note">Одна фотография и композиция для честного сравнения; каждый регистр сохраняет собственную оценку. Каталог: Google Fonts metadata, 17.08.2026. Все 294 семейства заявляют базовый Cyrillic subset.</p>
+    </aside>
+  </main>
+
+  <section class="media-modal" id="mediaModal" role="dialog" aria-modal="true" aria-labelledby="mediaTitle" hidden>
+    <div class="media-dialog">
+      <header class="media-head">
+        <div><h2 id="mediaTitle">Выбери фотографию</h2><p><span id="mediaTotalLabel">0</span> кадров из твоей медиатеки на Рабочем столе</p></div>
+        <button class="media-close" id="closeMediaButton" type="button" aria-label="Закрыть медиатеку">×</button>
+      </header>
+      <div class="media-controls">
+        <div class="search"><input class="control" id="mediaSearch" type="search" placeholder="Найти фото или папку…" aria-label="Поиск в медиатеке"></div>
+        <select class="control" id="mediaCategory" aria-label="Папка медиатеки"><option value="all">Все папки</option></select>
+        <label class="upload-photo">Выбрать другой файл<input id="customPhotoInput" type="file" accept="image/jpeg,image/png,image/webp"></label>
+      </div>
+      <div class="media-gallery">
+        <p class="media-count" id="mediaResultCount"></p>
+        <div class="media-grid" id="mediaGrid"></div>
+        <div class="media-empty" id="mediaEmpty" hidden>По этому запросу фотографий не нашлось.</div>
+      </div>
+      <footer class="media-foot"><span>Новые фото клади в папку <code>_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА</code>.</span><span>Потом дважды нажми <code>refresh-media-library.command</code>.</span></footer>
+    </div>
+  </section>
+
+  <script src="font-data.js"></script>
+  <script src="../data/library-data.js"></script>
+  <script src="media-library-data.js"></script>
+  <script>
+    const ALL_FONTS = window.CYRILLIC_FONT_DATA || [];
+    const MEDIA_LIBRARY = window.OLYMARKES_MEDIA_LIBRARY || { total: 0, categories: [], photos: [] };
+    const STORAGE_KEY = "olymarkes-cyrillic-font-taste-v1";
+    const COVER_STORAGE_KEY = "olymarkes-cover-builder-v1";
+    const CASE_STORAGE_KEY = "olymarkes-type-case-mode-v1";
+    const PREFERRED_PHOTO_ID = "карусель много крутых/0BF49366-1FDD-4DB2-9844-BEE3895EFB78.JPG";
+    const DEFAULT_SAMPLE = "Мне важно жить свою жизнь";
+    const COVER_CAPTION = "Почему чужие ожидания незаметно становятся нашим планом на жизнь";
+    const $ = id => document.getElementById(id);
+    const loadedFonts = new Set(["Onest", "Manrope", "Golos Text", "Geologica", "Commissioner", "Unbounded", "Literata", "Prata", "Cormorant", "Shantell Sans"]);
+    let votes = loadVotes();
+    let coverSettings = loadCoverSettings();
+    let caseMode = loadCaseMode();
+    let customPhoto = null;
+    let mediaLastFocus = null;
+    let stateFilter = "all";
+    let currentView = "grid";
+    let currentList = [];
+    let focusIndex = 0;
+    let shuffledOrder = null;
+    let resetArmed = false;
+
+    function loadVotes() {
+      try {
+        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+        const migrated = {};
+        let changed = false;
+        Object.entries(stored).forEach(([key, value]) => {
+          if (key.endsWith("|lower") || key.endsWith("|upper")) migrated[key] = value;
+          else { migrated[`${key}|lower`] = value; migrated[`${key}|upper`] = value; changed = true; }
+        });
+        if (changed) localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+        return migrated;
+      }
+      catch { return {}; }
+    }
+    function saveVotes() { localStorage.setItem(STORAGE_KEY, JSON.stringify(votes)); }
+    function loadCaseMode() {
+      const saved = localStorage.getItem(CASE_STORAGE_KEY);
+      return ["lower", "upper", "both"].includes(saved) ? saved : "both";
+    }
+    function applyCaseMode() {
+      document.documentElement.dataset.caseMode = caseMode;
+      document.querySelectorAll(".case-button").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.caseMode === caseMode)));
+      localStorage.setItem(CASE_STORAGE_KEY, caseMode);
+    }
+    function loadCoverSettings() {
+      const fallbackId = MEDIA_LIBRARY.photos.some(photo => photo.id === PREFERRED_PHOTO_ID) ? PREFERRED_PHOTO_ID : MEDIA_LIBRARY.photos[0]?.id || "";
+      try {
+        const saved = JSON.parse(localStorage.getItem(COVER_STORAGE_KEY)) || {};
+        return {
+          photoId: MEDIA_LIBRARY.photos.some(photo => photo.id === saved.photoId) ? saved.photoId : fallbackId,
+          y: Number.isFinite(Number(saved.y)) ? Math.min(100, Math.max(0, Number(saved.y))) : 50,
+          tone: saved.tone === "light" ? "light" : "dark"
+        };
+      } catch { return { photoId: fallbackId, y: 50, tone: "dark" }; }
+    }
+    function saveCoverSettings() {
+      if (customPhoto && coverSettings.photoId === customPhoto.id) return;
+      localStorage.setItem(COVER_STORAGE_KEY, JSON.stringify(coverSettings));
+    }
+    function activePhoto() {
+      if (customPhoto && coverSettings.photoId === customPhoto.id) return customPhoto;
+      return MEDIA_LIBRARY.photos.find(photo => photo.id === coverSettings.photoId) || MEDIA_LIBRARY.photos[0] || null;
+    }
+    function applyCoverSettings() {
+      const photo = activePhoto();
+      const root = document.documentElement;
+      root.style.setProperty("--cover-image", photo ? `url("${String(photo.src).replace(/"/g, "%22")}")` : "none");
+      root.style.setProperty("--cover-y", `${coverSettings.y}%`);
+      root.dataset.coverTone = coverSettings.tone;
+      $("cropRange").value = String(coverSettings.y);
+      $("selectedPhotoName").textContent = photo?.name || "Медиатека не найдена";
+      $("selectedPhotoCategory").textContent = photo?.category || "Запусти обновление медиатеки";
+      $("mediaCount").textContent = MEDIA_LIBRARY.total;
+      $("mediaTotalLabel").textContent = MEDIA_LIBRARY.total;
+      document.querySelectorAll(".tone-button").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.tone === coverSettings.tone)));
+      document.querySelectorAll(".media-item").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.photoId === coverSettings.photoId)));
+    }
+    function filteredMedia() {
+      const query = $("mediaSearch").value.trim().toLocaleLowerCase("ru");
+      const category = $("mediaCategory").value;
+      return MEDIA_LIBRARY.photos.filter(photo => {
+        if (category !== "all" && photo.category !== category) return false;
+        return !query || `${photo.name} ${photo.category} ${photo.id}`.toLocaleLowerCase("ru").includes(query);
+      });
+    }
+    function renderMediaGrid() {
+      const photos = filteredMedia();
+      $("mediaResultCount").textContent = `Показано ${photos.length} из ${MEDIA_LIBRARY.total}`;
+      $("mediaEmpty").hidden = photos.length > 0;
+      $("mediaGrid").innerHTML = photos.map(photo => `<button class="media-item" type="button" data-photo-id="${escapeAttr(photo.id)}" aria-pressed="${photo.id === coverSettings.photoId}" title="${escapeAttr(photo.category)} — ${escapeAttr(photo.name)}"><img src="${escapeAttr(photo.src)}" alt="" loading="lazy" decoding="async"><span>${escapeHtml(photo.name)}</span></button>`).join("");
+    }
+    function openMedia() {
+      mediaLastFocus = document.activeElement;
+      renderMediaGrid();
+      $("mediaModal").hidden = false;
+      document.body.style.overflow = "hidden";
+      $("mediaSearch").focus();
+    }
+    function closeMedia() {
+      $("mediaModal").hidden = true;
+      document.body.style.overflow = "";
+      mediaLastFocus?.focus();
+    }
+    function sampleText() { return $("sampleInput").value.trim() || DEFAULT_SAMPLE; }
+    function caseText(kind) { return kind === "upper" ? sampleText().toLocaleUpperCase("ru-RU") : sampleText().toLocaleLowerCase("ru-RU"); }
+    function previewWeight(font) {
+      if ((font.category === "Display" || font.category === "Sans Serif") && font.weights.includes(700)) return 700;
+      return font.weights.includes(400) ? 400 : font.weights[0];
+    }
+    function companionFont(font) {
+      if (font.family === "Onest") return "Literata";
+      if (font.category === "Sans Serif" || font.category === "Monospace") return "Literata";
+      return "Onest";
+    }
+    function pairLabel(font) { return `${font.family} × ${companionFont(font)}`; }
+    function caseLabel(kind) { return kind === "upper" ? "КАПС" : "строчные"; }
+    function voteKey(family, kind) { return `${family}|${kind}`; }
+    function voteFor(family, kind) { return votes[voteKey(family, kind)] || ""; }
+    function activeCases() { return caseMode === "both" ? ["lower", "upper"] : [caseMode]; }
+    function matchesState(family, kind) { const vote = voteFor(family, kind); return stateFilter === "all" || (stateFilter === "unseen" ? !vote : vote === stateFilter); }
+    function familyUrl(font) {
+      const family = encodeURIComponent(font.family).replace(/%20/g, "+");
+      return `https://fonts.googleapis.com/css2?family=${family}:wght@${previewWeight(font)}&display=swap`;
+    }
+    function ensureFont(font, target) {
+      if (loadedFonts.has(font.family)) {
+        target.dataset.fontStatus = "ready";
+        return;
+      }
+      loadedFonts.add(font.family);
+      target.dataset.fontStatus = "loading";
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = familyUrl(font);
+      link.onload = () => { target.dataset.fontStatus = "ready"; };
+      link.onerror = () => { target.dataset.fontStatus = "error"; };
+      document.head.append(link);
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const card = entry.target;
+        const font = ALL_FONTS.find(item => item.family === card.dataset.family);
+        if (font) ensureFont(font, card);
+        observer.unobserve(card);
+      });
+    }, { rootMargin: "500px 0px" });
+
+    function filteredFonts() {
+      const query = $("searchInput").value.trim().toLocaleLowerCase("ru");
+      const category = $("categorySelect").value;
+      let result = ALL_FONTS.filter(font => {
+        if (category !== "all" && font.category !== category) return false;
+        if (query && !`${font.family} ${font.designer}`.toLocaleLowerCase("ru").includes(query)) return false;
+        return activeCases().some(kind => matchesState(font.family, kind));
+      });
+      if (shuffledOrder) {
+        const rank = new Map(shuffledOrder.map((name, index) => [name, index]));
+        result.sort((a, b) => rank.get(a.family) - rank.get(b.family));
+      } else {
+        const sort = $("sortSelect").value;
+        if (sort === "popular") result.sort((a, b) => a.popularity - b.popularity);
+        if (sort === "newest") result.sort((a, b) => b.dateAdded.localeCompare(a.dateAdded));
+        if (sort === "az") result.sort((a, b) => a.family.localeCompare(b.family, "ru"));
+      }
+      return result;
+    }
+
+    function cardMarkup(font) {
+      const weight = previewWeight(font);
+      const companion = companionFont(font);
+      const candidate = kind => {
+        const vote = voteFor(font.family, kind);
+        if (!matchesState(font.family, kind) || !activeCases().includes(kind)) return "";
+        return `<div class="case-candidate" data-case="${kind}" data-state="${vote}">
+          <div class="cover-preview" data-case="${kind}">
+            <span class="cover-kicker">Личный опыт</span><span class="cover-number">01 / 10</span><span class="case-badge">${caseLabel(kind)}</span>
+            <div class="font-sample" data-case="${kind}" style="font-family:'${escapeAttr(font.family)}',sans-serif;font-weight:${weight}">${escapeHtml(caseText(kind))}</div>
+            <p class="cover-caption" style="font-family:'${escapeAttr(companion)}',serif">${COVER_CAPTION}</p>
+            <span class="cover-pair">${escapeHtml(font.family)}<br>× ${escapeHtml(companion)}</span>
+          </div>
+          <div class="card-actions" aria-label="Оценить ${kind === "upper" ? "капсовый" : "строчный"} кадр">
+            <button class="vote" data-vote="no" type="button" aria-pressed="${vote === "no"}">Не моё</button>
+            <button class="vote" data-vote="maybe" type="button" aria-pressed="${vote === "maybe"}">Возможно</button>
+            <button class="vote" data-vote="like" type="button" aria-pressed="${vote === "like"}">Нравится</button>
+          </div>
+        </div>`;
+      };
+      return `<article class="font-card" data-family="${escapeHtml(font.family)}">
+        <div class="card-head"><strong>${escapeHtml(pairLabel(font))}</strong><span>${font.category}${font.cyrillicExt ? " · Cyr+" : ""}</span></div>
+        <div class="cover-variants">${candidate("lower")}${candidate("upper")}</div>
+      </article>`;
+    }
+
+    function visibleFrameCount(fonts = currentList) { return fonts.reduce((total, font) => total + activeCases().filter(kind => matchesState(font.family, kind)).length, 0); }
+    function updateResultLabel() { $("resultLabel").textContent = `Показано ${visibleFrameCount(filteredFonts())} из ${ALL_FONTS.length * activeCases().length} кадров`; }
+
+    function renderGrid() {
+      currentList = filteredFonts();
+      updateResultLabel();
+      $("fontGrid").innerHTML = currentList.map(cardMarkup).join("");
+      $("emptyState").hidden = currentList.length > 0;
+      $("fontGrid").querySelectorAll(".font-card").forEach(card => observer.observe(card));
+      if (focusIndex >= currentList.length) focusIndex = Math.max(0, currentList.length - 1);
+      renderFocus();
+    }
+
+    function renderFocus() {
+      if (!currentList.length) {
+        $("focusCard").hidden = true;
+        return;
+      }
+      $("focusCard").hidden = false;
+      const font = currentList[focusIndex];
+      const companion = companionFont(font);
+      $("focusName").textContent = pairLabel(font);
+      $("focusMeta").textContent = `${font.category} · заголовок ${previewWeight(font)} · подпись ${companion} 400`;
+      $("focusPosition").textContent = `${focusIndex + 1} / ${currentList.length}`;
+      [["focusSampleLower", "lower"], ["focusSampleUpper", "upper"]].forEach(([id, kind]) => {
+        $(id).textContent = caseText(kind);
+        $(id).style.fontFamily = `'${font.family}', sans-serif`;
+        $(id).style.fontWeight = previewWeight(font);
+      });
+      document.querySelectorAll(".focus-caption").forEach(node => { node.textContent = COVER_CAPTION; node.style.fontFamily = `'${companion}', serif`; });
+      document.querySelectorAll(".focus-pair").forEach(node => node.textContent = pairLabel(font));
+      $("focusCard").dataset.family = font.family;
+      $("focusCard").querySelectorAll(".focus-candidate").forEach(candidate => {
+        const kind = candidate.dataset.case;
+        const vote = voteFor(font.family, kind);
+        candidate.dataset.state = vote;
+        candidate.querySelectorAll(".focus-vote").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.vote === vote)));
+      });
+      ensureFont(font, $("focusCard"));
+    }
+
+    function setVote(family, kind, nextVote) {
+      const key = voteKey(family, kind);
+      if (votes[key] === nextVote) delete votes[key];
+      else votes[key] = nextVote;
+      saveVotes();
+      const card = [...document.querySelectorAll(".font-card")].find(item => item.dataset.family === family);
+      if (card) {
+        const candidate = card.querySelector(`.case-candidate[data-case="${kind}"]`);
+        const vote = voteFor(family, kind);
+        if (candidate) {
+          candidate.dataset.state = vote;
+          candidate.querySelectorAll(".vote").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.vote === vote)));
+          if (stateFilter !== "all" && !matchesState(family, kind)) candidate.remove();
+        }
+        if (!card.querySelector(".case-candidate")) card.remove();
+      }
+      updateTaste();
+      renderFocus();
+      updateResultLabel();
+    }
+
+    function updateTaste() {
+      const entries = Object.entries(votes);
+      const liked = entries.filter(([, value]) => value === "like").map(([key]) => key).sort((a,b) => a.localeCompare(b, "ru"));
+      const maybe = entries.filter(([, value]) => value === "maybe").length;
+      const no = entries.filter(([, value]) => value === "no").length;
+      $("reviewedTop").textContent = entries.length;
+      $("likedTop").textContent = liked.length;
+      $("panelLike").textContent = liked.length;
+      $("panelMaybe").textContent = maybe;
+      $("panelReviewed").textContent = entries.length;
+      $("countAll").textContent = ALL_FONTS.length * 2;
+      $("countLike").textContent = liked.length;
+      $("countMaybe").textContent = maybe;
+      $("countNo").textContent = no;
+      $("countUnseen").textContent = ALL_FONTS.length * 2 - entries.length;
+      $("likedList").innerHTML = liked.length
+        ? liked.map(key => { const split = key.lastIndexOf("|"); const family = key.slice(0, split); const kind = key.slice(split + 1); const font = ALL_FONTS.find(item => item.family === family); const label = `${font ? pairLabel(font) : family} · ${caseLabel(kind)}`; return `<div class="liked-chip"><span>${escapeHtml(label)}</span><button type="button" data-remove-like="${escapeAttr(key)}" aria-label="Убрать ${escapeAttr(label)} из любимых">×</button></div>`; }).join("")
+        : `<div class="taste-empty">Здесь появятся кадры, которые ты отметишь как «Нравится».</div>`;
+      $("copyFavorites").disabled = liked.length === 0;
+    }
+
+    function setView(view) {
+      currentView = view;
+      document.querySelectorAll(".view-button").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.view === view)));
+      $("gridView").hidden = view !== "grid";
+      $("focusView").hidden = view !== "focus";
+      renderFocus();
+    }
+
+    function shuffle() {
+      const names = ALL_FONTS.map(font => font.family);
+      for (let i = names.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [names[i], names[j]] = [names[j], names[i]];
+      }
+      shuffledOrder = names;
+      renderGrid();
+    }
+
+    function exportProfile() {
+      const profile = {
+        exportedAt: new Date().toISOString(), sourceFamilies: ALL_FONTS.length, sample: sampleText(), caseMode,
+        likedFrames: Object.keys(votes).filter(key => votes[key] === "like").sort(),
+        maybeFrames: Object.keys(votes).filter(key => votes[key] === "maybe").sort(),
+        notForMeFrames: Object.keys(votes).filter(key => votes[key] === "no").sort()
+      };
+      const blob = new Blob([JSON.stringify(profile, null, 2)], { type: "application/json" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "olymarkes-cyrillic-font-taste.json";
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+
+    async function copyText(text) {
+      if (navigator.clipboard?.writeText) {
+        try { await navigator.clipboard.writeText(text); return true; } catch {}
+      }
+      const buffer = document.createElement("textarea");
+      buffer.value = text; buffer.setAttribute("readonly", ""); buffer.style.position = "fixed"; buffer.style.left = "-9999px";
+      document.body.append(buffer); buffer.select(); const copied = document.execCommand("copy"); buffer.remove(); return copied;
+    }
+    function escapeHtml(value) { return String(value).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"})[char]); }
+    function escapeAttr(value) { return escapeHtml(value); }
+
+    $("mediaCategory").innerHTML += MEDIA_LIBRARY.categories.map(category => `<option value="${escapeAttr(category)}">${escapeHtml(category)}</option>`).join("");
+    $("openMediaButton").addEventListener("click", openMedia);
+    $("closeMediaButton").addEventListener("click", closeMedia);
+    $("mediaModal").addEventListener("click", event => { if (event.target === $("mediaModal")) closeMedia(); });
+    $("mediaSearch").addEventListener("input", renderMediaGrid);
+    $("mediaCategory").addEventListener("input", renderMediaGrid);
+    $("mediaGrid").addEventListener("click", event => {
+      const button = event.target.closest(".media-item");
+      if (!button) return;
+      coverSettings.photoId = button.dataset.photoId;
+      customPhoto = null;
+      saveCoverSettings();
+      applyCoverSettings();
+      closeMedia();
+    });
+    $("customPhotoInput").addEventListener("change", event => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      if (customPhoto?.src?.startsWith("blob:")) URL.revokeObjectURL(customPhoto.src);
+      customPhoto = { id: `custom:${file.name}:${file.lastModified}`, name: file.name.replace(/\.[^.]+$/, ""), category: "С компьютера", src: URL.createObjectURL(file) };
+      coverSettings.photoId = customPhoto.id;
+      applyCoverSettings();
+      closeMedia();
+      event.target.value = "";
+    });
+    $("cropRange").addEventListener("input", event => {
+      coverSettings.y = Number(event.currentTarget.value);
+      applyCoverSettings();
+      saveCoverSettings();
+    });
+    document.querySelectorAll(".tone-button").forEach(button => button.addEventListener("click", () => {
+      coverSettings.tone = button.dataset.tone;
+      applyCoverSettings();
+      saveCoverSettings();
+    }));
+    document.querySelectorAll(".case-button").forEach(button => button.addEventListener("click", () => {
+      caseMode = button.dataset.caseMode;
+      applyCaseMode();
+      focusIndex = 0;
+      renderGrid();
+    }));
+
+    $("fontGrid").addEventListener("click", event => {
+      const card = event.target.closest(".font-card");
+      if (!card) return;
+      const voteButton = event.target.closest(".vote");
+      if (voteButton) { setVote(card.dataset.family, voteButton.closest(".case-candidate").dataset.case, voteButton.dataset.vote); return; }
+      const index = currentList.findIndex(font => font.family === card.dataset.family);
+      if (index >= 0) focusIndex = index;
+      setView("focus");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    $("likedList").addEventListener("click", event => { const button = event.target.closest("[data-remove-like]"); if (!button) return; const split = button.dataset.removeLike.lastIndexOf("|"); setVote(button.dataset.removeLike.slice(0, split), button.dataset.removeLike.slice(split + 1), "like"); });
+    document.querySelectorAll(".focus-vote").forEach(button => button.addEventListener("click", () => { const font = currentList[focusIndex]; const candidate = button.closest(".focus-candidate"); if (font && candidate) setVote(font.family, candidate.dataset.case, button.dataset.vote); }));
+    $("prevButton").addEventListener("click", () => { if (currentList.length) { focusIndex = (focusIndex - 1 + currentList.length) % currentList.length; renderFocus(); } });
+    $("nextButton").addEventListener("click", () => { if (currentList.length) { focusIndex = (focusIndex + 1) % currentList.length; renderFocus(); } });
+    document.querySelectorAll(".view-button").forEach(button => button.addEventListener("click", () => setView(button.dataset.view)));
+    document.querySelectorAll(".state-tab").forEach(button => button.addEventListener("click", () => {
+      stateFilter = button.dataset.filter;
+      document.querySelectorAll(".state-tab").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+      focusIndex = 0; renderGrid();
+    }));
+    ["searchInput", "categorySelect", "sortSelect"].forEach(id => $(id).addEventListener("input", () => { shuffledOrder = null; focusIndex = 0; renderGrid(); }));
+    $("sampleInput").addEventListener("input", () => {
+      document.querySelectorAll(".font-sample").forEach(node => node.textContent = caseText(node.dataset.case || "lower"));
+    });
+    $("shuffleButton").addEventListener("click", shuffle);
+    $("copyFavorites").addEventListener("click", async event => {
+      const names = Object.keys(votes).filter(key => votes[key] === "like").map(key => { const split = key.lastIndexOf("|"); const family = key.slice(0, split); const kind = key.slice(split + 1); const font = ALL_FONTS.find(item => item.family === family); return `${font ? pairLabel(font) : family} · ${caseLabel(kind)}`; }).sort((a,b) => a.localeCompare(b,"ru"));
+      const button = event.currentTarget; const copied = await copyText(names.join("\n"));
+      button.textContent = copied ? "Список скопирован" : "Не удалось скопировать";
+      setTimeout(() => button.textContent = "Скопировать любимые", 1500);
+    });
+    $("exportProfile").addEventListener("click", exportProfile);
+    $("resetVotes").addEventListener("click", event => {
+      const button = event.currentTarget;
+      if (!resetArmed) {
+        resetArmed = true; button.textContent = "Нажми ещё раз для сброса";
+        setTimeout(() => { resetArmed = false; button.textContent = "Сбросить оценки"; }, 3000);
+        return;
+      }
+      votes = {}; saveVotes(); resetArmed = false; button.textContent = "Оценки сброшены"; updateTaste(); renderGrid();
+      setTimeout(() => button.textContent = "Сбросить оценки", 1500);
+    });
+    document.addEventListener("keydown", event => {
+      if (!$("mediaModal").hidden) {
+        if (event.key === "Escape") closeMedia();
+        return;
+      }
+      if (currentView !== "focus" || ["INPUT","TEXTAREA","SELECT"].includes(document.activeElement.tagName)) return;
+      if (event.key === "ArrowLeft") $("prevButton").click();
+      if (event.key === "ArrowRight") $("nextButton").click();
+    });
+
+    applyCoverSettings();
+    applyCaseMode();
+    updateTaste();
+    renderGrid();
+  </script>
+</body>
+</html>

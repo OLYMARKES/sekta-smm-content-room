@@ -8,6 +8,14 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!--
+  THESIS: The Content Room gains a full production typography workshop instead of reducing design choices to three presets.
+  OWN-WORLD: The existing light #Sekta product shell frames the already approved Olymarkes type labs without restyling their working canvases.
+  STORY: A teammate explores fonts, votes on layouts, assembles pairs, and returns to the cover builder with a durable browser-saved taste profile.
+  FIRST VIEWPORT: Product navigation stays fixed; the studio opens with four direct modes, live saved-state counts, and the active full-width lab.
+  FORM: Embedded creative workstation, local extension of the established Content Room; seed key established-content-room-type-studio.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+  -->
   <a class="skip-link" href="#main">К содержимому</a>
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
@@ -20,6 +28,7 @@
         <button class="nav-item" data-view="ideal"><span>✦</span>Идеальная сетка <em>6</em></button>
         <button class="nav-item" data-view="growth"><span>↗</span>Рост и идеи <em>18</em></button>
         <button class="nav-item" data-view="builder"><span>▤</span>Конструктор <em>NEW</em></button>
+        <button class="nav-item" data-view="typography"><span class="nav-type-mark">Aa</span>Типографика <em>LAB</em></button>
         <button class="nav-item" data-view="current"><span>▦</span>Текущая сетка</button>
         <button class="nav-item" data-view="library"><span>▧</span>Медиатека <em id="navLibraryCount">1059</em></button>
         <button class="nav-item" data-view="planner"><span>↗</span>План недели <em id="navPlanCount">7</em></button>
@@ -289,6 +298,7 @@
                   <button type="button" class="builder-choice is-active" data-builder-font="condensed">Плотная</button>
                   <button type="button" class="builder-choice" data-builder-font="grotesk">Гротеск</button>
                   <button type="button" class="builder-choice" data-builder-font="editorial">Редакционная</button>
+                  <button type="button" class="builder-choice" id="builderTasteFont" data-builder-font="taste" disabled>Из примерочной</button>
                 </div></fieldset>
 
                 <fieldset class="builder-control-block"><legend>Цвет текста</legend><div class="builder-swatch-row" role="group" aria-label="Цвет текста">
@@ -326,6 +336,50 @@
             <div class="builder-slides" id="builderSlides"></div>
           </section>
           <div class="builder-status" id="builderStatus" role="status" aria-live="polite">Готов к сборке.</div>
+        </section>
+
+        <section class="view" data-view-panel="typography">
+          <div class="type-studio-heading">
+            <div>
+              <h1>Типографика и вёрстка</h1>
+              <p>Большая примерочная для команды: сотни кириллических гарнитур, строчные и капсовые кадры, реальные обложки, 16 способов сверстать текст и сборка шрифтовых пар.</p>
+            </div>
+            <div class="type-studio-actions">
+              <span class="type-save-state"><i></i>выборы сохраняются в этом браузере</span>
+              <button class="button button-secondary" id="typeToBuilder" type="button" data-jump="builder">Применить в обложке</button>
+              <a class="button button-primary" id="typeStudioOpen" href="type-studio/carousel-type-lab.html" target="_blank" rel="noreferrer">На весь экран ↗</a>
+            </div>
+          </div>
+
+          <div class="type-studio-summary" aria-label="Возможности типографической мастерской">
+            <div><strong>294</strong><span>кириллические гарнитуры</span></div>
+            <div><strong id="typeFontProgress">0 / 588</strong><span>кадров оценено</span></div>
+            <div><strong id="typeLayoutProgress">0 / 16</strong><span>сцен понравилось</span></div>
+            <div><strong id="typeSystemCount">0</strong><span>систем сохранено</span></div>
+          </div>
+
+          <div class="type-studio-tabs" role="tablist" aria-label="Режим типографической мастерской">
+            <button class="type-studio-tab is-active" id="typeTabFonts" type="button" role="tab" aria-controls="typeStudioFrame" aria-selected="true" tabindex="0" data-type-src="type-studio/carousel-type-lab.html">
+              <span>Шрифты и обложки</span><small>тиндер по 588 кадрам</small>
+            </button>
+            <button class="type-studio-tab" id="typeTabLayout" type="button" role="tab" aria-controls="typeStudioFrame" aria-selected="false" tabindex="-1" data-type-src="type-studio/text-layout-lab.html">
+              <span>Тиндер вёрстки</span><small>цвет, плашки, лонгрид</small>
+            </button>
+            <button class="type-studio-tab" id="typeTabSystems" type="button" role="tab" aria-controls="typeStudioFrame" aria-selected="false" tabindex="-1" data-type-src="type-studio/type-system-studio.html">
+              <span>Пары и системы</span><small>из каждого любимого кадра</small>
+            </button>
+            <button class="type-studio-tab" id="typeTabDirections" type="button" role="tab" aria-controls="typeStudioFrame" aria-selected="false" tabindex="-1" data-type-src="type-studio/type-systems-lab.html">
+              <span>Готовые направления</span><small>семь стартовых систем</small>
+            </button>
+          </div>
+
+          <section class="type-studio-frame-shell" aria-label="Рабочая область типографической мастерской">
+            <div class="type-studio-frame-bar">
+              <div><span id="typeStudioMode">Шрифты и обложки</span><strong id="typeStudioHint">Оценивайте каждый строчный и капсовый кадр отдельно</strong></div>
+              <span class="type-studio-live"><i></i>живой режим</span>
+            </div>
+            <iframe id="typeStudioFrame" title="Шрифты и обложки" src="type-studio/carousel-type-lab.html" loading="lazy"></iframe>
+          </section>
         </section>
 
         <section class="view" data-view-panel="library">

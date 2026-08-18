@@ -6,7 +6,13 @@
   const growthIdeas = growthRoom.ideas || [];
   const libraryPayload = window.SEKTA_LIBRARY || { items: [], uniqueCount: 0, duplicateCount: 0, sourceCount: 0 };
   const library = libraryPayload.items || [];
-  const viewLabels = { overview: "Рабочий обзор", ideal: "Идеальная сетка", growth: "Рост и идеи", builder: "Идеи и обложки", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
+  const viewLabels = { overview: "Рабочий обзор", ideal: "Идеальная сетка", growth: "Рост и идеи", builder: "Идеи и обложки", typography: "Типографика и вёрстка", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
+  const typeStudioModes = {
+    "type-studio/carousel-type-lab.html": { label: "Шрифты и обложки", hint: "Оценивайте каждый строчный и капсовый кадр отдельно" },
+    "type-studio/text-layout-lab.html": { label: "Тиндер вёрстки", hint: "Выбирайте сцены, подложки и способы длинного чтения" },
+    "type-studio/type-system-studio.html": { label: "Пары и системы", hint: "Развивайте каждый любимый кадр в самостоятельную систему" },
+    "type-studio/type-systems-lab.html": { label: "Готовые направления", hint: "Сравнивайте семь стартовых систем в реальном формате 4:5" },
+  };
   const statusClass = (status) => status === "Готово" ? "status-ready" : status === "На ревью" || status === "Текст готов" ? "status-review" : "status-shoot";
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
 
@@ -49,6 +55,13 @@
     returnCarouselImage: document.querySelector("#returnCarouselImage"),
     returnCarouselCounter: document.querySelector("#returnCarouselCounter"),
     returnCarouselDots: document.querySelector("#returnCarouselDots"),
+    typeStudioFrame: document.querySelector("#typeStudioFrame"),
+    typeStudioMode: document.querySelector("#typeStudioMode"),
+    typeStudioHint: document.querySelector("#typeStudioHint"),
+    typeStudioOpen: document.querySelector("#typeStudioOpen"),
+    typeFontProgress: document.querySelector("#typeFontProgress"),
+    typeLayoutProgress: document.querySelector("#typeLayoutProgress"),
+    typeSystemCount: document.querySelector("#typeSystemCount"),
     toast: document.querySelector("#toast"),
   };
 
@@ -94,6 +107,22 @@
     ui.sidebar.classList.remove("is-open");
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (view === "library") ui.librarySearch.focus({ preventScroll: true });
+    if (view === "typography") refreshTypeStudioStats();
+  }
+
+  function readLocalJson(key, fallback) {
+    try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; }
+  }
+
+  function refreshTypeStudioStats() {
+    const votes = readLocalJson("olymarkes-cyrillic-font-taste-v1", {});
+    const layouts = readLocalJson("olymarkes-carousel-layout-taste-v1", {});
+    const systems = readLocalJson("olymarkes-type-system-studio-v1", []);
+    const reviewed = Object.entries(votes).filter(([key, value]) => key.includes("|") && ["like", "maybe", "no"].includes(value)).length;
+    const likedLayouts = Object.values(layouts).filter((value) => value === "like").length;
+    ui.typeFontProgress.textContent = `${Math.min(reviewed, 588)} / 588`;
+    ui.typeLayoutProgress.textContent = `${likedLayouts} / 16`;
+    ui.typeSystemCount.textContent = Array.isArray(systems) ? systems.length : 0;
   }
 
   function feedTile(item, mode = "current") {
@@ -385,8 +414,57 @@
     renderReturnCarousel();
   }
 
+  function syncTypeStudioChrome(source) {
+    const mode = typeStudioModes[source] || typeStudioModes["type-studio/carousel-type-lab.html"];
+    document.querySelectorAll("[data-type-src]").forEach((button) => {
+      const active = button.dataset.typeSrc === source;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-selected", String(active));
+      button.tabIndex = active ? 0 : -1;
+    });
+    ui.typeStudioMode.textContent = mode.label;
+    ui.typeStudioHint.textContent = mode.hint;
+    ui.typeStudioFrame.title = mode.label;
+    ui.typeStudioOpen.href = source;
+    localStorage.setItem("sekta-type-studio-mode", source);
+    return mode;
+  }
+
+  function setTypeStudio(source, announce = true) {
+    const mode = syncTypeStudioChrome(source);
+    if (ui.typeStudioFrame.getAttribute("src") !== source) {
+      ui.typeStudioFrame.closest(".type-studio-frame-shell").classList.add("is-loading");
+      ui.typeStudioFrame.src = source;
+    }
+    if (announce) toast(`${mode.label} открыта`);
+  }
+
   document.querySelectorAll(".nav-item").forEach((button) => button.addEventListener("click", () => setView(button.dataset.view)));
   document.querySelectorAll("[data-jump]").forEach((button) => button.addEventListener("click", () => setView(button.dataset.jump)));
+  document.querySelectorAll("[data-type-src]").forEach((button) => button.addEventListener("click", () => setTypeStudio(button.dataset.typeSrc)));
+  document.querySelector(".type-studio-tabs").addEventListener("keydown", (event) => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    const tabs = [...document.querySelectorAll("[data-type-src]")];
+    const current = Math.max(0, tabs.indexOf(document.activeElement));
+    const next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : (current + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+    event.preventDefault();
+    setTypeStudio(tabs[next].dataset.typeSrc, false);
+    tabs[next].focus();
+  });
+  document.querySelector("#typeToBuilder").addEventListener("click", () => window.dispatchEvent(new CustomEvent("sekta:apply-type-taste")));
+  ui.typeStudioFrame.addEventListener("load", () => {
+    ui.typeStudioFrame.closest(".type-studio-frame-shell").classList.remove("is-loading");
+    try {
+      const fileName = ui.typeStudioFrame.contentWindow.location.pathname.split("/").pop();
+      const source = `type-studio/${fileName}`;
+      if (typeStudioModes[source]) syncTypeStudioChrome(source);
+    } catch {}
+    refreshTypeStudioStats();
+  });
+  window.addEventListener("storage", (event) => {
+    if (event.key?.startsWith("olymarkes-")) refreshTypeStudioStats();
+  });
+  window.addEventListener("focus", refreshTypeStudioStats);
   document.querySelector("#mobileMenu").addEventListener("click", () => ui.sidebar.classList.toggle("is-open"));
   document.querySelectorAll("#openCarousel, #openCarouselVisual, #openCarouselSecond").forEach((button) => button.addEventListener("click", openCarousel));
   document.querySelectorAll("#openReturnCarousel, #openReturnCarouselSecond").forEach((button) => button.addEventListener("click", openReturnCarousel));
@@ -516,6 +594,9 @@
   const collectionCount = Object.keys(libraryPayload.sourceFolders || {}).length;
   document.querySelector("#libraryCollectionCount").textContent = `${collectionCount} ${plural(collectionCount, "коллекция", "коллекции", "коллекций")}`;
   ui.libraryDuplicateSummary.textContent = `${libraryPayload.duplicateCount} ${plural(libraryPayload.duplicateCount, "точный дубль скрыт", "точных дубля скрыты", "точных дублей скрыты")}`;
+  const savedTypeStudioMode = localStorage.getItem("sekta-type-studio-mode");
+  setTypeStudio(typeStudioModes[savedTypeStudioMode] ? savedTypeStudioMode : "type-studio/carousel-type-lab.html", false);
+  refreshTypeStudioStats();
   renderCurrent();
   renderWeek();
   renderIdealGrid();

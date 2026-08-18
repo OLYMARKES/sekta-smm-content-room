@@ -1,0 +1,36 @@
+{
+  "name": "Olymarkes Cyrillic Carousel Type Pack",
+  "version": "3.2.0",
+  "catalog": {
+    "picker": "carousel-type-lab.html",
+    "textLayoutLab": "text-layout-lab.html",
+    "curatedSystems": "type-systems-lab.html",
+    "systemStudio": "type-system-studio.html",
+    "data": "font-data.js",
+    "mediaLibraryCatalog": "media-library-data.js",
+    "mediaLibrarySource": "../data/library-data.js (window.SEKTA_LIBRARY)",
+    "mediaLibraryAdapter": "media-library-data.js",
+    "familyCount": 294,
+    "criterion": "Google Fonts families whose live metadata includes the base cyrillic subset",
+    "metadataSource": "https://fonts.google.com/metadata/fonts",
+    "metadataDate": "2026-08-17",
+    "note": "The catalog picker loads non-local preview fonts on demand through the Google Fonts CSS2 API."
+  },
+  "sourceSnapshot": {
+    "repository": "https://github.com/google/fonts",
+    "commit": "352f6b7d9d6cc4fa9e242b931291d31b21a6dc84",
+    "date": "2026-08-17"
+  },
+  "families": [
+    {"family":"Onest","files":["Onest-VF.ttf"],"axes":{"wght":[100,900]},"role":"default body / calm headline","license":"OFL-1.1"},
+    {"family":"Manrope","files":["Manrope-VF.ttf"],"axes":{"wght":[200,800]},"role":"clean modern body / compact headline","license":"OFL-1.1"},
+    {"family":"Golos Text","files":["GolosText-VF.ttf"],"axes":{"wght":[400,900]},"role":"dense longread body","license":"OFL-1.1"},
+    {"family":"Geologica","files":["Geologica-VF.ttf"],"axes":{"wght":[100,900],"CRSV":[0,1],"SHRP":[0,100],"slnt":[-12,0]},"role":"expressive cover / modern manifesto","license":"OFL-1.1"},
+    {"family":"Commissioner","files":["Commissioner-VF.ttf"],"axes":{"wght":[100,900],"FLAR":[0,100],"VOLM":[0,100],"slnt":[-12,0]},"role":"intellectual display / humanist sans","license":"OFL-1.1"},
+    {"family":"Unbounded","files":["Unbounded-VF.ttf"],"axes":{"wght":[200,900]},"role":"loud cover only","license":"OFL-1.1"},
+    {"family":"Literata","files":["Literata-VF.ttf","Literata-Italic-VF.ttf"],"axes":{"opsz":[7,72],"wght":[200,900]},"role":"editorial longread / quote","license":"OFL-1.1"},
+    {"family":"Prata","files":["Prata-Regular.ttf"],"axes":{},"role":"high-contrast luxury display only","license":"OFL-1.1","note":"No numero sign or ellipsis glyph; never use for utility or body copy."},
+    {"family":"Cormorant","files":["Cormorant-VF.ttf","Cormorant-Italic-VF.ttf"],"axes":{"wght":[300,700]},"role":"poetic display / emotional quote","license":"OFL-1.1"},
+    {"family":"Shantell Sans","files":["ShantellSans-VF.ttf","ShantellSans-Italic-VF.ttf"],"axes":{"wght":[300,800],"INFM":[0,100],"BNCE":[-100,100],"SPAC":[0,100]},"role":"handwritten accent only","license":"OFL-1.1"}
+  ]
+}
