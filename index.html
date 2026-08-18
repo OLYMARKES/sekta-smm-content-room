@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260818-2">
+  <link rel="stylesheet" href="styles.css?v=20260818-4">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
   <!--
-  THESIS: The Content Room turns approved typography into a complete carousel assembly line instead of keeping production inside a font picker.
-  OWN-WORLD: The pale #Sekta shell holds one large 4:5 canvas, a visible font system, restrained green controls, and slide rails built from real content.
-  STORY: A teammate builds the cover, pastes a longread, chooses the slide count, edits every scene, and saves either one frame or the whole series.
-  FIRST VIEWPORT: The active cover and its real controls share the screen; Cover → Longread → Slides → Saved stays visible above the canvas.
-  FORM: Production editor replacing the typography demo; seed key established-content-room-carousel-assembly.
+  THESIS: Typography is a first-class cover-design library, not a shortened setting inside carousel production.
+  OWN-WORLD: The pale #Sekta shell opens the complete 294-family cover fitter with one photograph, one text, and independently rated lowercase and uppercase frames.
+  STORY: A teammate chooses a photograph and headline, then compares every available typeface on the same real 4:5 cover.
+  FIRST VIEWPORT: The cover inputs and the beginning of the complete font library are visible immediately.
+  FORM: Full typography workspace embedded as a primary product section; seed key complete-cover-typography-library.
   FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
   -->
   <a class="skip-link" href="#main">К содержимому</a>
@@ -29,7 +29,7 @@
         <button class="nav-item" data-view="ideal"><span>✦</span>Идеальная сетка <em>6</em></button>
         <button class="nav-item" data-view="growth"><span>↗</span>Рост и идеи <em>18</em></button>
         <button class="nav-item" data-view="builder"><span>▤</span>Конструктор <em>NEW</em></button>
-        <button class="nav-item" data-view="typography"><span class="nav-type-mark">▥</span>Монтаж карусели <em>NEW</em></button>
+        <button class="nav-item" data-view="typography"><span class="nav-type-mark">Ж</span>Типографика <em>588</em></button>
         <button class="nav-item" data-view="current"><span>▦</span>Текущая сетка</button>
         <button class="nav-item" data-view="library"><span>▧</span>Медиатека <em id="navLibraryCount">1059</em></button>
         <button class="nav-item" data-view="planner"><span>↗</span>План недели <em id="navPlanCount">7</em></button>
@@ -316,7 +316,7 @@
               <div class="builder-cover-actions">
                 <button class="button button-primary" id="builderDownload" type="button">Скачать PNG</button>
                 <button class="button button-secondary" id="builderAddGrid" type="button">+ В будущую сетку</button>
-                <button class="button button-secondary" id="builderToStudio" type="button" data-jump="typography">Продолжить в монтаж</button>
+                <button class="button button-secondary" id="builderToStudio" type="button" data-jump="typography">Открыть все шрифты</button>
               </div>
             </section>
 
@@ -341,6 +341,34 @@
         </section>
 
         <section class="view" data-view-panel="typography">
+          <header class="type-studio-heading">
+            <div>
+              <p class="eyebrow">Полная библиотека обложек</p>
+              <h1>Типографика обложки</h1>
+              <p>Здесь мы не верстаем карусель целиком. Выберите фотографию и текст, а затем сравнивайте все гарнитуры на одной и той же реальной обложке 4:5 — строчные и КАПС оцениваются отдельно.</p>
+            </div>
+            <div class="type-studio-actions">
+              <span class="type-studio-live"><i></i>выбор сохраняется автоматически</span>
+              <a class="button button-secondary" href="type-studio/carousel-type-lab.html" target="_blank" rel="noreferrer">На весь экран ↗</a>
+            </div>
+          </header>
+
+          <section class="type-studio-summary" aria-label="Объём типографической библиотеки">
+            <div><strong>294</strong><span>гарнитуры без shortlist</span></div>
+            <div><strong>588</strong><span>отдельных кадров обложки</span></div>
+            <div><strong>2</strong><span>регистра у каждого шрифта</span></div>
+            <div><strong>1059</strong><span>фотографий в медиатеке</span></div>
+          </section>
+
+          <section class="type-studio-frame-shell" aria-label="Полная примерочная типографики обложки">
+            <div class="type-studio-frame-bar">
+              <div><span>Все шрифты сразу</span><strong>поиск · категории · сетка · по одному · нравится / возможно / не моё</strong></div>
+              <span class="type-studio-live"><i></i>полная версия</span>
+            </div>
+            <iframe id="coverTypographyFrame" src="type-studio/carousel-type-lab.html?v=20260818-4" title="Полная примерочная шрифтов на обложке" loading="eager"></iframe>
+          </section>
+
+          <template id="legacyCarouselStudio">
           <header class="carousel-studio-heading">
             <div>
               <h1>Монтаж карусели</h1>
@@ -473,6 +501,7 @@
           </div>
 
           <div class="carousel-studio-status" id="carouselStudioStatus" role="status" aria-live="polite">Черновик готов к монтажу.</div>
+          </template>
         </section>
 
         <section class="view" data-view-panel="library">
@@ -539,9 +568,7 @@
   <script src="data/growth-room.js"></script>
   <script src="data/library-data.js"></script>
   <script src="data/carousel-builder-data.js"></script>
-  <script src="type-studio/font-data.js?v=20260818-2"></script>
-  <script src="app.js"></script>
-  <script src="carousel-builder.js"></script>
-  <script src="carousel-studio.js?v=20260818-2"></script>
+  <script src="app.js?v=20260818-4"></script>
+  <script src="carousel-builder.js?v=20260818-4"></script>
 </body>
 </html>

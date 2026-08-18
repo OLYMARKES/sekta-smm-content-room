@@ -6,7 +6,7 @@
   const growthIdeas = growthRoom.ideas || [];
   const libraryPayload = window.SEKTA_LIBRARY || { items: [], uniqueCount: 0, duplicateCount: 0, sourceCount: 0 };
   const library = libraryPayload.items || [];
-  const viewLabels = { overview: "Рабочий обзор", ideal: "Идеальная сетка", growth: "Рост и идеи", builder: "Идеи и обложки", typography: "Монтаж карусели", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
+  const viewLabels = { overview: "Рабочий обзор", ideal: "Идеальная сетка", growth: "Рост и идеи", builder: "Идеи и обложки", typography: "Типографика обложки", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
   const statusClass = (status) => status === "Готово" ? "status-ready" : status === "На ревью" || status === "Текст готов" ? "status-review" : "status-shoot";
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
 
@@ -94,7 +94,6 @@
     ui.sidebar.classList.remove("is-open");
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (view === "library") ui.librarySearch.focus({ preventScroll: true });
-    if (view === "typography") window.dispatchEvent(new CustomEvent("sekta:open-carousel-studio"));
   }
 
   function feedTile(item, mode = "current") {
@@ -525,4 +524,6 @@
   renderGrowthIdeas();
   renderLibrary();
   renderSandbox();
+  if (location.hash === "#typography") setView("typography");
+  window.addEventListener("hashchange", () => { if (location.hash === "#typography") setView("typography"); });
 })();

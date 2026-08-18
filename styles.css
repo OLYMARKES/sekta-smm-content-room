@@ -616,6 +616,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 
 .nav-type-mark { font-size: 10px !important; font-weight: 850; letter-spacing: -.05em; }
 .type-studio-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; margin-bottom: 18px; }
+.type-studio-heading .eyebrow { margin-bottom: 8px; }
 .type-studio-heading h1 { margin: 0; font-size: clamp(28px, 2.7vw, 40px); line-height: 1.04; letter-spacing: -.04em; }
 .type-studio-heading p { max-width: 780px; margin: 9px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
 .type-studio-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; }
@@ -640,7 +641,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .type-studio-frame-bar span { font-size: 10px; font-weight: 750; }
 .type-studio-frame-bar strong { overflow: hidden; color: var(--soft); font-size: 8px; font-weight: 550; text-overflow: ellipsis; white-space: nowrap; }
 .type-studio-live { color: var(--success); font-size: 8px !important; font-weight: 700 !important; }
-.type-studio-frame-shell iframe { width: 100%; height: min(1120px, calc(100vh - 128px)); min-height: 760px; display: block; border: 0; background: #f7f5ef; }
+.type-studio-frame-shell iframe { width: 100%; height: max(820px, calc(100vh - 126px)); min-height: 820px; display: block; border: 0; background: #f7f5ef; }
 
 @media (max-width: 1100px) {
   .profile-summary { grid-template-columns: auto 1fr; }

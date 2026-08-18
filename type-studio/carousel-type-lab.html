@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <script>if(window.self!==window.top)document.documentElement.classList.add("is-embedded")</script>
-  <style>@media(max-width:700px){html.is-embedded .topbar{display:none!important}html.is-embedded body{padding-top:0!important}}</style>
+  <style>html.is-embedded #sendToMontage{display:none!important}@media(max-width:700px){html.is-embedded .topbar{display:none!important}html.is-embedded body{padding-top:0!important}}</style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Тиндер кириллических шрифтовых пар — Olymarkes</title>
@@ -567,7 +567,7 @@
       <p>Отметки сохраняются на этом Mac и не пропадают после закрытия страницы.</p>
       <div class="taste-meter"><div class="taste-stat"><strong id="panelLike">0</strong><span>нравятся</span></div><div class="taste-stat"><strong id="panelMaybe">0</strong><span>возможно</span></div><div class="taste-stat"><strong id="panelReviewed">0</strong><span>оценено</span></div></div>
       <div class="liked-list" id="likedList"></div>
-      <div class="panel-actions"><button class="panel-action bridge" id="sendToMontage" type="button">Передать всё в монтаж</button><button class="panel-action primary" id="copyFavorites" type="button">Скопировать любимые</button><button class="panel-action" id="exportProfile" type="button">Скачать профиль JSON</button><button class="panel-action danger" id="resetVotes" type="button">Сбросить оценки</button></div>
+      <div class="panel-actions"><button class="panel-action bridge" id="sendToMontage" type="button">Открыть Типографику в SMM</button><button class="panel-action primary" id="copyFavorites" type="button">Скопировать любимые</button><button class="panel-action" id="exportProfile" type="button">Скачать профиль JSON</button><button class="panel-action danger" id="resetVotes" type="button">Сбросить оценки</button></div>
       <p class="data-note">Одна фотография и композиция для честного сравнения; каждый регистр сохраняет собственную оценку. Каталог: Google Fonts metadata, 17.08.2026. Все 294 семейства заявляют базовый Cyrillic subset.</p>
     </aside>
   </main>
@@ -874,10 +874,8 @@
         ? liked.map(key => { const split = key.lastIndexOf("|"); const family = key.slice(0, split); const kind = key.slice(split + 1); const font = ALL_FONTS.find(item => item.family === family); const label = `${font ? pairLabel(font) : family} · ${caseLabel(kind)}`; return `<div class="liked-chip"><span>${escapeHtml(label)}</span><button type="button" data-remove-like="${escapeAttr(key)}" aria-label="Убрать ${escapeAttr(label)} из любимых">×</button></div>`; }).join("")
         : `<div class="taste-empty">Здесь появятся кадры, которые ты отметишь как «Нравится».</div>`;
       $("copyFavorites").disabled = liked.length === 0;
-      const systems = readTransferJson("olymarkes-type-system-studio-v1", []);
-      const layouts = Object.values(readTransferJson("olymarkes-carousel-layout-taste-v1", {})).filter(value => value === "like").length;
-      $("sendToMontage").disabled = liked.length === 0 && systems.length === 0 && layouts === 0;
-      $("sendToMontage").textContent = `Передать в монтаж · ${liked.length} шр. · ${systems.length} систем · ${layouts} сцен`;
+      $("sendToMontage").disabled = false;
+      $("sendToMontage").textContent = `Открыть Типографику в SMM · ${liked.length} отмечено`;
     }
 
     function setView(view) {
@@ -919,19 +917,9 @@
 
     function sendTasteToMontage(event) {
       const button = event.currentTarget;
-      const bundle = {
-        schemaVersion: 1,
-        importedAt: new Date().toISOString(),
-        fontLikes: Object.keys(votes).filter(key => votes[key] === "like").sort(),
-        systems: readTransferJson("olymarkes-type-system-studio-v1", []),
-        layoutLikes: Object.entries(readTransferJson("olymarkes-carousel-layout-taste-v1", {})).filter(([, value]) => value === "like").map(([key]) => key).sort(),
-        layoutPrefs: readTransferJson("olymarkes-text-layout-prefs-v1", {}),
-        cover: coverSettings,
-      };
-      const fragment = encodeURIComponent(JSON.stringify(bundle));
       const montageBase = ["127.0.0.1", "localhost"].includes(location.hostname) ? `${location.origin}/` : "https://olymarkes.github.io/sekta-smm-content-room/";
-      button.textContent = "Передаю полный выбор…";
-      location.assign(`${montageBase}#type-import=${fragment}`);
+      button.textContent = "Открываю полный раздел…";
+      window.top.location.assign(`${montageBase}#typography`);
     }
 
     async function copyText(text) {

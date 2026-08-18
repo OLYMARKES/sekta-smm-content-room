@@ -595,15 +595,7 @@
   ui.download.addEventListener("click", downloadCover);
   ui.addGrid.addEventListener("click", addCoverToGrid);
   ui.toStudio.addEventListener("click", () => {
-    const paletteMap = { dark: "ink", pink: "pink", blue: "blue", lime: "lime", paper: "paper" };
-    window.dispatchEvent(new CustomEvent("sekta:seed-carousel-studio", { detail: {
-      title: ui.hook.value,
-      subtitle: ui.subtitle.value,
-      photoId: selectedPhoto?.id || null,
-      font: activeFont === "taste" && tasteFont ? tasteFont : null,
-      palette: paletteMap[activeStyle] || "ink",
-    } }));
-    setStatus("Обложка передана в монтаж карусели.");
+    setStatus("Открыта полная типографическая примерочная: 294 гарнитуры и 588 кадров обложки.");
   });
 
   ui.topic.value = activeTopic.id;

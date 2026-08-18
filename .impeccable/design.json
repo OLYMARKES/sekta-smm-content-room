@@ -76,7 +76,7 @@
       "kind": "nav",
       "refersTo": "nav-active",
       "description": "Текущий раздел в фиксированной тёмной навигации.",
-      "html": "<button class=\"ds-nav-item\" type=\"button\"><b>Монтаж карусели</b><em>NEW</em></button>",
+      "html": "<button class=\"ds-nav-item\" type=\"button\"><b>Типографика</b><em>588</em></button>",
       "css": ".ds-nav-item { width: 216px; min-height: 42px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 7px; padding: 0 11px; border: 0; border-radius: 8px; color: #fff; background: #2b3b35; font-size: 13px; text-align: left; cursor: pointer; } .ds-nav-item b { font-weight: 500; } .ds-nav-item em { padding: 2px 6px; border-radius: 12px; color: #94a39e; background: #23312d; font-size: 10px; font-style: normal; } .ds-nav-item:hover { background: #34463f; } .ds-nav-item:focus-visible { outline: 3px solid rgba(220,233,227,.35); outline-offset: 2px; }"
     },
     {
@@ -104,11 +104,11 @@
       "css": ".ds-chip-active { min-height: 34px; padding: 0 11px; border: 1px solid #b8c9c2; border-radius: 7px; color: var(--accent); background: var(--accent-soft); font-size: 10px; font-weight: 700; cursor: pointer; } .ds-chip-active:hover { background: #d2e3dc; } .ds-chip-active:focus-visible { outline: 3px solid rgba(36,72,62,.28); outline-offset: 2px; } .ds-chip-active:active { background: #c7dbd2; }"
     },
     {
-      "name": "Active Carousel Stage Tab",
+      "name": "Active Typography View Toggle",
       "kind": "nav",
-      "refersTo": "carousel-stage-tab-active",
-      "description": "Активный этап production-монтажа карусели.",
-      "html": "<button class=\"ds-stage-tab\" type=\"button\" role=\"tab\" aria-selected=\"true\"><span>Обложка</span><small>хук, фото, цвет и плашка</small></button>",
+      "refersTo": "typography-view-toggle-active",
+      "description": "Активный режим просмотра полной шрифтовой библиотеки.",
+      "html": "<button class=\"ds-stage-tab\" type=\"button\" aria-pressed=\"true\"><span>Сетка</span><small>все 588 кадров</small></button>",
       "css": ".ds-stage-tab { min-height: 58px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 9px 13px; border: 0; border-radius: 8px; color: var(--ink); background: var(--surface); text-align: left; box-shadow: 0 1px 4px rgba(23,33,30,.08); cursor: pointer; } .ds-stage-tab span { font-size: 11px; font-weight: 750; } .ds-stage-tab small { margin-top: 4px; color: #616b67; font-size: 10px; } .ds-stage-tab:hover { background: #fbfcfb; } .ds-stage-tab:focus-visible { outline: 3px solid rgba(36,72,62,.28); outline-offset: 2px; }"
     },
     {
@@ -119,41 +119,41 @@
       "css": ".ds-status-ready { min-height: 22px; width: fit-content; display: inline-flex; align-items: center; padding: 0 8px; border-radius: 12px; color: var(--success); background: var(--success-soft); font-size: 10px; font-weight: 700; white-space: nowrap; }"
     },
     {
-      "name": "Live 4:5 Carousel Canvas",
+      "name": "4:5 Font Specimen Cover",
       "kind": "custom",
-      "description": "Главный живой холст монтажа, который показывает реальную сцену, текст и палитру серии.",
+      "description": "Одинаковая реальная обложка 4:5, на которой меняются только проверяемый шрифт и регистр.",
       "html": "<section class=\"ds-canvas-shell\"><article class=\"ds-carousel-canvas\"><small>ВОЗВРАЩЕНИЕ ПОСЛЕ ПАУЗЫ</small><strong>Пропустили пять дней? Ничего не сломалось</strong><span>01 / 10</span></article><div><button>Сохранить слайд</button><button>Скачать PNG</button></div></section>",
       "css": ".ds-canvas-shell { width: 360px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: #e9eeeb; } .ds-carousel-canvas { position: relative; aspect-ratio: 4/5; display: flex; flex-direction: column; justify-content: flex-end; padding: 10%; overflow: hidden; border-radius: 10px; color: #fff; background: linear-gradient(rgba(8,14,12,.08), rgba(8,14,12,.88)), #17221f; box-shadow: 0 16px 38px rgba(20,31,27,.15); } .ds-carousel-canvas small, .ds-carousel-canvas span { font-size: 10px; font-weight: 750; } .ds-carousel-canvas strong { margin: auto 0 12px; font-size: 34px; line-height: .96; letter-spacing: -.035em; } .ds-canvas-shell > div { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 10px; } .ds-canvas-shell button { min-height: 34px; border: 1px solid #cfd7d3; border-radius: 8px; background: #fff; font-size: 10px; font-weight: 700; }"
     }
   ],
   "narrative": {
-    "northStar": "Редакционная сборочная линия команды",
-    "overview": "Система ощущается как спокойная production-комната, где типографика уже утверждена, а команда собирает реальную серию на одном живом холсте 4:5. Светлая оболочка #Sekta удерживает высокую информационную плотность, тёмная навигация служит постоянной рамой, а этапы ведут от обложки к точному лонгриду, всем слайдам и сохранённой серии.\n\nФорма зафиксирована как `established-content-room-carousel-assembly`. Старые шрифтовые и вёрсточные лаборатории остаются вспомогательными: они меняют визуальную систему, но не подменяют production-монтаж.",
+    "northStar": "Полная типографическая мастерская обложки",
+    "overview": "Раздел типографики не предполагает, что решение уже принято. Команда сравнивает одну фотографию и один реальный заголовок на всех 294 гарнитурах и 588 независимых строчных/капсовых кадрах.\n\nФорма зафиксирована как `complete-cover-typography-library`: полная примерочная встроена в основную SMM-навигацию и не сокращается до picker внутри монтажа.",
     "keyCharacteristics": [
       "Светлая рабочая оболочка с тёмной фиксированной навигацией.",
-      "Один живой холст 4:5 как главный объект production-монтажа.",
-      "Видимая системная панель всех импортированных пар `заголовок × текст` и понравившихся цветовых сцен.",
-      "Обложка, точный лонгрид, покадровая доводка и сохранённые серии.",
-      "Компактный липкий preview на мобильных экранах."
+      "Одна композиция обложки 4:5 для честного сравнения.",
+      "Полная библиотека 294 гарнитур / 588 кадров без shortlist.",
+      "Независимые оценки строчных и капсовых вариантов.",
+      "Поиск, категории, сетка и поштучный режим внутри основного раздела."
     ],
     "rules": [
-      { "name": "The Shell Owns the Green Rule", "body": "Глубокий зелёный управляет оболочкой и действиями; выбираемые палитры меняют слайды, но не глобальный chrome монтажа.", "section": "colors" },
-      { "name": "The Approved Type First Rule", "body": "Утверждённая пара `заголовок × текст` выбирается до покадровой доводки и применяется ко всей серии; отдельный слайд не вводит новую гарнитуру.", "section": "typography" },
+      { "name": "The Shell Owns the Green Rule", "body": "Глубокий зелёный управляет оболочкой и действиями; specimen-обложки остаются нейтральной сравнительной поверхностью.", "section": "colors" },
+      { "name": "The Complete Choice Rule", "body": "До утверждения шрифта пользователь видит всю библиотеку, а строчный и капсовый кадры оценивает независимо.", "section": "typography" },
       { "name": "The Ten Pixel Operations Rule", "body": "В production-монтаже ни одна рабочая подпись, роль, статус или label не становится меньше 10px.", "section": "typography" },
       { "name": "The Flat Assembly Rule", "body": "Обычные панели стоят на границах и тональных слоях; выраженная тень принадлежит только живому canvas или overlay.", "section": "elevation" }
     ],
     "dos": [
-      "**Do** держать approved fonts и палитру выше stage-навигации и покадровых контролов.",
-      "**Do** сохранять один главный live canvas 4:5 и обновлять его непосредственно при вводе.",
-      "**Do** показывать точный текст, реальный slide rail и отдельное состояние сохранения каждого кадра.",
-      "**Do** сохранять compact sticky preview шириной 230px на мобильных экранах.",
-      "**Do** держать operational labels production-монтажа не меньше 10px."
+      "**Do** показывать все гарнитуры из источника данных.",
+      "**Do** сохранять одну фотографию, текст и композицию для честного сравнения.",
+      "**Do** оценивать строчные и капсовые кадры независимо.",
+      "**Do** сохранять поиск, фильтры и состояние просмотра.",
+      "**Do** держать operational labels основной оболочки не меньше 10px."
     ],
     "donts": [
-      "**Don't** возвращать шрифтовый picker или вёрсточную лабораторию в роль основного production-потока.",
-      "**Don't** сокращать, переписывать или заменять лонгрид при автоматическом разбиении.",
-      "**Don't** скрывать общую систему серии внутри настроек отдельного слайда.",
-      "**Don't** заменять реальные мини-слайды абстрактным progress bar или декоративными точками.",
+      "**Don't** сокращать библиотеку до импортированных или понравившихся шрифтов.",
+      "**Don't** смешивать выбор шрифта с лонгридом и монтажом серии.",
+      "**Don't** менять фотографию или композицию между specimen-карточками.",
+      "**Don't** объединять строчный и капсовый кадры в одну оценку.",
       "**Don't** добавлять тень обычной панели в покое, если она не является live canvas или overlay."
     ]
   }
