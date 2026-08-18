@@ -5,13 +5,32 @@
 
   const DRAFT_KEY = "sekta-carousel-studio-draft-v1";
   const SAVED_KEY = "sekta-carousel-studio-series-v1";
+  const IMPORT_KEY = "sekta-carousel-studio-taste-import-v1";
   const DEFAULT_LONGREAD = document.querySelector("#carouselLongreadText")?.value || "";
   const palettes = {
-    ink: { background: "#17221f", foreground: "#ffffff", accent: "#f7f7f2", ink: "#17221f" },
-    pink: { background: "#f35ba7", foreground: "#17221f", accent: "#ffffff", ink: "#17221f" },
-    blue: { background: "#3155e4", foreground: "#ffffff", accent: "#dce5ff", ink: "#17211e" },
-    lime: { background: "#d4f04a", foreground: "#17221f", accent: "#ffffff", ink: "#17221f" },
-    paper: { background: "#fff7e6", foreground: "#5b493b", accent: "#f35ba7", ink: "#392f29" },
+    ink: { name: "Контрастная", background: "#17221f", foreground: "#ffffff", accent: "#f7f7f2", ink: "#17221f" },
+    pink: { name: "Розовая", background: "#f35ba7", foreground: "#17221f", accent: "#ffffff", ink: "#17221f" },
+    blue: { name: "Синяя", background: "#3155e4", foreground: "#ffffff", accent: "#dce5ff", ink: "#17211e" },
+    lime: { name: "Лайм", background: "#d4f04a", foreground: "#17221f", accent: "#ffffff", ink: "#17221f" },
+    paper: { name: "Бумага", background: "#fff7e6", foreground: "#5b493b", accent: "#f35ba7", ink: "#392f29" },
+  };
+  const layoutPresets = {
+    "paper-column": { name: "Бумажная колонка", role: "longread", scene: "paper", background: "#f3f1e9", foreground: "#171814", accent: "#e9a692", ink: "#171814" },
+    "sage-column": { name: "Тёмное поле", role: "longread", scene: "dark", background: "#35432f", foreground: "#fbfaf5", accent: "#e9a692", ink: "#171814" },
+    "cobalt-column": { name: "Кобальт + лайм", role: "longread", scene: "field", background: "#2437d8", foreground: "#fbfaf5", accent: "#d7ff37", ink: "#171814" },
+    "two-columns": { name: "Пудра + чернила", role: "longread", scene: "paper", background: "#efd7d0", foreground: "#171814", accent: "#a14d3e", ink: "#171814" },
+    "split-photo": { name: "Бумага + красный", role: "longread", scene: "split", background: "#f3f1e9", foreground: "#171814", accent: "#ef4b37", ink: "#171814" },
+    "photo-window": { name: "Шалфей + пудра", role: "longread", scene: "window", background: "#d8dfcf", foreground: "#171814", accent: "#e9a692", ink: "#171814" },
+    "photo-scrim": { name: "Фото + тёмный scrim", role: "longread", scene: "photo-dim", background: "#1d271b", foreground: "#fbfaf5", accent: "#e9a692", ink: "#171814" },
+    "photo-band": { name: "Бумага + фотопауза", role: "longread", scene: "window", background: "#f3f1e9", foreground: "#171814", accent: "#e9a692", ink: "#171814" },
+    "photo-plaque": { name: "Чёрная плашка", role: "cover", scene: "plate", background: "#171814", foreground: "#fbfaf5", accent: "#e9a692", ink: "#171814" },
+    "photo-shadow": { name: "Белый текст на фото", role: "cover", scene: "photo-dim", background: "#171814", foreground: "#fbfaf5", accent: "#e9a692", ink: "#171814" },
+    "top-photo-cover": { name: "Молочный + фото", role: "cover", scene: "window", background: "#fbfaf5", foreground: "#171814", accent: "#e9a692", ink: "#171814" },
+    "ink-poster": { name: "Чернильный плакат", role: "cover", scene: "dark", background: "#171814", foreground: "#fbfaf5", accent: "#e9a692", ink: "#171814" },
+    "lime-poster": { name: "Лайм + чёрный", role: "cover", scene: "field", background: "#d8ff35", foreground: "#11120f", accent: "#f05232", ink: "#11120f" },
+    "ruled-quote": { name: "Бумага + шалфей", role: "quote", scene: "quote", background: "#f3f1e9", foreground: "#171814", accent: "#5f6f54", ink: "#171814" },
+    "dark-quote": { name: "Бордо + пудра", role: "quote", scene: "quote", background: "#541f2a", foreground: "#fbf5ef", accent: "#e9a692", ink: "#fbf5ef" },
+    "photo-caption": { name: "Фото + молочная полоса", role: "quote", scene: "plate", background: "#fbfaf5", foreground: "#171814", accent: "#e9a692", ink: "#171814" },
   };
   const sceneLabels = {
     "photo-dim": "Фото + затемнение",
@@ -31,6 +50,8 @@
     status: document.querySelector("#carouselStudioStatus"),
     seriesName: document.querySelector("#carouselSeriesName"),
     fontStrip: document.querySelector("#carouselFontStrip"),
+    fontSummary: document.querySelector("#carouselFontSummary"),
+    importTaste: document.querySelector("#carouselImportTaste"),
     paletteStrip: document.querySelector("#carouselPaletteStrip"),
     savedCount: document.querySelector("#carouselSavedCount"),
     newSeries: document.querySelector("#carouselNewSeries"),
@@ -88,6 +109,24 @@
       return fallback;
     }
   };
+  let tasteBundle = readJson(IMPORT_KEY, {});
+
+  function consumeTasteImport() {
+    const prefix = "#type-import=";
+    if (!location.hash.startsWith(prefix)) return false;
+    try {
+      const imported = JSON.parse(decodeURIComponent(location.hash.slice(prefix.length)));
+      if (!imported || imported.schemaVersion !== 1) throw new Error("unsupported bundle");
+      tasteBundle = imported;
+      localStorage.setItem(IMPORT_KEY, JSON.stringify(imported));
+      history.replaceState(null, "", `${location.pathname}${location.search}`);
+      return true;
+    } catch {
+      history.replaceState(null, "", `${location.pathname}${location.search}`);
+      return false;
+    }
+  }
+  const importedOnLoad = consumeTasteImport();
   const deepClone = (value) => JSON.parse(JSON.stringify(value));
   const words = (value) => String(value || "").trim().split(/\s+/).filter(Boolean);
   const plural = (number, one, few, many) => {
@@ -103,35 +142,92 @@
   function fontChoices() {
     const votes = readJson("olymarkes-cyrillic-font-taste-v1", {});
     const layoutPrefs = readJson("olymarkes-text-layout-prefs-v1", {});
+    const savedSystems = [...(Array.isArray(tasteBundle.systems) ? tasteBundle.systems : []), ...(readJson("olymarkes-type-system-studio-v1", []) || [])];
     const selected = [];
-    const add = (family, caseKind = "original") => {
-      if (!family || selected.some((font) => font.family === family && font.caseKind === caseKind)) return;
-      selected.push({ family, caseKind });
+    const add = (family, caseKind = "original", body = "", recipe = "") => {
+      if (!family) return;
+      const normalized = { family, caseKind: caseKind || "original", body: body || companionFor(family), recipe };
+      normalized.key = [normalized.family, normalized.caseKind, normalized.body, normalized.recipe].join("|");
+      if (selected.some((font) => font.key === normalized.key)) return;
+      selected.push(normalized);
     };
-    if (layoutPrefs.choice) {
-      const [family, caseKind] = layoutPrefs.choice.split("|");
-      add(family, caseKind);
+    savedSystems.forEach((system) => {
+      const [family, caseKind, recipe, body] = String(system.key || "").split("|");
+      add(family, caseKind, body, recipe || system.label || "сохранённая система");
+    });
+    const preferredChoice = tasteBundle.layoutPrefs?.choice || layoutPrefs.choice;
+    if (preferredChoice) {
+      const [family, caseKind] = preferredChoice.split("|");
+      add(family, caseKind, tasteBundle.layoutPrefs?.body || layoutPrefs.body);
     }
+    (tasteBundle.fontLikes || []).forEach((key) => {
+      const split = String(key).lastIndexOf("|");
+      if (split > 0) add(key.slice(0, split), key.slice(split + 1));
+    });
     Object.entries(votes).forEach(([key, value]) => {
       if (value !== "like" || !key.includes("|")) return;
-      const [family, caseKind] = key.split("|");
-      add(family, caseKind);
+      const split = key.lastIndexOf("|");
+      add(key.slice(0, split), key.slice(split + 1));
     });
-    add("Onest");
-    add("Golos Text");
-    add("Literata");
-    return selected.slice(0, 10);
+    if (!selected.length) {
+      add("Onest", "original", "Golos Text", "стартовая система");
+      add("Golos Text", "original", "Golos Text", "стартовая система");
+      add("Literata", "original", "Onest", "стартовая система");
+    }
+    return selected;
   }
 
-  function ensureFont(font) {
-    if (!font?.family || ["Onest", "Golos Text", "Literata", "Manrope", "Commissioner", "Geologica", "Unbounded", "Prata", "Cormorant", "Shantell Sans"].includes(font.family)) return;
-    const key = font.family.replace(/[^a-z0-9]/gi, "-").toLowerCase();
+  function companionFor(family) {
+    const font = (window.CYRILLIC_FONT_DATA || []).find((item) => item.family === family);
+    if (!font) return family === "Literata" ? "Onest" : "Literata";
+    return ["Serif"].includes(font.category) ? "Onest" : "Literata";
+  }
+
+  function ensureFontFamily(family) {
+    if (!family || ["Onest", "Golos Text", "Literata", "Manrope", "Commissioner", "Geologica", "Unbounded", "Prata", "Cormorant", "Shantell Sans"].includes(family)) return;
+    const key = family.replace(/[^a-z0-9]/gi, "-").toLowerCase();
     if (document.querySelector(`link[data-carousel-font="${key}"]`)) return;
     const link = document.createElement("link");
     link.rel = "stylesheet";
     link.dataset.carouselFont = key;
-    link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(font.family).replace(/%20/g, "+")}:wght@400;600;700;800;900&display=swap`;
+    link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family).replace(/%20/g, "+")}:wght@400;600;700;800;900&display=swap`;
     document.head.append(link);
+  }
+
+  function ensureFont(font) {
+    ensureFontFamily(font?.family);
+    ensureFontFamily(font?.body);
+  }
+
+  function layoutLikeIds() {
+    const localLikes = Object.entries(readJson("olymarkes-carousel-layout-taste-v1", {})).filter(([, value]) => value === "like").map(([key]) => key.split("|").at(-1));
+    const importedLikes = (tasteBundle.layoutLikes || []).map((key) => String(key).split("|").at(-1));
+    return [...new Set([...importedLikes, ...localLikes])].filter((id) => layoutPresets[id]);
+  }
+
+  function paletteChoices() {
+    const choices = { ...palettes };
+    layoutLikeIds().forEach((id) => { choices[`layout-${id}`] = { ...layoutPresets[id], sourceId: id }; });
+    return choices;
+  }
+
+  function paletteFor(id) {
+    return paletteChoices()[id] || palettes.ink;
+  }
+
+  function fontSystemKey(font) {
+    return font?.key || [font?.family || "Onest", font?.caseKind || "original", font?.body || companionFor(font?.family || "Onest"), font?.recipe || ""].join("|");
+  }
+
+  function normalizeFontSystem(font) {
+    const normalized = {
+      family: font?.family || "Onest",
+      caseKind: font?.caseKind || "original",
+      body: font?.body || companionFor(font?.family || "Onest"),
+      recipe: font?.recipe || "",
+    };
+    normalized.key = fontSystemKey(normalized);
+    return normalized;
   }
 
   function makeSlide(overrides = {}) {
@@ -177,8 +273,8 @@
     if (!candidate || !Array.isArray(candidate.slides) || candidate.slides.length < 2) return defaultSeries();
     return {
       ...candidate,
-      font: candidate.font?.family ? candidate.font : (fontChoices()[0] || { family: "Onest", caseKind: "original" }),
-      palette: palettes[candidate.palette] ? candidate.palette : "ink",
+      font: normalizeFontSystem(candidate.font?.family ? candidate.font : fontChoices()[0]),
+      palette: paletteChoices()[candidate.palette] ? candidate.palette : "ink",
       longread: candidate.longread || DEFAULT_LONGREAD,
       totalSlides: candidate.slides.length,
       activeSlide: Math.min(Math.max(Number(candidate.activeSlide) || 0, 0), candidate.slides.length - 1),
@@ -306,7 +402,7 @@
   function renderCanvas(element, slide, index) {
     if (!element || !slide) return;
     const photo = photoById(slide.photoId);
-    const palette = palettes[slide.palette] || palettes[series.palette] || palettes.ink;
+    const palette = paletteFor(slide.palette || series.palette);
     ensureFont(series.font);
     element.className = "carousel-slide-canvas";
     element.dataset.scene = slide.scene;
@@ -314,7 +410,8 @@
     element.dataset.placement = slide.placement || "middle";
     element.dataset.align = slide.align || "left";
     element.dataset.role = slide.role;
-    element.style.setProperty("--carousel-font", `"${series.font.family}"`);
+    element.style.setProperty("--carousel-head-font", `"${series.font.family}"`);
+    element.style.setProperty("--carousel-body-font", `"${series.font.body || companionFor(series.font.family)}"`);
     element.style.setProperty("--carousel-bg", palette.background);
     element.style.setProperty("--carousel-fg", palette.foreground);
     element.style.setProperty("--carousel-accent", palette.accent);
@@ -331,13 +428,31 @@
 
   function renderFontStrip() {
     const choices = fontChoices();
-    if (!choices.some((font) => font.family === series.font.family && font.caseKind === series.font.caseKind)) choices.unshift(series.font);
-    ui.fontStrip.innerHTML = choices.map((font) => `<button type="button" class="${font.family === series.font.family && font.caseKind === series.font.caseKind ? "is-active" : ""}" data-carousel-font="${escapeHtml(font.family)}" data-carousel-case="${escapeHtml(font.caseKind)}" style="--font-choice:'${escapeHtml(font.family)}'">${escapeHtml(font.family)}<small>${font.caseKind === "upper" ? "КАПС" : font.caseKind === "lower" ? "строчные" : "система"}</small></button>`).join("");
+    const activeKey = fontSystemKey(series.font);
+    if (!choices.some((font) => fontSystemKey(font) === activeKey)) choices.unshift(normalizeFontSystem(series.font));
+    const familyCount = new Set(choices.map((font) => font.family)).size;
+    const savedCount = choices.filter((font) => font.recipe && font.recipe !== "стартовая система").length;
+    ui.fontSummary.textContent = tasteBundle.importedAt || Object.keys(readJson("olymarkes-cyrillic-font-taste-v1", {})).length
+      ? `${familyCount} ${plural(familyCount, "гарнитура", "гарнитуры", "гарнитур")} · ${choices.length} ${plural(choices.length, "вариант", "варианта", "вариантов")} · ${savedCount} сохранённых систем`
+      : "Выбор из примерочной ещё не импортирован — показаны только стартовые системы.";
+    ui.fontStrip.innerHTML = choices.map((font) => {
+      const key = fontSystemKey(font);
+      const caseLabel = font.caseKind === "upper" ? "КАПС" : font.caseKind === "lower" ? "строчные" : "исходный регистр";
+      const recipe = font.recipe && font.recipe !== "стартовая система" ? ` · ${font.recipe}` : "";
+      return `<button type="button" class="carousel-font-system${key === activeKey ? " is-active" : ""}" data-carousel-system-key="${escapeHtml(key)}" style="--font-choice:'${escapeHtml(font.family)}'"><span>${escapeHtml(font.family)} <i>× ${escapeHtml(font.body)}</i></span><small>${caseLabel}${escapeHtml(recipe)}</small></button>`;
+    }).join("");
     choices.forEach(ensureFont);
   }
 
   function renderPaletteState() {
-    ui.paletteStrip.querySelectorAll("button").forEach((button) => button.classList.toggle("is-active", button.dataset.carouselPalette === series.palette));
+    const choices = paletteChoices();
+    ui.paletteStrip.innerHTML = Object.entries(choices).map(([id, palette]) => `<button type="button" class="carousel-palette-system${id === series.palette ? " is-active" : ""}" data-carousel-palette="${escapeHtml(id)}" aria-label="${escapeHtml(palette.name)}" style="--palette:${palette.background};--palette-2:${palette.foreground};--palette-3:${palette.accent}"><span></span><small>${escapeHtml(palette.name)}</small>${palette.sourceId ? `<em>${escapeHtml(roleLabels[palette.role] || palette.role)}</em>` : ""}</button>`).join("");
+  }
+
+  function renderSlidePaletteOptions(selectedId) {
+    const choices = paletteChoices();
+    ui.slidePalette.innerHTML = Object.entries(choices).map(([id, palette]) => `<option value="${escapeHtml(id)}">${escapeHtml(palette.name)}${palette.sourceId ? ` · ${roleLabels[palette.role] || palette.role}` : ""}</option>`).join("");
+    ui.slidePalette.value = choices[selectedId] ? selectedId : "ink";
   }
 
   function mediaPool(query = "") {
@@ -392,7 +507,7 @@
   }
 
   function miniSlideMarkup(slide, index) {
-    const palette = palettes[slide.palette] || palettes.ink;
+    const palette = paletteFor(slide.palette);
     const photo = photoById(slide.photoId);
     const image = photo && !["paper", "field", "dark", "quote"].includes(slide.scene) ? `<img src="${escapeHtml(photo.thumb)}" alt="">` : "";
     const label = slide.title || slide.body || roleLabels[slide.role];
@@ -411,7 +526,7 @@
     ui.slideBody.value = slide.body || "";
     ui.slideRole.value = slide.role;
     ui.slideScene.value = slide.scene;
-    ui.slidePalette.value = slide.palette;
+    renderSlidePaletteOptions(slide.palette);
     ui.slideSize.value = slide.size;
     ui.slideSizeValue.textContent = `${slide.size} px`;
     ui.slideAlign.value = slide.align || "left";
@@ -436,7 +551,8 @@
     ui.savedSeries.innerHTML = savedSeries.map((item) => {
       const cover = item.slides?.[0] || {};
       const photo = photoById(cover.photoId);
-      return `<article class="carousel-saved-card"><div class="carousel-saved-cover" style="--saved-bg:${(palettes[item.palette] || palettes.ink).background};--saved-fg:${(palettes[item.palette] || palettes.ink).foreground};--saved-font:'${escapeHtml(item.font?.family || "Onest")}'">${photo ? `<img src="${escapeHtml(photo.thumb)}" alt="">` : ""}<strong>${escapeHtml(cover.title || item.name)}</strong></div><div class="carousel-saved-copy"><span>${item.slides.length} слайдов · ${escapeHtml(item.font?.family || "Onest")}</span><h3>${escapeHtml(item.name)}</h3><small>${new Date(item.updatedAt).toLocaleString("ru-RU", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}</small><div><button class="button button-primary" type="button" data-load-series="${escapeHtml(item.id)}">Открыть</button><button class="button button-secondary" type="button" data-duplicate-series="${escapeHtml(item.id)}">Копия</button><button class="button button-quiet" type="button" data-delete-series="${escapeHtml(item.id)}">Удалить</button></div></div></article>`;
+      const palette = paletteFor(item.palette);
+      return `<article class="carousel-saved-card"><div class="carousel-saved-cover" style="--saved-bg:${palette.background};--saved-fg:${palette.foreground};--saved-font:'${escapeHtml(item.font?.family || "Onest")}'">${photo ? `<img src="${escapeHtml(photo.thumb)}" alt="">` : ""}<strong>${escapeHtml(cover.title || item.name)}</strong></div><div class="carousel-saved-copy"><span>${item.slides.length} слайдов · ${escapeHtml(item.font?.family || "Onest")} × ${escapeHtml(item.font?.body || companionFor(item.font?.family || "Onest"))}</span><h3>${escapeHtml(item.name)}</h3><small>${new Date(item.updatedAt).toLocaleString("ru-RU", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}</small><div><button class="button button-primary" type="button" data-load-series="${escapeHtml(item.id)}">Открыть</button><button class="button button-secondary" type="button" data-duplicate-series="${escapeHtml(item.id)}">Копия</button><button class="button button-quiet" type="button" data-delete-series="${escapeHtml(item.id)}">Удалить</button></div></div></article>`;
     }).join("");
   }
 
@@ -582,10 +698,10 @@
     canvas.width = 1080;
     canvas.height = 1350;
     const context = canvas.getContext("2d");
-    const palette = palettes[slide.palette] || palettes.ink;
+    const palette = paletteFor(slide.palette);
     const photo = photoById(slide.photoId);
     const usesPhoto = photo && !["paper", "field", "dark", "quote"].includes(slide.scene);
-    context.fillStyle = slide.scene === "paper" || slide.scene === "quote" ? "#fffaf0" : slide.scene === "dark" ? "#17221f" : palette.background;
+    context.fillStyle = palette.background;
     context.fillRect(0, 0, 1080, 1350);
     if (usesPhoto) {
       const image = await loadImage(photo.thumb);
@@ -600,14 +716,15 @@
         context.fillRect(0, 0, 1080, 1350);
       }
     }
-    const lightScene = ["paper", "quote", "field"].includes(slide.scene) || slide.scene === "split";
-    const foreground = lightScene ? (slide.scene === "field" ? palette.foreground : palette.ink) : "#ffffff";
+    const lightScene = ["paper", "quote", "field", "dark"].includes(slide.scene) || slide.scene === "split";
+    const foreground = lightScene ? palette.foreground : "#ffffff";
     context.fillStyle = foreground;
     context.textAlign = slide.align || "left";
     context.textBaseline = "alphabetic";
     const x = slide.align === "center" ? 540 : slide.align === "right" ? 980 : 100;
     const maxWidth = slide.scene === "split" ? 440 : 880;
     const fontFamily = `"${series.font.family}", Arial, sans-serif`;
+    const bodyFontFamily = `"${series.font.body || companionFor(series.font.family)}", Arial, sans-serif`;
     const titleText = displayText(slide.title, slide.caseKind || series.font.caseKind);
     let titleSize = Math.max(40, Math.min(132, Number(slide.size) || 46));
     context.font = `800 ${titleSize}px ${fontFamily}`;
@@ -618,7 +735,7 @@
       titleLines = wrapCanvasText(context, titleText, maxWidth);
     }
     const bodySize = Math.max(32, Math.min(58, Math.round(titleSize * .55)));
-    context.font = `500 ${bodySize}px ${fontFamily}`;
+    context.font = `500 ${bodySize}px ${bodyFontFamily}`;
     const bodyLines = wrapCanvasText(context, slide.body, maxWidth);
     const titleHeight = titleLines.length * titleSize * .98;
     const bodyHeight = bodyLines.length * bodySize * 1.3;
@@ -637,7 +754,7 @@
       context.fillText(line, x, startY + titleSize * (lineIndex + .85), maxWidth);
     });
     let bodyY = startY + titleHeight + (titleLines.length && bodyLines.length ? 50 : 0);
-    context.font = `500 ${bodySize}px ${fontFamily}`;
+    context.font = `500 ${bodySize}px ${bodyFontFamily}`;
     bodyLines.forEach((line) => {
       bodyY += bodySize * (line ? 1.3 : .7);
       if (line) context.fillText(line, x, bodyY, maxWidth);
@@ -692,27 +809,40 @@
   document.querySelectorAll("[data-carousel-go]").forEach((button) => button.addEventListener("click", () => setStage(button.dataset.carouselGo)));
 
   ui.fontStrip.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-carousel-font]");
+    const button = event.target.closest("[data-carousel-system-key]");
     if (!button) return;
-    series.font = { family: button.dataset.carouselFont, caseKind: button.dataset.carouselCase || "original" };
+    const choice = fontChoices().find((font) => fontSystemKey(font) === button.dataset.carouselSystemKey);
+    if (!choice) return;
+    series.font = normalizeFontSystem(choice);
     ensureFont(series.font);
     renderFontStrip();
     renderCover();
     renderActiveEditor();
     markChanged();
-    setStatus(`${series.font.family} применён ко всей карусели.`);
+    setStatus(`${series.font.family} × ${series.font.body} применены ко всей карусели.`);
   });
   ui.paletteStrip.addEventListener("click", (event) => {
     const button = event.target.closest("[data-carousel-palette]");
     if (!button) return;
     series.palette = button.dataset.carouselPalette;
-    series.slides.forEach((slide) => { slide.palette = series.palette; slide.savedAt = null; });
+    const choice = paletteFor(series.palette);
+    series.slides.forEach((slide, index) => {
+      slide.palette = series.palette;
+      if (choice.sourceId && ((choice.role === "cover" && index === 0) || (choice.role === "longread" && index > 0 && index < series.slides.length - 1) || (choice.role === "quote" && slide.role === "quote"))) slide.scene = choice.scene;
+      slide.savedAt = null;
+    });
     renderPaletteState();
     renderCover();
     renderSplitPreview();
     renderActiveEditor();
     markChanged();
-    setStatus("Палитра применена ко всей серии; любой слайд можно перекрасить отдельно.");
+    setStatus(choice.sourceId ? `Система «${choice.name}» применена вместе с подходящей сценой.` : "Палитра применена ко всей серии; любой слайд можно перекрасить отдельно.");
+  });
+
+  ui.importTaste.addEventListener("click", () => {
+    setStatus("Откройте локальную примерочную и нажмите «Передать всё в монтаж» — страница сама перенесёт шрифты, пары и понравившиеся сцены сюда.");
+    ui.importTaste.textContent = "Жду передачу из примерочной";
+    setTimeout(() => { ui.importTaste.textContent = tasteBundle.importedAt ? "Обновить выбор" : "Импортировать выбор"; }, 3200);
   });
 
   [ui.seriesName, ui.coverTitle, ui.coverSubtitle, ui.coverSize, ui.coverPlacement, ui.coverAlign, ui.coverCase].forEach((control) => control.addEventListener("input", updateCoverFromForm));
@@ -840,7 +970,7 @@
     if (detail.subtitle) cover.body = detail.subtitle;
     if (detail.photoId) cover.photoId = detail.photoId;
     if (detail.font?.family) series.font = detail.font;
-    if (palettes[detail.palette]) series.palette = detail.palette;
+    if (paletteChoices()[detail.palette]) series.palette = detail.palette;
     cover.palette = series.palette;
     cover.savedAt = null;
     setStage("cover");
@@ -853,5 +983,15 @@
   ensureFont(series.font);
   renderAll();
   setStage("cover");
+  if (importedOnLoad) {
+    const choices = fontChoices();
+    if (choices.length) series.font = normalizeFontSystem(choices[0]);
+    const likedPalettes = layoutLikeIds();
+    if (likedPalettes.length) series.palette = `layout-${likedPalettes[0]}`;
+    series.slides.forEach((slide) => { slide.palette = series.palette; });
+    document.querySelector('[data-view="typography"]')?.click();
+    renderAll();
+    setStatus(`Импортировано: ${choices.length} шрифтовых вариантов, ${tasteBundle.systems?.length || 0} сохранённых систем и ${likedPalettes.length} цветовых сцен.`);
+  }
   markChanged();
 })();

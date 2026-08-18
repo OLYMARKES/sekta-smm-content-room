@@ -336,6 +336,7 @@
     .panel-actions { display: grid; gap: 7px; margin-top: 14px; }
     .panel-action { min-height: 38px; border: 1px solid var(--border); border-radius: 10px; background: #fff; font-size: 10px; font-weight: 720; }
     .panel-action.primary { color: #fff; background: var(--text); border-color: var(--text); }
+    .panel-action.bridge { grid-column: 1 / -1; min-height: 44px; color: #fff; background: #24483e; border-color: #24483e; }
     .panel-action.danger { color: var(--no); }
     .data-note { margin: 12px 0 0; color: var(--muted); font-size: 9px; line-height: 1.4; }
 
@@ -566,7 +567,7 @@
       <p>Отметки сохраняются на этом Mac и не пропадают после закрытия страницы.</p>
       <div class="taste-meter"><div class="taste-stat"><strong id="panelLike">0</strong><span>нравятся</span></div><div class="taste-stat"><strong id="panelMaybe">0</strong><span>возможно</span></div><div class="taste-stat"><strong id="panelReviewed">0</strong><span>оценено</span></div></div>
       <div class="liked-list" id="likedList"></div>
-      <div class="panel-actions"><button class="panel-action primary" id="copyFavorites" type="button">Скопировать любимые</button><button class="panel-action" id="exportProfile" type="button">Скачать профиль JSON</button><button class="panel-action danger" id="resetVotes" type="button">Сбросить оценки</button></div>
+      <div class="panel-actions"><button class="panel-action bridge" id="sendToMontage" type="button">Передать всё в монтаж</button><button class="panel-action primary" id="copyFavorites" type="button">Скопировать любимые</button><button class="panel-action" id="exportProfile" type="button">Скачать профиль JSON</button><button class="panel-action danger" id="resetVotes" type="button">Сбросить оценки</button></div>
       <p class="data-note">Одна фотография и композиция для честного сравнения; каждый регистр сохраняет собственную оценку. Каталог: Google Fonts metadata, 17.08.2026. Все 294 семейства заявляют базовый Cyrillic subset.</p>
     </aside>
   </main>
@@ -873,6 +874,10 @@
         ? liked.map(key => { const split = key.lastIndexOf("|"); const family = key.slice(0, split); const kind = key.slice(split + 1); const font = ALL_FONTS.find(item => item.family === family); const label = `${font ? pairLabel(font) : family} · ${caseLabel(kind)}`; return `<div class="liked-chip"><span>${escapeHtml(label)}</span><button type="button" data-remove-like="${escapeAttr(key)}" aria-label="Убрать ${escapeAttr(label)} из любимых">×</button></div>`; }).join("")
         : `<div class="taste-empty">Здесь появятся кадры, которые ты отметишь как «Нравится».</div>`;
       $("copyFavorites").disabled = liked.length === 0;
+      const systems = readTransferJson("olymarkes-type-system-studio-v1", []);
+      const layouts = Object.values(readTransferJson("olymarkes-carousel-layout-taste-v1", {})).filter(value => value === "like").length;
+      $("sendToMontage").disabled = liked.length === 0 && systems.length === 0 && layouts === 0;
+      $("sendToMontage").textContent = `Передать в монтаж · ${liked.length} шр. · ${systems.length} систем · ${layouts} сцен`;
     }
 
     function setView(view) {
@@ -906,6 +911,27 @@
       link.download = "olymarkes-cyrillic-font-taste.json";
       link.click();
       URL.revokeObjectURL(link.href);
+    }
+
+    function readTransferJson(key, fallback) {
+      try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; }
+    }
+
+    function sendTasteToMontage(event) {
+      const button = event.currentTarget;
+      const bundle = {
+        schemaVersion: 1,
+        importedAt: new Date().toISOString(),
+        fontLikes: Object.keys(votes).filter(key => votes[key] === "like").sort(),
+        systems: readTransferJson("olymarkes-type-system-studio-v1", []),
+        layoutLikes: Object.entries(readTransferJson("olymarkes-carousel-layout-taste-v1", {})).filter(([, value]) => value === "like").map(([key]) => key).sort(),
+        layoutPrefs: readTransferJson("olymarkes-text-layout-prefs-v1", {}),
+        cover: coverSettings,
+      };
+      const fragment = encodeURIComponent(JSON.stringify(bundle));
+      const montageBase = ["127.0.0.1", "localhost"].includes(location.hostname) ? `${location.origin}/` : "https://olymarkes.github.io/sekta-smm-content-room/";
+      button.textContent = "Передаю полный выбор…";
+      location.assign(`${montageBase}#type-import=${fragment}`);
     }
 
     async function copyText(text) {
@@ -993,6 +1019,8 @@
       setTimeout(() => button.textContent = "Скопировать любимые", 1500);
     });
     $("exportProfile").addEventListener("click", exportProfile);
+    $("sendToMontage").addEventListener("click", sendTasteToMontage);
+    window.addEventListener("focus", updateTaste);
     $("resetVotes").addEventListener("click", event => {
       const button = event.currentTarget;
       if (!resetArmed) {

@@ -356,18 +356,13 @@
           <section class="panel carousel-system-bar" aria-label="Система всей карусели">
             <label class="carousel-series-name"><span>Название серии</span><input id="carouselSeriesName" type="text" value="Возвращение после паузы"></label>
             <div class="carousel-system-fonts">
-              <div class="carousel-system-label"><span>Шрифт всей серии</span><a href="type-studio/carousel-type-lab.html" target="_blank" rel="noreferrer">Изменить набор ↗</a></div>
-              <div class="carousel-font-strip" id="carouselFontStrip" role="group" aria-label="Шрифт всей серии"></div>
+              <div class="carousel-system-label"><span>Шрифтовые системы</span><div><button type="button" id="carouselImportTaste">Импортировать выбор</button><a href="type-studio/carousel-type-lab.html" target="_blank" rel="noreferrer">Открыть примерочные ↗</a></div></div>
+              <div class="carousel-font-summary" id="carouselFontSummary">Загружаю выбранные гарнитуры и пары…</div>
+              <div class="carousel-font-strip" id="carouselFontStrip" role="group" aria-label="Шрифтовая система всей серии"></div>
             </div>
             <div class="carousel-system-colors">
-              <span>Палитра серии</span>
-              <div class="carousel-palette-strip" id="carouselPaletteStrip" role="group" aria-label="Палитра всей серии">
-                <button type="button" data-carousel-palette="ink" aria-label="Контрастная" style="--palette:#17221f;--palette-2:#f7f7f2"></button>
-                <button type="button" data-carousel-palette="pink" aria-label="Розовая" style="--palette:#f35ba7;--palette-2:#17221f"></button>
-                <button type="button" data-carousel-palette="blue" aria-label="Синяя" style="--palette:#3155e4;--palette-2:#ffffff"></button>
-                <button type="button" data-carousel-palette="lime" aria-label="Лайм" style="--palette:#d4f04a;--palette-2:#17221f"></button>
-                <button type="button" data-carousel-palette="paper" aria-label="Бумага" style="--palette:#fff7e6;--palette-2:#5b493b"></button>
-              </div>
+              <span>Цвет и сцена</span>
+              <div class="carousel-palette-strip" id="carouselPaletteStrip" role="group" aria-label="Цветовые и версточные системы серии"></div>
             </div>
           </section>
 
@@ -456,7 +451,7 @@
                 <div class="carousel-control-grid">
                   <label><span>Тип слайда</span><select id="carouselSlideRole"><option value="cover">Обложка</option><option value="longread">Лонгрид</option><option value="quote">Цитата</option><option value="proof">Фото-доказательство</option><option value="pause">Фотопауза</option><option value="cta">Финал / CTA</option></select></label>
                   <label><span>Сцена</span><select id="carouselSlideScene"><option value="paper">Светлое поле</option><option value="dark">Тёмное поле</option><option value="photo-dim">Фото + затемнение</option><option value="photo-clean">Текст на фото</option><option value="plate">Плашка на фото</option><option value="split">Split</option><option value="window">Фото-окно</option><option value="field">Цветовое поле</option><option value="quote">Цитатная</option></select></label>
-                  <label><span>Цвет слайда</span><select id="carouselSlidePalette"><option value="ink">Контрастный</option><option value="pink">Розовый</option><option value="blue">Синий</option><option value="lime">Лайм</option><option value="paper">Бумага</option></select></label>
+                  <label><span>Цвет слайда</span><select id="carouselSlidePalette"></select></label>
                   <label><span>Размер текста</span><input id="carouselSlideSize" type="range" min="28" max="112" value="48"><output id="carouselSlideSizeValue">48 px</output></label>
                   <label><span>Выравнивание</span><select id="carouselSlideAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
                 </div>
@@ -544,6 +539,7 @@
   <script src="data/growth-room.js"></script>
   <script src="data/library-data.js"></script>
   <script src="data/carousel-builder-data.js"></script>
+  <script src="type-studio/font-data.js"></script>
   <script src="app.js"></script>
   <script src="carousel-builder.js"></script>
   <script src="carousel-studio.js"></script>
