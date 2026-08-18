@@ -6,14 +6,15 @@
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
   <!--
-  THESIS: The Content Room gains a full production typography workshop instead of reducing design choices to three presets.
-  OWN-WORLD: The existing light #Sekta product shell frames the already approved Olymarkes type labs without restyling their working canvases.
-  STORY: A teammate explores fonts, votes on layouts, assembles pairs, and returns to the cover builder with a durable browser-saved taste profile.
-  FIRST VIEWPORT: Product navigation stays fixed; the studio opens with four direct modes, live saved-state counts, and the active full-width lab.
-  FORM: Embedded creative workstation, local extension of the established Content Room; seed key established-content-room-type-studio.
+  THESIS: The Content Room turns approved typography into a complete carousel assembly line instead of keeping production inside a font picker.
+  OWN-WORLD: The pale #Sekta shell holds one large 4:5 canvas, a visible font system, restrained green controls, and slide rails built from real content.
+  STORY: A teammate builds the cover, pastes a longread, chooses the slide count, edits every scene, and saves either one frame or the whole series.
+  FIRST VIEWPORT: The active cover and its real controls share the screen; Cover → Longread → Slides → Saved stays visible above the canvas.
+  FORM: Production editor replacing the typography demo; seed key established-content-room-carousel-assembly.
   FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
   -->
   <a class="skip-link" href="#main">К содержимому</a>
@@ -28,7 +29,7 @@
         <button class="nav-item" data-view="ideal"><span>✦</span>Идеальная сетка <em>6</em></button>
         <button class="nav-item" data-view="growth"><span>↗</span>Рост и идеи <em>18</em></button>
         <button class="nav-item" data-view="builder"><span>▤</span>Конструктор <em>NEW</em></button>
-        <button class="nav-item" data-view="typography"><span class="nav-type-mark">Aa</span>Типографика <em>LAB</em></button>
+        <button class="nav-item" data-view="typography"><span class="nav-type-mark">▥</span>Монтаж карусели <em>NEW</em></button>
         <button class="nav-item" data-view="current"><span>▦</span>Текущая сетка</button>
         <button class="nav-item" data-view="library"><span>▧</span>Медиатека <em id="navLibraryCount">1059</em></button>
         <button class="nav-item" data-view="planner"><span>↗</span>План недели <em id="navPlanCount">7</em></button>
@@ -315,6 +316,7 @@
               <div class="builder-cover-actions">
                 <button class="button button-primary" id="builderDownload" type="button">Скачать PNG</button>
                 <button class="button button-secondary" id="builderAddGrid" type="button">+ В будущую сетку</button>
+                <button class="button button-secondary" id="builderToStudio" type="button" data-jump="typography">Продолжить в монтаж</button>
               </div>
             </section>
 
@@ -339,47 +341,143 @@
         </section>
 
         <section class="view" data-view-panel="typography">
-          <div class="type-studio-heading">
+          <header class="carousel-studio-heading">
             <div>
-              <h1>Типографика и вёрстка</h1>
-              <p>Большая примерочная для команды: сотни кириллических гарнитур, строчные и капсовые кадры, реальные обложки, 16 способов сверстать текст и сборка шрифтовых пар.</p>
+              <h1>Монтаж карусели</h1>
+              <p>Соберите обложку, вставьте длинный текст, разложите его на нужное число слайдов и доведите каждый кадр в одной типографической системе.</p>
             </div>
-            <div class="type-studio-actions">
-              <span class="type-save-state"><i></i>выборы сохраняются в этом браузере</span>
-              <button class="button button-secondary" id="typeToBuilder" type="button" data-jump="builder">Применить в обложке</button>
-              <a class="button button-primary" id="typeStudioOpen" href="type-studio/carousel-type-lab.html" target="_blank" rel="noreferrer">На весь экран ↗</a>
+            <div class="carousel-studio-heading-actions">
+              <span class="carousel-save-state" id="carouselSaveState"><i></i>черновик сохранён локально</span>
+              <button class="button button-secondary" id="carouselNewSeries" type="button">Новая серия</button>
+              <button class="button button-primary" id="carouselSaveSeries" type="button">Сохранить серию</button>
             </div>
-          </div>
+          </header>
 
-          <div class="type-studio-summary" aria-label="Возможности типографической мастерской">
-            <div><strong>294</strong><span>кириллические гарнитуры</span></div>
-            <div><strong id="typeFontProgress">0 / 588</strong><span>кадров оценено</span></div>
-            <div><strong id="typeLayoutProgress">0 / 16</strong><span>сцен понравилось</span></div>
-            <div><strong id="typeSystemCount">0</strong><span>систем сохранено</span></div>
-          </div>
-
-          <div class="type-studio-tabs" role="tablist" aria-label="Режим типографической мастерской">
-            <button class="type-studio-tab is-active" id="typeTabFonts" type="button" role="tab" aria-controls="typeStudioFrame" aria-selected="true" tabindex="0" data-type-src="type-studio/carousel-type-lab.html">
-              <span>Шрифты и обложки</span><small>тиндер по 588 кадрам</small>
-            </button>
-            <button class="type-studio-tab" id="typeTabLayout" type="button" role="tab" aria-controls="typeStudioFrame" aria-selected="false" tabindex="-1" data-type-src="type-studio/text-layout-lab.html">
-              <span>Тиндер вёрстки</span><small>цвет, плашки, лонгрид</small>
-            </button>
-            <button class="type-studio-tab" id="typeTabSystems" type="button" role="tab" aria-controls="typeStudioFrame" aria-selected="false" tabindex="-1" data-type-src="type-studio/type-system-studio.html">
-              <span>Пары и системы</span><small>из каждого любимого кадра</small>
-            </button>
-            <button class="type-studio-tab" id="typeTabDirections" type="button" role="tab" aria-controls="typeStudioFrame" aria-selected="false" tabindex="-1" data-type-src="type-studio/type-systems-lab.html">
-              <span>Готовые направления</span><small>семь стартовых систем</small>
-            </button>
-          </div>
-
-          <section class="type-studio-frame-shell" aria-label="Рабочая область типографической мастерской">
-            <div class="type-studio-frame-bar">
-              <div><span id="typeStudioMode">Шрифты и обложки</span><strong id="typeStudioHint">Оценивайте каждый строчный и капсовый кадр отдельно</strong></div>
-              <span class="type-studio-live"><i></i>живой режим</span>
+          <section class="panel carousel-system-bar" aria-label="Система всей карусели">
+            <label class="carousel-series-name"><span>Название серии</span><input id="carouselSeriesName" type="text" value="Возвращение после паузы"></label>
+            <div class="carousel-system-fonts">
+              <div class="carousel-system-label"><span>Шрифт всей серии</span><a href="type-studio/carousel-type-lab.html" target="_blank" rel="noreferrer">Изменить набор ↗</a></div>
+              <div class="carousel-font-strip" id="carouselFontStrip" role="group" aria-label="Шрифт всей серии"></div>
             </div>
-            <iframe id="typeStudioFrame" title="Шрифты и обложки" src="type-studio/carousel-type-lab.html" loading="lazy"></iframe>
+            <div class="carousel-system-colors">
+              <span>Палитра серии</span>
+              <div class="carousel-palette-strip" id="carouselPaletteStrip" role="group" aria-label="Палитра всей серии">
+                <button type="button" data-carousel-palette="ink" aria-label="Контрастная" style="--palette:#17221f;--palette-2:#f7f7f2"></button>
+                <button type="button" data-carousel-palette="pink" aria-label="Розовая" style="--palette:#f35ba7;--palette-2:#17221f"></button>
+                <button type="button" data-carousel-palette="blue" aria-label="Синяя" style="--palette:#3155e4;--palette-2:#ffffff"></button>
+                <button type="button" data-carousel-palette="lime" aria-label="Лайм" style="--palette:#d4f04a;--palette-2:#17221f"></button>
+                <button type="button" data-carousel-palette="paper" aria-label="Бумага" style="--palette:#fff7e6;--palette-2:#5b493b"></button>
+              </div>
+            </div>
           </section>
+
+          <div class="carousel-studio-tabs" role="tablist" aria-label="Этап монтажа карусели">
+            <button class="carousel-studio-tab is-active" id="carouselStageCoverTab" type="button" role="tab" aria-controls="carouselStageCoverPanel" aria-selected="true" tabindex="0" data-carousel-stage="cover"><span>Обложка</span><small>хук, фото, цвет и плашка</small></button>
+            <button class="carousel-studio-tab" id="carouselStageLongreadTab" type="button" role="tab" aria-controls="carouselStageLongreadPanel" aria-selected="false" tabindex="-1" data-carousel-stage="longread"><span>Лонгрид</span><small>вставить и разбить текст</small></button>
+            <button class="carousel-studio-tab" id="carouselStageSlidesTab" type="button" role="tab" aria-controls="carouselStageSlidesPanel" aria-selected="false" tabindex="-1" data-carousel-stage="slides"><span>Все слайды</span><small>покадровый монтаж серии</small></button>
+            <button class="carousel-studio-tab" id="carouselStageSavedTab" type="button" role="tab" aria-controls="carouselStageSavedPanel" aria-selected="false" tabindex="-1" data-carousel-stage="saved"><span>Сохранённые</span><small id="carouselSavedCount">пока нет серий</small></button>
+          </div>
+
+          <div class="carousel-stage-panel is-active" id="carouselStageCoverPanel" role="tabpanel" aria-labelledby="carouselStageCoverTab" data-carousel-stage-panel="cover">
+            <div class="carousel-cover-workspace">
+              <section class="carousel-canvas-column" aria-label="Предпросмотр обложки">
+                <div class="carousel-slide-canvas" id="carouselCoverCanvas"></div>
+                <div class="carousel-canvas-actions">
+                  <button class="button button-primary" id="carouselSaveCover" type="button">Сохранить слайд</button>
+                  <button class="button button-secondary" id="carouselDownloadSlide" type="button">Скачать PNG</button>
+                </div>
+              </section>
+
+              <section class="panel carousel-controls-panel">
+                <div class="section-head"><div><h2>Обложка серии</h2><p>Все изменения видны на макете сразу</p></div><span>1080 × 1350</span></div>
+                <label class="carousel-field"><span>Что пишем на обложке</span><textarea id="carouselCoverTitle" rows="4">Пропустили пять дней? Ничего не сломалось</textarea></label>
+                <label class="carousel-field"><span>Подстрочник или служебная строка</span><input id="carouselCoverSubtitle" type="text" value="10 слайдов · сохрани"></label>
+                <fieldset class="carousel-control-group"><legend>Сцена</legend><div class="carousel-choice-row">
+                  <button type="button" data-carousel-scene="photo-dim">Фото + затемнение</button>
+                  <button type="button" data-carousel-scene="photo-clean">Текст на фото</button>
+                  <button type="button" data-carousel-scene="plate">Плашка</button>
+                  <button type="button" data-carousel-scene="field">Цветовое поле</button>
+                  <button type="button" data-carousel-scene="paper">Без фото</button>
+                </div></fieldset>
+                <div class="carousel-control-grid">
+                  <label><span>Размер заголовка</span><input id="carouselCoverSize" type="range" min="54" max="132" value="88"><output id="carouselCoverSizeValue">88 px</output></label>
+                  <label><span>Положение текста</span><select id="carouselCoverPlacement"><option value="bottom">Снизу</option><option value="middle">По центру</option><option value="top">Сверху</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
+                  <label><span>Выравнивание</span><select id="carouselCoverAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
+                  <label><span>Регистр</span><select id="carouselCoverCase"><option value="original">Как написано</option><option value="lower">Строчные</option><option value="upper">КАПС</option></select></label>
+                </div>
+                <div class="carousel-media-head"><div><strong>Фотография</strong><span id="carouselCoverPhotoName">из общей медиатеки</span></div><label class="carousel-search"><input id="carouselCoverMediaSearch" type="search" placeholder="Найти фото…"></label></div>
+                <div class="carousel-media-strip" id="carouselCoverMedia"></div>
+                <button class="button button-secondary carousel-next-stage" type="button" data-carousel-go="longread">Дальше: вставить лонгрид →</button>
+              </section>
+            </div>
+          </div>
+
+          <div class="carousel-stage-panel" id="carouselStageLongreadPanel" role="tabpanel" aria-labelledby="carouselStageLongreadTab" data-carousel-stage-panel="longread" hidden>
+            <section class="panel carousel-longread-panel">
+              <div class="carousel-longread-editor">
+                <div>
+                  <div class="section-head"><div><h2>Вставьте весь текст</h2><p>Абзацы и формулировки сохраняются; меняется только распределение по слайдам.</p></div><span id="carouselLongreadWords">0 слов</span></div>
+                  <textarea id="carouselLongreadText" rows="18">Иногда пять пропущенных дней ощущаются как доказательство, что всё снова сломалось. Будто теперь нужно догнать план, отработать паузу и начать заново с идеального понедельника.
+
+Но тело не ведёт календарь достижений. Оно не обнуляет силу, выносливость и опыт из-за нескольких дней без тренировки. Возвращение не требует наказания.
+
+Первая тренировка после паузы может быть короче и легче обычной. Её задача — не компенсировать пропущенное, а снова сделать движение частью дня.
+
+Выберите один знакомый формат, уменьшите объём и заранее разрешите себе остановиться. Устойчивость начинается не с подвига, а с возможности вернуться ещё раз.</textarea>
+                </div>
+                <aside class="carousel-split-settings">
+                  <h3>Как разложить</h3>
+                  <label><span>Всего слайдов</span><select id="carouselSlideCount"><option>6</option><option>7</option><option>8</option><option>9</option><option selected>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option></select></label>
+                  <div class="carousel-split-math" id="carouselSplitMath"><strong>1 + 8 + 1</strong><span>обложка · текст · финал</span></div>
+                  <label class="carousel-check"><input id="carouselKeepParagraphs" type="checkbox" checked><span>Сохранять абзацы целиком, когда это возможно</span></label>
+                  <label class="carousel-check"><input id="carouselPhotoRhythm" type="checkbox" checked><span>Добавлять фотопаузу после двух текстовых слайдов</span></label>
+                  <button class="button button-primary" id="carouselSplitText" type="button">Разбить текст на слайды</button>
+                  <p id="carouselSplitHint">Система распределит текст, но ничего не сократит и не перепишет.</p>
+                </aside>
+              </div>
+              <div class="carousel-split-preview" id="carouselSplitPreview" aria-label="Предпросмотр разбиения"></div>
+            </section>
+          </div>
+
+          <div class="carousel-stage-panel" id="carouselStageSlidesPanel" role="tabpanel" aria-labelledby="carouselStageSlidesTab" data-carousel-stage-panel="slides" hidden>
+            <div class="carousel-slide-rail" id="carouselSlideRail" aria-label="Все слайды серии"></div>
+            <div class="carousel-slide-editor">
+              <section class="carousel-canvas-column" aria-label="Активный слайд">
+                <div class="carousel-slide-canvas" id="carouselActiveCanvas"></div>
+                <div class="carousel-canvas-actions">
+                  <button class="button button-primary" id="carouselSaveSlide" type="button">Сохранить слайд</button>
+                  <button class="button button-secondary" id="carouselDownloadActive" type="button">Скачать PNG</button>
+                </div>
+              </section>
+              <section class="panel carousel-controls-panel">
+                <div class="section-head"><div><h2 id="carouselActiveTitle">Слайд 1</h2><p id="carouselActiveMeta">обложка · не сохранён</p></div><button class="button button-quiet" id="carouselDuplicateSlide" type="button">Дублировать</button></div>
+                <label class="carousel-field"><span>Заголовок</span><textarea id="carouselSlideTitle" rows="3"></textarea></label>
+                <label class="carousel-field"><span>Основной текст</span><textarea id="carouselSlideBody" rows="9"></textarea></label>
+                <div class="carousel-control-grid">
+                  <label><span>Тип слайда</span><select id="carouselSlideRole"><option value="cover">Обложка</option><option value="longread">Лонгрид</option><option value="quote">Цитата</option><option value="proof">Фото-доказательство</option><option value="pause">Фотопауза</option><option value="cta">Финал / CTA</option></select></label>
+                  <label><span>Сцена</span><select id="carouselSlideScene"><option value="paper">Светлое поле</option><option value="dark">Тёмное поле</option><option value="photo-dim">Фото + затемнение</option><option value="photo-clean">Текст на фото</option><option value="plate">Плашка на фото</option><option value="split">Split</option><option value="window">Фото-окно</option><option value="field">Цветовое поле</option><option value="quote">Цитатная</option></select></label>
+                  <label><span>Цвет слайда</span><select id="carouselSlidePalette"><option value="ink">Контрастный</option><option value="pink">Розовый</option><option value="blue">Синий</option><option value="lime">Лайм</option><option value="paper">Бумага</option></select></label>
+                  <label><span>Размер текста</span><input id="carouselSlideSize" type="range" min="28" max="112" value="48"><output id="carouselSlideSizeValue">48 px</output></label>
+                  <label><span>Выравнивание</span><select id="carouselSlideAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
+                </div>
+                <div class="carousel-media-head"><div><strong>Фото этого слайда</strong><span id="carouselSlidePhotoName">можно выбрать отдельно</span></div><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать фото</button></div>
+                <div class="carousel-media-strip" id="carouselSlideMedia"></div>
+              </section>
+            </div>
+          </div>
+
+          <div class="carousel-stage-panel" id="carouselStageSavedPanel" role="tabpanel" aria-labelledby="carouselStageSavedTab" data-carousel-stage-panel="saved" hidden>
+            <section class="panel carousel-saved-panel">
+              <div class="section-head"><div><h2>Сохранённые серии</h2><p>Откройте серию, сделайте копию или экспортируйте структуру.</p></div><button class="button button-secondary" id="carouselExportSeries" type="button">Экспорт JSON</button></div>
+              <div class="carousel-saved-grid" id="carouselSavedSeries"></div>
+            </section>
+            <section class="carousel-lab-link">
+              <div><strong>Нужно изменить визуальную систему?</strong><span>Шрифтовая и версточная примерочные остались отдельным вспомогательным инструментом.</span></div>
+              <div><a class="button button-secondary" href="type-studio/carousel-type-lab.html" target="_blank" rel="noreferrer">Шрифты ↗</a><a class="button button-secondary" href="type-studio/text-layout-lab.html" target="_blank" rel="noreferrer">Сцены вёрстки ↗</a></div>
+            </section>
+          </div>
+
+          <div class="carousel-studio-status" id="carouselStudioStatus" role="status" aria-live="polite">Черновик готов к монтажу.</div>
         </section>
 
         <section class="view" data-view-panel="library">
@@ -448,5 +546,6 @@
   <script src="data/carousel-builder-data.js"></script>
   <script src="app.js"></script>
   <script src="carousel-builder.js"></script>
+  <script src="carousel-studio.js"></script>
 </body>
 </html>

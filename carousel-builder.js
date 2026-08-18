@@ -39,6 +39,7 @@
     addGrid: document.querySelector("#builderAddGrid"),
     copyScript: document.querySelector("#builderCopyScript"),
     tasteFont: document.querySelector("#builderTasteFont"),
+    toStudio: document.querySelector("#builderToStudio"),
   };
 
   const extraHooks = {
@@ -593,6 +594,17 @@
   });
   ui.download.addEventListener("click", downloadCover);
   ui.addGrid.addEventListener("click", addCoverToGrid);
+  ui.toStudio.addEventListener("click", () => {
+    const paletteMap = { dark: "ink", pink: "pink", blue: "blue", lime: "lime", paper: "paper" };
+    window.dispatchEvent(new CustomEvent("sekta:seed-carousel-studio", { detail: {
+      title: ui.hook.value,
+      subtitle: ui.subtitle.value,
+      photoId: selectedPhoto?.id || null,
+      font: activeFont === "taste" && tasteFont ? tasteFont : null,
+      palette: paletteMap[activeStyle] || "ink",
+    } }));
+    setStatus("Обложка передана в монтаж карусели.");
+  });
 
   ui.topic.value = activeTopic.id;
   ui.hook.value = activeTopic.hooks[0];

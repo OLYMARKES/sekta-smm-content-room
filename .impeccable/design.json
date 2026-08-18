@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-18T08:38:38Z",
+  "generatedAt": "2026-08-18T09:28:34Z",
   "title": "Design System: #Sekta Content Room",
   "extensions": {
     "colorMeta": {
@@ -20,27 +20,33 @@
       "warning": { "role": "tertiary", "displayName": "Ревью", "canonical": "#875f19", "tonalRamp": ["oklch(18% 0.055 76)", "oklch(29% 0.075 76)", "oklch(40% 0.095 76)", "oklch(52% 0.105 76)", "oklch(64% 0.09 76)", "oklch(76% 0.065 76)", "oklch(87% 0.038 76)", "oklch(95% 0.017 76)"] },
       "warning-soft": { "role": "tertiary", "displayName": "Мягкое ревью", "canonical": "#f7edd5", "tonalRamp": ["oklch(18% 0.025 76)", "oklch(30% 0.035 76)", "oklch(42% 0.045 76)", "oklch(55% 0.05 76)", "oklch(68% 0.045 76)", "oklch(79% 0.035 76)", "oklch(89% 0.022 76)", "oklch(96% 0.01 76)"] },
       "danger": { "role": "tertiary", "displayName": "Опасное действие", "canonical": "#8a3636", "tonalRamp": ["oklch(18% 0.06 25)", "oklch(29% 0.085 25)", "oklch(40% 0.11 25)", "oklch(52% 0.12 25)", "oklch(64% 0.1 25)", "oklch(76% 0.072 25)", "oklch(87% 0.04 25)", "oklch(95% 0.018 25)"] },
-      "editorial-blue": { "role": "secondary", "displayName": "Редакционный синий", "canonical": "#3155e4", "tonalRamp": ["oklch(18% 0.09 265)", "oklch(29% 0.13 265)", "oklch(40% 0.17 265)", "oklch(52% 0.2 265)", "oklch(64% 0.17 265)", "oklch(76% 0.12 265)", "oklch(87% 0.07 265)", "oklch(95% 0.03 265)"] },
+      "production-blue": { "role": "secondary", "displayName": "Production blue", "canonical": "#3155e4", "tonalRamp": ["oklch(18% 0.09 265)", "oklch(29% 0.13 265)", "oklch(40% 0.17 265)", "oklch(52% 0.2 265)", "oklch(64% 0.17 265)", "oklch(76% 0.12 265)", "oklch(87% 0.07 265)", "oklch(95% 0.03 265)"] },
+      "production-blue-soft": { "role": "secondary", "displayName": "Светлый production blue", "canonical": "#dce5ff", "tonalRamp": ["oklch(18% 0.04 265)", "oklch(30% 0.06 265)", "oklch(42% 0.08 265)", "oklch(55% 0.09 265)", "oklch(68% 0.075 265)", "oklch(79% 0.055 265)", "oklch(89% 0.032 265)", "oklch(96% 0.014 265)"] },
       "editorial-pink": { "role": "secondary", "displayName": "Человеческий розовый", "canonical": "#efadc4", "tonalRamp": ["oklch(18% 0.055 350)", "oklch(29% 0.08 350)", "oklch(40% 0.105 350)", "oklch(52% 0.12 350)", "oklch(64% 0.105 350)", "oklch(76% 0.08 350)", "oklch(87% 0.05 350)", "oklch(95% 0.022 350)"] },
-      "builder-pink": { "role": "secondary", "displayName": "Конструкторский розовый", "canonical": "#f35ba7", "tonalRamp": ["oklch(18% 0.08 344)", "oklch(29% 0.12 344)", "oklch(40% 0.16 344)", "oklch(52% 0.19 344)", "oklch(64% 0.17 344)", "oklch(76% 0.12 344)", "oklch(87% 0.07 344)", "oklch(95% 0.03 344)"] },
-      "action-lime": { "role": "tertiary", "displayName": "Действенный лайм", "canonical": "#d4f04a", "tonalRamp": ["oklch(18% 0.07 118)", "oklch(29% 0.105 118)", "oklch(40% 0.14 118)", "oklch(52% 0.17 118)", "oklch(64% 0.16 118)", "oklch(76% 0.13 118)", "oklch(87% 0.085 118)", "oklch(95% 0.04 118)"] }
+      "production-pink": { "role": "secondary", "displayName": "Production pink", "canonical": "#f35ba7", "tonalRamp": ["oklch(18% 0.08 344)", "oklch(29% 0.12 344)", "oklch(40% 0.16 344)", "oklch(52% 0.19 344)", "oklch(64% 0.17 344)", "oklch(76% 0.12 344)", "oklch(87% 0.07 344)", "oklch(95% 0.03 344)"] },
+      "action-lime": { "role": "tertiary", "displayName": "Действенный лайм", "canonical": "#d4f04a", "tonalRamp": ["oklch(18% 0.07 118)", "oklch(29% 0.105 118)", "oklch(40% 0.14 118)", "oklch(52% 0.17 118)", "oklch(64% 0.16 118)", "oklch(76% 0.13 118)", "oklch(87% 0.085 118)", "oklch(95% 0.04 118)"] },
+      "carousel-paper": { "role": "tertiary", "displayName": "Тёплая бумага", "canonical": "#fff7e6", "tonalRamp": ["oklch(18% 0.025 82)", "oklch(30% 0.032 82)", "oklch(42% 0.04 82)", "oklch(55% 0.045 82)", "oklch(68% 0.038 82)", "oklch(79% 0.03 82)", "oklch(89% 0.018 82)", "oklch(97% 0.008 82)"] },
+      "carousel-paper-canvas": { "role": "neutral", "displayName": "Бумажный canvas", "canonical": "#fffaf0", "tonalRamp": ["oklch(18% 0.018 82)", "oklch(30% 0.024 82)", "oklch(42% 0.03 82)", "oklch(55% 0.034 82)", "oklch(68% 0.029 82)", "oklch(79% 0.022 82)", "oklch(89% 0.014 82)", "oklch(98% 0.006 82)"] },
+      "carousel-paper-ink": { "role": "neutral", "displayName": "Чернила тёплой бумаги", "canonical": "#5b493b", "tonalRamp": ["oklch(18% 0.03 55)", "oklch(30% 0.04 55)", "oklch(42% 0.046 55)", "oklch(55% 0.043 55)", "oklch(68% 0.035 55)", "oklch(79% 0.026 55)", "oklch(89% 0.016 55)", "oklch(96% 0.008 55)"] },
+      "carousel-off-white": { "role": "neutral", "displayName": "Молочная краска", "canonical": "#f7f7f2", "tonalRamp": ["oklch(18% 0.004 100)", "oklch(30% 0.006 100)", "oklch(42% 0.007 100)", "oklch(55% 0.007 100)", "oklch(68% 0.006 100)", "oklch(79% 0.005 100)", "oklch(89% 0.003 100)", "oklch(97% 0.002 100)"] }
     },
     "typographyMeta": {
       "display": { "displayName": "Редакционный display", "purpose": "Крупные названия пакетов, редакционные тезисы, числа и даты." },
       "headline": { "displayName": "Заголовок раздела", "purpose": "Главный заголовок текущего рабочего представления." },
       "title": { "displayName": "Заголовок панели", "purpose": "Названия карточек, панелей и рабочих блоков." },
       "body": { "displayName": "Рабочее пояснение", "purpose": "Контекст задачи, подсказки и описания." },
-      "label": { "displayName": "Служебная метка", "purpose": "Статус, режим и компактная метаинформация." }
+      "label": { "displayName": "Operational label", "purpose": "Подписи этапов, роли слайдов и статусы production-монтажа; минимум 10px." }
     },
     "shadows": [
       { "name": "overlay", "value": "0 18px 50px rgba(23, 33, 30, .13)", "purpose": "Диалоги и крупные плавающие поверхности." },
-      { "name": "small-active-lift", "value": "0 1px 4px rgba(23, 33, 30, .08)", "purpose": "Активная вкладка типографической мастерской." },
-      { "name": "toast", "value": "0 12px 30px rgba(0, 0, 0, .18)", "purpose": "Временное системное сообщение." }
+      { "name": "live-canvas", "value": "0 16px 38px rgba(20, 31, 27, .15)", "purpose": "Активный слайд 4:5 над служебной подложкой." },
+      { "name": "small-active-lift", "value": "0 1px 4px rgba(23, 33, 30, .08)", "purpose": "Активная stage-вкладка." },
+      { "name": "selection-ring", "value": "0 0 0 2px var(--accent-soft)", "purpose": "Выбранное фото или мини-слайд." }
     ],
     "motion": [
       { "name": "view-enter", "value": "220ms ease-out", "purpose": "Появление нового рабочего раздела с небольшим подъёмом на 4px." },
-      { "name": "state-fast", "value": "150ms ease", "purpose": "Hover и активные состояния контролов, границ и маркеров." },
-      { "name": "media-hover", "value": "220ms ease", "purpose": "Небольшое масштабирование изображения внутри медиа-карточки." }
+      { "name": "stage-enter", "value": "180ms ease-out", "purpose": "Смена этапа production-монтажа." },
+      { "name": "autosave-indicator", "value": "160ms ease", "purpose": "Отклик локального сохранения черновика и серии." }
     ],
     "breakpoints": [
       { "name": "wide-collapse", "value": "1100px" },
@@ -70,7 +76,7 @@
       "kind": "nav",
       "refersTo": "nav-active",
       "description": "Текущий раздел в фиксированной тёмной навигации.",
-      "html": "<button class=\"ds-nav-item\" type=\"button\"><b>Типографика</b><em>LAB</em></button>",
+      "html": "<button class=\"ds-nav-item\" type=\"button\"><b>Монтаж карусели</b><em>NEW</em></button>",
       "css": ".ds-nav-item { width: 216px; min-height: 42px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 7px; padding: 0 11px; border: 0; border-radius: 8px; color: #fff; background: #2b3b35; font-size: 13px; text-align: left; cursor: pointer; } .ds-nav-item b { font-weight: 500; } .ds-nav-item em { padding: 2px 6px; border-radius: 12px; color: #94a39e; background: #23312d; font-size: 10px; font-style: normal; } .ds-nav-item:hover { background: #34463f; } .ds-nav-item:focus-visible { outline: 3px solid rgba(220,233,227,.35); outline-offset: 2px; }"
     },
     {
@@ -87,7 +93,7 @@
       "refersTo": "input-field",
       "description": "Компактное поле поиска или параметра внутри рабочей панели.",
       "html": "<label class=\"ds-field\"><span>Тема сценария</span><input type=\"text\" value=\"Возвращение после паузы\"></label>",
-      "css": ".ds-field { display: grid; gap: 6px; color: var(--soft); font-size: 8px; font-weight: 750; letter-spacing: .07em; text-transform: uppercase; } .ds-field input { height: 38px; padding: 0 10px; border: 1px solid #d5dcd8; border-radius: 7px; color: var(--ink); background: #fbfcfb; font-size: 10px; letter-spacing: 0; text-transform: none; } .ds-field input:hover { border-color: #b8c5bf; } .ds-field input:focus-visible { outline: 3px solid rgba(36,72,62,.28); outline-offset: 2px; }"
+      "css": ".ds-field { display: grid; gap: 6px; color: var(--muted); font-size: 10px; font-weight: 700; } .ds-field input { height: 38px; padding: 0 10px; border: 1px solid #d5dcd8; border-radius: 8px; color: var(--ink); background: #fbfcfb; font-size: 12px; } .ds-field input:hover { border-color: #b8c5bf; } .ds-field input:focus-visible { outline: 3px solid rgba(36,72,62,.28); outline-offset: 2px; }"
     },
     {
       "name": "Active Filter Chip",
@@ -95,57 +101,60 @@
       "refersTo": "chip-active",
       "description": "Выбранная цель, папка или режим фильтрации.",
       "html": "<button class=\"ds-chip-active\" type=\"button\" aria-pressed=\"true\">Сохранения</button>",
-      "css": ".ds-chip-active { min-height: 34px; padding: 0 11px; border: 1px solid #b8c9c2; border-radius: 7px; color: var(--accent); background: var(--accent-soft); font-size: 9px; font-weight: 750; cursor: pointer; } .ds-chip-active:hover { background: #d2e3dc; } .ds-chip-active:focus-visible { outline: 3px solid rgba(36,72,62,.28); outline-offset: 2px; } .ds-chip-active:active { background: #c7dbd2; }"
+      "css": ".ds-chip-active { min-height: 34px; padding: 0 11px; border: 1px solid #b8c9c2; border-radius: 7px; color: var(--accent); background: var(--accent-soft); font-size: 10px; font-weight: 700; cursor: pointer; } .ds-chip-active:hover { background: #d2e3dc; } .ds-chip-active:focus-visible { outline: 3px solid rgba(36,72,62,.28); outline-offset: 2px; } .ds-chip-active:active { background: #c7dbd2; }"
     },
     {
-      "name": "Active Type Studio Tab",
+      "name": "Active Carousel Stage Tab",
       "kind": "nav",
-      "refersTo": "type-studio-tab-active",
-      "description": "Один из четырёх режимов большой типографической мастерской.",
-      "html": "<button class=\"ds-type-tab\" type=\"button\" role=\"tab\" aria-selected=\"true\"><span>Пары и системы</span><small>из каждого любимого кадра</small></button>",
-      "css": ".ds-type-tab { min-height: 58px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 9px 13px; border: 0; border-radius: 8px; color: var(--ink); background: var(--surface); text-align: left; box-shadow: 0 1px 4px rgba(23,33,30,.08); cursor: pointer; } .ds-type-tab span { font-size: 11px; font-weight: 750; } .ds-type-tab small { margin-top: 4px; color: var(--soft); font-size: 8px; } .ds-type-tab:hover { background: #fbfcfb; } .ds-type-tab:focus-visible { outline: 3px solid rgba(36,72,62,.28); outline-offset: 2px; }"
+      "refersTo": "carousel-stage-tab-active",
+      "description": "Активный этап production-монтажа карусели.",
+      "html": "<button class=\"ds-stage-tab\" type=\"button\" role=\"tab\" aria-selected=\"true\"><span>Обложка</span><small>хук, фото, цвет и плашка</small></button>",
+      "css": ".ds-stage-tab { min-height: 58px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 9px 13px; border: 0; border-radius: 8px; color: var(--ink); background: var(--surface); text-align: left; box-shadow: 0 1px 4px rgba(23,33,30,.08); cursor: pointer; } .ds-stage-tab span { font-size: 11px; font-weight: 750; } .ds-stage-tab small { margin-top: 4px; color: #616b67; font-size: 10px; } .ds-stage-tab:hover { background: #fbfcfb; } .ds-stage-tab:focus-visible { outline: 3px solid rgba(36,72,62,.28); outline-offset: 2px; }"
     },
     {
       "name": "Ready Status",
       "kind": "chip",
       "description": "Семантическая метка готового к публикации материала.",
       "html": "<span class=\"ds-status-ready\">Готово к публикации</span>",
-      "css": ".ds-status-ready { min-height: 22px; width: fit-content; display: inline-flex; align-items: center; padding: 0 8px; border-radius: 12px; color: var(--success); background: var(--success-soft); font-size: 9px; font-weight: 700; white-space: nowrap; }"
+      "css": ".ds-status-ready { min-height: 22px; width: fit-content; display: inline-flex; align-items: center; padding: 0 8px; border-radius: 12px; color: var(--success); background: var(--success-soft); font-size: 10px; font-weight: 700; white-space: nowrap; }"
     },
     {
-      "name": "Type Studio Frame",
+      "name": "Live 4:5 Carousel Canvas",
       "kind": "custom",
-      "description": "Подписанная рамка самостоятельного рабочего холста типографической лаборатории.",
-      "html": "<section class=\"ds-studio-frame\"><header><div><span>Шрифты и обложки</span><strong>Оценивайте строчный и капсовый кадр отдельно</strong></div><em><i></i>живой режим</em></header><div class=\"ds-studio-canvas\">Рабочая область лаборатории</div></section>",
-      "css": ".ds-studio-frame { overflow: hidden; border: 1px solid #cfd7d3; border-radius: 14px; background: #f7f5ef; } .ds-studio-frame header { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 0 15px; border-bottom: 1px solid #d9ddd9; background: #fff; } .ds-studio-frame header div { display: flex; align-items: baseline; gap: 10px; } .ds-studio-frame span { font-size: 10px; font-weight: 750; } .ds-studio-frame strong { color: var(--soft); font-size: 8px; font-weight: 550; } .ds-studio-frame em { display: inline-flex; align-items: center; gap: 7px; color: var(--success); font-size: 8px; font-style: normal; font-weight: 700; } .ds-studio-frame i { width: 7px; height: 7px; border-radius: 50%; background: #70c598; box-shadow: 0 0 0 4px rgba(112,197,152,.13); } .ds-studio-canvas { min-height: 180px; display: grid; place-items: center; color: var(--muted); font-size: 11px; } .ds-studio-frame:focus-within { outline: 3px solid rgba(36,72,62,.18); outline-offset: 2px; }"
+      "description": "Главный живой холст монтажа, который показывает реальную сцену, текст и палитру серии.",
+      "html": "<section class=\"ds-canvas-shell\"><article class=\"ds-carousel-canvas\"><small>ВОЗВРАЩЕНИЕ ПОСЛЕ ПАУЗЫ</small><strong>Пропустили пять дней? Ничего не сломалось</strong><span>01 / 10</span></article><div><button>Сохранить слайд</button><button>Скачать PNG</button></div></section>",
+      "css": ".ds-canvas-shell { width: 360px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: #e9eeeb; } .ds-carousel-canvas { position: relative; aspect-ratio: 4/5; display: flex; flex-direction: column; justify-content: flex-end; padding: 10%; overflow: hidden; border-radius: 10px; color: #fff; background: linear-gradient(rgba(8,14,12,.08), rgba(8,14,12,.88)), #17221f; box-shadow: 0 16px 38px rgba(20,31,27,.15); } .ds-carousel-canvas small, .ds-carousel-canvas span { font-size: 10px; font-weight: 750; } .ds-carousel-canvas strong { margin: auto 0 12px; font-size: 34px; line-height: .96; letter-spacing: -.035em; } .ds-canvas-shell > div { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 10px; } .ds-canvas-shell button { min-height: 34px; border: 1px solid #cfd7d3; border-radius: 8px; background: #fff; font-size: 10px; font-weight: 700; }"
     }
   ],
   "narrative": {
-    "northStar": "Редакционная мастерская команды",
-    "overview": "Система ощущается как спокойная рабочая комната, где команда видит состояние производства и сразу переходит к следующему действию. Светлая продуктовая оболочка #Sekta сохраняет чёткую иерархию, высокую информационную плотность и сдержанный сервисный характер; тёмная боковая навигация служит постоянной рамой.\n\nТипографическая мастерская намеренно крупнее обычного продуктового блока: оболочка обрамляет самостоятельные рабочие холсты, не стилизуя их заново. Форма зафиксирована как `established-content-room-type-studio`; четыре действия `explore → vote → pair → apply`, сохранённый вкус команды и прямой переход в конструктор являются частью системы. Общие UX/UI-правила наследуются из канонического репозитория `olymarkes-design-principles`; здесь записаны только особенности этого продукта.",
+    "northStar": "Редакционная сборочная линия команды",
+    "overview": "Система ощущается как спокойная production-комната, где типографика уже утверждена, а команда собирает реальную серию на одном живом холсте 4:5. Светлая оболочка #Sekta удерживает высокую информационную плотность, тёмная навигация служит постоянной рамой, а этапы ведут от обложки к точному лонгриду, всем слайдам и сохранённой серии.\n\nФорма зафиксирована как `established-content-room-carousel-assembly`. Старые шрифтовые и вёрсточные лаборатории остаются вспомогательными: они меняют визуальную систему, но не подменяют production-монтаж.",
     "keyCharacteristics": [
       "Светлая рабочая оболочка с тёмной фиксированной навигацией.",
-      "Плотные, но плоские продуктовые поверхности с тонкими границами.",
-      "Редакционный контраст системного гротеска и точечного Georgia.",
-      "Большая встроенная типографическая лаборатория как полноценное рабочее место.",
-      "Явные состояния выбора, прогресса, готовности и сохранения."
+      "Один живой холст 4:5 как главный объект production-монтажа.",
+      "Видимая системная панель утверждённых шрифтов и палитры.",
+      "Обложка, точный лонгрид, покадровая доводка и сохранённые серии.",
+      "Компактный липкий preview на мобильных экранах."
     ],
     "rules": [
-      { "name": "The Shell Owns the Green Rule", "body": "Глубокий зелёный управляет оболочкой и действиями; синий, розовый и лайм остаются внутри контента и не конкурируют с глобальной навигацией.", "section": "colors" },
-      { "name": "The Two Working Voices Rule", "body": "Интерфейс говорит системным гротеском; Georgia включается только там, где нужен редакционный акцент, число или дата, и не заменяет основной UI-шрифт.", "section": "typography" },
-      { "name": "The Flat Workshop Rule", "body": "Панели стоят на границах и тональных слоях; заметная тень разрешена только поверхности, которая действительно плавает или временно перекрывает работу.", "section": "elevation" }
+      { "name": "The Shell Owns the Green Rule", "body": "Глубокий зелёный управляет оболочкой и действиями; выбираемые палитры меняют слайды, но не глобальный chrome монтажа.", "section": "colors" },
+      { "name": "The Approved Type First Rule", "body": "Утверждённый шрифт выбирается до покадровой доводки и применяется ко всей серии; отдельный слайд не вводит новую гарнитуру.", "section": "typography" },
+      { "name": "The Ten Pixel Operations Rule", "body": "В production-монтаже ни одна рабочая подпись, роль, статус или label не становится меньше 10px.", "section": "typography" },
+      { "name": "The Flat Assembly Rule", "body": "Обычные панели стоят на границах и тональных слоях; выраженная тень принадлежит только живому canvas или overlay.", "section": "elevation" }
     ],
     "dos": [
-      "**Do** сохранять светлую продуктовую оболочку вокруг самостоятельных холстов типографической лаборатории.",
-      "**Do** поддерживать цикл `explore → vote → pair → apply`, видимые счётчики и сохранение выбора в браузере.",
-      "**Do** оставлять четыре режима мастерской в навигации 2×2 на мобильном экране.",
-      "**Do** показывать интерактивное состояние минимум двумя признаками: поверхность, цвет, вес, рамка или маркер."
+      "**Do** держать approved fonts и палитру выше stage-навигации и покадровых контролов.",
+      "**Do** сохранять один главный live canvas 4:5 и обновлять его непосредственно при вводе.",
+      "**Do** показывать точный текст, реальный slide rail и отдельное состояние сохранения каждого кадра.",
+      "**Do** сохранять compact sticky preview шириной 230px на мобильных экранах.",
+      "**Do** держать operational labels production-монтажа не меньше 10px."
     ],
     "donts": [
-      "**Don't** перекрашивать внутренние типографические холсты в палитру оболочки и стирать их рабочую самостоятельность.",
-      "**Don't** использовать синий, розовый или лайм как постоянный цвет глобального chrome; это акценты контента и конструктора.",
-      "**Don't** добавлять тень обычной панели в покое, если она не плавает и не перекрывает другой рабочий слой.",
-      "**Don't** скрывать сохранённый выбор, прогресс или доступный путь применения типографики в конструкторе."
+      "**Don't** возвращать шрифтовый picker или вёрсточную лабораторию в роль основного production-потока.",
+      "**Don't** сокращать, переписывать или заменять лонгрид при автоматическом разбиении.",
+      "**Don't** скрывать общую систему серии внутри настроек отдельного слайда.",
+      "**Don't** заменять реальные мини-слайды абстрактным progress bar или декоративными точками.",
+      "**Don't** добавлять тень обычной панели в покое, если она не является live canvas или overlay."
     ]
   }
 }
