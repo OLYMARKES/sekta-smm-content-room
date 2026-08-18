@@ -26,6 +26,11 @@
       --shadow: 0 18px 50px rgba(26, 29, 22, .08);
       --cover-image: none;
       --cover-y: 50%;
+      --cover-surface: #171815;
+      --surface-alpha: rgba(23, 24, 21, .82);
+      --headline-color: #ffffff;
+      --headline-size-lower: 11.1cqw;
+      --headline-size-upper: 9.35cqw;
     }
 
     * { box-sizing: border-box; }
@@ -100,7 +105,7 @@
       margin: 0 auto;
       padding: 14px;
       display: grid;
-      grid-template-columns: minmax(290px, 1.15fr) minmax(280px, 1fr) minmax(230px, .72fr);
+      grid-template-columns: repeat(4, minmax(230px, 1fr));
       gap: 10px;
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
@@ -116,19 +121,30 @@
     .photo-picker-button strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
     .photo-picker-button small { color: var(--muted); font-size: 9px; }
     .photo-picker-button b { padding: 5px 7px; border-radius: 7px; background: #eef0ea; font-size: 9px; }
-    .photo-tools { margin-top: 8px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+    .photo-tools { margin-top: 8px; display: grid; gap: 8px; align-items: center; }
     .crop-control { display: grid; grid-template-columns: auto minmax(70px, 1fr); gap: 7px; align-items: center; color: var(--muted); font-size: 9px; }
     .crop-control input { width: 100%; accent-color: var(--text); }
-    .tone-switch { padding: 3px; display: flex; border-radius: 9px; background: #e6e8e2; }
-    .tone-button { min-height: 28px; padding: 0 8px; border: 0; border-radius: 7px; color: var(--muted); background: transparent; font-size: 9px; font-weight: 750; }
-    .tone-button[aria-pressed="true"] { color: var(--text); background: #fff; }
     .headline-input { width: 100%; min-height: 44px; margin-top: 9px; padding: 0 11px; border: 1px solid var(--border); border-radius: 10px; background: #fff; font-weight: 650; }
     .case-switch { margin-top: 7px; padding: 3px; display: grid; grid-template-columns: 1fr 1.25fr 1fr; gap: 3px; border-radius: 9px; background: #e6e8e2; }
     .case-button { min-height: 29px; padding: 0 7px; border: 0; border-radius: 7px; color: var(--muted); background: transparent; font-size: 9px; font-weight: 750; }
     .case-button[aria-pressed="true"] { color: var(--text); background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
-    .pair-step { background: #e9eee8; }
-    .pair-step .step-copy { align-self: center; }
-    .pair-step em { display: block; margin-top: 8px; color: var(--like); font-size: 10px; font-style: normal; font-weight: 760; }
+    .design-control { margin-top: 9px; }
+    .design-control > span { margin-bottom: 5px; }
+    .range-control { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 8px; }
+    .range-control input { width: 100%; accent-color: var(--text); }
+    .range-control output { min-width: 40px; color: var(--text); font-size: 9px; font-weight: 760; text-align: right; }
+    .segmented { padding: 3px; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 3px; border-radius: 9px; background: #e6e8e2; }
+    .segmented button { min-height: 29px; padding: 0 6px; border: 0; border-radius: 7px; color: var(--muted); background: transparent; font-size: 8px; font-weight: 750; }
+    .segmented button[aria-pressed="true"] { color: var(--text); background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    .color-row { display: grid; grid-template-columns: minmax(0,1fr) 30px; gap: 7px; align-items: center; }
+    .swatches { display: flex; gap: 5px; }
+    .color-swatch { width: 27px; height: 27px; padding: 0; border: 2px solid #fff; border-radius: 50%; background: var(--swatch); box-shadow: 0 0 0 1px #c6cbc3; }
+    .color-swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--text); }
+    .native-color { width: 30px; height: 30px; padding: 2px; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+    .contrast-status { width: fit-content; margin-top: 7px; padding: 5px 7px; border-radius: 7px; color: var(--muted); background: #e7e9e4; font-size: 8px; font-weight: 760; }
+    .contrast-status[data-level="good"] { color: #11613d; background: #dfeee5; }
+    .contrast-status[data-level="warn"] { color: #7a5310; background: #f4ead2; }
+    .contrast-status[data-level="bad"] { color: #863b34; background: #f2dfdc; }
 
     .toolbar-wrap {
       position: sticky;
@@ -224,8 +240,8 @@
       container-type: inline-size;
       overflow: hidden;
       isolation: isolate;
-      color: #fff;
-      background-color: #111;
+      color: var(--headline-color);
+      background-color: var(--cover-surface);
       background-image: var(--cover-image);
       background-position: center var(--cover-y);
       background-size: cover;
@@ -237,7 +253,7 @@
       position: absolute;
       inset: 0;
       z-index: -1;
-      background: var(--cover-overlay, rgba(0, 0, 0, .08));
+      background: var(--cover-overlay, rgba(0, 0, 0, .06));
     }
     .cover-kicker {
       position: absolute;
@@ -260,9 +276,9 @@
       left: 5.5cqw;
       width: 81cqw;
       margin: 0;
-      color: inherit;
+      color: var(--headline-color);
       text-shadow: var(--cover-shadow, 0 2px 18px rgba(0, 0, 0, .22));
-      font-size: 11.1cqw;
+      font-size: var(--headline-size-lower);
       line-height: .91;
       letter-spacing: -.04em;
       overflow-wrap: normal;
@@ -270,7 +286,7 @@
       text-wrap: balance;
     }
     .font-sample[data-case="lower"] { text-transform: lowercase; }
-    .font-sample[data-case="upper"] { font-size: 9.35cqw; line-height: .96; letter-spacing: .01em; text-transform: uppercase; }
+    .font-sample[data-case="upper"] { font-size: var(--headline-size-upper); line-height: .96; letter-spacing: .01em; text-transform: uppercase; }
     .case-badge { position: absolute; top: 11.6cqw; left: 6cqw; padding: 1.3cqw 1.7cqw; border-radius: 999px; color: #fff; background: rgba(23,24,21,.72); font: 720 2.45cqw/1 "Onest", sans-serif; letter-spacing: .035em; text-transform: uppercase; }
     .cover-caption {
       position: absolute;
@@ -296,8 +312,17 @@
       text-transform: uppercase;
       letter-spacing: .035em;
     }
-    html[data-cover-tone="light"] .cover-preview { color: #fff; --cover-overlay: rgba(0, 0, 0, .1); --cover-shadow: 0 2px 18px rgba(0, 0, 0, .25); }
-    html[data-cover-tone="dark"] .cover-preview { color: #171815; --cover-overlay: rgba(255, 255, 255, .1); --cover-shadow: 0 2px 16px rgba(255, 255, 255, .25); }
+    html[data-backdrop="none"] .cover-preview { --cover-overlay: rgba(0,0,0,.04); }
+    html[data-backdrop="scrim"] .cover-preview { --cover-overlay: var(--surface-alpha); }
+    html[data-backdrop="plate"] .cover-preview { --cover-overlay: rgba(0,0,0,.04); }
+    html[data-backdrop="plate"] .font-sample { left: 4cqw; width: 88cqw; padding: 2.6cqw 3cqw 3cqw; border-radius: 1.4cqw; background: var(--surface-alpha); }
+    html[data-backdrop="solid"] .cover-preview { background-image: none; --cover-overlay: transparent; }
+    html[data-title-placement="top"] .font-sample { top: 18cqw; bottom: auto; transform: none; }
+    html[data-title-placement="middle"] .font-sample { top: 51cqw; bottom: auto; transform: translateY(-50%); }
+    html[data-title-placement="bottom"] .font-sample { top: auto; bottom: 31cqw; transform: none; }
+    html[data-title-align="left"] .font-sample { text-align: left; }
+    html[data-title-align="center"] .font-sample { text-align: center; }
+    html[data-title-align="right"] .font-sample { text-align: right; }
     .card-actions { margin-top: 5px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
     .vote {
       min-height: 34px;
@@ -398,7 +423,6 @@
     @media (max-width: 1180px) {
       .toolbar-main { grid-template-columns: 1fr 150px 140px auto; }
       .cover-builder { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .pair-step { grid-column: 1 / -1; }
       .media-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
     }
     @media (max-width: 900px) {
@@ -417,7 +441,6 @@
       .mode-nav a { padding-inline: 9px; font-size: 10px; }
       .builder-wrap { padding: 12px 14px 2px; }
       .cover-builder { padding: 8px; grid-template-columns: 1fr; border-radius: 17px; }
-      .pair-step { grid-column: auto; }
       .photo-tools { grid-template-columns: 1fr; }
       .toolbar-wrap { padding: 10px 14px; }
       .toolbar-main { min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -475,10 +498,6 @@
           </button>
           <div class="photo-tools">
             <label class="crop-control">Кадр <input id="cropRange" type="range" min="0" max="100" value="50" aria-label="Положение фотографии по вертикали"></label>
-            <div class="tone-switch" aria-label="Цвет текста на обложке">
-              <button class="tone-button" data-tone="light" type="button" aria-pressed="false">Светлый</button>
-              <button class="tone-button" data-tone="dark" type="button" aria-pressed="true">Тёмный</button>
-            </div>
           </div>
         </div>
       </div>
@@ -494,12 +513,26 @@
           </div>
         </div>
       </div>
-      <div class="builder-step pair-step">
+      <div class="builder-step">
         <span class="step-number">3</span>
         <div class="step-copy">
-          <strong>Оцени каждый кадр</strong>
-          <span>У строчных и КАПСА свои отдельные кнопки.</span>
-          <em>Нравится · Возможно · Не моё</em>
+          <strong>Настрой иерархию</strong>
+          <span>Размер и положение одинаковы для всех шрифтов.</span>
+          <label class="design-control" for="titleSizeRange"><span>Размер заголовка</span><span class="range-control"><input id="titleSizeRange" type="range" min="75" max="135" step="5" value="100"><output id="titleSizeValue">100%</output></span></label>
+          <div class="design-control"><span>Положение</span><div class="segmented" aria-label="Положение заголовка"><button type="button" data-title-placement="top" aria-pressed="true">Сверху</button><button type="button" data-title-placement="middle" aria-pressed="false">Центр</button><button type="button" data-title-placement="bottom" aria-pressed="false">Снизу</button></div></div>
+          <div class="design-control"><span>Выравнивание</span><div class="segmented" aria-label="Выравнивание заголовка"><button type="button" data-title-align="left" aria-pressed="true">Слева</button><button type="button" data-title-align="center" aria-pressed="false">Центр</button><button type="button" data-title-align="right" aria-pressed="false">Справа</button></div></div>
+        </div>
+      </div>
+      <div class="builder-step">
+        <span class="step-number">4</span>
+        <div class="step-copy">
+          <strong>Собери контраст</strong>
+          <span>Цвета и подложка применяются ко всем 588 кадрам.</span>
+          <div class="contrast-status" id="contrastStatus" data-level="neutral">Фото меняется — проверь мелкую сетку</div>
+          <div class="design-control"><span>Режим фона</span><div class="segmented" aria-label="Подложка заголовка"><button type="button" data-backdrop="none" aria-pressed="true">Нет</button><button type="button" data-backdrop="scrim" aria-pressed="false">Тонировка</button><button type="button" data-backdrop="plate" aria-pressed="false">Плашка</button><button type="button" data-backdrop="solid" aria-pressed="false">Фон</button></div></div>
+          <div class="design-control"><span>Цвет текста</span><div class="color-row"><div class="swatches" aria-label="Готовые цвета текста"><button class="color-swatch" type="button" data-text-color="#ffffff" style="--swatch:#ffffff" aria-label="Белый" aria-pressed="true"></button><button class="color-swatch" type="button" data-text-color="#171815" style="--swatch:#171815" aria-label="Чернильный" aria-pressed="false"></button><button class="color-swatch" type="button" data-text-color="#f35ba7" style="--swatch:#f35ba7" aria-label="Розовый" aria-pressed="false"></button><button class="color-swatch" type="button" data-text-color="#3155e4" style="--swatch:#3155e4" aria-label="Синий" aria-pressed="false"></button><button class="color-swatch" type="button" data-text-color="#d4f04a" style="--swatch:#d4f04a" aria-label="Лайм" aria-pressed="false"></button></div><input class="native-color" id="customTextColor" type="color" value="#ffffff" aria-label="Свой цвет текста"></div></div>
+          <div class="design-control"><span>Цвет подложки / фона</span><div class="color-row"><div class="swatches" aria-label="Готовые цвета подложки"><button class="color-swatch" type="button" data-surface-color="#171815" style="--swatch:#171815" aria-label="Чернильный" aria-pressed="true"></button><button class="color-swatch" type="button" data-surface-color="#fff7e6" style="--swatch:#fff7e6" aria-label="Бумага" aria-pressed="false"></button><button class="color-swatch" type="button" data-surface-color="#f35ba7" style="--swatch:#f35ba7" aria-label="Розовый" aria-pressed="false"></button><button class="color-swatch" type="button" data-surface-color="#3155e4" style="--swatch:#3155e4" aria-label="Синий" aria-pressed="false"></button><button class="color-swatch" type="button" data-surface-color="#d4f04a" style="--swatch:#d4f04a" aria-label="Лайм" aria-pressed="false"></button></div><input class="native-color" id="customSurfaceColor" type="color" value="#171815" aria-label="Свой цвет подложки"></div></div>
+          <label class="design-control" for="surfaceOpacity"><span>Плотность подложки</span><span class="range-control"><input id="surfaceOpacity" type="range" min="20" max="100" step="5" value="82"><output id="surfaceOpacityValue">82%</output></span></label>
         </div>
       </div>
     </div>
@@ -642,6 +675,42 @@
       document.querySelectorAll(".case-button").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.caseMode === caseMode)));
       localStorage.setItem(CASE_STORAGE_KEY, caseMode);
     }
+    function validHex(value, fallback) { return /^#[0-9a-f]{6}$/i.test(String(value || "")) ? String(value).toLowerCase() : fallback; }
+    function hexToRgba(hex, opacity) {
+      const value = validHex(hex, "#171815").slice(1);
+      const [red, green, blue] = [0, 2, 4].map(index => parseInt(value.slice(index, index + 2), 16));
+      return `rgba(${red}, ${green}, ${blue}, ${Math.min(1, Math.max(0, opacity))})`;
+    }
+    function relativeLuminance(hex) {
+      const value = validHex(hex, "#171815").slice(1);
+      const channels = [0, 2, 4].map(index => parseInt(value.slice(index, index + 2), 16) / 255).map(channel => channel <= .04045 ? channel / 12.92 : Math.pow((channel + .055) / 1.055, 2.4));
+      return .2126 * channels[0] + .7152 * channels[1] + .0722 * channels[2];
+    }
+    function contrastRatio(first, second) {
+      const luminances = [relativeLuminance(first), relativeLuminance(second)].sort((a, b) => b - a);
+      return (luminances[0] + .05) / (luminances[1] + .05);
+    }
+    function updateContrastStatus() {
+      const status = $("contrastStatus");
+      if (!status) return;
+      if (coverSettings.backdrop === "none") {
+        status.dataset.level = "neutral";
+        status.textContent = "Фото меняется — проверь мелкую сетку";
+        return;
+      }
+      const ratio = contrastRatio(coverSettings.textColor, coverSettings.surfaceColor);
+      const approximate = coverSettings.backdrop === "scrim" || (coverSettings.backdrop === "plate" && coverSettings.surfaceOpacity < 100);
+      if (ratio >= 4.5) {
+        status.dataset.level = "good";
+        status.textContent = `Контраст ${ratio.toFixed(1)}:1 · ${approximate ? "предварительно читается" : "читается"}`;
+      } else if (ratio >= 3) {
+        status.dataset.level = "warn";
+        status.textContent = `Контраст ${ratio.toFixed(1)}:1 · на границе${approximate ? " до фото" : ""}`;
+      } else {
+        status.dataset.level = "bad";
+        status.textContent = `Контраст ${ratio.toFixed(1)}:1 · слабый — поменяй цвета`;
+      }
+    }
     function loadCoverSettings() {
       const fallbackId = MEDIA_LIBRARY.photos.some(photo => photo.id === PREFERRED_PHOTO_ID) ? PREFERRED_PHOTO_ID : MEDIA_LIBRARY.photos[0]?.id || "";
       try {
@@ -649,9 +718,15 @@
         return {
           photoId: MEDIA_LIBRARY.photos.some(photo => photo.id === saved.photoId) ? saved.photoId : fallbackId,
           y: Number.isFinite(Number(saved.y)) ? Math.min(100, Math.max(0, Number(saved.y))) : 50,
-          tone: saved.tone === "light" ? "light" : "dark"
+          textColor: validHex(saved.textColor, saved.tone === "dark" ? "#171815" : "#ffffff"),
+          surfaceColor: validHex(saved.surfaceColor, "#171815"),
+          backdrop: ["none", "scrim", "plate", "solid"].includes(saved.backdrop) ? saved.backdrop : "none",
+          surfaceOpacity: Number.isFinite(Number(saved.surfaceOpacity)) ? Math.min(100, Math.max(20, Number(saved.surfaceOpacity))) : 82,
+          titleSize: Number.isFinite(Number(saved.titleSize)) ? Math.min(135, Math.max(75, Number(saved.titleSize))) : 100,
+          titlePlacement: ["top", "middle", "bottom"].includes(saved.titlePlacement) ? saved.titlePlacement : "top",
+          titleAlign: ["left", "center", "right"].includes(saved.titleAlign) ? saved.titleAlign : "left"
         };
-      } catch { return { photoId: fallbackId, y: 50, tone: "dark" }; }
+      } catch { return { photoId: fallbackId, y: 50, textColor: "#ffffff", surfaceColor: "#171815", backdrop: "none", surfaceOpacity: 82, titleSize: 100, titlePlacement: "top", titleAlign: "left" }; }
     }
     function saveCoverSettings() {
       if (customPhoto && coverSettings.photoId === customPhoto.id) return;
@@ -666,14 +741,32 @@
       const root = document.documentElement;
       root.style.setProperty("--cover-image", photo ? `url("${String(photo.src).replace(/"/g, "%22")}")` : "none");
       root.style.setProperty("--cover-y", `${coverSettings.y}%`);
-      root.dataset.coverTone = coverSettings.tone;
+      root.style.setProperty("--cover-surface", coverSettings.surfaceColor);
+      root.style.setProperty("--surface-alpha", hexToRgba(coverSettings.surfaceColor, coverSettings.surfaceOpacity / 100));
+      root.style.setProperty("--headline-color", coverSettings.textColor);
+      root.style.setProperty("--headline-size-lower", `${(11.1 * coverSettings.titleSize / 100).toFixed(2)}cqw`);
+      root.style.setProperty("--headline-size-upper", `${(9.35 * coverSettings.titleSize / 100).toFixed(2)}cqw`);
+      root.dataset.backdrop = coverSettings.backdrop;
+      root.dataset.titlePlacement = coverSettings.titlePlacement;
+      root.dataset.titleAlign = coverSettings.titleAlign;
       $("cropRange").value = String(coverSettings.y);
+      $("titleSizeRange").value = String(coverSettings.titleSize);
+      $("titleSizeValue").textContent = `${coverSettings.titleSize}%`;
+      $("surfaceOpacity").value = String(coverSettings.surfaceOpacity);
+      $("surfaceOpacityValue").textContent = `${coverSettings.surfaceOpacity}%`;
+      $("customTextColor").value = coverSettings.textColor;
+      $("customSurfaceColor").value = coverSettings.surfaceColor;
       $("selectedPhotoName").textContent = photo?.name || "Медиатека не найдена";
       $("selectedPhotoCategory").textContent = photo?.category || "Запусти обновление медиатеки";
       $("mediaCount").textContent = MEDIA_LIBRARY.total;
       $("mediaTotalLabel").textContent = MEDIA_LIBRARY.total;
-      document.querySelectorAll(".tone-button").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.tone === coverSettings.tone)));
+      document.querySelectorAll("[data-backdrop]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.backdrop === coverSettings.backdrop)));
+      document.querySelectorAll("[data-title-placement]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.titlePlacement === coverSettings.titlePlacement)));
+      document.querySelectorAll("[data-title-align]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.titleAlign === coverSettings.titleAlign)));
+      document.querySelectorAll("[data-text-color]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.textColor === coverSettings.textColor)));
+      document.querySelectorAll("[data-surface-color]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.surfaceColor === coverSettings.surfaceColor)));
       document.querySelectorAll(".media-item").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.photoId === coverSettings.photoId)));
+      updateContrastStatus();
     }
     function filteredMedia() {
       const query = $("mediaSearch").value.trim().toLocaleLowerCase("ru");
@@ -963,11 +1056,15 @@
       applyCoverSettings();
       saveCoverSettings();
     });
-    document.querySelectorAll(".tone-button").forEach(button => button.addEventListener("click", () => {
-      coverSettings.tone = button.dataset.tone;
-      applyCoverSettings();
-      saveCoverSettings();
-    }));
+    $("titleSizeRange").addEventListener("input", event => { coverSettings.titleSize = Number(event.currentTarget.value); applyCoverSettings(); saveCoverSettings(); });
+    $("surfaceOpacity").addEventListener("input", event => { coverSettings.surfaceOpacity = Number(event.currentTarget.value); applyCoverSettings(); saveCoverSettings(); });
+    $("customTextColor").addEventListener("input", event => { coverSettings.textColor = validHex(event.currentTarget.value, "#ffffff"); applyCoverSettings(); saveCoverSettings(); });
+    $("customSurfaceColor").addEventListener("input", event => { coverSettings.surfaceColor = validHex(event.currentTarget.value, "#171815"); applyCoverSettings(); saveCoverSettings(); });
+    document.querySelectorAll("[data-backdrop]").forEach(button => button.addEventListener("click", () => { coverSettings.backdrop = button.dataset.backdrop; applyCoverSettings(); saveCoverSettings(); }));
+    document.querySelectorAll("[data-title-placement]").forEach(button => button.addEventListener("click", () => { coverSettings.titlePlacement = button.dataset.titlePlacement; applyCoverSettings(); saveCoverSettings(); }));
+    document.querySelectorAll("[data-title-align]").forEach(button => button.addEventListener("click", () => { coverSettings.titleAlign = button.dataset.titleAlign; applyCoverSettings(); saveCoverSettings(); }));
+    document.querySelectorAll("[data-text-color]").forEach(button => button.addEventListener("click", () => { coverSettings.textColor = button.dataset.textColor; applyCoverSettings(); saveCoverSettings(); }));
+    document.querySelectorAll("[data-surface-color]").forEach(button => button.addEventListener("click", () => { coverSettings.surfaceColor = button.dataset.surfaceColor; applyCoverSettings(); saveCoverSettings(); }));
     document.querySelectorAll(".case-button").forEach(button => button.addEventListener("click", () => {
       caseMode = button.dataset.caseMode;
       applyCaseMode();
