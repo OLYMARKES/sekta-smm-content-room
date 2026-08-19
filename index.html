@@ -27,6 +27,7 @@
       <nav class="primary-nav" aria-label="Разделы">
         <button class="nav-item is-active" data-view="overview"><span>⌂</span>Обзор</button>
         <button class="nav-item" data-view="ideal"><span>✦</span>Идеальная сетка <em>6</em></button>
+        <button class="nav-item" data-view="identity"><span class="nav-type-mark">Aa</span>Стиль сетки <em>5</em></button>
         <button class="nav-item" data-view="growth"><span>↗</span>Рост и идеи <em>18</em></button>
         <button class="nav-item" data-view="builder"><span>▤</span>Конструктор <em>NEW</em></button>
         <button class="nav-item" data-view="typography"><span class="nav-type-mark">Ж</span>Типографика <em>588</em></button>
@@ -36,7 +37,7 @@
       </nav>
       <div class="sidebar-note">
         <span class="live-dot"></span>
-        <div><strong>Снимок актуален</strong><span>13 августа 2026</span></div>
+        <div><strong>Сверено с профилем</strong><span>19 августа 2026</span></div>
       </div>
     </aside>
 
@@ -125,6 +126,42 @@
 
             <aside class="ideal-detail" id="idealDetail" aria-live="polite"></aside>
           </div>
+        </section>
+
+        <section class="view" data-view-panel="identity">
+          <header class="identity-heading">
+            <div>
+              <h1>Пять систем для сетки #Sekta</h1>
+              <p>Одна и та же девятка постов собрана в пяти разных характерах. Сравниваем не отдельную красивую карточку, а шрифтовую пару, яркость и повторяемые правила всей ленты.</p>
+            </div>
+            <div class="identity-profile-card">
+              <strong>208</strong>
+              <span id="identityProfileStatus" data-state="loading">Проверяю выбранные шрифтовые кадры…</span>
+              <a href="type-studio/carousel-type-lab.html" target="_blank" rel="noreferrer">Открыть полный Tinder ↗</a>
+            </div>
+          </header>
+
+          <div class="identity-reference-strip" aria-label="Опоры сравнения">
+            <button type="button" data-jump="current"><span class="identity-ref-grid" aria-hidden="true"><img src="assets/current/01.jpg" alt=""><img src="assets/current/02.jpg" alt=""><img src="assets/current/03.jpg" alt=""><img src="assets/current/04.jpg" alt=""><img src="assets/current/05.jpg" alt=""><img src="assets/current/06.jpg" alt=""><img src="assets/current/07.jpg" alt=""><img src="assets/current/08.jpg" alt=""><img src="assets/current/09.jpg" alt=""></span><span class="identity-ref-copy"><span>Живая сетка · 19 августа</span><strong>Яркость уже есть, единого каркаса нет</strong><small>Фиолетовый, лайм, голубой, бежевый и розовый говорят разными голосами.</small></span></button>
+            <button type="button" data-jump="ideal"><span class="identity-ref-grid identity-ref-grid-ideal" aria-hidden="true"><img src="assets/ideal/18_gym.jpg" alt=""><i></i><img src="assets/ideal/20_halo.jpg" alt=""><img src="assets/ideal/21_balance.jpg" alt=""><img src="assets/ideal/22_runners.jpg" alt=""><img src="assets/ideal/23_people.jpg" alt=""><i></i><img src="assets/proposed-covers/base/05-short-cardio-base.png" alt=""><i></i></span><span class="identity-ref-copy"><span>Идеальная неделя</span><strong>Баланс контента уже собран</strong><small>Польза, игра, позиция и люди остаются; меняется только визуальная система.</small></span></button>
+            <div><span>Честное сравнение</span><strong>9 одинаковых тем и фотографий</strong><small>Поэтому видно влияние шрифта, регистра, цвета и способа верстки.</small></div>
+          </div>
+
+          <div class="identity-workspace" id="identityWorkspace">
+            <nav class="identity-direction-rail" id="identityDirectionRail" aria-label="Пять направлений сетки"></nav>
+            <div class="identity-main">
+              <section class="identity-feed-shell" aria-label="Пример сетки выбранного направления">
+                <div class="identity-feed-head"><div class="profile-badge small">#S</div><div><strong>@sektaschool</strong><span>примерка верхней девятки</span></div><small>новое сверху</small></div>
+                <div class="identity-feed-grid" id="identityGrid"></div>
+              </section>
+              <aside class="identity-detail" id="identityDetail" aria-live="polite"></aside>
+            </div>
+          </div>
+
+          <section class="identity-all">
+            <div><h2>Сравнить все пять одним взглядом</h2><p>Нажмите на мини-сетку, чтобы открыть её крупно и посмотреть правила.</p></div>
+            <div class="identity-compare" id="identityCompare"></div>
+          </section>
         </section>
 
         <section class="view" data-view-panel="growth">
@@ -565,10 +602,12 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="data/current-grid.js"></script>
+  <script src="data/grid-directions.js"></script>
   <script src="data/growth-room.js"></script>
   <script src="data/library-data.js"></script>
   <script src="data/carousel-builder-data.js"></script>
   <script src="app.js?v=20260818-4"></script>
   <script src="carousel-builder.js?v=20260818-4"></script>
+  <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>
