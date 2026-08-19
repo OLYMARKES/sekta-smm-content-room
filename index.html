@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260818-4">
+  <link rel="stylesheet" href="styles.css?v=20260819-2">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -303,8 +303,9 @@
 
           <div class="builder-workspace" id="builderWorkspace">
             <section class="panel builder-cover-panel">
-              <div class="section-head"><div><h2>Конструктор обложки</h2><p>1080 × 1350 · все настройки входят в PNG</p></div><span id="builderCoverStatus">Фото + контраст</span></div>
-              <div class="builder-cover builder-cover-dark" id="builderCoverPreview" data-placement="bottom" data-font="condensed" data-text-color="white">
+              <div class="section-head"><div><h2>Конструктор обложки</h2><p>1080 × 1350 · система #Sekta входит в PNG</p></div><span id="builderCoverStatus">Система #Sekta · плашка</span></div>
+              <div class="builder-system-note"><strong>Выбранное направление</strong><span>PT Sans Narrow · голубой / зелёный / жёлтый / розовый · светлое фото</span></div>
+              <div class="builder-cover builder-cover-plate" id="builderCoverPreview" data-placement="left" data-font="tempo" data-accent="sky" data-text-color="auto">
                 <img id="builderCoverImage" src="assets/library/lib-e0e929ba56891c.jpg" alt="Выбранная фотография для обложки">
                 <span class="builder-cover-account" id="builderCoverAccount">@sektaschool</span>
                 <strong id="builderCoverHeadline">Пропустили пять дней? Ничего не сломалось</strong>
@@ -317,34 +318,39 @@
               </div>
 
               <div class="builder-design-controls">
-                <fieldset class="builder-control-block"><legend>Серия</legend><div class="builder-choice-row" role="group" aria-label="Серия обложки">
-                  <button type="button" class="builder-choice is-active" data-builder-style="dark">Контраст</button>
-                  <button type="button" class="builder-choice" data-builder-style="pink">Розовая</button>
-                  <button type="button" class="builder-choice" data-builder-style="blue">Синяя</button>
-                  <button type="button" class="builder-choice" data-builder-style="lime">Лайм</button>
-                  <button type="button" class="builder-choice" data-builder-style="paper">Бумага</button>
+                <fieldset class="builder-control-block builder-control-wide"><legend>Композиция</legend><div class="builder-choice-row" role="group" aria-label="Композиция обложки">
+                  <button type="button" class="builder-choice" data-builder-style="clean">Текст на фото</button>
+                  <button type="button" class="builder-choice is-active" data-builder-style="plate">Плашка</button>
+                  <button type="button" class="builder-choice" data-builder-style="rail">Вертикальная полоса</button>
+                  <button type="button" class="builder-choice" data-builder-style="footer">Нижняя полоса</button>
                 </div></fieldset>
 
                 <fieldset class="builder-control-block"><legend>Размещение</legend><div class="builder-choice-row" role="group" aria-label="Размещение текста">
-                  <button type="button" class="builder-choice is-active" data-builder-placement="bottom">Снизу</button>
+                  <button type="button" class="builder-choice" data-builder-placement="bottom">Снизу</button>
                   <button type="button" class="builder-choice" data-builder-placement="middle">По центру</button>
-                  <button type="button" class="builder-choice" data-builder-placement="left">Слева</button>
+                  <button type="button" class="builder-choice is-active" data-builder-placement="left">Слева</button>
                   <button type="button" class="builder-choice" data-builder-placement="right">Справа</button>
                 </div></fieldset>
 
                 <fieldset class="builder-control-block"><legend>Типографика</legend><div class="builder-choice-row" role="group" aria-label="Типографика">
-                  <button type="button" class="builder-choice is-active" data-builder-font="condensed">Плотная</button>
+                  <button type="button" class="builder-choice is-active" data-builder-font="tempo">PT Sans Narrow · КАПС</button>
                   <button type="button" class="builder-choice" data-builder-font="grotesk">Гротеск</button>
                   <button type="button" class="builder-choice" data-builder-font="editorial">Редакционная</button>
                   <button type="button" class="builder-choice" id="builderTasteFont" data-builder-font="taste" disabled>Из примерочной</button>
                 </div></fieldset>
 
+                <fieldset class="builder-control-block"><legend>Цвет системы</legend><div class="builder-swatch-row" role="group" aria-label="Цвет системы">
+                  <button type="button" class="builder-swatch is-active" data-builder-accent="sky" aria-label="Голубой" style="--swatch:#bde9f6"></button>
+                  <button type="button" class="builder-swatch" data-builder-accent="green" aria-label="Зелёный" style="--swatch:#63dda7"></button>
+                  <button type="button" class="builder-swatch" data-builder-accent="yellow" aria-label="Жёлтый" style="--swatch:#ffe36a"></button>
+                  <button type="button" class="builder-swatch" data-builder-accent="pink" aria-label="Розовый" style="--swatch:#ff8fbd"></button>
+                </div></fieldset>
+
                 <fieldset class="builder-control-block"><legend>Цвет текста</legend><div class="builder-swatch-row" role="group" aria-label="Цвет текста">
-                  <button type="button" class="builder-swatch is-active" data-builder-text-color="white" aria-label="Белый" style="--swatch:#ffffff"></button>
+                  <button type="button" class="builder-swatch builder-swatch-auto is-active" data-builder-text-color="auto" aria-label="Автоматический контраст"></button>
                   <button type="button" class="builder-swatch" data-builder-text-color="ink" aria-label="Чёрный" style="--swatch:#17221f"></button>
-                  <button type="button" class="builder-swatch" data-builder-text-color="pink" aria-label="Розовый" style="--swatch:#f35ba7"></button>
-                  <button type="button" class="builder-swatch" data-builder-text-color="blue" aria-label="Синий" style="--swatch:#3155e4"></button>
-                  <button type="button" class="builder-swatch" data-builder-text-color="lime" aria-label="Лайм" style="--swatch:#d4f04a"></button>
+                  <button type="button" class="builder-swatch" data-builder-text-color="white" aria-label="Белый" style="--swatch:#ffffff"></button>
+                  <button type="button" class="builder-swatch" data-builder-text-color="accent" aria-label="Цвет системы" style="--swatch:linear-gradient(135deg,#bde9f6 0 25%,#63dda7 25% 50%,#ffe36a 50% 75%,#ff8fbd 75%)"></button>
                 </div></fieldset>
 
                 <fieldset class="builder-control-block builder-focus-control"><legend>Фокус фотографии</legend><label><span>По горизонтали</span><input id="builderFocusX" type="range" min="0" max="100" value="50"></label><label><span>По вертикали</span><input id="builderFocusY" type="range" min="0" max="100" value="50"></label></fieldset>
@@ -607,7 +613,7 @@
   <script src="data/library-data.js"></script>
   <script src="data/carousel-builder-data.js"></script>
   <script src="app.js?v=20260818-4"></script>
-  <script src="carousel-builder.js?v=20260818-4"></script>
+  <script src="carousel-builder.js?v=20260819-2"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>

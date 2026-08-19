@@ -93,16 +93,19 @@
     ],
   };
 
-  const styleLabels = { dark: "Фото + контраст", pink: "Розовая серия", blue: "Синяя серия", lime: "Лайм-серия", paper: "Редакционная бумага" };
-  const fontLabels = { condensed: "плотная", grotesk: "гротеск", editorial: "редакционная", taste: "из примерочной" };
-  const textColors = { white: "#ffffff", ink: "#17221f", pink: "#f35ba7", blue: "#3155e4", lime: "#d4f04a" };
+  const styleLabels = { clean: "текст на фото", plate: "компактная плашка", rail: "вертикальная полоса", footer: "нижняя полоса" };
+  const fontLabels = { tempo: "PT Sans Narrow · КАПС", grotesk: "гротеск", editorial: "редакционная", taste: "из примерочной" };
+  const accentColors = { sky: "#bde9f6", green: "#63dda7", yellow: "#ffe36a", pink: "#ff8fbd" };
+  const accentLabels = { sky: "голубой", green: "зелёный", yellow: "жёлтый", pink: "розовый" };
+  const textColors = { white: "#ffffff", ink: "#17221f" };
   const folderLabels = new Map(library.map((item) => [item.folder, item.folderLabel]).filter(([id]) => id));
 
   let activeTopic = config.topics[0];
-  let activeStyle = "dark";
-  let activePlacement = "bottom";
-  let activeFont = "condensed";
-  let activeTextColor = "white";
+  let activeStyle = "plate";
+  let activePlacement = "left";
+  let activeFont = "tempo";
+  let activeAccent = "sky";
+  let activeTextColor = "auto";
   let tasteFont = null;
   let hookIndex = 0;
   let scriptVariant = 0;
@@ -135,6 +138,20 @@
 
   function readLocalJson(key, fallback) {
     try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; }
+  }
+
+  const coverSystemKey = "sekta-builder-cover-system-v2";
+  function restoreCoverSystem() {
+    const saved = readLocalJson(coverSystemKey, {});
+    if (["clean", "plate", "rail", "footer"].includes(saved.style)) activeStyle = saved.style;
+    if (["bottom", "middle", "left", "right"].includes(saved.placement)) activePlacement = saved.placement;
+    if (["tempo", "grotesk", "editorial", "taste"].includes(saved.font) && (saved.font !== "taste" || tasteFont)) activeFont = saved.font;
+    if (accentColors[saved.accent]) activeAccent = saved.accent;
+    if (["auto", "ink", "white", "accent"].includes(saved.textColor)) activeTextColor = saved.textColor;
+  }
+
+  function saveCoverSystem() {
+    localStorage.setItem(coverSystemKey, JSON.stringify({ style: activeStyle, placement: activePlacement, font: activeFont, accent: activeAccent, textColor: activeTextColor }));
   }
 
   function selectedTasteFont() {
@@ -263,8 +280,10 @@
     ui.cover.className = `builder-cover builder-cover-${activeStyle}`;
     ui.cover.dataset.placement = activePlacement;
     ui.cover.dataset.font = activeFont;
+    ui.cover.dataset.accent = activeAccent;
     ui.cover.dataset.tasteCase = tasteFont?.caseKind || "lower";
     ui.cover.style.setProperty("--builder-headline-font", tasteFont ? `"${tasteFont.family}"` : '"Golos Text"');
+    ui.cover.style.setProperty("--builder-accent", accentColors[activeAccent]);
     ui.cover.dataset.textColor = activeTextColor;
     ui.cover.style.setProperty("--focus-x", `${ui.focusX.value}%`);
     ui.cover.style.setProperty("--focus-y", `${ui.focusY.value}%`);
@@ -272,11 +291,17 @@
     ui.coverHeadline.textContent = ui.hook.value;
     ui.coverPromise.textContent = ui.subtitle.value;
     ui.coverAccount.textContent = ui.account.value;
-    ui.coverStatus.textContent = `${styleLabels[activeStyle]} · ${fontLabels[activeFont] || activeFont}`;
+    ui.coverStatus.textContent = `#Sekta · ${styleLabels[activeStyle]} · ${accentLabels[activeAccent]}`;
     document.querySelectorAll("[data-builder-style]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderStyle === activeStyle));
-    document.querySelectorAll("[data-builder-placement]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderPlacement === activePlacement));
+    document.querySelectorAll("[data-builder-placement]").forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.builderPlacement === activePlacement);
+      button.disabled = activeStyle === "rail" || activeStyle === "footer";
+      button.title = button.disabled ? "Положение задано выбранной композицией" : "";
+    });
     document.querySelectorAll("[data-builder-font]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderFont === activeFont));
+    document.querySelectorAll("[data-builder-accent]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderAccent === activeAccent));
     document.querySelectorAll("[data-builder-text-color]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderTextColor === activeTextColor));
+    saveCoverSystem();
   }
 
   function middleSlides() {
@@ -433,64 +458,90 @@
     const context = canvas.getContext("2d");
     const image = await loadImage(selectedPhoto.thumb);
     const scale = width / 1080;
+    if (activeFont === "tempo") {
+      try { await document.fonts.load(`700 ${106 * scale}px "PT Sans Narrow"`); } catch {}
+    }
     if (activeFont === "taste" && tasteFont) {
       try { await document.fonts.load(`800 ${96 * scale}px "${tasteFont.family}"`); } catch {}
     }
     drawCoverImage(context, image, 0, 0, width, height);
 
-    if (activeStyle === "dark") {
-      const gradient = context.createLinearGradient(0, height * .18, 0, height);
-      gradient.addColorStop(0, "rgba(8,14,12,0)");
-      gradient.addColorStop(1, "rgba(8,14,12,.92)");
-      context.fillStyle = gradient;
-      context.fillRect(0, 0, width, height);
-    }
-    if (activeStyle === "paper") {
-      context.fillStyle = "rgba(20,18,15,.12)";
-      context.fillRect(0, 0, width, height);
-    }
-
-    context.fillStyle = "rgba(18,27,24,.58)";
-    roundedRect(context, 54 * scale, 52 * scale, 238 * scale, 58 * scale, 10 * scale);
-    context.fillStyle = "#ffffff";
-    context.font = `800 ${22 * scale}px Arial, sans-serif`;
-    context.textAlign = "left";
-    context.fillText(ui.account.value, 76 * scale, 89 * scale);
+    const gradient = activeStyle === "clean"
+      ? context.createLinearGradient(0, height * .36, 0, height)
+      : context.createLinearGradient(0, height * .2, width * .7, height);
+    gradient.addColorStop(0, "rgba(5,12,16,0)");
+    gradient.addColorStop(1, activeStyle === "clean" ? "rgba(5,12,16,.34)" : "rgba(5,12,16,.18)");
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, width, height);
 
     const isSide = activePlacement === "left" || activePlacement === "right";
-    const maxWidth = width * (isSide ? .58 : .82);
-    let fontSize = (activeFont === "editorial" ? 78 : activeFont === "grotesk" || activeFont === "taste" ? 86 : 96) * scale;
-    const family = activeFont === "taste" && tasteFont ? `"${tasteFont.family}", sans-serif` : activeFont === "editorial" ? "Georgia, serif" : activeFont === "grotesk" ? "Arial, sans-serif" : "Arial Narrow, Arial, sans-serif";
-    const headline = activeFont === "taste" && tasteFont?.caseKind === "upper" ? ui.hook.value.toLocaleUpperCase("ru-RU") : activeFont === "taste" && tasteFont?.caseKind === "lower" ? ui.hook.value.toLocaleLowerCase("ru-RU") : ui.hook.value;
-    const headlineWeight = activeFont === "editorial" ? 700 : activeFont === "taste" ? 800 : 900;
+    let maxWidth = width * (activeStyle === "rail" ? .34 : activeStyle === "footer" ? .82 : isSide ? .52 : .82);
+    let fontSize = (activeFont === "tempo" ? 106 : activeFont === "editorial" ? 78 : activeFont === "grotesk" || activeFont === "taste" ? 86 : 96) * scale;
+    const family = activeFont === "tempo" ? '"PT Sans Narrow", "Arial Narrow", sans-serif' : activeFont === "taste" && tasteFont ? `"${tasteFont.family}", sans-serif` : activeFont === "editorial" ? "Georgia, serif" : "Arial, sans-serif";
+    const headline = activeFont === "tempo" ? ui.hook.value.toLocaleUpperCase("ru-RU") : activeFont === "taste" && tasteFont?.caseKind === "upper" ? ui.hook.value.toLocaleUpperCase("ru-RU") : activeFont === "taste" && tasteFont?.caseKind === "lower" ? ui.hook.value.toLocaleLowerCase("ru-RU") : ui.hook.value;
+    const headlineWeight = activeFont === "tempo" || activeFont === "editorial" ? 700 : activeFont === "taste" ? 800 : 900;
     let lines = [];
     do {
       context.font = `${headlineWeight} ${fontSize}px ${family}`;
       lines = wrapLines(context, headline, maxWidth);
       if (lines.length > 5) fontSize -= 5 * scale;
     } while (lines.length > 5 && fontSize > 50 * scale);
+    if (!lines.length) lines = [""];
 
-    const lineHeight = fontSize * (activeFont === "editorial" ? 1.03 : activeFont === "taste" ? .96 : .93);
+    const lineHeight = fontSize * (activeFont === "tempo" ? .86 : activeFont === "editorial" ? 1.03 : activeFont === "taste" ? .96 : .93);
     const textBlockHeight = lines.length * lineHeight;
-    const x = activePlacement === "right" ? width - 58 * scale : activePlacement === "middle" ? width / 2 : 58 * scale;
-    const startY = activePlacement === "middle" ? (height - textBlockHeight) / 2 : height - textBlockHeight - 118 * scale;
-    context.textAlign = activePlacement === "right" ? "right" : activePlacement === "middle" ? "center" : "left";
+    const footerHeight = Math.max(height * .31, textBlockHeight + 150 * scale);
+    const x = activeStyle === "rail" ? 48 * scale : activePlacement === "right" ? width - 58 * scale : activePlacement === "middle" ? width / 2 : 58 * scale;
+    const startY = activeStyle === "rail"
+      ? height / 2 - ((lines.length - 1) * lineHeight) / 2
+      : activeStyle === "footer"
+        ? height - footerHeight + 62 * scale + fontSize * .72
+        : activePlacement === "middle"
+          ? height / 2 - ((lines.length - 1) * lineHeight) / 2
+          : height - textBlockHeight - 118 * scale;
+    context.textAlign = activeStyle === "rail" || activeStyle === "footer" ? "left" : activePlacement === "right" ? "right" : activePlacement === "middle" ? "center" : "left";
 
-    const boxColors = { pink: "#f35ba7", blue: "#3155e4", lime: "#d4f04a", paper: "#fff7e6" };
-    if (boxColors[activeStyle]) {
-      const boxX = activePlacement === "right" ? x - maxWidth - 24 * scale : activePlacement === "middle" ? x - maxWidth / 2 - 24 * scale : x - 24 * scale;
-      context.fillStyle = boxColors[activeStyle];
-      roundedRect(context, boxX, startY - fontSize * .86, maxWidth + 48 * scale, textBlockHeight + 30 * scale, 8 * scale);
+    context.fillStyle = accentColors[activeAccent];
+    if (activeStyle === "rail") context.fillRect(0, 0, width * .42, height);
+    if (activeStyle === "footer") context.fillRect(0, height - footerHeight, width, footerHeight);
+    if (activeStyle === "plate") {
+      const measuredWidth = Math.max(...lines.map((line) => context.measureText(line).width));
+      const plateWidth = Math.min(maxWidth, measuredWidth) + 48 * scale;
+      const plateX = activePlacement === "right" ? x - plateWidth + 24 * scale : activePlacement === "middle" ? x - plateWidth / 2 : x - 24 * scale;
+      context.fillRect(plateX, startY - fontSize * .8, plateWidth, textBlockHeight + 34 * scale);
     }
 
-    context.fillStyle = textColors[activeTextColor];
+    const automaticColor = activeStyle === "clean" ? accentColors[activeAccent] : "#101a1e";
+    const headlineColor = activeTextColor === "auto" ? automaticColor : activeTextColor === "accent" ? accentColors[activeAccent] : textColors[activeTextColor];
+    context.fillStyle = headlineColor;
     context.textBaseline = "alphabetic";
+    if (activeStyle === "clean") {
+      context.shadowColor = "rgba(0,0,0,.7)";
+      context.shadowBlur = 22 * scale;
+      context.shadowOffsetY = 4 * scale;
+    }
     lines.forEach((line, index) => context.fillText(line, x, startY + index * lineHeight));
+    context.shadowColor = "transparent";
+    context.shadowBlur = 0;
+    context.shadowOffsetY = 0;
 
     const subtitleY = Math.min(height - 42 * scale, startY + textBlockHeight + 34 * scale);
     context.font = `800 ${20 * scale}px Arial, sans-serif`;
-    context.fillStyle = activeStyle === "paper" && activeTextColor === "white" ? "#17221f" : textColors[activeTextColor];
+    context.fillStyle = headlineColor;
     context.fillText(ui.subtitle.value.toUpperCase(), x, subtitleY);
+
+    context.font = `800 ${22 * scale}px Arial, sans-serif`;
+    context.fillStyle = activeStyle === "rail" ? "#101a1e" : "#ffffff";
+    if (activeStyle !== "rail") {
+      context.shadowColor = "rgba(0,0,0,.72)";
+      context.shadowBlur = 12 * scale;
+      context.shadowOffsetY = 2 * scale;
+    }
+    context.textAlign = "left";
+    context.fillText(ui.account.value, 54 * scale, 72 * scale);
+    context.shadowColor = "transparent";
+    context.shadowBlur = 0;
+    context.shadowOffsetY = 0;
     return canvas;
   }
 
@@ -549,7 +600,12 @@
     updateSlideVisuals();
     setStatus(`Фото ${selectedPhoto.fileName} выбрано для обложки.`);
   });
-  document.querySelectorAll("[data-builder-style]").forEach((button) => button.addEventListener("click", () => { activeStyle = button.dataset.builderStyle; renderCover(); }));
+  document.querySelectorAll("[data-builder-style]").forEach((button) => button.addEventListener("click", () => {
+    activeStyle = button.dataset.builderStyle;
+    if (activeStyle === "rail") activePlacement = "left";
+    if (activeStyle === "footer") activePlacement = "bottom";
+    renderCover();
+  }));
   document.querySelectorAll("[data-builder-placement]").forEach((button) => button.addEventListener("click", () => { activePlacement = button.dataset.builderPlacement; renderCover(); }));
   document.querySelectorAll("[data-builder-font]").forEach((button) => button.addEventListener("click", () => { activeFont = button.dataset.builderFont; renderCover(); }));
   window.addEventListener("sekta:apply-type-taste", () => {
@@ -557,6 +613,7 @@
     renderCover();
     setStatus(`${tasteFont.family} · ${tasteFont.caseKind === "upper" ? "КАПС" : "строчные"} применён к обложке.`);
   });
+  document.querySelectorAll("[data-builder-accent]").forEach((button) => button.addEventListener("click", () => { activeAccent = button.dataset.builderAccent; renderCover(); }));
   document.querySelectorAll("[data-builder-text-color]").forEach((button) => button.addEventListener("click", () => { activeTextColor = button.dataset.builderTextColor; renderCover(); }));
   ui.hook.addEventListener("input", syncCoverToSlide);
   ui.subtitle.addEventListener("input", renderCover);
@@ -604,6 +661,7 @@
   refreshIdeas({ initial: true });
   selectedPhoto = currentMediaPool()[0] || library[0] || null;
   refreshTasteFont(false);
+  restoreCoverSystem();
   renderMedia();
   renderCover();
   renderSlides();
