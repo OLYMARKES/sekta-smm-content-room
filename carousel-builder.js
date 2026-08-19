@@ -1,6 +1,7 @@
 (() => {
   const config = window.SEKTA_CAROUSEL_BUILDER;
   const library = window.SEKTA_LIBRARY?.items || [];
+  const currentGrid = window.SEKTA_CURRENT_GRID || [];
   if (!config?.topics?.length) return;
 
   const ui = {
@@ -20,6 +21,8 @@
     coverHeadline: document.querySelector("#builderCoverHeadline"),
     coverPromise: document.querySelector("#builderCoverPromise"),
     coverStatus: document.querySelector("#builderCoverStatus"),
+    gridFitting: document.querySelector("#builderGridFitting"),
+    liveGrid: document.querySelector("#builderLiveGrid"),
     focusX: document.querySelector("#builderFocusX"),
     focusY: document.querySelector("#builderFocusY"),
     slides: document.querySelector("#builderSlides"),
@@ -106,6 +109,7 @@
   let activeFont = "tempo";
   let activeAccent = "sky";
   let activeTextColor = "auto";
+  let activePreview = "grid";
   let tasteFont = null;
   let hookIndex = 0;
   let scriptVariant = 0;
@@ -301,7 +305,27 @@
     document.querySelectorAll("[data-builder-font]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderFont === activeFont));
     document.querySelectorAll("[data-builder-accent]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderAccent === activeAccent));
     document.querySelectorAll("[data-builder-text-color]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderTextColor === activeTextColor));
+    renderGridFitting();
     saveCoverSystem();
+  }
+
+  function renderGridFitting() {
+    if (!ui.liveGrid) return;
+    const draft = `<div class="builder-grid-cell is-draft"><div class="builder-grid-draft builder-cover builder-cover-${activeStyle}" data-placement="${escapeHtml(activePlacement)}" data-font="${escapeHtml(activeFont)}" data-accent="${escapeHtml(activeAccent)}" data-taste-case="${escapeHtml(tasteFont?.caseKind || "lower")}" data-text-color="${escapeHtml(activeTextColor)}" style="--builder-accent:${accentColors[activeAccent]};--builder-headline-font:${tasteFont ? `'${escapeHtml(tasteFont.family)}'` : `'Golos Text'`};--focus-x:${ui.focusX.value}%;--focus-y:${ui.focusY.value}%"><img src="${escapeHtml(selectedPhoto?.thumb || "")}" alt=""><span class="builder-cover-account">${escapeHtml(ui.account.value)}</span><strong>${escapeHtml(ui.hook.value)}</strong><small>${escapeHtml(ui.subtitle.value)}</small></div><span class="builder-grid-new">NEW</span></div>`;
+    const existing = currentGrid.slice(0, 8).map((item) => `<div class="builder-grid-cell"><img src="${escapeHtml(item.image)}" alt="" loading="lazy"><span class="builder-grid-kind">${item.pinned ? "◆" : item.type === "Reel" ? "▶" : "▣"}</span></div>`).join("");
+    ui.liveGrid.innerHTML = draft + existing;
+  }
+
+  function setPreviewMode(mode) {
+    activePreview = mode === "cover" ? "cover" : "grid";
+    const showCover = activePreview === "cover";
+    ui.cover.classList.toggle("is-preview-hidden", !showCover);
+    ui.gridFitting.classList.toggle("is-preview-hidden", showCover);
+    document.querySelectorAll("[data-builder-preview]").forEach((button) => {
+      const selected = button.dataset.builderPreview === activePreview;
+      button.classList.toggle("is-active", selected);
+      button.setAttribute("aria-selected", String(selected));
+    });
   }
 
   function middleSlides() {
@@ -606,6 +630,7 @@
     if (activeStyle === "footer") activePlacement = "bottom";
     renderCover();
   }));
+  document.querySelectorAll("[data-builder-preview]").forEach((button) => button.addEventListener("click", () => setPreviewMode(button.dataset.builderPreview)));
   document.querySelectorAll("[data-builder-placement]").forEach((button) => button.addEventListener("click", () => { activePlacement = button.dataset.builderPlacement; renderCover(); }));
   document.querySelectorAll("[data-builder-font]").forEach((button) => button.addEventListener("click", () => { activeFont = button.dataset.builderFont; renderCover(); }));
   window.addEventListener("sekta:apply-type-taste", () => {
@@ -664,5 +689,6 @@
   restoreCoverSystem();
   renderMedia();
   renderCover();
+  setPreviewMode(activePreview);
   renderSlides();
 })();

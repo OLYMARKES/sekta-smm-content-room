@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260819-3">
+  <link rel="stylesheet" href="styles.css?v=20260819-4">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -318,11 +318,20 @@
             <section class="panel builder-cover-panel">
               <div class="section-head"><div><h2>Конструктор обложки</h2><p>1080 × 1350 · система #Sekta входит в PNG</p></div><span id="builderCoverStatus">Система #Sekta · плашка</span></div>
               <div class="builder-system-note"><strong>Выбранное направление</strong><span>PT Sans Narrow · голубой / зелёный / жёлтый / розовый · светлое фото</span></div>
-              <div class="builder-cover builder-cover-plate" id="builderCoverPreview" data-placement="left" data-font="tempo" data-accent="sky" data-text-color="auto">
+              <div class="builder-preview-switch" role="tablist" aria-label="Режим примерки обложки">
+                <button type="button" data-builder-preview="cover" role="tab" aria-selected="false">Обложка 4:5</button>
+                <button class="is-active" type="button" data-builder-preview="grid" role="tab" aria-selected="true">В актуальной сетке</button>
+              </div>
+              <div class="builder-cover builder-cover-plate is-preview-hidden" id="builderCoverPreview" data-placement="left" data-font="tempo" data-accent="sky" data-text-color="auto">
                 <img id="builderCoverImage" src="assets/library/lib-e0e929ba56891c.jpg" alt="Выбранная фотография для обложки">
                 <span class="builder-cover-account" id="builderCoverAccount">@sektaschool</span>
                 <strong id="builderCoverHeadline">Пропустили пять дней? Ничего не сломалось</strong>
                 <small id="builderCoverPromise">10 слайдов · сохрани</small>
+              </div>
+              <div class="builder-grid-fitting" id="builderGridFitting" role="tabpanel" aria-label="Новая обложка в актуальной сетке Instagram">
+                <div class="builder-grid-profile"><div class="profile-badge small">#S</div><div><strong>@sektaschool</strong><span>сохранённый снимок · 13 августа</span></div><small>новая публикация сверху</small></div>
+                <div class="builder-live-grid" id="builderLiveGrid"></div>
+                <div class="builder-grid-reading"><span><i></i> новая обложка</span><p>Смотрите на хук в масштабе ячейки: читается ли он сразу и не сливается ли с соседними публикациями.</p></div>
               </div>
 
               <div class="builder-copy-fields">
@@ -625,7 +634,7 @@
   <script src="data/library-data.js"></script>
   <script src="data/carousel-builder-data.js"></script>
   <script src="app.js?v=20260819-1"></script>
-  <script src="carousel-builder.js?v=20260819-3"></script>
+  <script src="carousel-builder.js?v=20260819-4"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>
