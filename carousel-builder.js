@@ -319,6 +319,7 @@
   function setPreviewMode(mode) {
     activePreview = mode === "cover" ? "cover" : "grid";
     const showCover = activePreview === "cover";
+    ui.workspace.classList.toggle("is-grid-preview", !showCover);
     ui.cover.classList.toggle("is-preview-hidden", !showCover);
     ui.gridFitting.classList.toggle("is-preview-hidden", showCover);
     document.querySelectorAll("[data-builder-preview]").forEach((button) => {

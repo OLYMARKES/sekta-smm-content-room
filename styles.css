@@ -627,6 +627,14 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .builder-workspace.is-media-expanded { grid-template-columns: 1fr; }
 .builder-workspace.is-media-expanded .builder-cover-panel { display: none; }
 .builder-workspace.is-media-expanded .builder-media-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); max-height: none; }
+.builder-workspace.is-grid-preview { grid-template-columns: 1fr; }
+.builder-workspace.is-grid-preview .builder-cover-panel { position: static; }
+.builder-workspace.is-grid-preview .builder-system-note,
+.builder-workspace.is-grid-preview .builder-preview-switch,
+.builder-workspace.is-grid-preview .builder-grid-fitting { width: min(100%, 760px); }
+.builder-workspace.is-grid-preview .builder-grid-draft.builder-cover strong { font-size: clamp(15px, 1.7vw, 26px); }
+.builder-workspace.is-grid-preview .builder-grid-draft.builder-cover-rail strong { font-size: clamp(11px, 1.25vw, 18px); }
+.builder-workspace.is-grid-preview .builder-grid-draft.builder-cover-footer strong { font-size: clamp(13px, 1.45vw, 22px); }
 .builder-script-panel { margin-top: 12px; }
 .builder-script-head { padding: 0 0 14px; border-bottom: 1px solid var(--line); }
 .builder-script-head > div:last-child { display: flex; align-items: center; gap: 7px; }
@@ -1077,6 +1085,9 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
   .builder-media-toolbar { grid-template-columns: 1fr; }
   .builder-media-toolbar .button { width: 100%; }
   .builder-media-grid, .builder-workspace.is-media-expanded .builder-media-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); max-height: 540px; }
+  .builder-workspace.is-grid-preview .builder-grid-draft.builder-cover strong { font-size: 12px; }
+  .builder-workspace.is-grid-preview .builder-grid-draft.builder-cover-rail strong { font-size: 9px; }
+  .builder-workspace.is-grid-preview .builder-grid-draft.builder-cover-footer strong { font-size: 10px; }
   .builder-script-head > div:last-child { align-items: stretch; flex-direction: column; }
   .builder-script-head > div:last-child > span { margin: 0; }
   .builder-script-head .button { width: 100%; }
