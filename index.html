@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260819-2">
+  <link rel="stylesheet" href="styles.css?v=20260819-3">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -26,11 +26,8 @@
       </div>
       <nav class="primary-nav" aria-label="Разделы">
         <button class="nav-item is-active" data-view="overview"><span>⌂</span>Обзор</button>
-        <button class="nav-item" data-view="ideal"><span>✦</span>Идеальная сетка <em>6</em></button>
-        <button class="nav-item" data-view="identity"><span class="nav-type-mark">Aa</span>Стиль сетки <em>4</em></button>
-        <button class="nav-item" data-view="growth"><span>↗</span>Рост и идеи <em>18</em></button>
-        <button class="nav-item" data-view="builder"><span>▤</span>Конструктор <em>NEW</em></button>
-        <button class="nav-item" data-view="typography"><span class="nav-type-mark">Ж</span>Типографика <em>588</em></button>
+        <button class="nav-item" data-view="builder"><span>▤</span>Идеи и обложки</button>
+        <button class="nav-item" data-view="growth"><span>↗</span>Банк идей</button>
         <button class="nav-item" data-view="current"><span>▦</span>Текущая сетка</button>
         <button class="nav-item" data-view="library"><span>▧</span>Медиатека <em id="navLibraryCount">1059</em></button>
         <button class="nav-item" data-view="planner"><span>↗</span>План недели <em id="navPlanCount">7</em></button>
@@ -46,29 +43,28 @@
         <button class="icon-button mobile-menu" id="mobileMenu" aria-label="Открыть меню">☰</button>
         <div class="topbar-title"><span>Instagram</span><strong id="viewTitle">Рабочий обзор</strong></div>
         <div class="topbar-actions">
-          <button class="button button-quiet" id="resetPlanner">Сбросить черновик</button>
+          <button class="button button-quiet is-hidden" id="resetPlanner">Сбросить черновик</button>
           <button class="avatar-button" title="Рабочий профиль">OL</button>
         </div>
       </header>
 
       <main id="main">
         <section class="view is-active" data-view-panel="overview">
-          <div class="page-heading">
-            <div><p class="eyebrow">SMM workspace</p><h1>Что есть сейчас и что выходит дальше</h1></div>
+          <div class="page-heading overview-heading">
+            <div><h1>Что делаем сегодня</h1><p>Один рабочий экран для команды: выбрать идею, собрать обложку, проверить ленту и поставить материал в план.</p></div>
             <a class="button button-primary" href="https://www.instagram.com/sektaschool/" target="_blank" rel="noreferrer">Открыть @sektaschool ↗</a>
           </div>
 
-          <div class="profile-summary">
-            <div class="profile-badge">#S</div>
-            <div class="profile-copy"><div><h2>@sektaschool</h2><span class="verified">✓</span></div><p>Тебе в Секту, если хочешь полюбить спорт 🩷 И да, начать можно даже с одной минуты в день!</p></div>
-            <div class="profile-stats"><div><strong>6 594</strong><span>публикации</span></div><div><strong>126 022</strong><span>подписчики</span></div><div><strong>4</strong><span>подписки</span></div></div>
+          <div class="daily-actions" aria-label="Главные действия">
+            <button class="daily-action daily-action-primary" data-jump="builder"><span>Главное действие</span><strong>Собрать следующую обложку</strong><small>Идея → фото → композиция → PNG</small><b>→</b></button>
+            <button class="daily-action" data-jump="growth"><span>Нужна тема</span><strong>Обновить банк идей</strong><small>Посты, Reels и повторяемые серии</small><b>→</b></button>
+            <button class="daily-action" data-jump="current"><span>Перед публикацией</span><strong>Проверить текущую сетку</strong><small>Снимок Instagram и следующие улучшения</small><b>→</b></button>
           </div>
 
-          <div class="metric-row">
-            <button class="metric metric-accent" data-jump="ideal"><span>Идеальная сетка</span><strong>6</strong><small>обложек · 18–23 августа</small></button>
-            <button class="metric" data-jump="library"><span>Медиатека</span><strong id="metricUnique">1059</strong><small>уникальных фото</small></button>
-            <button class="metric" id="openCarousel"><span>Готовый пакет</span><strong>20</strong><small>слайдов · approved</small></button>
-            <button class="metric" data-jump="planner"><span>План</span><strong>7</strong><small>единиц на неделю</small></button>
+          <div class="overview-status-line">
+            <button data-jump="library"><strong id="metricUnique">1059</strong><span>фото в медиатеке</span></button>
+            <button data-jump="planner"><strong id="overviewPlanCount">7</strong><span>материалов в плане</span></button>
+            <button data-jump="current"><strong>13.08</strong><span>последний сохранённый снимок</span></button>
           </div>
 
           <div class="dashboard-grid">
@@ -84,14 +80,6 @@
             </section>
           </div>
 
-          <section class="ready-pack">
-            <button class="ready-pack-visual" id="openCarouselVisual"><img src="assets/approved-carousel/contact-sheet.png" alt="Контактный лист готовой карусели из 20 слайдов"></button>
-            <div class="ready-pack-copy"><span class="status status-ready">Готово к публикации</span><h2>«Мои главные победы»</h2><p>20 проверенных слайдов, ZIP, подпись и Stories. Основной аккаунт — @olymarkes, предложить collab @sektaschool.</p><div class="inline-actions"><button class="button button-primary" id="openCarouselSecond">Посмотреть 20 слайдов</button><button class="button button-secondary" data-jump="planner">Открыть в плане</button></div></div>
-          </section>
-          <section class="ready-pack ready-pack-new">
-            <button class="ready-pack-visual" id="openReturnCarousel"><img src="assets/return-five-carousel/contact-sheet.png" alt="Контактный лист карусели «Пропустили пять дней?» из 10 слайдов"></button>
-            <div class="ready-pack-copy"><span class="status status-ready">Новая карусель · готово</span><h2>«Пропустили пять дней?»</h2><p>10 слайдов из медиатеки: без вины, попытки догнать и перезапуска с понедельника. Внутри — готовая подпись, alt-тексты и ZIP для публикации.</p><div class="inline-actions"><button class="button button-primary" id="openReturnCarouselSecond">Посмотреть 10 слайдов</button><a class="button button-secondary" href="assets/return-five-carousel/return-five-carousel.zip" download>Скачать ZIP</a></div></div>
-          </section>
         </section>
 
         <section class="view" data-view-panel="ideal">
@@ -166,14 +154,26 @@
 
         <section class="view" data-view-panel="growth">
           <div class="page-heading compact growth-heading">
-            <div><p class="eyebrow">Instagram growth room · версия 1.0</p><h1>Что постить, когда материалов много</h1><p>Выберите цель и исходник — получите хук, режиссуру, покадровый сценарий, CTA и метрику. Все идеи собраны вокруг уже снятого движения, домашних тренировок и живых кадров тела.</p></div>
-            <span class="snapshot-label"><i></i>18 идей · 3 можно собирать сейчас</span>
+            <div><h1>Банк идей</h1><p>Выберите формат и обновляйте подборку, пока не найдёте тему, которую хочется произвести. Готовые Reels можно сразу открыть как полный бриф.</p></div>
+            <span class="snapshot-label"><i></i>идеи собраны под материалы #Sekta</span>
           </div>
 
-          <div class="growth-room-tabs" role="tablist" aria-label="Разделы комнаты роста">
+          <section class="idea-generator" aria-label="Генератор идей">
+            <div class="idea-generator-head">
+              <div class="idea-kind-switch" role="tablist" aria-label="Формат идей">
+                <button class="is-active" type="button" data-idea-kind="post" role="tab" aria-selected="true">Посты</button>
+                <button type="button" data-idea-kind="reel" role="tab" aria-selected="false">Reels</button>
+                <button type="button" data-idea-kind="series" role="tab" aria-selected="false">Системные серии</button>
+              </div>
+              <button class="button button-primary" id="refreshIdeaBank" type="button">Обновить подборку ↻</button>
+            </div>
+            <div class="idea-bank-grid" id="ideaBankGrid" aria-live="polite"></div>
+          </section>
+
+          <div class="growth-section-title"><div><h2>Готовые Reels-брифы</h2><p>Фильтруйте по цели и исходникам; справа откроется сценарий, CTA и визуальная режиссура.</p></div><span>18 брифов</span></div>
+
+          <div class="growth-room-tabs growth-room-tabs-hidden" role="tablist" aria-label="Архивные разделы комнаты роста">
             <button class="growth-room-tab is-active" data-growth-room-tab="ideas" role="tab" aria-selected="true">Идеи Reels <em>18</em></button>
-            <button class="growth-room-tab" data-growth-room-tab="visual" role="tab" aria-selected="false">Визуальный код</button>
-            <button class="growth-room-tab" data-growth-room-tab="system" role="tab" aria-selected="false">Система недели</button>
           </div>
 
           <div class="growth-room-panel is-active" data-growth-room-panel="ideas">
@@ -262,7 +262,7 @@
         </section>
 
         <section class="view" data-view-panel="current">
-          <div class="page-heading compact"><div><p class="eyebrow">Примерка без удаления публикаций</p><h1>Сетка с новыми обложками</h1><p>Пять слабых входов пересобраны: «Летний прайм» и все четыре Reels. Переключайтесь между фактическим снимком и предлагаемой версией.</p></div><div class="current-heading-actions"><div class="cover-mode-switch" role="group" aria-label="Версия сетки"><button data-cover-mode="current">Сейчас</button><button class="is-active" data-cover-mode="proposed">Новые обложки</button></div><a class="button button-primary" href="assets/proposed-covers/feed-preview-v2.png" target="_blank">PNG всей сетки ↗</a></div></div>
+          <div class="page-heading compact"><div><h1>Текущая сетка Instagram</h1><p>Последний сохранённый снимок профиля. Переключите пример улучшения, чтобы проверить новые обложки прямо в контексте ленты.</p></div><div class="current-heading-actions"><div class="cover-mode-switch" role="group" aria-label="Версия сетки"><button data-cover-mode="current">Сейчас</button><button class="is-active" data-cover-mode="proposed">Пример улучшения</button></div><a class="button button-primary" href="https://www.instagram.com/sektaschool/" target="_blank" rel="noreferrer">Открыть Instagram ↗</a></div></div>
           <div class="cover-redesign-strip"><div><strong>5 обложек обновлено</strong><span>1 закреп · 4 Reels</span></div><p id="coverModeNote">Предлагаемая примерка: публикации остаются на месте, меняется только то, что человек видит в профиле.</p><a href="assets/proposed-covers/" target="_blank">Открыть файлы →</a></div>
           <div class="current-layout">
             <div class="instagram-frame">
@@ -270,10 +270,10 @@
               <div class="feed-grid" id="currentGrid"></div>
             </div>
             <aside class="insight-rail">
-              <h2>Что изменили</h2>
+              <h2>Что улучшить дальше</h2>
               <div class="insight"><span>01</span><div><strong>Летний прайм — живой продукт</strong><p>Человек в движении вместо body-check, короткое название и одна продуктовая строка.</p></div></div>
               <div class="insight"><span>02</span><div><strong>Reels получили темы</strong><p>Вместо случайного стоп-кадра теперь видны четыре разных обещания: кардио, результат, пресс и развлекательный конфликт.</p></div></div>
-              <div class="insight"><span>03</span><div><strong>Один визуальный алфавит</strong><p>Контрастный гротеск, синий, розовый и лайм. Заголовок читается в центральной квадратной обрезке.</p></div></div>
+                <div class="insight"><span>03</span><div><strong>Один визуальный алфавит</strong><p>PT Sans Narrow, светлые фотографии, голубой, зелёный, жёлтый и розовый. В каждой девятке чередуем плашку и текст на фото.</p></div></div>
               <div class="legend"><span><i class="pin-symbol">◆</i> закреплено</span><span><i class="reel-symbol">NEW</i> новая обложка</span></div>
             </aside>
           </div>
@@ -281,8 +281,21 @@
 
         <section class="view" data-view-panel="builder">
           <div class="page-heading compact builder-heading">
-            <div><h1>Идеи и обложки</h1><p>Выберите хук, соберите обложку на фотографии из медиатеки, а затем доработайте сценарий карусели.</p></div>
+            <div><h1>Идеи и обложки</h1><p>Сначала выберите идею или напишите свой хук. Затем возьмите фото, соберите обложку и проверьте её рядом с нашей рабочей сеткой.</p></div>
             <span class="snapshot-label"><i></i><span id="builderLibraryCount">1059</span> фото подключено</span>
+          </div>
+
+          <div class="builder-start">
+            <section class="builder-reference">
+              <div><h2>Рабочая сетка-ориентир</h2><p>Не шаблон для копирования, а проверка ритма: светлое фото, крупный хук, плашки и четыре акцентных цвета.</p></div>
+              <img src="assets/approved-grid/tempo-final-synthesis.jpg" alt="Утверждённая рабочая сетка из девяти обложек #Sekta">
+            </section>
+            <ol class="builder-flow" aria-label="Как собрать обложку">
+              <li><strong>Выберите идею</strong><span>или напишите свой хук</span></li>
+              <li><strong>Возьмите фото</strong><span>из общей медиатеки</span></li>
+              <li><strong>Соберите обложку</strong><span>композиция, цвет и фокус</span></li>
+              <li><strong>Проверьте в сетке</strong><span>и скачайте PNG</span></li>
+            </ol>
           </div>
 
           <section class="panel builder-ideas-panel">
@@ -359,7 +372,6 @@
               <div class="builder-cover-actions">
                 <button class="button button-primary" id="builderDownload" type="button">Скачать PNG</button>
                 <button class="button button-secondary" id="builderAddGrid" type="button">+ В будущую сетку</button>
-                <button class="button button-secondary" id="builderToStudio" type="button" data-jump="typography">Открыть все шрифты</button>
               </div>
             </section>
 
@@ -612,8 +624,8 @@
   <script src="data/growth-room.js"></script>
   <script src="data/library-data.js"></script>
   <script src="data/carousel-builder-data.js"></script>
-  <script src="app.js?v=20260818-4"></script>
-  <script src="carousel-builder.js?v=20260819-2"></script>
+  <script src="app.js?v=20260819-1"></script>
+  <script src="carousel-builder.js?v=20260819-3"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>

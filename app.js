@@ -6,7 +6,7 @@
   const growthIdeas = growthRoom.ideas || [];
   const libraryPayload = window.SEKTA_LIBRARY || { items: [], uniqueCount: 0, duplicateCount: 0, sourceCount: 0 };
   const library = libraryPayload.items || [];
-  const viewLabels = { overview: "Рабочий обзор", ideal: "Идеальная сетка", identity: "Стиль сетки", growth: "Рост и идеи", builder: "Идеи и обложки", typography: "Типографика обложки", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
+  const viewLabels = { overview: "Рабочий обзор", growth: "Банк идей", builder: "Идеи и обложки", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
   const statusClass = (status) => status === "Готово" ? "status-ready" : status === "На ревью" || status === "Текст готов" ? "status-review" : "status-shoot";
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
 
@@ -39,6 +39,8 @@
     growthDetail: document.querySelector("#growthDetail"),
     growthAsset: document.querySelector("#growthAsset"),
     growthResultCount: document.querySelector("#growthResultCount"),
+    ideaBankGrid: document.querySelector("#ideaBankGrid"),
+    refreshIdeaBank: document.querySelector("#refreshIdeaBank"),
     detailDialog: document.querySelector("#detailDialog"),
     dialogContent: document.querySelector("#dialogContent"),
     carouselDialog: document.querySelector("#carouselDialog"),
@@ -61,10 +63,39 @@
   let activeIdealTab = "concept";
   let activeGrowthRoomTab = "ideas";
   let activeGrowthGoal = "all";
+  let activeIdeaKind = "post";
+  let ideaBankOffset = 0;
   let activeGrowthId = growthRoom.next?.[0] || growthIdeas[0]?.id;
-  let currentCoverMode = "proposed";
+  let currentCoverMode = "current";
   let toastTimer;
   let sandbox = loadSandbox();
+
+  const ideaBankCatalog = {
+    post: [
+      { title: "Что в движении считается, кроме минут", hook: "Тренировка закончилась. А что осталось?", objective: "Сохранения", asset: "Фото после тренировки + короткий список", cta: "Сохранить и дописать свой пункт", readiness: "Можно собрать сегодня" },
+      { title: "Возвращение без наказания", hook: "Пауза не обнуляет навык возвращаться", objective: "Теплота", asset: "Домашние фото или спокойный портрет", cta: "Рассказать, как вы возвращаетесь", readiness: "Текст + фото" },
+      { title: "Семь минут — полноценное решение", hook: "Коротко — не значит впустую", objective: "Сохранения", asset: "3–5 кадров короткой тренировки", cta: "Выбрать сегодня 7 / 15 / 30", readiness: "Можно собрать сегодня" },
+      { title: "Неочевидный результат программы", hook: "Раньше веса меняется кое-что важнее", objective: "Доверие", asset: "Фото движения + разрешённые цитаты", cta: "Открыть описание программы", readiness: "Нужен ревью специалиста" },
+      { title: "Как выбрать нагрузку на обычный день", hook: "Не максимум. Подходящий уровень.", objective: "Польза", asset: "Фото двух вариантов одного упражнения", cta: "Сохранить схему выбора", readiness: "Нужен методический ревью" },
+      { title: "Что команда делает после пропуска", hook: "Мы тоже выпадаем", objective: "Теплота", asset: "4 коротких ответа команды", cta: "Дополнить список своим способом", readiness: "Нужны ответы команды" }
+    ],
+    reel: [
+      { title: "Тело не ленится", hook: "Оно голосует против плана, который не помещается в жизнь", objective: "Охват", asset: "Видео начала домашней тренировки", cta: "Отправить тому, кто ругает себя", readiness: "Можно собрать сегодня" },
+      { title: "План и реальность", hook: "40 минут тренировки / 12 минут ищу резинку", objective: "Пересылки", asset: "Смешной бытовой дубль", cta: "Признаться, что ищете вы", readiness: "Нужен один кадр" },
+      { title: "Я в фитнесе — и тоже не хочу", hook: "Система нужна именно в такие дни", objective: "Теплота", asset: "Видео на коврике + voice-over", cta: "Ответить: 7 / 15 / 30", readiness: "Нужен голос" },
+      { title: "Разминка между созвонами", hook: "Три движения, пока грузится следующий звонок", objective: "Сохранения", asset: "Видео полного роста", cta: "Сделать один круг сейчас", readiness: "Нужен экспертный ревью" },
+      { title: "Четыре человека перед ковриком", hook: "Кто вы сегодня?", objective: "Комментарии", asset: "Четыре коротких дубля дома", cta: "Выбрать номер 1–4", readiness: "Можно собрать из дублей" },
+      { title: "Остановилась раньше — и это правильно", hook: "План говорил: ещё два круга", objective: "Доверие", asset: "Пауза, вода, выключение таймера", cta: "Обсудить остановку без вины", readiness: "Нужен voice-over" }
+    ],
+    series: [
+      { title: "Одна минута считается", hook: "Один короткий вход в движение каждую неделю", objective: "Узнаваемость", asset: "Вертикальные видео 7–15 секунд", cta: "Повторить сегодня", readiness: "Серия на 8 выпусков" },
+      { title: "Возвращение — тоже навык", hook: "Один реальный сценарий возвращения", objective: "Теплота", asset: "Истории команды и участников", cta: "Добавить свой способ", readiness: "Серия на 6 выпусков" },
+      { title: "Тело в обычной жизни", hook: "Не идеальная тренировка, а реальный день", objective: "Доверие", asset: "Архив домашних видео", cta: "Узнать себя", readiness: "Серия на 10 выпусков" },
+      { title: "Семь / пятнадцать / тридцать", hook: "Один день — три доступных входа", objective: "Сохранения", asset: "Три версии движения", cta: "Выбрать длительность", readiness: "Нужен методический шаблон" },
+      { title: "Люди #Sekta", hook: "Один человек, один живой ответ", objective: "Комьюнити", asset: "Портрет + короткая реплика", cta: "Ответить на тот же вопрос", readiness: "Нужны согласия героев" },
+      { title: "Неочевидно, но работает", hook: "Одна контринтуитивная мысль о движении", objective: "Охват", asset: "Любой сильный B-roll", cta: "Сохранить или переслать", readiness: "Серия на 12 выпусков" }
+    ]
+  };
 
   function loadSandbox() {
     const fallback = [{ id: "approved-carousel", thumb: "assets/approved-carousel/slide-01.png", title: "Мои главные победы", source: "Готовая карусель" }];
@@ -91,6 +122,7 @@
     document.querySelectorAll("[data-view-panel]").forEach((panel) => panel.classList.toggle("is-active", panel.dataset.viewPanel === view));
     document.querySelectorAll(".nav-item").forEach((button) => button.classList.toggle("is-active", button.dataset.view === view));
     ui.viewTitle.textContent = viewLabels[view] || viewLabels.overview;
+    document.querySelector("#resetPlanner")?.classList.toggle("is-hidden", view !== "planner");
     ui.sidebar.classList.remove("is-open");
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (view === "library") ui.librarySearch.focus({ preventScroll: true });
@@ -116,7 +148,7 @@
   }
 
   function renderWeek() {
-    ui.overviewWeek.innerHTML = weekPlan.map(weekItem).join("");
+    ui.overviewWeek.innerHTML = weekPlan.filter((item) => !item.type.includes("@olymarkes")).map(weekItem).join("");
     ui.calendarList.innerHTML = weekPlan.map((item) => `<article class="calendar-card"><div class="calendar-date">${escapeHtml(item.day)}</div><div class="calendar-main"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.type)}</span><div class="calendar-meta"><span>Задача: ${escapeHtml(item.objective)}</span><span>CTA: ${escapeHtml(item.cta)}</span></div></div><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></article>`).join("");
   }
 
@@ -199,6 +231,13 @@
     ui.growthResultCount.textContent = `${filtered.length} ${plural(filtered.length, "идея", "идеи", "идей")}`;
     ui.growthIdeaGrid.innerHTML = filtered.length ? filtered.map((item) => `<button class="growth-idea-card${item.id === activeGrowthId ? " is-selected" : ""}" data-growth-id="${escapeHtml(item.id)}">${growthCover(item)}<div class="growth-idea-copy"><span>${escapeHtml(item.format)} · ${escapeHtml(item.duration)}</span><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(item.readiness)}</small></div></button>`).join("") : `<div class="empty-state"><strong>Для этой связки пока нет идеи</strong><span>Выберите другие исходники или цель.</span></div>`;
     renderGrowthDetail();
+  }
+
+  function renderIdeaBank() {
+    if (!ui.ideaBankGrid) return;
+    const catalog = ideaBankCatalog[activeIdeaKind] || [];
+    const visible = Array.from({ length: Math.min(3, catalog.length) }, (_, index) => catalog[(ideaBankOffset + index) % catalog.length]);
+    ui.ideaBankGrid.innerHTML = visible.map((item) => `<article class="idea-bank-card"><div><span>${escapeHtml(item.objective)}</span><em>${escapeHtml(item.readiness)}</em></div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.hook)}</p><dl><div><dt>Что нужно</dt><dd>${escapeHtml(item.asset)}</dd></div><div><dt>CTA</dt><dd>${escapeHtml(item.cta)}</dd></div></dl><button type="button" data-idea-to-builder="${escapeHtml(item.hook)}">Взять в конструктор →</button></article>`).join("");
   }
 
   function growthBriefText(item) {
@@ -285,7 +324,9 @@
       return `<div class="sandbox-tile" tabindex="0" data-sandbox-index="${index}" title="${escapeHtml(item.title)}"><img src="${escapeHtml(item.thumb)}" alt="${escapeHtml(item.title)}"><div class="sandbox-controls"><button data-move="left" data-index="${index}" aria-label="Сдвинуть влево">←</button><button data-move="right" data-index="${index}" aria-label="Сдвинуть вправо">→</button><button data-remove="${index}" aria-label="Удалить из сетки">×</button></div></div>`;
     }).join("");
     ui.sandboxCount.textContent = `${sandbox.length} / 9`;
-    document.querySelector("#navPlanCount").textContent = weekPlan.length + Math.max(0, sandbox.length - 1);
+    const planCount = weekPlan.length + Math.max(0, sandbox.length - 1);
+    document.querySelector("#navPlanCount").textContent = planCount;
+    document.querySelector("#overviewPlanCount").textContent = planCount;
   }
 
   function openCurrent(item) {
@@ -468,6 +509,32 @@
     document.querySelectorAll("[data-growth-goal]").forEach((chip) => chip.classList.toggle("is-active", chip === button));
     renderGrowthIdeas();
   }));
+  document.querySelectorAll("[data-idea-kind]").forEach((button) => button.addEventListener("click", () => {
+    activeIdeaKind = button.dataset.ideaKind;
+    ideaBankOffset = 0;
+    document.querySelectorAll("[data-idea-kind]").forEach((tab) => {
+      const selected = tab === button;
+      tab.classList.toggle("is-active", selected);
+      tab.setAttribute("aria-selected", String(selected));
+    });
+    renderIdeaBank();
+  }));
+  ui.refreshIdeaBank?.addEventListener("click", () => {
+    ideaBankOffset = (ideaBankOffset + 3) % ideaBankCatalog[activeIdeaKind].length;
+    renderIdeaBank();
+    toast("Подборка обновлена");
+  });
+  document.addEventListener("click", (event) => {
+    const ideaButton = event.target.closest("[data-idea-to-builder]");
+    if (!ideaButton) return;
+    setView("builder");
+    const hookInput = document.querySelector("#builderHook");
+    if (hookInput) {
+      hookInput.value = ideaButton.dataset.ideaToBuilder;
+      hookInput.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    toast("Идея перенесена в конструктор");
+  });
   document.querySelectorAll("[data-cover-mode]").forEach((button) => button.addEventListener("click", () => {
     currentCoverMode = button.dataset.coverMode;
     renderCurrent();
@@ -522,6 +589,7 @@
   renderGrowthPrinciples();
   renderGrowthNext();
   renderGrowthIdeas();
+  renderIdeaBank();
   renderLibrary();
   renderSandbox();
   if (location.hash === "#typography") setView("typography");

@@ -651,7 +651,7 @@
   });
   ui.download.addEventListener("click", downloadCover);
   ui.addGrid.addEventListener("click", addCoverToGrid);
-  ui.toStudio.addEventListener("click", () => {
+  ui.toStudio?.addEventListener("click", () => {
     setStatus("Открыта полная типографическая примерочная: 294 гарнитуры и 588 кадров обложки.");
   });
 
