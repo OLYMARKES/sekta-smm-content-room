@@ -550,7 +550,7 @@
     context.shadowBlur = 0;
     context.shadowOffsetY = 0;
 
-    const subtitleY = Math.min(height - 42 * scale, startY + textBlockHeight + 34 * scale);
+    const subtitleY = Math.min(height - 165 * scale, startY + textBlockHeight + 34 * scale);
     context.font = `800 ${20 * scale}px Arial, sans-serif`;
     context.fillStyle = headlineColor;
     context.fillText(ui.subtitle.value.toUpperCase(), x, subtitleY);
@@ -563,7 +563,7 @@
       context.shadowOffsetY = 2 * scale;
     }
     context.textAlign = "left";
-    context.fillText(ui.account.value, 54 * scale, 72 * scale);
+    context.fillText(ui.account.value, 54 * scale, 170 * scale);
     context.shadowColor = "transparent";
     context.shadowBlur = 0;
     context.shadowOffsetY = 0;
