@@ -583,7 +583,7 @@
     canvas.width = width;
     canvas.height = height;
     const context = canvas.getContext("2d");
-    const image = await loadImage(selectedPhoto.thumb);
+    const image = await loadImage(selectedPhoto.exportImage || selectedPhoto.thumb);
     const scale = width / 1080;
     if (activeFont === "tempo") {
       try { await document.fonts.load(`700 ${106 * scale}px "PT Sans Narrow"`); } catch {}

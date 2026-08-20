@@ -887,7 +887,7 @@
     context.fillStyle = palette.background;
     context.fillRect(0, 0, 1080, 1350);
     if (usesPhoto) {
-      const image = await loadImage(photo.thumb);
+      const image = await loadImage(photo.exportImage || photo.thumb);
       if (slide.scene === "split") cropImage(context, image, 600, 0, 480, 1350);
       else if (slide.scene === "window") cropImage(context, image, 90, 90, 900, 520);
       else cropImage(context, image, 0, 0, 1080, 1350);
