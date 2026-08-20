@@ -439,6 +439,10 @@
     const idea = { ...fallbackIdea, ...detail };
     series.idea = idea;
     series.name = idea.title;
+    if (idea.font?.family) {
+      series.font = normalizeFontSystem(idea.font);
+      ensureFont(series.font);
+    }
     const requestedSlides = Math.min(20, Math.max(6, Number(idea.slideCount) || 10));
     ui.slideCount.value = String(requestedSlides);
     const cover = coverSlide();
@@ -457,6 +461,16 @@
       series.longread = idea.longread.trim();
       ui.longread.value = series.longread;
       series = splitSeries(series, requestedSlides, ui.keepParagraphs.checked, ui.photoRhythm.checked);
+      if (Array.isArray(idea.visualPlan)) {
+        series.slides.forEach((slide, index) => {
+          const visual = idea.visualPlan[index];
+          if (!visual) return;
+          if (sceneLabels[visual.scene]) slide.scene = visual.scene;
+          if (paletteChoices()[visual.palette]) slide.palette = visual.palette;
+          if (visual.photoId && photoById(visual.photoId)) slide.photoId = visual.photoId;
+          else if (["paper", "field", "dark", "quote"].includes(slide.scene)) slide.photoId = null;
+        });
+      }
       ui.longreadDraftState.textContent = "Сценарий из банка идей · можно редактировать";
       renderAll();
       markChanged();
@@ -524,7 +538,10 @@
     if (!choices.some((font) => fontSystemKey(font) === activeKey)) choices.unshift(normalizeFontSystem(series.font));
     const familyCount = new Set(choices.map((font) => font.family)).size;
     const savedCount = choices.filter((font) => font.recipe && font.recipe !== "стартовая система").length;
-    ui.fontSummary.textContent = tasteBundle.importedAt || Object.keys(readJson("olymarkes-cyrillic-font-taste-v1", {})).length
+    const transferredSystem = series.font?.recipe && series.font.recipe !== "стартовая система";
+    ui.fontSummary.textContent = transferredSystem
+      ? `${series.font.family} × ${series.font.body} · сохранённая пара перенесена вместе с идеей`
+      : tasteBundle.importedAt || Object.keys(readJson("olymarkes-cyrillic-font-taste-v1", {})).length
       ? `${familyCount} ${plural(familyCount, "гарнитура", "гарнитуры", "гарнитур")} · ${choices.length} ${plural(choices.length, "вариант", "варианта", "вариантов")} · ${savedCount} сохранённых систем`
       : "Выбор из примерочной ещё не импортирован — показаны только стартовые системы.";
     ui.fontStrip.innerHTML = choices.map((font) => {

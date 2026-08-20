@@ -31,6 +31,7 @@
     focusX: document.querySelector("#builderFocusX"),
     focusY: document.querySelector("#builderFocusY"),
     slides: document.querySelector("#builderSlides"),
+    typeSystems: document.querySelector("#builderTypeSystems"),
     refreshScript: document.querySelector("#builderRefreshScript"),
     mediaGrid: document.querySelector("#builderMediaGrid"),
     mediaCount: document.querySelector("#builderMediaCount"),
@@ -108,6 +109,13 @@
   const accentColors = { sky: "#bde9f6", green: "#63dda7", yellow: "#ffe36a", pink: "#ff8fbd" };
   const accentLabels = { sky: "голубой", green: "зелёный", yellow: "жёлтый", pink: "розовый" };
   const textColors = { white: "#ffffff", ink: "#17221f" };
+  const seriesSystems = [
+    { id: "tempo", label: "Tempo", family: "PT Sans Narrow", body: "Manrope", caseKind: "upper", note: "узкий капс × спокойный текст" },
+    { id: "soft", label: "Мягкая", family: "Manrope", body: "Golos Text", caseKind: "upper", note: "широкий капс × нейтральный текст" },
+    { id: "editorial", label: "Редакционная", family: "Commissioner", body: "Manrope", caseKind: "upper", note: "характерный заголовок × воздух" },
+    { id: "human", label: "Живая", family: "Geologica", body: "Golos Text", caseKind: "lower", note: "строчные × мягкий ритм" },
+  ];
+  const seriesSceneLabels = { cover: "обложка + плашка", split: "фото + поле", scrim: "фото + scrim", paper: "светлая колонка", quote: "акцентная мысль", window: "фото-окно", clean: "текст на фото", cta: "цветовой финал" };
   const folderLabels = new Map(library.map((item) => [item.folder, item.folderLabel]).filter(([id]) => id));
 
   let activeTopic = config.topics[0];
@@ -128,6 +136,7 @@
   let mediaRandomized = false;
   let mediaPool = [];
   let selectedPhoto = null;
+  let activeSeriesSystem = "tempo";
 
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
   const plural = (number, one, few, many) => {
@@ -378,31 +387,58 @@
 
   function currentSlideMedia() {
     const pool = mediaPool.length ? mediaPool : currentMediaPool();
-    return [selectedPhoto, pool[2], pool[5], pool[8]].filter(Boolean);
+    return [selectedPhoto, ...pool.filter((item) => item?.id !== selectedPhoto?.id)].filter(Boolean);
+  }
+
+  function selectedSeriesSystem() {
+    return seriesSystems.find((system) => system.id === activeSeriesSystem) || seriesSystems[0];
+  }
+
+  function renderTypeSystems() {
+    if (!ui.typeSystems) return;
+    ui.typeSystems.innerHTML = seriesSystems.map((system) => `<button type="button" class="builder-type-system${system.id === activeSeriesSystem ? " is-active" : ""}" data-builder-series-system="${system.id}" aria-pressed="${system.id === activeSeriesSystem}"><strong style="font-family:'${escapeHtml(system.family)}'">${escapeHtml(system.label)}</strong><span>${escapeHtml(system.family)} × ${escapeHtml(system.body)}</span><small>${escapeHtml(system.note)}</small></button>`).join("");
+  }
+
+  function visualPlanFor(index, total) {
+    if (index === 0) return { scene: "cover", accent: "sky", withPhoto: true, studioScene: "plate", studioPalette: "paper" };
+    if (index === total - 1) return { scene: "cta", accent: "green", withPhoto: false, studioScene: "field", studioPalette: "lime" };
+    const cadence = [
+      { scene: "paper", accent: "yellow", withPhoto: false, studioScene: "paper", studioPalette: "paper" },
+      { scene: "split", accent: "green", withPhoto: true, studioScene: "split", studioPalette: "paper" },
+      { scene: "scrim", accent: "sky", withPhoto: true, studioScene: "photo-dim", studioPalette: "ink" },
+      { scene: "quote", accent: "pink", withPhoto: false, studioScene: "quote", studioPalette: "pink" },
+      { scene: "window", accent: "yellow", withPhoto: true, studioScene: "window", studioPalette: "paper" },
+      { scene: "clean", accent: "green", withPhoto: true, studioScene: "photo-clean", studioPalette: "ink" },
+    ];
+    return cadence[(index - 1) % cadence.length];
+  }
+
+  function photoForSlide(index, plan, photos) {
+    if (!plan.withPhoto || !photos.length) return null;
+    if (index === 0) return selectedPhoto || photos[0];
+    return photos[(index * 2 + scriptVariant) % photos.length];
   }
 
   function renderSlides() {
+    const slides = buildSlides();
     const slideMedia = currentSlideMedia();
-    const photoSlots = new Map([[0, slideMedia[0]], [3, slideMedia[1]], [6, slideMedia[2]], [8, slideMedia[3]]]);
-    ui.slides.innerHTML = buildSlides().map((slide, index) => {
-      const photo = photoSlots.get(index);
-      const visual = photo ? `<div class="builder-slide-visual"><img src="${escapeHtml(photo.thumb)}" alt=""></div>` : `<div class="builder-slide-visual is-text">ТЕКСТ</div>`;
-      return `<article class="builder-slide" data-builder-slide="${index + 1}"><span class="builder-slide-number">${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="true" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="true" spellcheck="true">${escapeHtml(slide.body)}</p></div>${visual}</article>`;
+    const system = selectedSeriesSystem();
+    ui.slides.style.setProperty("--series-head", `'${system.family}'`);
+    ui.slides.style.setProperty("--series-body", `'${system.body}'`);
+    ui.slides.dataset.case = system.caseKind;
+    ui.slides.innerHTML = slides.map((slide, index) => {
+      const plan = visualPlanFor(index, slides.length);
+      const photo = photoForSlide(index, plan, slideMedia);
+      const image = photo ? `<img class="builder-slide-photo" src="${escapeHtml(photo.thumb)}" alt="" loading="lazy">` : "";
+      return `<article class="builder-slide scene-${plan.scene}" data-builder-slide="${index + 1}" data-photo-id="${escapeHtml(photo?.id || "")}" data-studio-scene="${plan.studioScene}" data-studio-palette="${plan.studioPalette}" style="--slide-accent:${accentColors[plan.accent]}"><div class="builder-slide-canvas">${image}<div class="builder-slide-scrim"></div><span class="builder-slide-account">#SEKTA · ${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="true" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="true" spellcheck="true">${escapeHtml(slide.body)}</p></div></div><footer><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(seriesSceneLabels[plan.scene])}</strong>${photo ? `<small>${escapeHtml(photo.fileName)}</small>` : ""}</footer></article>`;
     }).join("");
     const count = Number(ui.slideCount?.value || 10);
-    ui.scriptTitle.textContent = `Сценарий · ${count} ${plural(count, "слайд", "слайда", "слайдов")}`;
+    ui.scriptTitle.textContent = `Карусель · ${count} ${plural(count, "слайд", "слайда", "слайдов")}`;
     updateWordCount();
   }
 
   function updateSlideVisuals() {
-    const slideMedia = currentSlideMedia();
-    [1, 4, 7, 9].forEach((number, index) => {
-      const visual = ui.slides.querySelector(`[data-builder-slide="${number}"] .builder-slide-visual`);
-      const photo = slideMedia[index];
-      if (!visual || !photo) return;
-      visual.classList.remove("is-text");
-      visual.innerHTML = `<img src="${escapeHtml(photo.thumb)}" alt="">`;
-    });
+    renderSlides();
   }
 
   function updateWordCount() {
@@ -468,6 +504,8 @@
       slideCount: Number(ui.slideCount.value),
       longread: longreadFromSlides(),
       photoId: selectedPhoto?.id || null,
+      font: { ...selectedSeriesSystem(), recipe: "сохранённая кириллическая пара" },
+      visualPlan: [...ui.slides.querySelectorAll(".builder-slide")].map((slide) => ({ scene: slide.dataset.studioScene, palette: slide.dataset.studioPalette, photoId: slide.dataset.photoId || null })),
     };
     document.querySelector('[data-view="postbuilder"]')?.click();
     window.dispatchEvent(new CustomEvent("sekta:post-builder-load", { detail }));
@@ -677,6 +715,15 @@
     const button = event.target.closest("[data-builder-idea]");
     if (button) selectIdea(button.dataset.builderIdea);
   });
+  ui.typeSystems?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-builder-series-system]");
+    if (!button) return;
+    activeSeriesSystem = button.dataset.builderSeriesSystem;
+    renderTypeSystems();
+    renderSlides();
+    const system = selectedSeriesSystem();
+    setStatus(`${system.family} × ${system.body} применены ко всей карусели.`);
+  });
   ui.mediaGrid.addEventListener("click", (event) => {
     const button = event.target.closest("[data-builder-media]");
     if (!button) return;
@@ -756,6 +803,7 @@
   selectedPhoto = currentMediaPool()[0] || library[0] || null;
   refreshTasteFont(false);
   restoreCoverSystem();
+  renderTypeSystems();
   renderMedia();
   renderCover();
   setPreviewMode(activePreview);
