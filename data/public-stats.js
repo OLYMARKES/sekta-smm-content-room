@@ -6,13 +6,11 @@ window.SEKTA_PUBLIC_STATS = {
       id: "instagram",
       name: "Instagram",
       handle: "@sektaschool",
-      sourceLabel: "ADInBlog · публичная оценка, найдено в июле 2026",
-      sourceUrl: "https://adinblog.ru/%D0%B1%D0%BB%D0%BE%D0%B3%D0%B5%D1%80/sektaschool",
+      sourceLabel: "Официальный профиль · проверено 20 августа 2026",
+      sourceUrl: "https://www.instagram.com/sektaschool/",
       metrics: [
-        { label: "Подписчики", value: "≈126,2 тыс." },
-        { label: "Публикации", value: "6 548" },
-        { label: "Средние лайки", value: "143" },
-        { label: "Публичный ER", value: "≈0,18%" },
+        { label: "Подписчики", value: "125 886" },
+        { label: "Публикации", value: "6 602" },
       ],
     },
     {

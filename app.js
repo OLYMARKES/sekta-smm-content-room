@@ -129,9 +129,9 @@
 
   function sharedGridSnapshot() {
     return {
-      id: "shared-2026-08-13",
-      capturedAt: "2026-08-13T12:00:00+08:00",
-      sourceDate: "13 августа 2026",
+      id: "shared-2026-08-20",
+      capturedAt: "2026-08-20T17:35:00+08:00",
+      sourceDate: "снято из Instagram 20 августа 2026",
       scope: "общая версия",
       items: currentGrid.map((item) => ({ id: item.id, image: item.image, title: item.title })),
     };
@@ -141,7 +141,7 @@
     const shared = sharedGridSnapshot();
     try {
       const local = JSON.parse(localStorage.getItem("sekta-grid-snapshots-v1"));
-      return [...(Array.isArray(local) ? local : []), shared].slice(0, 9);
+      return [...(Array.isArray(local) ? local : []), shared].sort((a, b) => new Date(b.capturedAt) - new Date(a.capturedAt)).slice(0, 9);
     } catch {
       return [shared];
     }
@@ -160,7 +160,7 @@
     const snapshot = {
       id: `local-${now.getTime()}`,
       capturedAt: now.toISOString(),
-      sourceDate: "версия сетки от 13 августа 2026",
+      sourceDate: "версия сетки от 20 августа 2026",
       scope: "локально",
       items,
     };
@@ -177,7 +177,7 @@
 
   function snapshotDate(value, short = false) {
     const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return "13.08";
+    if (Number.isNaN(date.getTime())) return "—";
     return new Intl.DateTimeFormat("ru-RU", short ? { day: "2-digit", month: "2-digit" } : { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(date);
   }
 
@@ -227,8 +227,8 @@
     ui.overviewGrid.innerHTML = currentGrid.slice(0, 9).map((item) => feedTile(item)).join("");
     ui.currentGrid.innerHTML = currentGrid.map((item) => feedTile(item, currentCoverMode)).join("");
     document.querySelectorAll("[data-cover-mode]").forEach((button) => button.classList.toggle("is-active", button.dataset.coverMode === currentCoverMode));
-    if (ui.gridVersionLabel) ui.gridVersionLabel.textContent = currentCoverMode === "proposed" ? "примерка новых обложек · 5 замен" : "фактический снимок · 13 августа";
-    if (ui.coverModeNote) ui.coverModeNote.textContent = currentCoverMode === "proposed" ? "Предлагаемая примерка: публикации остаются на месте, меняется только то, что человек видит в профиле." : "Фактический снимок: обложки показаны ровно такими, какими они были в профиле 13 августа.";
+    if (ui.gridVersionLabel) ui.gridVersionLabel.textContent = "фактический снимок · 20 августа";
+    if (ui.coverModeNote) ui.coverModeNote.textContent = "Три закреплённых публикации и девять следующих карточек показаны в том же порядке, что в профиле 20 августа.";
   }
 
   function weekItem(item) {
