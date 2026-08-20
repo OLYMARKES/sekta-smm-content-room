@@ -439,9 +439,12 @@
     const idea = { ...fallbackIdea, ...detail };
     series.idea = idea;
     series.name = idea.title;
+    const requestedSlides = Math.min(20, Math.max(6, Number(idea.slideCount) || 10));
+    ui.slideCount.value = String(requestedSlides);
     const cover = coverSlide();
     cover.title = idea.hook;
     cover.body = idea.objective;
+    if (idea.photoId && photoById(idea.photoId)) cover.photoId = idea.photoId;
     cover.savedAt = null;
     const final = series.slides.at(-1);
     if (final?.role === "cta") {
@@ -450,7 +453,17 @@
       final.savedAt = null;
     }
     generationVariant = 0;
-    generateFromIdea(false);
+    if (idea.longread?.trim()) {
+      series.longread = idea.longread.trim();
+      ui.longread.value = series.longread;
+      series = splitSeries(series, requestedSlides, ui.keepParagraphs.checked, ui.photoRhythm.checked);
+      ui.longreadDraftState.textContent = "Сценарий из банка идей · можно редактировать";
+      renderAll();
+      markChanged();
+      setStatus(`Сценарий на ${requestedSlides} слайдов перенесён из банка идей.`);
+    } else {
+      generateFromIdea(false);
+    }
     renderSource();
     renderAll();
     setStage("longread");

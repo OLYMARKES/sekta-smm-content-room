@@ -8,7 +8,12 @@
     form: document.querySelector("#builderControls"),
     ideaStrip: document.querySelector("#builderIdeaStrip"),
     refreshIdeas: document.querySelector("#builderRefreshIdeas"),
+    development: document.querySelector("#builderIdeaDevelopment"),
+    developmentTitle: document.querySelector("#builderDevelopmentTitle"),
+    developmentHook: document.querySelector("#builderDevelopmentHook"),
+    closeDevelopment: document.querySelector("#builderCloseDevelopment"),
     topic: document.querySelector("#builderTopic"),
+    slideCount: document.querySelector("#builderSlideCount"),
     goal: document.querySelector("#builderGoal"),
     account: document.querySelector("#builderAccount"),
     tone: document.querySelector("#builderTone"),
@@ -37,6 +42,8 @@
     expandMedia: document.querySelector("#builderExpandMedia"),
     loadMoreMedia: document.querySelector("#builderLoadMoreMedia"),
     wordCount: document.querySelector("#builderWordCount"),
+    scriptTitle: document.querySelector("#builderScriptTitle"),
+    buildCarousel: document.querySelector("#builderBuildCarousel"),
     status: document.querySelector("#builderStatus"),
     download: document.querySelector("#builderDownload"),
     addGrid: document.querySelector("#builderAddGrid"),
@@ -109,7 +116,7 @@
   let activeFont = "tempo";
   let activeAccent = "sky";
   let activeTextColor = "auto";
-  let activePreview = "grid";
+  let activePreview = "cover";
   let tasteFont = null;
   let hookIndex = 0;
   let scriptVariant = 0;
@@ -206,6 +213,7 @@
     const unseen = fresh.filter((idea) => !previousKeys.has(idea.key));
     currentIdeas = [...unseen, ...fresh].slice(0, 10);
     selectedIdeaKey = "";
+    ui.development.hidden = true;
     renderIdeaStrip();
     if (!initial) setStatus("Собраны ещё 10 идей. Выберите любую — хук сразу появится на обложке.");
   }
@@ -224,6 +232,9 @@
     ui.topic.value = activeTopic.id;
     ui.hook.value = idea.hook;
     ui.subtitle.value = subtitleForGoal();
+    ui.developmentTitle.textContent = idea.topic.label;
+    ui.developmentHook.textContent = idea.hook;
+    ui.development.hidden = false;
     mediaScope = "relevant";
     mediaLimit = 24;
     mediaRandomized = false;
@@ -231,7 +242,8 @@
     renderMedia();
     renderCover();
     renderSlides();
-    setStatus(`Идея «${activeTopic.label}» перенесена в обложку и сценарий.`);
+    setStatus(`Идея «${activeTopic.label}» раскрыта: выберите объём и соберите карусель.`);
+    ui.development.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
   function candidateScore(item) {
@@ -276,8 +288,9 @@
   }
 
   function subtitleForGoal() {
-    const labels = { save: "10 слайдов · сохрани", comment: "10 слайдов · обсудим", warmth: "10 слайдов · отправь близким", class: "10 слайдов · выбери класс" };
-    return labels[ui.goal.value] || labels.save;
+    const count = Number(ui.slideCount?.value || 10);
+    const actions = { save: "сохрани", comment: "обсудим", warmth: "отправь близким", class: "выбери класс" };
+    return `${count} ${plural(count, "слайд", "слайда", "слайдов")} · ${actions[ui.goal.value] || actions.save}`;
   }
 
   function renderCover() {
@@ -343,9 +356,22 @@
 
   function buildSlides() {
     const goal = config.goals[ui.goal.value] || config.goals.save;
+    const total = Number(ui.slideCount?.value || 10);
+    const requiredMiddle = Math.max(1, total - 2);
+    const source = middleSlides();
+    const expanded = Array.from({ length: requiredMiddle }, (_, index) => {
+      if (source[index]) return source[index];
+      const base = source[index % source.length] || { role: "Развитие", title: activeTopic.promise, body: activeTopic.promise };
+      const additions = [
+        { role: "Пример", title: `Как это выглядит в обычном дне`, body: base.body },
+        { role: "Практика", title: `Один шаг, который можно сделать сегодня`, body: activeTopic.promise },
+        { role: "Пауза", title: `Не нужно делать всё сразу`, body: base.body },
+      ];
+      return additions[(index - source.length) % additions.length];
+    });
     return [
       { role: "Обложка", title: ui.hook.value, body: activeTopic.promise },
-      ...middleSlides(),
+      ...expanded,
       { role: "CTA", title: goal.label, body: goal.cta },
     ];
   }
@@ -363,6 +389,8 @@
       const visual = photo ? `<div class="builder-slide-visual"><img src="${escapeHtml(photo.thumb)}" alt=""></div>` : `<div class="builder-slide-visual is-text">ТЕКСТ</div>`;
       return `<article class="builder-slide" data-builder-slide="${index + 1}"><span class="builder-slide-number">${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="true" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="true" spellcheck="true">${escapeHtml(slide.body)}</p></div>${visual}</article>`;
     }).join("");
+    const count = Number(ui.slideCount?.value || 10);
+    ui.scriptTitle.textContent = `Сценарий · ${count} ${plural(count, "слайд", "слайда", "слайдов")}`;
     updateWordCount();
   }
 
@@ -416,6 +444,34 @@
       return `${String(index + 1).padStart(2, "0")} · ${role}\n${title}\n${body}`;
     }).join("\n\n");
     return `${activeTopic.label}\nАккаунт: ${ui.account.value}\nЦель: ${config.goals[ui.goal.value]?.label}\n\n${slides}`;
+  }
+
+  function longreadFromSlides() {
+    return [...ui.slides.querySelectorAll(".builder-slide")].slice(1, -1).map((row) => {
+      const title = row.querySelector("strong")?.textContent.trim();
+      const body = row.querySelector("p")?.textContent.trim();
+      return [title, body].filter(Boolean).join("\n");
+    }).filter(Boolean).join("\n\n");
+  }
+
+  function sendToCarouselBuilder() {
+    const goal = config.goals[ui.goal.value] || config.goals.save;
+    const detail = {
+      id: activeTopic.id,
+      kind: "post",
+      title: activeTopic.label,
+      hook: ui.hook.value,
+      objective: goal.label,
+      asset: selectedPhoto ? `Выбранная обложка: ${selectedPhoto.fileName}` : "Выбрать фото из медиатеки",
+      cta: goal.cta,
+      readiness: "Черновик собран · проверить текст и визуал",
+      slideCount: Number(ui.slideCount.value),
+      longread: longreadFromSlides(),
+      photoId: selectedPhoto?.id || null,
+    };
+    document.querySelector('[data-view="postbuilder"]')?.click();
+    window.dispatchEvent(new CustomEvent("sekta:post-builder-load", { detail }));
+    setStatus(`Карусель на ${detail.slideCount} слайдов открыта в полном конструкторе.`);
   }
 
   async function copyText(value) {
@@ -612,6 +668,11 @@
 
   ui.form.addEventListener("submit", (event) => { event.preventDefault(); generateConcept(); });
   ui.refreshIdeas.addEventListener("click", () => refreshIdeas());
+  ui.closeDevelopment.addEventListener("click", () => {
+    ui.development.hidden = true;
+    selectedIdeaKey = "";
+    renderIdeaStrip();
+  });
   ui.ideaStrip.addEventListener("click", (event) => {
     const button = event.target.closest("[data-builder-idea]");
     if (button) selectIdea(button.dataset.builderIdea);
@@ -645,6 +706,12 @@
   ui.subtitle.addEventListener("input", renderCover);
   ui.account.addEventListener("change", renderCover);
   ui.goal.addEventListener("change", () => generateConcept({ preserveHook: true }));
+  ui.slideCount.addEventListener("change", () => {
+    ui.subtitle.value = subtitleForGoal();
+    renderCover();
+    renderSlides();
+    setStatus(`Сценарий перестроен на ${ui.slideCount.value} слайдов.`);
+  });
   ui.focusX.addEventListener("input", renderCover);
   ui.focusY.addEventListener("input", renderCover);
   ui.slides.addEventListener("input", updateWordCount);
@@ -654,6 +721,7 @@
     setStatus(`Сценарий обновлён: вариант ${scriptVariant + 1} из 3.`);
   });
   ui.copyScript.addEventListener("click", async () => { await copyText(scriptText()); setStatus("Сценарий скопирован в буфер обмена."); });
+  ui.buildCarousel.addEventListener("click", sendToCarouselBuilder);
   ui.mediaSearch.addEventListener("input", () => { mediaLimit = 24; renderMedia(); });
   ui.mediaFolder.addEventListener("change", () => { mediaLimit = 24; renderMedia(); });
   ui.showAllMedia.addEventListener("click", () => {
