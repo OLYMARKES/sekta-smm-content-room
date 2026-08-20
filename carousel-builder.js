@@ -798,6 +798,10 @@
     setStatus("Фотографии перемешаны. Выбранная обложка сохранена.");
   });
   ui.loadMoreMedia.addEventListener("click", () => { mediaLimit += 24; renderMedia(); });
+  window.addEventListener("sekta:library-updated", () => {
+    mediaOrder = [...library];
+    renderMedia();
+  });
   ui.expandMedia.addEventListener("click", () => {
     const expanded = ui.workspace.classList.toggle("is-media-expanded");
     ui.expandMedia.textContent = expanded ? "Вернуть обложку" : "Развернуть";

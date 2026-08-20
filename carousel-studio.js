@@ -1101,6 +1101,11 @@
     markChanged();
   });
   ui.slideMediaSearch.addEventListener("input", () => renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder));
+  window.addEventListener("sekta:library-updated", () => {
+    slideMediaOrder = [...library];
+    renderMediaStrip(ui.coverMedia, coverSlide().photoId, ui.coverMediaSearch.value);
+    renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);
+  });
   ui.shuffleSlideMedia.addEventListener("click", () => {
     slideMediaOrder = shuffle(slideMediaOrder);
     renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);

@@ -465,6 +465,17 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .legend { display: flex; flex-wrap: wrap; gap: 14px; padding-top: 13px; border-top: 1px solid #edf0ee; color: var(--soft); font-size: 9px; }
 .legend i { margin-right: 4px; color: var(--accent); font-style: normal; }
 
+.library-upload { min-height: 72px; margin-bottom: 10px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border: 1px solid #cbd9d3; border-radius: 10px; background: #f1f7f4; transition: border-color .16s ease, background .16s ease; }
+.library-upload.is-dragging { border-color: var(--accent); background: #e6f2ec; }
+.library-upload-copy { min-width: 0; display: grid; gap: 4px; }
+.library-upload-copy strong { color: var(--ink); font-size: 12px; }
+.library-upload-copy span { max-width: 680px; color: var(--muted); font-size: 10px; line-height: 1.45; }
+.library-upload-actions { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; }
+.library-upload-actions [hidden] { display: none; }
+.library-upload-state { color: var(--muted); font-size: 10px; white-space: nowrap; }
+.library-upload-button { position: relative; overflow: hidden; cursor: pointer; }
+.library-upload-button input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
 .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
 .search-box { min-width: 220px; flex: 1 1 240px; display: flex; align-items: center; gap: 8px; padding: 0 10px; border: 1px solid #d5dcd8; border-radius: 7px; background: #fbfcfb; }
 .search-box span { color: var(--soft); }
@@ -1073,6 +1084,9 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 
 @media (max-width: 560px) {
   .topbar-actions .button-quiet { display: none; }
+  .library-upload { align-items: stretch; flex-direction: column; gap: 12px; }
+  .library-upload-actions { justify-content: space-between; flex-wrap: wrap; }
+  .library-upload-button { flex: 1 1 150px; }
   .page-heading { display: block; }
   .page-heading .button { margin-top: 16px; }
   .page-heading h1 { font-size: 26px; }

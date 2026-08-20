@@ -615,6 +615,17 @@
 
         <section class="view" data-view-panel="library">
           <div class="page-heading compact"><div><p class="eyebrow">Полный каталог из <span id="libraryCollectionCount">16 коллекций</span> · оригиналы не изменены</p><h1>Медиатека</h1><p><span id="librarySummary">1059 уникальных фото</span> · <span id="libraryDuplicateSummary">21 дубль скрыт</span>.</p></div></div>
+          <section class="library-upload" id="libraryUploadZone" aria-labelledby="libraryUploadTitle">
+            <div class="library-upload-copy">
+              <strong id="libraryUploadTitle">Быстро добавить фото</strong>
+              <span>Перетащите сюда или выберите файлы. Они сразу появятся в медиатеке и конструкторах этого браузера.</span>
+            </div>
+            <div class="library-upload-actions">
+              <span class="library-upload-state" id="libraryUploadState">Локальный черновик · 0</span>
+              <button class="button button-quiet" id="libraryUploadClear" type="button" hidden>Очистить</button>
+              <label class="button button-primary library-upload-button">+ Выбрать фото<input id="libraryUploadInput" type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
+            </div>
+          </section>
           <div class="toolbar" role="search">
             <label class="search-box"><span>⌕</span><input id="librarySearch" type="search" placeholder="Файл, тема или роль в карусели…" autocomplete="off"></label>
             <div class="filter-group" aria-label="Папка">
@@ -685,9 +696,9 @@
   <script src="data/carousel-builder-data.js"></script>
   <script src="data/public-stats.js"></script>
   <script src="type-studio/font-data.js"></script>
-  <script src="app.js?v=20260820-4"></script>
-  <script src="carousel-builder.js?v=20260820-4"></script>
-  <script src="carousel-studio.js?v=20260820-4"></script>
+  <script src="app.js?v=20260820-5"></script>
+  <script src="carousel-builder.js?v=20260820-5"></script>
+  <script src="carousel-studio.js?v=20260820-5"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>

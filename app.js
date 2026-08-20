@@ -37,6 +37,10 @@
     libraryResultCount: document.querySelector("#libraryResultCount"),
     libraryDuplicateSummary: document.querySelector("#libraryDuplicateSummary"),
     libraryShuffle: document.querySelector("#libraryShuffle"),
+    libraryUploadZone: document.querySelector("#libraryUploadZone"),
+    libraryUploadInput: document.querySelector("#libraryUploadInput"),
+    libraryUploadState: document.querySelector("#libraryUploadState"),
+    libraryUploadClear: document.querySelector("#libraryUploadClear"),
     loadMore: document.querySelector("#loadMore"),
     sandboxGrid: document.querySelector("#sandboxGrid"),
     sandboxCount: document.querySelector("#sandboxCount"),
@@ -70,6 +74,7 @@
   let folderFilter = "all";
   let visibleMedia = 42;
   let libraryOrder = [...library];
+  let localUploads = [];
   let carouselSlide = 1;
   let returnCarouselSlide = 1;
   let activeIdealId = "2026-08-23";
@@ -424,6 +429,74 @@
     toast("Медиатека перемешана — показываем новую подборку");
   }
 
+  function imageDimensions(url) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve({ width: image.naturalWidth, height: image.naturalHeight });
+      image.onerror = reject;
+      image.src = url;
+    });
+  }
+
+  async function addLocalUploads(fileList) {
+    const files = [...fileList].filter((file) => file.type.startsWith("image/"));
+    if (!files.length) return toast("Для быстрой загрузки выберите JPEG, PNG или WebP");
+    ui.libraryUploadState.textContent = `Добавляем ${files.length}…`;
+    const added = [];
+    for (const [index, file] of files.entries()) {
+      const thumb = URL.createObjectURL(file);
+      try {
+        const { width, height } = await imageDimensions(thumb);
+        added.push({
+          id: `local-${Date.now()}-${index}`,
+          folder: "intake",
+          folderLabel: "Локальный черновик",
+          sourceCategory: "быстрая загрузка",
+          sourceFolder: "local-upload",
+          fileName: file.name,
+          originalPath: file.name,
+          originalUrl: thumb,
+          thumb,
+          width,
+          height,
+          orientation: width > height ? "landscape" : width < height ? "portrait" : "square",
+          sizeMb: Number((file.size / 1024 / 1024).toFixed(1)),
+          modifiedAt: new Date(file.lastModified || Date.now()).toISOString(),
+          contentThemes: [],
+          carouselRoles: [],
+          duplicates: [],
+          isLocalUpload: true,
+        });
+      } catch {
+        URL.revokeObjectURL(thumb);
+      }
+    }
+    localUploads.unshift(...added);
+    library.unshift(...added);
+    libraryOrder = [...localUploads, ...libraryOrder];
+    ui.libraryUploadInput.value = "";
+    ui.libraryUploadState.textContent = `Локальный черновик · ${localUploads.length}`;
+    ui.libraryUploadClear.hidden = !localUploads.length;
+    renderLibrary(true);
+    window.dispatchEvent(new CustomEvent("sekta:library-updated"));
+    toast(`${added.length} ${plural(added.length, "фото добавлено", "фото добавлены", "фото добавлены")} в локальный черновик`);
+  }
+
+  function clearLocalUploads() {
+    const ids = new Set(localUploads.map((item) => item.id));
+    localUploads.forEach((item) => URL.revokeObjectURL(item.thumb));
+    for (let index = library.length - 1; index >= 0; index -= 1) {
+      if (ids.has(library[index].id)) library.splice(index, 1);
+    }
+    libraryOrder = libraryOrder.filter((item) => !ids.has(item.id));
+    localUploads = [];
+    ui.libraryUploadState.textContent = "Локальный черновик · 0";
+    ui.libraryUploadClear.hidden = true;
+    renderLibrary(true);
+    window.dispatchEvent(new CustomEvent("sekta:library-updated"));
+    toast("Локальный черновик очищен");
+  }
+
   function renderLibrary(reset = false) {
     if (reset) visibleMedia = 42;
     const filtered = filteredLibrary();
@@ -686,6 +759,17 @@
   ui.orientationFilter.addEventListener("change", () => renderLibrary(true));
   ui.loadMore.addEventListener("click", () => { visibleMedia += 42; renderLibrary(); });
   ui.libraryShuffle.addEventListener("click", shuffleLibrary);
+  ui.libraryUploadInput?.addEventListener("change", (event) => addLocalUploads(event.target.files));
+  ui.libraryUploadClear?.addEventListener("click", clearLocalUploads);
+  ["dragenter", "dragover"].forEach((type) => ui.libraryUploadZone?.addEventListener(type, (event) => {
+    event.preventDefault();
+    ui.libraryUploadZone.classList.add("is-dragging");
+  }));
+  ["dragleave", "drop"].forEach((type) => ui.libraryUploadZone?.addEventListener(type, (event) => {
+    event.preventDefault();
+    ui.libraryUploadZone.classList.remove("is-dragging");
+  }));
+  ui.libraryUploadZone?.addEventListener("drop", (event) => addLocalUploads(event.dataTransfer.files));
   ui.carouselDots.innerHTML = Array.from({ length: 20 }, (_, index) => `<button data-slide="${index + 1}" aria-label="Слайд ${index + 1}"></button>`).join("");
   ui.carouselDots.addEventListener("click", (event) => {
     const dot = event.target.closest("[data-slide]");
