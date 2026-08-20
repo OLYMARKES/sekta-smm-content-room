@@ -1212,6 +1212,35 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .overview-status-line button { display: flex; align-items: baseline; gap: 7px; padding: 0; border: 0; color: var(--ink); background: transparent; cursor: pointer; }
 .overview-status-line strong { font-size: 14px; }
 .overview-status-line span { color: var(--muted); font-size: 11px; }
+.overview-grid-actions { display: flex; align-items: center; gap: 11px; }
+.overview-grid-actions .button { min-width: 112px; min-height: 32px; padding: 0 10px; font-size: 10px; white-space: nowrap; }
+.overview-grid-actions .text-button { white-space: nowrap; }
+.overview-intelligence { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr); gap: 14px; margin-top: 14px; }
+.public-stats-panel, .snapshot-history-panel { padding: 20px; }
+.public-data-badge { padding: 5px 8px; color: #5d6d66; border-radius: 6px; background: var(--accent-soft); font-size: 10px; font-weight: 700; white-space: nowrap; }
+.public-channel-list { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.public-channel { display: grid; grid-template-columns: minmax(130px, .55fr) minmax(0, 1.45fr) auto; gap: 16px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.public-channel-name strong, .public-channel-name span, .public-channel-source span { display: block; }
+.public-channel-name strong { font-size: 14px; }
+.public-channel-name span { margin-top: 4px; color: var(--muted); font-size: 10px; }
+.public-channel-metrics { display: flex; flex-wrap: wrap; gap: 16px; }
+.public-channel-metrics div { min-width: 82px; }
+.public-channel-metrics strong, .public-channel-metrics span { display: block; }
+.public-channel-metrics strong { font-size: 14px; font-variant-numeric: tabular-nums; }
+.public-channel-metrics span { margin-top: 3px; color: var(--muted); font-size: 10px; }
+.public-channel-source { max-width: 180px; text-align: right; }
+.public-channel-source span { margin-bottom: 6px; color: var(--muted); font-size: 10px; line-height: 1.35; }
+.public-channel-source a { color: var(--accent); font-size: 10px; font-weight: 750; text-decoration: none; }
+.public-stats-note { max-width: 74ch; margin: 13px 0 0; color: var(--muted); font-size: 10px; line-height: 1.45; }
+.snapshot-history { display: grid; border-top: 1px solid var(--line); }
+.snapshot-row { display: grid; grid-template-columns: 88px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.snapshot-thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; overflow: hidden; border-radius: 6px; }
+.snapshot-thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.snapshot-copy strong, .snapshot-copy span { display: block; }
+.snapshot-copy strong { font-size: 11px; }
+.snapshot-copy span { margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.35; }
+.snapshot-row > small { color: var(--soft); font-size: 10px; white-space: nowrap; }
+.snapshot-empty { padding: 18px 0; color: var(--muted); font-size: 10px; line-height: 1.45; }
 
 .builder-start { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr); gap: 12px; margin-bottom: 12px; }
 .builder-start-bottom { margin-top: 12px; }
@@ -1257,6 +1286,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 @media (max-width: 980px) {
   .daily-actions { grid-template-columns: 1fr; }
   .daily-action { min-height: 122px; }
+  .overview-intelligence { grid-template-columns: 1fr; }
   .builder-start { grid-template-columns: 1fr; }
   .idea-bank-grid { grid-template-columns: 1fr; }
   .idea-bank-card { min-height: 230px; }
@@ -1269,6 +1299,12 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
   .daily-action small { padding-top: 12px; }
   .overview-status-line { gap: 8px; overflow-x: auto; }
   .overview-status-line button { min-width: 135px; flex-direction: column; align-items: flex-start; gap: 2px; }
+  .overview-grid-actions { align-items: flex-end; flex-direction: column; gap: 2px; }
+  .public-stats-panel, .snapshot-history-panel { padding: 14px; }
+  .public-channel { grid-template-columns: 1fr; gap: 10px; }
+  .public-channel-source { max-width: none; text-align: left; }
+  .snapshot-row { grid-template-columns: 72px minmax(0, 1fr); }
+  .snapshot-row > small { grid-column: 2; }
   .builder-reference { grid-template-columns: 1fr; }
   .builder-reference img { max-width: 420px; }
   .idea-generator { padding: 13px; }

@@ -6,6 +6,7 @@
   const growthIdeas = growthRoom.ideas || [];
   const libraryPayload = window.SEKTA_LIBRARY || { items: [], uniqueCount: 0, duplicateCount: 0, sourceCount: 0 };
   const library = libraryPayload.items || [];
+  const publicStats = window.SEKTA_PUBLIC_STATS || { checkedAt: "", note: "", channels: [] };
   const viewLabels = { overview: "Рабочий обзор", growth: "Банк идей", builder: "Идеи и обложки", postbuilder: "Конструктор поста", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
   const statusClass = (status) => status === "Готово" ? "status-ready" : status === "На ревью" || status === "Текст готов" ? "status-review" : "status-shoot";
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
@@ -14,6 +15,16 @@
     viewTitle: document.querySelector("#viewTitle"),
     sidebar: document.querySelector("#sidebar"),
     overviewGrid: document.querySelector("#overviewGrid"),
+    saveOverviewGrid: document.querySelector("#saveOverviewGrid"),
+    overviewSnapshotDate: document.querySelector("#overviewSnapshotDate"),
+    overviewSnapshotCount: document.querySelector("#overviewSnapshotCount"),
+    overviewSnapshotCountButton: document.querySelector("#overviewSnapshotCountButton"),
+    snapshotHistoryPanel: document.querySelector("#snapshotHistoryPanel"),
+    snapshotHistory: document.querySelector("#snapshotHistory"),
+    snapshotHistoryLabel: document.querySelector("#snapshotHistoryLabel"),
+    publicChannelList: document.querySelector("#publicChannelList"),
+    publicStatsChecked: document.querySelector("#publicStatsChecked"),
+    publicStatsNote: document.querySelector("#publicStatsNote"),
     currentGrid: document.querySelector("#currentGrid"),
     coverModeNote: document.querySelector("#coverModeNote"),
     gridVersionLabel: document.querySelector("#gridVersionLabel"),
@@ -71,6 +82,9 @@
   let currentCoverMode = "current";
   let toastTimer;
   let sandbox = loadSandbox();
+  let gridSnapshots = loadGridSnapshots();
+
+  const gridSnapshotKey = "sekta-grid-snapshots-v1";
 
   const ideaBankCatalog = {
     post: [
@@ -111,6 +125,78 @@
 
   function saveSandbox() {
     localStorage.setItem("sekta-sandbox", JSON.stringify(sandbox));
+  }
+
+  function sharedGridSnapshot() {
+    return {
+      id: "shared-2026-08-13",
+      capturedAt: "2026-08-13T12:00:00+08:00",
+      sourceDate: "13 августа 2026",
+      scope: "общая версия",
+      items: currentGrid.map((item) => ({ id: item.id, image: item.image, title: item.title })),
+    };
+  }
+
+  function loadGridSnapshots() {
+    const shared = sharedGridSnapshot();
+    try {
+      const local = JSON.parse(localStorage.getItem("sekta-grid-snapshots-v1"));
+      return [...(Array.isArray(local) ? local : []), shared].slice(0, 9);
+    } catch {
+      return [shared];
+    }
+  }
+
+  function gridFingerprint(items) {
+    return items.map((item) => `${item.id}:${item.image}`).join("|");
+  }
+
+  function saveCurrentGridSnapshot() {
+    const now = new Date();
+    const today = now.toISOString().slice(0, 10);
+    const items = currentGrid.map((item) => ({ id: item.id, image: item.image, title: item.title }));
+    const fingerprint = gridFingerprint(items);
+    const existingIndex = gridSnapshots.findIndex((snapshot) => snapshot.scope === "локально" && snapshot.capturedAt?.slice(0, 10) === today && gridFingerprint(snapshot.items || []) === fingerprint);
+    const snapshot = {
+      id: `local-${now.getTime()}`,
+      capturedAt: now.toISOString(),
+      sourceDate: "версия сетки от 13 августа 2026",
+      scope: "локально",
+      items,
+    };
+    if (existingIndex >= 0) gridSnapshots.splice(existingIndex, 1, snapshot);
+    else gridSnapshots.unshift(snapshot);
+    const localSnapshots = gridSnapshots.filter((item) => item.scope === "локально").slice(0, 8);
+    localStorage.setItem(gridSnapshotKey, JSON.stringify(localSnapshots));
+    gridSnapshots = [...localSnapshots, sharedGridSnapshot()];
+    renderGridSnapshots();
+    ui.saveOverviewGrid.textContent = "Снимок сохранён";
+    setTimeout(() => { ui.saveOverviewGrid.textContent = "Сохранить снимок"; }, 1800);
+    toast("Показанная сетка сохранена в истории этого браузера");
+  }
+
+  function snapshotDate(value, short = false) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "13.08";
+    return new Intl.DateTimeFormat("ru-RU", short ? { day: "2-digit", month: "2-digit" } : { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(date);
+  }
+
+  function renderGridSnapshots() {
+    const latest = gridSnapshots[0] || sharedGridSnapshot();
+    ui.overviewSnapshotDate.textContent = snapshotDate(latest.capturedAt, true);
+    ui.overviewSnapshotCount.textContent = gridSnapshots.length;
+    ui.overviewSnapshotCount.nextElementSibling.textContent = `${plural(gridSnapshots.length, "снимок", "снимка", "снимков")} в истории`;
+    ui.snapshotHistoryLabel.textContent = `${gridSnapshots.length} ${plural(gridSnapshots.length, "версия", "версии", "версий")}`;
+    ui.snapshotHistory.innerHTML = gridSnapshots.map((snapshot) => {
+      const thumbs = (snapshot.items || []).slice(0, 3).map((item) => `<img src="${escapeHtml(item.image)}" alt="">`).join("");
+      return `<article class="snapshot-row"><div class="snapshot-thumbs" aria-hidden="true">${thumbs}</div><div class="snapshot-copy"><strong>${escapeHtml(snapshotDate(snapshot.capturedAt))}</strong><span>${escapeHtml(snapshot.sourceDate)} · ${snapshot.items?.length || 0} публикаций</span></div><small>${escapeHtml(snapshot.scope)}</small></article>`;
+    }).join("");
+  }
+
+  function renderPublicStats() {
+    ui.publicStatsChecked.textContent = publicStats.checkedAt ? `Проверено по открытым источникам · ${publicStats.checkedAt}` : "Публичные источники пока не подключены";
+    ui.publicStatsNote.textContent = publicStats.note || "Публичные показатели не заменяют внутреннюю аналитику платформ.";
+    ui.publicChannelList.innerHTML = publicStats.channels.length ? publicStats.channels.map((channel) => `<article class="public-channel"><div class="public-channel-name"><strong>${escapeHtml(channel.name)}</strong><span>${escapeHtml(channel.handle)}</span></div><div class="public-channel-metrics">${channel.metrics.map((metric) => `<div><strong>${escapeHtml(metric.value)}</strong><span>${escapeHtml(metric.label)}</span></div>`).join("")}</div><div class="public-channel-source"><span>${escapeHtml(channel.sourceLabel)}</span><a href="${escapeHtml(channel.sourceUrl)}" target="_blank" rel="noreferrer">Открыть источник ↗</a></div></article>`).join("") : `<div class="snapshot-empty">Открытые источники пока не дали проверяемых показателей.</div>`;
   }
 
   function toast(message) {
@@ -469,6 +555,8 @@
 
   document.querySelectorAll(".nav-item").forEach((button) => button.addEventListener("click", () => setView(button.dataset.view)));
   document.querySelectorAll("[data-jump]").forEach((button) => button.addEventListener("click", () => setView(button.dataset.jump)));
+  ui.saveOverviewGrid?.addEventListener("click", saveCurrentGridSnapshot);
+  ui.overviewSnapshotCountButton?.addEventListener("click", () => ui.snapshotHistoryPanel?.scrollIntoView({ behavior: "smooth", block: "start" }));
   document.querySelector("#mobileMenu").addEventListener("click", () => ui.sidebar.classList.toggle("is-open"));
   document.querySelectorAll("#openCarousel, #openCarouselVisual, #openCarouselSecond").forEach((button) => button.addEventListener("click", openCarousel));
   document.querySelectorAll("#openReturnCarousel, #openReturnCarouselSecond").forEach((button) => button.addEventListener("click", openReturnCarousel));
@@ -631,6 +719,8 @@
   document.querySelector("#libraryCollectionCount").textContent = `${collectionCount} ${plural(collectionCount, "коллекция", "коллекции", "коллекций")}`;
   ui.libraryDuplicateSummary.textContent = `${libraryPayload.duplicateCount} ${plural(libraryPayload.duplicateCount, "точный дубль скрыт", "точных дубля скрыты", "точных дублей скрыты")}`;
   renderCurrent();
+  renderGridSnapshots();
+  renderPublicStats();
   renderWeek();
   renderIdealGrid();
   renderGrowthPrinciples();

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260820-3">
+  <link rel="stylesheet" href="styles.css?v=20260820-4">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -66,12 +66,13 @@
           <div class="overview-status-line">
             <button data-jump="library"><strong id="metricUnique">1059</strong><span>фото в медиатеке</span></button>
             <button data-jump="planner"><strong id="overviewPlanCount">7</strong><span>материалов в плане</span></button>
-            <button data-jump="current"><strong>13.08</strong><span>последний сохранённый снимок</span></button>
+            <button data-jump="current"><strong id="overviewSnapshotDate">13.08</strong><span>последний снимок сетки</span></button>
+            <button id="overviewSnapshotCountButton" type="button"><strong id="overviewSnapshotCount">1</strong><span>снимок в истории</span></button>
           </div>
 
           <div class="dashboard-grid">
             <section class="panel current-preview-panel">
-              <div class="section-head"><div><h2>Текущая сетка</h2><p>Три закреплённых + свежие публикации</p></div><button class="text-button" data-jump="current">Все 12 →</button></div>
+              <div class="section-head"><div><h2>Текущая сетка</h2><p>Сохранённая версия от 13 августа · три закреплённых + свежие публикации</p></div><div class="overview-grid-actions"><button class="button button-secondary" id="saveOverviewGrid" type="button">Сохранить снимок</button><button class="text-button" data-jump="current">Все 12 →</button></div></div>
               <div class="feed-grid feed-grid-preview" id="overviewGrid"></div>
               <div class="visual-read"><span></span><p><strong>Сейчас:</strong> продуктовые обложки, живые фото и Reels смешаны; яркий синий и розовый работают как точечные акценты.</p></div>
             </section>
@@ -79,6 +80,19 @@
             <section class="panel week-panel">
               <div class="section-head"><div><h2>Неделя 17–23 августа</h2><p>Семь опорных выходов</p></div><button class="text-button" data-jump="planner">Редактировать →</button></div>
               <div class="week-list" id="overviewWeek"></div>
+            </section>
+          </div>
+
+          <div class="overview-intelligence">
+            <section class="panel public-stats-panel">
+              <div class="section-head"><div><h2>Открытая статистика</h2><p id="publicStatsChecked">Проверяем доступные публичные показатели</p></div><span class="public-data-badge">не внутренняя аналитика</span></div>
+              <div class="public-channel-list" id="publicChannelList"></div>
+              <p class="public-stats-note" id="publicStatsNote"></p>
+            </section>
+
+            <section class="panel snapshot-history-panel" id="snapshotHistoryPanel">
+              <div class="section-head"><div><h2>История сетки</h2><p>Снимки сохраняются в этом браузере; общая версия команды остаётся в опубликованной системе.</p></div><span id="snapshotHistoryLabel">1 версия</span></div>
+              <div class="snapshot-history" id="snapshotHistory"></div>
             </section>
           </div>
 
@@ -664,7 +678,8 @@
   <script src="data/growth-room.js"></script>
   <script src="data/library-data.js"></script>
   <script src="data/carousel-builder-data.js"></script>
-  <script src="app.js?v=20260819-1"></script>
+  <script src="data/public-stats.js"></script>
+  <script src="app.js?v=20260820-4"></script>
   <script src="carousel-builder.js?v=20260820-3"></script>
   <script src="carousel-studio.js?v=20260820-3"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
