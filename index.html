@@ -27,6 +27,7 @@
       <nav class="primary-nav" aria-label="Разделы">
         <button class="nav-item is-active" data-view="overview"><span>⌂</span>Обзор</button>
         <button class="nav-item" data-view="builder"><span>▤</span>Идеи и обложки</button>
+        <button class="nav-item" data-view="postbuilder"><span>▥</span>Конструктор поста</button>
         <button class="nav-item" data-view="growth"><span>↗</span>Банк идей</button>
         <button class="nav-item" data-view="current"><span>▦</span>Текущая сетка</button>
         <button class="nav-item" data-view="library"><span>▧</span>Медиатека <em id="navLibraryCount">1059</em></button>
@@ -57,6 +58,7 @@
 
           <div class="daily-actions" aria-label="Главные действия">
             <button class="daily-action daily-action-primary" data-jump="builder"><span>Главное действие</span><strong>Собрать следующую обложку</strong><small>Идея → фото → композиция → PNG</small><b>→</b></button>
+            <button class="daily-action" data-jump="postbuilder"><span>Нужен готовый пост</span><strong>Собрать карусель целиком</strong><small>Идея → лонгрид → слайды → PNG</small><b>→</b></button>
             <button class="daily-action" data-jump="growth"><span>Нужна тема</span><strong>Обновить банк идей</strong><small>Посты, Reels и повторяемые серии</small><b>→</b></button>
             <button class="daily-action" data-jump="current"><span>Перед публикацией</span><strong>Проверить текущую сетку</strong><small>Снимок Instagram и следующие улучшения</small><b>→</b></button>
           </div>
@@ -431,12 +433,13 @@
             </div>
             <iframe id="coverTypographyFrame" src="type-studio/carousel-type-lab.html?v=20260818-6" title="Полная примерочная шрифтов на обложке" loading="eager"></iframe>
           </section>
+        </section>
 
-          <template id="legacyCarouselStudio">
+        <section class="view" data-view-panel="postbuilder">
           <header class="carousel-studio-heading">
             <div>
-              <h1>Монтаж карусели</h1>
-              <p>Соберите обложку, вставьте длинный текст, разложите его на нужное число слайдов и доведите каждый кадр в одной типографической системе.</p>
+              <h1>Конструктор поста</h1>
+              <p>Выберите идею, получите редактируемый черновик лонгрида, соберите обложку из всей медиатеки и разложите текст по слайдам.</p>
             </div>
             <div class="carousel-studio-heading-actions">
               <span class="carousel-save-state" id="carouselSaveState"><i></i>черновик сохранён локально</span>
@@ -444,6 +447,23 @@
               <button class="button button-primary" id="carouselSaveSeries" type="button">Сохранить серию</button>
             </div>
           </header>
+
+          <section class="post-source-bar" id="postSourceBar" aria-live="polite">
+            <div class="post-source-main">
+              <span>Идея поста</span>
+              <strong id="postSourceTitle">Возвращение без наказания</strong>
+              <p id="postSourceHook">Пауза не обнуляет навык возвращаться</p>
+            </div>
+            <dl class="post-source-meta">
+              <div><dt>Задача</dt><dd id="postSourceObjective">Теплота</dd></div>
+              <div><dt>Нужен</dt><dd id="postSourceAsset">Домашние фото или спокойный портрет</dd></div>
+              <div><dt>CTA</dt><dd id="postSourceCta">Рассказать, как вы возвращаетесь</dd></div>
+            </dl>
+            <div class="post-source-actions">
+              <span id="postSourceReadiness">Текст + фото</span>
+              <button class="button button-secondary" type="button" data-jump="growth">Выбрать другую идею</button>
+            </div>
+          </section>
 
           <section class="panel carousel-system-bar" aria-label="Система всей карусели">
             <label class="carousel-series-name"><span>Название серии</span><input id="carouselSeriesName" type="text" value="Возвращение после паузы"></label>
@@ -459,8 +479,8 @@
           </section>
 
           <div class="carousel-studio-tabs" role="tablist" aria-label="Этап монтажа карусели">
-            <button class="carousel-studio-tab is-active" id="carouselStageCoverTab" type="button" role="tab" aria-controls="carouselStageCoverPanel" aria-selected="true" tabindex="0" data-carousel-stage="cover"><span>Обложка</span><small>хук, фото, цвет и плашка</small></button>
-            <button class="carousel-studio-tab" id="carouselStageLongreadTab" type="button" role="tab" aria-controls="carouselStageLongreadPanel" aria-selected="false" tabindex="-1" data-carousel-stage="longread"><span>Лонгрид</span><small>вставить и разбить текст</small></button>
+            <button class="carousel-studio-tab is-active" id="carouselStageCoverTab" type="button" role="tab" aria-controls="carouselStageCoverPanel" aria-selected="true" tabindex="0" data-carousel-stage="cover"><span>Идея и обложка</span><small>хук, фото, цвет и плашка</small></button>
+            <button class="carousel-studio-tab" id="carouselStageLongreadTab" type="button" role="tab" aria-controls="carouselStageLongreadPanel" aria-selected="false" tabindex="-1" data-carousel-stage="longread"><span>Лонгрид</span><small>создать, отредактировать и разбить</small></button>
             <button class="carousel-studio-tab" id="carouselStageSlidesTab" type="button" role="tab" aria-controls="carouselStageSlidesPanel" aria-selected="false" tabindex="-1" data-carousel-stage="slides"><span>Все слайды</span><small>покадровый монтаж серии</small></button>
             <button class="carousel-studio-tab" id="carouselStageSavedTab" type="button" role="tab" aria-controls="carouselStageSavedPanel" aria-selected="false" tabindex="-1" data-carousel-stage="saved"><span>Сохранённые</span><small id="carouselSavedCount">пока нет серий</small></button>
           </div>
@@ -492,7 +512,7 @@
                   <label><span>Выравнивание</span><select id="carouselCoverAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
                   <label><span>Регистр</span><select id="carouselCoverCase"><option value="original">Как написано</option><option value="lower">Строчные</option><option value="upper">КАПС</option></select></label>
                 </div>
-                <div class="carousel-media-head"><div><strong>Фотография</strong><span id="carouselCoverPhotoName">из общей медиатеки</span></div><label class="carousel-search"><input id="carouselCoverMediaSearch" type="search" placeholder="Найти фото…"></label></div>
+                <div class="carousel-media-head"><div><strong>Фотография · вся медиатека (1059)</strong><span id="carouselCoverPhotoName">выбирайте лентой или через поиск</span></div><label class="carousel-search"><input id="carouselCoverMediaSearch" type="search" placeholder="Найти среди 1059 фото…"></label></div>
                 <div class="carousel-media-strip" id="carouselCoverMedia"></div>
                 <button class="button button-secondary carousel-next-stage" type="button" data-carousel-go="longread">Дальше: вставить лонгрид →</button>
               </section>
@@ -503,7 +523,8 @@
             <section class="panel carousel-longread-panel">
               <div class="carousel-longread-editor">
                 <div>
-                  <div class="section-head"><div><h2>Вставьте весь текст</h2><p>Абзацы и формулировки сохраняются; меняется только распределение по слайдам.</p></div><span id="carouselLongreadWords">0 слов</span></div>
+                  <div class="section-head"><div><h2>Черновик лонгрида</h2><p>Сгенерируйте текст из выбранной идеи или вставьте свой. Всё можно править вручную.</p></div><span id="carouselLongreadWords">0 слов</span></div>
+                  <div class="post-generate-row"><button class="button button-primary" id="carouselGenerateLongread" type="button">Сгенерировать лонгрид</button><button class="button button-secondary" id="carouselRegenerateLongread" type="button">Другой вариант ↻</button><span id="carouselLongreadDraftState">Черновик · требует редакторской проверки</span></div>
                   <textarea id="carouselLongreadText" rows="18">Иногда пять пропущенных дней ощущаются как доказательство, что всё снова сломалось. Будто теперь нужно догнать план, отработать паузу и начать заново с идеального понедельника.
 
 Но тело не ведёт календарь достижений. Оно не обнуляет силу, выносливость и опыт из-за нескольких дней без тренировки. Возвращение не требует наказания.
@@ -547,7 +568,7 @@
                   <label><span>Размер текста</span><input id="carouselSlideSize" type="range" min="28" max="112" value="48"><output id="carouselSlideSizeValue">48 px</output></label>
                   <label><span>Выравнивание</span><select id="carouselSlideAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
                 </div>
-                <div class="carousel-media-head"><div><strong>Фото этого слайда</strong><span id="carouselSlidePhotoName">можно выбрать отдельно</span></div><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать фото</button></div>
+                <div class="carousel-media-head"><div><strong>Фото этого слайда · вся медиатека</strong><span id="carouselSlidePhotoName">можно выбрать отдельно</span></div><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать фото</button></div>
                 <div class="carousel-media-strip" id="carouselSlideMedia"></div>
               </section>
             </div>
@@ -565,7 +586,6 @@
           </div>
 
           <div class="carousel-studio-status" id="carouselStudioStatus" role="status" aria-live="polite">Черновик готов к монтажу.</div>
-          </template>
         </section>
 
         <section class="view" data-view-panel="library">
@@ -606,6 +626,11 @@
     <div id="dialogContent"></div>
   </dialog>
 
+  <dialog class="idea-detail-dialog" id="ideaDetailDialog" aria-labelledby="ideaDetailTitle">
+    <button class="dialog-close" type="button" data-close-idea-detail aria-label="Закрыть">×</button>
+    <div id="ideaDetailContent"></div>
+  </dialog>
+
   <dialog class="carousel-dialog" id="carouselDialog">
     <button class="dialog-close light" data-close-carousel aria-label="Закрыть">×</button>
     <div class="carousel-stage"><button class="carousel-arrow" id="carouselPrev" aria-label="Предыдущий слайд">←</button><img id="carouselImage" src="assets/approved-carousel/slide-01.png" alt="Слайд 1 готовой карусели"><button class="carousel-arrow" id="carouselNext" aria-label="Следующий слайд">→</button></div>
@@ -635,6 +660,7 @@
   <script src="data/carousel-builder-data.js"></script>
   <script src="app.js?v=20260819-1"></script>
   <script src="carousel-builder.js?v=20260819-6"></script>
+  <script src="carousel-studio.js?v=20260820-1"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>

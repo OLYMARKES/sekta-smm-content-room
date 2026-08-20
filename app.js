@@ -6,7 +6,7 @@
   const growthIdeas = growthRoom.ideas || [];
   const libraryPayload = window.SEKTA_LIBRARY || { items: [], uniqueCount: 0, duplicateCount: 0, sourceCount: 0 };
   const library = libraryPayload.items || [];
-  const viewLabels = { overview: "Рабочий обзор", growth: "Банк идей", builder: "Идеи и обложки", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
+  const viewLabels = { overview: "Рабочий обзор", growth: "Банк идей", builder: "Идеи и обложки", postbuilder: "Конструктор поста", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
   const statusClass = (status) => status === "Готово" ? "status-ready" : status === "На ревью" || status === "Текст готов" ? "status-review" : "status-shoot";
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
 
@@ -41,6 +41,8 @@
     growthResultCount: document.querySelector("#growthResultCount"),
     ideaBankGrid: document.querySelector("#ideaBankGrid"),
     refreshIdeaBank: document.querySelector("#refreshIdeaBank"),
+    ideaDetailDialog: document.querySelector("#ideaDetailDialog"),
+    ideaDetailContent: document.querySelector("#ideaDetailContent"),
     detailDialog: document.querySelector("#detailDialog"),
     dialogContent: document.querySelector("#dialogContent"),
     carouselDialog: document.querySelector("#carouselDialog"),
@@ -236,8 +238,47 @@
   function renderIdeaBank() {
     if (!ui.ideaBankGrid) return;
     const catalog = ideaBankCatalog[activeIdeaKind] || [];
-    const visible = Array.from({ length: Math.min(3, catalog.length) }, (_, index) => catalog[(ideaBankOffset + index) % catalog.length]);
-    ui.ideaBankGrid.innerHTML = visible.map((item) => `<article class="idea-bank-card"><div><span>${escapeHtml(item.objective)}</span><em>${escapeHtml(item.readiness)}</em></div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.hook)}</p><dl><div><dt>Что нужно</dt><dd>${escapeHtml(item.asset)}</dd></div><div><dt>CTA</dt><dd>${escapeHtml(item.cta)}</dd></div></dl><button type="button" data-idea-to-builder="${escapeHtml(item.hook)}">Взять в конструктор →</button></article>`).join("");
+    const visible = Array.from({ length: Math.min(3, catalog.length) }, (_, offset) => ({ item: catalog[(ideaBankOffset + offset) % catalog.length], index: (ideaBankOffset + offset) % catalog.length }));
+    ui.ideaBankGrid.innerHTML = visible.map(({ item, index }) => `<article class="idea-bank-card" data-idea-card="${activeIdeaKind}:${index}"><div><span>${escapeHtml(item.objective)}</span><em>${escapeHtml(item.readiness)}</em></div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.hook)}</p><dl><div><dt>Что нужно</dt><dd>${escapeHtml(item.asset)}</dd></div><div><dt>CTA</dt><dd>${escapeHtml(item.cta)}</dd></div></dl><div class="idea-bank-actions"><button type="button" class="button button-secondary" data-idea-detail="${activeIdeaKind}:${index}">Подробнее</button><button type="button" class="button button-primary" data-idea-build-post="${activeIdeaKind}:${index}">Собрать пост →</button></div></article>`).join("");
+  }
+
+  function catalogIdea(reference) {
+    const [kind, rawIndex] = String(reference || "").split(":");
+    const item = ideaBankCatalog[kind]?.[Number(rawIndex)];
+    return item ? { ...item, kind, id: `${kind}-${rawIndex}` } : null;
+  }
+
+  function ideaDescription(item) {
+    const kindText = item.kind === "reel" ? "Reel можно собрать как короткий сценарий и при необходимости превратить в поясняющую карусель." : item.kind === "series" ? "Это повторяемая рубрика: первый выпуск должен сразу объяснить механику серии и дать читателю простой вход." : "Это самостоятельный пост-карусель: начинаем с узнаваемого напряжения, затем даём новую рамку и один выполнимый следующий шаг.";
+    return `${kindText} Главная мысль — «${item.hook}». Не доказываем её абстрактно: показываем через ${item.asset.toLocaleLowerCase("ru")}.`;
+  }
+
+  function openIdeaDetail(reference) {
+    const item = catalogIdea(reference);
+    if (!item || !ui.ideaDetailDialog || !ui.ideaDetailContent) return;
+    const needsReview = /ревью|специалист|методическ|эксперт/i.test(item.readiness);
+    ui.ideaDetailContent.innerHTML = `<header class="idea-detail-head"><span>${escapeHtml(item.kind === "post" ? "Пост / карусель" : item.kind === "reel" ? "Reel" : "Серия")}</span><h2 id="ideaDetailTitle">${escapeHtml(item.title)}</h2><p>${escapeHtml(item.hook)}</p></header><div class="idea-detail-body"><section><h3>О чём этот материал</h3><p>${escapeHtml(ideaDescription(item))}</p></section><dl><div><dt>Задача</dt><dd>${escapeHtml(item.objective)}</dd></div><div><dt>Исходники</dt><dd>${escapeHtml(item.asset)}</dd></div><div><dt>Действие читателя</dt><dd>${escapeHtml(item.cta)}</dd></div><div><dt>Готовность</dt><dd>${escapeHtml(item.readiness)}</dd></div></dl>${needsReview ? `<p class="idea-review-gate">Перед публикацией нужен человеческий методический или экспертный ревью.</p>` : ""}<section><h3>Предлагаемая драматургия</h3><ol><li>Узнаваемая ситуация без обвинения.</li><li>Мысль, которая меняет привычную рамку.</li><li>Конкретный пример из жизни или движения.</li><li>Один выполнимый шаг на сегодня.</li><li>CTA: ${escapeHtml(item.cta)}.</li></ol></section></div><footer class="idea-detail-actions"><button class="button button-secondary" type="button" data-idea-cover="${escapeHtml(reference)}">Собрать только обложку</button><button class="button button-primary" type="button" data-idea-build-post="${escapeHtml(reference)}">Собрать пост целиком →</button></footer>`;
+    ui.ideaDetailDialog.showModal();
+  }
+
+  function startPostBuilder(item) {
+    if (!item) return;
+    ui.ideaDetailDialog?.close();
+    setView("postbuilder");
+    window.dispatchEvent(new CustomEvent("sekta:post-builder-load", { detail: item }));
+    toast("Идея открыта в конструкторе поста");
+  }
+
+  function startCoverBuilder(item) {
+    if (!item) return;
+    ui.ideaDetailDialog?.close();
+    setView("builder");
+    const hookInput = document.querySelector("#builderHook");
+    if (hookInput) {
+      hookInput.value = item.hook;
+      hookInput.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    toast("Идея открыта в конструкторе обложки");
   }
 
   function growthBriefText(item) {
@@ -251,7 +292,7 @@
       ui.growthDetail.innerHTML = `<div class="growth-detail-empty"><strong>Выберите другую связку</strong><span>Здесь появится полный рецепт Reel.</span></div>`;
       return;
     }
-    ui.growthDetail.innerHTML = `<div class="growth-detail-head">${growthCover(item, "detail")}<div><p class="eyebrow">${escapeHtml(item.priority)}</p><h2>${escapeHtml(item.title)}</h2><div class="growth-detail-tags"><span>${escapeHtml(goalLabel(item.goal))}</span><span>${escapeHtml(assetLabel(item.asset))}</span><span>${escapeHtml(item.duration)}</span></div></div></div><div class="growth-detail-body"><section class="growth-why"><span>Почему сработает</span><p>${escapeHtml(item.why)}</p></section><section><h3>Покадровый сценарий</h3><ol class="growth-script">${item.script.map((point, index) => `<li><span>0${index + 1}</span><p>${escapeHtml(point)}</p></li>`).join("")}</ol></section><div class="growth-recipe-grid"><section><h3>Визуал</h3><p>${escapeHtml(item.visual)}</p></section><section><h3>Обложка</h3><p>${escapeHtml(item.coverRule)}</p></section></div><div class="growth-action-row"><div><span>CTA</span><strong>${escapeHtml(item.cta)}</strong></div><div><span>Смотрим</span><strong>${escapeHtml(item.metric)}</strong></div></div></div><div class="growth-detail-foot"><span>${escapeHtml(item.readiness)}</span><button data-copy-growth="${escapeHtml(item.id)}">Скопировать бриф</button></div>`;
+    ui.growthDetail.innerHTML = `<div class="growth-detail-head">${growthCover(item, "detail")}<div><p class="eyebrow">${escapeHtml(item.priority)}</p><h2>${escapeHtml(item.title)}</h2><div class="growth-detail-tags"><span>${escapeHtml(goalLabel(item.goal))}</span><span>${escapeHtml(assetLabel(item.asset))}</span><span>${escapeHtml(item.duration)}</span></div></div></div><div class="growth-detail-body"><section class="growth-why"><span>Почему сработает</span><p>${escapeHtml(item.why)}</p></section><section><h3>Покадровый сценарий</h3><ol class="growth-script">${item.script.map((point, index) => `<li><span>0${index + 1}</span><p>${escapeHtml(point)}</p></li>`).join("")}</ol></section><div class="growth-recipe-grid"><section><h3>Визуал</h3><p>${escapeHtml(item.visual)}</p></section><section><h3>Обложка</h3><p>${escapeHtml(item.coverRule)}</p></section></div><div class="growth-action-row"><div><span>CTA</span><strong>${escapeHtml(item.cta)}</strong></div><div><span>Смотрим</span><strong>${escapeHtml(item.metric)}</strong></div></div></div><div class="growth-detail-foot"><span>${escapeHtml(item.readiness)}</span><div><button data-copy-growth="${escapeHtml(item.id)}">Скопировать бриф</button><button class="button button-primary" data-build-growth-post="${escapeHtml(item.id)}">Собрать пост</button></div></div>`;
     ui.growthIdeaGrid.querySelectorAll("[data-growth-id]").forEach((card) => card.classList.toggle("is-selected", card.dataset.growthId === activeGrowthId));
   }
 
@@ -502,6 +543,11 @@
     }
     const copyGrowthButton = event.target.closest("[data-copy-growth]");
     if (copyGrowthButton) copyGrowthBrief(growthIdeas.find((item) => item.id === copyGrowthButton.dataset.copyGrowth));
+    const growthPostButton = event.target.closest("[data-build-growth-post]");
+    if (growthPostButton) {
+      const item = growthIdeas.find((idea) => idea.id === growthPostButton.dataset.buildGrowthPost);
+      if (item) startPostBuilder({ id: item.id, kind: "reel", title: item.title, hook: item.hook, objective: goalLabel(item.goal), asset: `${assetLabel(item.asset)} · ${item.visual}`, cta: item.cta, readiness: item.readiness });
+    }
   });
 
   document.querySelectorAll("[data-growth-goal]").forEach((button) => button.addEventListener("click", () => {
@@ -525,16 +571,17 @@
     toast("Подборка обновлена");
   });
   document.addEventListener("click", (event) => {
-    const ideaButton = event.target.closest("[data-idea-to-builder]");
-    if (!ideaButton) return;
-    setView("builder");
-    const hookInput = document.querySelector("#builderHook");
-    if (hookInput) {
-      hookInput.value = ideaButton.dataset.ideaToBuilder;
-      hookInput.dispatchEvent(new Event("input", { bubbles: true }));
-    }
-    toast("Идея перенесена в конструктор");
+    const detailButton = event.target.closest("[data-idea-detail]");
+    if (detailButton) openIdeaDetail(detailButton.dataset.ideaDetail);
+    const ideaCard = event.target.closest("[data-idea-card]");
+    if (ideaCard && !event.target.closest("button")) openIdeaDetail(ideaCard.dataset.ideaCard);
+    const postButton = event.target.closest("[data-idea-build-post]");
+    if (postButton) startPostBuilder(catalogIdea(postButton.dataset.ideaBuildPost));
+    const coverButton = event.target.closest("[data-idea-cover]");
+    if (coverButton) startCoverBuilder(catalogIdea(coverButton.dataset.ideaCover));
+    if (event.target.closest("[data-close-idea-detail]")) ui.ideaDetailDialog?.close();
   });
+  ui.ideaDetailDialog?.addEventListener("click", (event) => { if (event.target === ui.ideaDetailDialog) ui.ideaDetailDialog.close(); });
   document.querySelectorAll("[data-cover-mode]").forEach((button) => button.addEventListener("click", () => {
     currentCoverMode = button.dataset.coverMode;
     renderCurrent();
@@ -592,6 +639,7 @@
   renderIdeaBank();
   renderLibrary();
   renderSandbox();
+  window.SEKTA_IDEA_BANK = ideaBankCatalog;
   if (location.hash === "#typography") setView("typography");
   window.addEventListener("hashchange", () => { if (location.hash === "#typography") setView("typography"); });
 })();

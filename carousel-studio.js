@@ -1,6 +1,6 @@
 (() => {
   const library = window.SEKTA_LIBRARY?.items || [];
-  const root = document.querySelector('[data-view-panel="typography"]');
+  const root = document.querySelector('[data-view-panel="postbuilder"]');
   if (!root) return;
 
   const DRAFT_KEY = "sekta-carousel-studio-draft-v1";
@@ -98,6 +98,15 @@
     duplicateSlide: document.querySelector("#carouselDuplicateSlide"),
     savedSeries: document.querySelector("#carouselSavedSeries"),
     exportSeries: document.querySelector("#carouselExportSeries"),
+    sourceTitle: document.querySelector("#postSourceTitle"),
+    sourceHook: document.querySelector("#postSourceHook"),
+    sourceObjective: document.querySelector("#postSourceObjective"),
+    sourceAsset: document.querySelector("#postSourceAsset"),
+    sourceCta: document.querySelector("#postSourceCta"),
+    sourceReadiness: document.querySelector("#postSourceReadiness"),
+    generateLongread: document.querySelector("#carouselGenerateLongread"),
+    regenerateLongread: document.querySelector("#carouselRegenerateLongread"),
+    longreadDraftState: document.querySelector("#carouselLongreadDraftState"),
   };
 
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
@@ -375,7 +384,77 @@
   let savedSeries = readJson(SAVED_KEY, []);
   if (!Array.isArray(savedSeries)) savedSeries = [];
   let activeStage = "cover";
+  let generationVariant = 0;
   let saveTimer;
+
+  const fallbackIdea = { id: "post-1", kind: "post", title: "Возвращение без наказания", hook: "Пауза не обнуляет навык возвращаться", objective: "Теплота", asset: "Домашние фото или спокойный портрет", cta: "Рассказать, как вы возвращаетесь", readiness: "Текст + фото" };
+
+  function activeIdea() {
+    return series.idea || fallbackIdea;
+  }
+
+  function renderSource() {
+    const idea = activeIdea();
+    ui.sourceTitle.textContent = idea.title;
+    ui.sourceHook.textContent = idea.hook;
+    ui.sourceObjective.textContent = idea.objective;
+    ui.sourceAsset.textContent = idea.asset;
+    ui.sourceCta.textContent = idea.cta;
+    ui.sourceReadiness.textContent = idea.readiness;
+    document.querySelector("#postSourceBar")?.classList.toggle("needs-review", /ревью|специалист|методическ|эксперт/i.test(idea.readiness));
+  }
+
+  function generatedLongread(idea, variant = 0) {
+    const hookSentence = /[.!?…]$/.test(idea.hook.trim()) ? idea.hook.trim() : `${idea.hook.trim()}.`;
+    const openings = [
+      `${hookSentence} Эта мысль важна именно в обычный день — не тогда, когда всё получается, а когда план снова не совпал с жизнью.`,
+      `Есть момент, в котором особенно легко решить, что с вами что-то не так: ${idea.title.toLocaleLowerCase("ru")}. Но привычное объяснение здесь редко помогает.`,
+      `Попробуем посмотреть на это без героизма и без чувства вины. ${hookSentence} Не как красивый лозунг, а как рабочее правило для реальной жизни.`
+    ];
+    const middles = [
+      `Мы часто замечаем только итог: сколько минут сделали, насколько устали, выполнили ли план полностью. Но устойчивость складывается из другого — из способности заметить своё состояние, выбрать подходящий объём и не превращать движение в проверку характера.`,
+      `Проблема не в недостатке силы воли. Чаще всего слишком большой следующий шаг просто не помещается в конкретный день. Тогда полезнее не уговаривать себя на максимум, а уменьшить порог входа до действия, которое действительно можно повторить.`,
+      `У движения нет задачи доказать, что вы хороший человек. Оно может быть способом вернуть контакт с телом, чуть изменить состояние и оставить себе возможность продолжить завтра. Этого уже достаточно, чтобы опыт не был пустым.`
+    ];
+    const proof = `Для этого материала мы используем ${idea.asset.toLocaleLowerCase("ru")}. Визуал должен не изображать идеальную дисциплину, а показывать живой момент: паузу, выбор, короткое действие или возвращение к знакомому движению.`;
+    const step = `Практический шаг на сегодня: сначала спросите себя не «сколько я должна сделать?», а «какой объём сейчас поддержит меня и не потребует расплаты завтра?». Выберите самый короткий честный вариант, начните с него и оставьте право остановиться.`;
+    const close = `Так появляется не идеальная серия дней, а навык, который выдерживает разные обстоятельства. Если эта рамка вам подходит — ${idea.cta.toLocaleLowerCase("ru")}.`;
+    const review = /ревью|специалист|методическ|эксперт/i.test(idea.readiness) ? `\n\nРедакторская пометка: формулировки о нагрузке и результате нужно проверить со специалистом перед публикацией.` : "";
+    return [openings[variant % openings.length], middles[variant % middles.length], proof, step, close].join("\n\n") + review;
+  }
+
+  function generateFromIdea(advance = false) {
+    if (advance) generationVariant += 1;
+    const idea = activeIdea();
+    series.longread = generatedLongread(idea, generationVariant);
+    ui.longread.value = series.longread;
+    series = splitSeries(series, Number(ui.slideCount.value || 10), ui.keepParagraphs.checked, ui.photoRhythm.checked);
+    ui.longreadDraftState.textContent = `Черновик ${generationVariant + 1} · требует редакторской проверки`;
+    renderAll();
+    markChanged();
+    setStatus(`Лонгрид по теме «${idea.title}» создан. Его можно править перед разбиением.`);
+  }
+
+  function loadIdea(detail) {
+    const idea = { ...fallbackIdea, ...detail };
+    series.idea = idea;
+    series.name = idea.title;
+    const cover = coverSlide();
+    cover.title = idea.hook;
+    cover.body = idea.objective;
+    cover.savedAt = null;
+    const final = series.slides.at(-1);
+    if (final?.role === "cta") {
+      final.title = "Что можно сделать сейчас";
+      final.body = idea.cta;
+      final.savedAt = null;
+    }
+    generationVariant = 0;
+    generateFromIdea(false);
+    renderSource();
+    renderAll();
+    setStage("longread");
+  }
 
   function setStatus(message) {
     ui.status.textContent = message;
@@ -557,6 +636,7 @@
   }
 
   function renderAll() {
+    renderSource();
     renderFontStrip();
     renderPaletteState();
     renderCover();
@@ -871,6 +951,8 @@
     renderSplitPreview();
     markChanged();
   });
+  ui.generateLongread?.addEventListener("click", () => generateFromIdea(false));
+  ui.regenerateLongread?.addEventListener("click", () => generateFromIdea(true));
   ui.slideCount.addEventListener("change", renderSplitPreview);
   ui.splitText.addEventListener("click", performSplit);
   ui.splitPreview.addEventListener("click", (event) => {
@@ -979,6 +1061,7 @@
     setStatus("Обложка из конструктора перенесена в монтаж серии.");
   });
   window.addEventListener("sekta:open-carousel-studio", () => renderAll());
+  window.addEventListener("sekta:post-builder-load", (event) => loadIdea(event.detail || fallbackIdea));
 
   ensureFont(series.font);
   renderAll();
@@ -989,7 +1072,7 @@
     const likedPalettes = layoutLikeIds();
     if (likedPalettes.length) series.palette = `layout-${likedPalettes[0]}`;
     series.slides.forEach((slide) => { slide.palette = series.palette; });
-    document.querySelector('[data-view="typography"]')?.click();
+    document.querySelector('[data-view="postbuilder"]')?.click();
     renderAll();
     setStatus(`Импортировано: ${choices.length} шрифтовых вариантов, ${tasteBundle.systems?.length || 0} сохранённых систем и ${likedPalettes.length} цветовых сцен.`);
   }
