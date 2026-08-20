@@ -87,10 +87,20 @@
     slideRole: document.querySelector("#carouselSlideRole"),
     slideScene: document.querySelector("#carouselSlideScene"),
     slidePalette: document.querySelector("#carouselSlidePalette"),
+    slideFont: document.querySelector("#carouselSlideFont"),
     slideSize: document.querySelector("#carouselSlideSize"),
     slideSizeValue: document.querySelector("#carouselSlideSizeValue"),
+    slideBodySize: document.querySelector("#carouselSlideBodySize"),
+    slideBodySizeValue: document.querySelector("#carouselSlideBodySizeValue"),
+    slidePlacement: document.querySelector("#carouselSlidePlacement"),
     slideAlign: document.querySelector("#carouselSlideAlign"),
+    slideOffsetX: document.querySelector("#carouselSlideOffsetX"),
+    slideOffsetXValue: document.querySelector("#carouselSlideOffsetXValue"),
+    slideOffsetY: document.querySelector("#carouselSlideOffsetY"),
+    slideOffsetYValue: document.querySelector("#carouselSlideOffsetYValue"),
     slideMedia: document.querySelector("#carouselSlideMedia"),
+    slideMediaSearch: document.querySelector("#carouselSlideMediaSearch"),
+    shuffleSlideMedia: document.querySelector("#carouselShuffleSlideMedia"),
     slidePhotoName: document.querySelector("#carouselSlidePhotoName"),
     removePhoto: document.querySelector("#carouselRemovePhoto"),
     saveSlide: document.querySelector("#carouselSaveSlide"),
@@ -137,6 +147,21 @@
   }
   const importedOnLoad = consumeTasteImport();
   const deepClone = (value) => JSON.parse(JSON.stringify(value));
+  const shuffle = (items) => {
+    const result = [...items];
+    for (let index = result.length - 1; index > 0; index -= 1) {
+      const target = Math.floor(Math.random() * (index + 1));
+      [result[index], result[target]] = [result[target], result[index]];
+    }
+    return result;
+  };
+  const builtInLikedFrames = [
+    "Akt|lower", "Akt|upper", "Alegreya Sans|lower", "Alegreya Sans|upper", "Alice|lower",
+    "Alumni Sans|lower", "Alumni Sans|upper", "Comfortaa|lower", "Commissioner|lower", "Commissioner|upper",
+    "Geologica|lower", "Geologica|upper", "Golos Text|lower", "Golos Text|upper", "Manrope|lower", "Manrope|upper",
+    "PT Sans Narrow|lower", "PT Sans Narrow|upper", "Rubik|lower", "Rubik|upper",
+  ];
+  let slideMediaOrder = [...library];
   const words = (value) => String(value || "").trim().split(/\s+/).filter(Boolean);
   const plural = (number, one, few, many) => {
     const mod10 = number % 10;
@@ -172,6 +197,12 @@
     (tasteBundle.fontLikes || []).forEach((key) => {
       const split = String(key).lastIndexOf("|");
       if (split > 0) add(key.slice(0, split), key.slice(split + 1));
+    });
+    add("PT Sans Narrow", "upper", "Manrope", "система #Sekta");
+    add("Golos Text", "lower", "Golos Text", "спокойный текст");
+    builtInLikedFrames.forEach((key) => {
+      const split = key.lastIndexOf("|");
+      add(key.slice(0, split), key.slice(split + 1), "", "из профиля Оли");
     });
     Object.entries(votes).forEach(([key, value]) => {
       if (value !== "like" || !key.includes("|")) return;
@@ -248,9 +279,13 @@
       scene: "paper",
       palette: "ink",
       size: 46,
+      bodySize: 34,
       align: "left",
       placement: "middle",
+      offsetX: 0,
+      offsetY: 0,
       caseKind: "original",
+      font: null,
       photoId: null,
       savedAt: null,
       ...overrides,
@@ -287,7 +322,7 @@
       longread: candidate.longread || DEFAULT_LONGREAD,
       totalSlides: candidate.slides.length,
       activeSlide: Math.min(Math.max(Number(candidate.activeSlide) || 0, 0), candidate.slides.length - 1),
-      slides: candidate.slides.map((slide) => makeSlide(slide)),
+      slides: candidate.slides.map((slide) => makeSlide({ ...slide, font: slide.font?.family ? normalizeFontSystem(slide.font) : null })),
     };
   }
 
@@ -461,6 +496,14 @@
       series.longread = idea.longread.trim();
       ui.longread.value = series.longread;
       series = splitSeries(series, requestedSlides, ui.keepParagraphs.checked, ui.photoRhythm.checked);
+      if (Array.isArray(idea.slides) && idea.slides.length === series.slides.length) {
+        series.slides = series.slides.map((slide, index) => makeSlide({
+          ...slide,
+          title: idea.slides[index]?.title ?? slide.title,
+          body: idea.slides[index]?.body ?? slide.body,
+          role: idea.slides[index]?.role || slide.role,
+        }));
+      }
       if (Array.isArray(idea.visualPlan)) {
         series.slides.forEach((slide, index) => {
           const visual = idea.visualPlan[index];
@@ -472,6 +515,7 @@
         });
       }
       ui.longreadDraftState.textContent = "Сценарий из банка идей · можно редактировать";
+      series.activeSlide = Math.min(Math.max(Number(idea.activeSlide) || 0, 0), series.slides.length - 1);
       renderAll();
       markChanged();
       setStatus(`Сценарий на ${requestedSlides} слайдов перенесён из банка идей.`);
@@ -480,7 +524,7 @@
     }
     renderSource();
     renderAll();
-    setStage("longread");
+    setStage(idea.openSlides ? "slides" : "longread");
   }
 
   function setStatus(message) {
@@ -509,25 +553,28 @@
     if (!element || !slide) return;
     const photo = photoById(slide.photoId);
     const palette = paletteFor(slide.palette || series.palette);
-    ensureFont(series.font);
+    const slideFont = slide.font?.family ? normalizeFontSystem(slide.font) : series.font;
+    ensureFont(slideFont);
     element.className = "carousel-slide-canvas";
     element.dataset.scene = slide.scene;
     element.dataset.palette = slide.palette;
     element.dataset.placement = slide.placement || "middle";
     element.dataset.align = slide.align || "left";
     element.dataset.role = slide.role;
-    element.style.setProperty("--carousel-head-font", `"${series.font.family}"`);
-    element.style.setProperty("--carousel-body-font", `"${series.font.body || companionFor(series.font.family)}"`);
+    element.style.setProperty("--carousel-head-font", `"${slideFont.family}"`);
+    element.style.setProperty("--carousel-body-font", `"${slideFont.body || companionFor(slideFont.family)}"`);
     element.style.setProperty("--carousel-bg", palette.background);
     element.style.setProperty("--carousel-fg", palette.foreground);
     element.style.setProperty("--carousel-accent", palette.accent);
     element.style.setProperty("--carousel-ink", palette.ink);
     element.style.setProperty("--carousel-title-size", `${Math.max(24, Math.round((slide.size || 46) * .48))}px`);
-    element.style.setProperty("--carousel-body-size", `${Math.max(15, Math.min(27, Math.round((slide.size || 46) * .32)))}px`);
+    element.style.setProperty("--carousel-body-size", `${Math.max(12, Math.min(31, Math.round((slide.bodySize || 34) * .48)))}px`);
+    element.style.setProperty("--carousel-offset-x", `${Number(slide.offsetX) || 0}%`);
+    element.style.setProperty("--carousel-offset-y", `${Number(slide.offsetY) || 0}%`);
     const image = photo && !["paper", "field", "dark", "quote"].includes(slide.scene)
       ? `<img class="carousel-render-photo" src="${escapeHtml(photo.thumb)}" alt="">`
       : "";
-    const title = slide.title ? `<strong>${escapeHtml(displayText(slide.title, slide.caseKind || series.font.caseKind))}</strong>` : "";
+    const title = slide.title ? `<strong>${escapeHtml(displayText(slide.title, slide.caseKind || slideFont.caseKind))}</strong>` : "";
     const body = slide.body ? `<p>${escapeHtml(slide.body).replace(/\n\n/g, "</p><p>")}</p>` : "";
     element.innerHTML = `${image}<div class="carousel-render-shade"></div><div class="carousel-render-content"><span class="carousel-render-series">${escapeHtml(series.name)}</span>${title}${body}<small>${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}</small></div>`;
   }
@@ -564,14 +611,23 @@
     ui.slidePalette.value = choices[selectedId] ? selectedId : "ink";
   }
 
-  function mediaPool(query = "") {
-    const normalized = query.trim().toLocaleLowerCase("ru");
-    const pool = normalized ? library.filter((item) => [item.fileName, item.folderLabel, ...(item.contentThemes || []), ...(item.carouselRoles || [])].join(" ").toLocaleLowerCase("ru").includes(normalized)) : library;
-    return [...pool].sort((a, b) => Number(b.orientation === "portrait") - Number(a.orientation === "portrait")).slice(0, 18);
+  function renderSlideFontOptions(slide) {
+    const choices = fontChoices();
+    const selectedKey = slide.font?.family ? fontSystemKey(slide.font) : "series";
+    ui.slideFont.innerHTML = `<option value="series">Как во всей серии · ${escapeHtml(series.font.family)}</option>${choices.map((font) => `<option value="${escapeHtml(fontSystemKey(font))}">${escapeHtml(font.family)} · ${font.caseKind === "upper" ? "КАПС" : font.caseKind === "lower" ? "строчные" : "исходный регистр"}</option>`).join("")}`;
+    ui.slideFont.value = selectedKey;
+    if (ui.slideFont.value !== selectedKey) ui.slideFont.value = "series";
+    choices.forEach(ensureFont);
   }
 
-  function renderMediaStrip(element, selectedId, query = "") {
-    const pool = mediaPool(query);
+  function mediaPool(query = "", order = library) {
+    const normalized = query.trim().toLocaleLowerCase("ru");
+    const pool = normalized ? order.filter((item) => [item.fileName, item.folderLabel, ...(item.contentThemes || []), ...(item.carouselRoles || [])].join(" ").toLocaleLowerCase("ru").includes(normalized)) : order;
+    return (order === library ? [...pool].sort((a, b) => Number(b.orientation === "portrait") - Number(a.orientation === "portrait")) : [...pool]).slice(0, 24);
+  }
+
+  function renderMediaStrip(element, selectedId, query = "", order = library) {
+    const pool = mediaPool(query, order);
     element.innerHTML = pool.length ? pool.map((photo) => `<button type="button" class="${photo.id === selectedId ? "is-selected" : ""}" data-carousel-photo="${escapeHtml(photo.id)}" aria-label="Выбрать ${escapeHtml(photo.fileName)}"><img src="${escapeHtml(photo.thumb)}" alt="" loading="lazy"></button>`).join("") : `<span class="carousel-media-empty">Ничего не найдено.</span>`;
   }
 
@@ -617,10 +673,11 @@
 
   function miniSlideMarkup(slide, index) {
     const palette = paletteFor(slide.palette);
+    const slideFont = slide.font?.family ? slide.font : series.font;
     const photo = photoById(slide.photoId);
     const image = photo && !["paper", "field", "dark", "quote"].includes(slide.scene) ? `<img src="${escapeHtml(photo.thumb)}" alt="">` : "";
     const label = slide.title || slide.body || roleLabels[slide.role];
-    return `<button type="button" class="carousel-mini-slide${index === series.activeSlide ? " is-active" : ""}${slide.savedAt ? " is-saved" : ""}" data-carousel-slide-index="${index}" style="--mini-bg:${palette.background};--mini-fg:${palette.foreground};--mini-font:'${escapeHtml(series.font.family)}'"><span>${String(index + 1).padStart(2, "0")}</span><div>${image}<strong>${escapeHtml(label)}</strong></div><small>${escapeHtml(roleLabels[slide.role] || slide.role)}</small></button>`;
+    return `<button type="button" class="carousel-mini-slide${index === series.activeSlide ? " is-active" : ""}${slide.savedAt ? " is-saved" : ""}" data-carousel-slide-index="${index}" style="--mini-bg:${palette.background};--mini-fg:${palette.foreground};--mini-font:'${escapeHtml(slideFont.family)}'"><span>${String(index + 1).padStart(2, "0")}</span><div>${image}<strong>${escapeHtml(label)}</strong></div><small>${escapeHtml(roleLabels[slide.role] || slide.role)}</small></button>`;
   }
 
   function renderRail() {
@@ -636,13 +693,21 @@
     ui.slideRole.value = slide.role;
     ui.slideScene.value = slide.scene;
     renderSlidePaletteOptions(slide.palette);
+    renderSlideFontOptions(slide);
     ui.slideSize.value = slide.size;
     ui.slideSizeValue.textContent = `${slide.size} px`;
+    ui.slideBodySize.value = slide.bodySize || 34;
+    ui.slideBodySizeValue.textContent = `${slide.bodySize || 34} px`;
+    ui.slidePlacement.value = slide.placement || "middle";
     ui.slideAlign.value = slide.align || "left";
+    ui.slideOffsetX.value = slide.offsetX || 0;
+    ui.slideOffsetXValue.textContent = `${Number(slide.offsetX) || 0}%`;
+    ui.slideOffsetY.value = slide.offsetY || 0;
+    ui.slideOffsetYValue.textContent = `${Number(slide.offsetY) || 0}%`;
     const photo = photoById(slide.photoId);
     ui.slidePhotoName.textContent = photo?.fileName || "без фотографии";
     ui.removePhoto.disabled = !slide.photoId;
-    renderMediaStrip(ui.slideMedia, slide.photoId);
+    renderMediaStrip(ui.slideMedia, slide.photoId, ui.slideMediaSearch.value, slideMediaOrder);
   }
 
   function renderActiveEditor() {
@@ -718,9 +783,16 @@
     slide.scene = ui.slideScene.value;
     slide.palette = ui.slidePalette.value;
     slide.size = Number(ui.slideSize.value);
+    slide.bodySize = Number(ui.slideBodySize.value);
+    slide.placement = ui.slidePlacement.value;
     slide.align = ui.slideAlign.value;
+    slide.offsetX = Number(ui.slideOffsetX.value);
+    slide.offsetY = Number(ui.slideOffsetY.value);
     slide.savedAt = null;
     ui.slideSizeValue.textContent = `${slide.size} px`;
+    ui.slideBodySizeValue.textContent = `${slide.bodySize} px`;
+    ui.slideOffsetXValue.textContent = `${slide.offsetX}%`;
+    ui.slideOffsetYValue.textContent = `${slide.offsetY}%`;
     renderCanvas(ui.activeCanvas, slide, series.activeSlide);
     ui.activeMeta.textContent = `${roleLabels[slide.role] || slide.role} · есть изменения`;
     renderRail();
@@ -810,6 +882,7 @@
     const context = canvas.getContext("2d");
     const palette = paletteFor(slide.palette);
     const photo = photoById(slide.photoId);
+    const slideFont = slide.font?.family ? normalizeFontSystem(slide.font) : series.font;
     const usesPhoto = photo && !["paper", "field", "dark", "quote"].includes(slide.scene);
     context.fillStyle = palette.background;
     context.fillRect(0, 0, 1080, 1350);
@@ -831,11 +904,13 @@
     context.fillStyle = foreground;
     context.textAlign = slide.align || "left";
     context.textBaseline = "alphabetic";
-    const x = slide.align === "center" ? 540 : slide.align === "right" ? 980 : 100;
+    const xShift = (Number(slide.offsetX) || 0) * 10.8;
+    const yShift = (Number(slide.offsetY) || 0) * 13.5;
+    const x = (slide.align === "center" ? 540 : slide.align === "right" ? 980 : 100) + xShift;
     const maxWidth = slide.scene === "split" ? 440 : 880;
-    const fontFamily = `"${series.font.family}", Arial, sans-serif`;
-    const bodyFontFamily = `"${series.font.body || companionFor(series.font.family)}", Arial, sans-serif`;
-    const titleText = displayText(slide.title, slide.caseKind || series.font.caseKind);
+    const fontFamily = `"${slideFont.family}", Arial, sans-serif`;
+    const bodyFontFamily = `"${slideFont.body || companionFor(slideFont.family)}", Arial, sans-serif`;
+    const titleText = displayText(slide.title, slide.caseKind || slideFont.caseKind);
     let titleSize = Math.max(40, Math.min(132, Number(slide.size) || 46));
     context.font = `800 ${titleSize}px ${fontFamily}`;
     let titleLines = wrapCanvasText(context, titleText, maxWidth);
@@ -844,7 +919,7 @@
       context.font = `800 ${titleSize}px ${fontFamily}`;
       titleLines = wrapCanvasText(context, titleText, maxWidth);
     }
-    const bodySize = Math.max(32, Math.min(58, Math.round(titleSize * .55)));
+    const bodySize = Math.max(24, Math.min(64, Number(slide.bodySize) || Math.round(titleSize * .55)));
     context.font = `500 ${bodySize}px ${bodyFontFamily}`;
     const bodyLines = wrapCanvasText(context, slide.body, maxWidth);
     const titleHeight = titleLines.length * titleSize * .98;
@@ -852,10 +927,11 @@
     const blockHeight = titleHeight + (titleLines.length && bodyLines.length ? 50 : 0) + bodyHeight;
     let startY = slide.placement === "top" ? 210 : slide.placement === "bottom" ? 1180 - blockHeight : (1350 - blockHeight) / 2;
     if (["window"].includes(slide.scene)) startY = 720;
+    startY += yShift;
     if (slide.scene === "plate") {
       context.fillStyle = palette.background;
       context.beginPath();
-      context.roundRect(65, startY - titleSize, 950, blockHeight + 100, 18);
+      context.roundRect(65 + xShift, startY - titleSize, 950, blockHeight + 100, 18);
       context.fill();
       context.fillStyle = palette.foreground;
     }
@@ -881,8 +957,9 @@
   async function downloadSlide(slide, index) {
     try {
       setStatus("Собираем PNG 1080 × 1350…");
-      ensureFont(series.font);
-      try { await document.fonts.load(`800 ${slide.size}px "${series.font.family}"`); } catch {}
+      const slideFont = slide.font?.family ? normalizeFontSystem(slide.font) : series.font;
+      ensureFont(slideFont);
+      try { await document.fonts.load(`800 ${slide.size}px "${slideFont.family}"`); } catch {}
       const canvas = await makeSlideCanvas(slide, index);
       const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
       if (!blob) throw new Error("empty PNG");
@@ -999,7 +1076,20 @@
     renderActiveEditor();
     markChanged();
   });
-  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slideScene, ui.slidePalette, ui.slideSize, ui.slideAlign].forEach((control) => control.addEventListener("input", updateActiveFromForm));
+  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slideScene, ui.slidePalette, ui.slideSize, ui.slideBodySize, ui.slidePlacement, ui.slideAlign, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
+  ui.slideFont.addEventListener("change", () => {
+    const slide = activeSlide();
+    if (ui.slideFont.value === "series") slide.font = null;
+    else {
+      const choice = fontChoices().find((font) => fontSystemKey(font) === ui.slideFont.value);
+      slide.font = choice ? normalizeFontSystem(choice) : null;
+      ensureFont(slide.font || series.font);
+    }
+    slide.savedAt = null;
+    renderActiveEditor();
+    markChanged();
+    setStatus(slide.font ? `${slide.font.family} применён только к слайду ${series.activeSlide + 1}.` : `Слайд ${series.activeSlide + 1} снова использует шрифт всей серии.`);
+  });
   ui.slideMedia.addEventListener("click", (event) => {
     const button = event.target.closest("[data-carousel-photo]");
     if (!button) return;
@@ -1009,6 +1099,12 @@
     slide.savedAt = null;
     renderActiveEditor();
     markChanged();
+  });
+  ui.slideMediaSearch.addEventListener("input", () => renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder));
+  ui.shuffleSlideMedia.addEventListener("click", () => {
+    slideMediaOrder = shuffle(slideMediaOrder);
+    renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);
+    setStatus("Фотографии для этого слайда перемешаны.");
   });
   ui.removePhoto.addEventListener("click", () => {
     const slide = activeSlide();

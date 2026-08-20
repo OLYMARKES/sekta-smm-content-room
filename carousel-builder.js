@@ -430,7 +430,7 @@
       const plan = visualPlanFor(index, slides.length);
       const photo = photoForSlide(index, plan, slideMedia);
       const image = photo ? `<img class="builder-slide-photo" src="${escapeHtml(photo.thumb)}" alt="" loading="lazy">` : "";
-      return `<article class="builder-slide scene-${plan.scene}" data-builder-slide="${index + 1}" data-photo-id="${escapeHtml(photo?.id || "")}" data-studio-scene="${plan.studioScene}" data-studio-palette="${plan.studioPalette}" style="--slide-accent:${accentColors[plan.accent]}"><div class="builder-slide-canvas">${image}<div class="builder-slide-scrim"></div><span class="builder-slide-account">#SEKTA · ${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="true" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="true" spellcheck="true">${escapeHtml(slide.body)}</p></div></div><footer><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(seriesSceneLabels[plan.scene])}</strong>${photo ? `<small>${escapeHtml(photo.fileName)}</small>` : ""}</footer></article>`;
+      return `<article class="builder-slide scene-${plan.scene}" data-builder-slide="${index + 1}" data-photo-id="${escapeHtml(photo?.id || "")}" data-studio-scene="${plan.studioScene}" data-studio-palette="${plan.studioPalette}" style="--slide-accent:${accentColors[plan.accent]}"><div class="builder-slide-canvas">${image}<div class="builder-slide-scrim"></div><span class="builder-slide-account">#SEKTA · ${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="true" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="true" spellcheck="true">${escapeHtml(slide.body)}</p></div></div><footer><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(seriesSceneLabels[plan.scene])}</strong>${photo ? `<small>${escapeHtml(photo.fileName)}</small>` : ""}<button type="button" class="builder-slide-edit" data-edit-builder-slide="${index}">Текст · фото · шрифт</button></footer></article>`;
     }).join("");
     const count = Number(ui.slideCount?.value || 10);
     ui.scriptTitle.textContent = `Карусель · ${count} ${plural(count, "слайд", "слайда", "слайдов")}`;
@@ -490,8 +490,9 @@
     }).filter(Boolean).join("\n\n");
   }
 
-  function sendToCarouselBuilder() {
+  function sendToCarouselBuilder(activeSlide = 0) {
     const goal = config.goals[ui.goal.value] || config.goals.save;
+    const rows = [...ui.slides.querySelectorAll(".builder-slide")];
     const detail = {
       id: activeTopic.id,
       kind: "post",
@@ -505,11 +506,18 @@
       longread: longreadFromSlides(),
       photoId: selectedPhoto?.id || null,
       font: { ...selectedSeriesSystem(), recipe: "сохранённая кириллическая пара" },
-      visualPlan: [...ui.slides.querySelectorAll(".builder-slide")].map((slide) => ({ scene: slide.dataset.studioScene, palette: slide.dataset.studioPalette, photoId: slide.dataset.photoId || null })),
+      slides: rows.map((slide, index) => ({
+        role: index === 0 ? "cover" : index === rows.length - 1 ? "cta" : "longread",
+        title: slide.querySelector(".builder-slide-copy strong")?.textContent.trim() || "",
+        body: slide.querySelector(".builder-slide-copy p")?.textContent.trim() || "",
+      })),
+      visualPlan: rows.map((slide) => ({ scene: slide.dataset.studioScene, palette: slide.dataset.studioPalette, photoId: slide.dataset.photoId || null })),
+      activeSlide,
+      openSlides: true,
     };
     document.querySelector('[data-view="postbuilder"]')?.click();
     window.dispatchEvent(new CustomEvent("sekta:post-builder-load", { detail }));
-    setStatus(`Карусель на ${detail.slideCount} слайдов открыта в полном конструкторе.`);
+    setStatus(`Открыт слайд ${activeSlide + 1}: можно менять фото, шрифт, кегль и положение текста.`);
   }
 
   async function copyText(value) {
@@ -768,7 +776,12 @@
     setStatus(`Сценарий обновлён: вариант ${scriptVariant + 1} из 3.`);
   });
   ui.copyScript.addEventListener("click", async () => { await copyText(scriptText()); setStatus("Сценарий скопирован в буфер обмена."); });
-  ui.buildCarousel.addEventListener("click", sendToCarouselBuilder);
+  ui.buildCarousel.addEventListener("click", () => sendToCarouselBuilder(0));
+  ui.slides.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-edit-builder-slide]");
+    if (!button) return;
+    sendToCarouselBuilder(Number(button.dataset.editBuilderSlide) || 0);
+  });
   ui.mediaSearch.addEventListener("input", () => { mediaLimit = 24; renderMedia(); });
   ui.mediaFolder.addEventListener("change", () => { mediaLimit = 24; renderMedia(); });
   ui.showAllMedia.addEventListener("click", () => {

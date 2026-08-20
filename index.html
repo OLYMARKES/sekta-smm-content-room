@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260820-4">
+  <link rel="stylesheet" href="styles.css?v=20260820-5">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -404,9 +404,9 @@
 
               <section class="builder-script-panel">
                 <div class="builder-series-system"><div><span>Сохранённые кириллические пары</span><strong>Одна система на всю карусель</strong><p>Шрифт остаётся стабильным, а ритм создают фото, плашки и разные сцены размещения.</p></div><div class="builder-type-systems" id="builderTypeSystems" aria-label="Типографическая система карусели"></div></div>
-                <div class="builder-script-head"><div><h2 id="builderScriptTitle">Карусель · 10 слайдов</h2><p>Фотографии и композиции уже подобраны. Любой текст можно переписать прямо на слайде.</p></div><div><span id="builderWordCount">0 слов</span><button class="button button-secondary" id="builderRefreshScript" type="button">Другой вариант ↻</button><button class="button button-secondary" id="builderCopyScript" type="button">Скопировать</button></div></div>
+                <div class="builder-script-head"><div><h2 id="builderScriptTitle">Карусель · 10 слайдов</h2><p>Компактный обзор серии. Текст можно поправить здесь, а фото, шрифт, кегль и положение — в покадровом монтаже.</p></div><div><span id="builderWordCount">0 слов</span><button class="button button-secondary" id="builderRefreshScript" type="button">Другой вариант ↻</button><button class="button button-secondary" id="builderCopyScript" type="button">Скопировать</button></div></div>
                 <div class="builder-slides" id="builderSlides"></div>
-                <div class="builder-carousel-action"><div><strong>Готово развивать дальше?</strong><span>Обложка, идея и сценарий перейдут в полный конструктор карусели.</span></div><button class="button button-primary" id="builderBuildCarousel" type="button">Собрать карусель →</button></div>
+                <div class="builder-carousel-action"><div><strong>Нужно поправить отдельный кадр?</strong><span>В полном монтаже меняются фото, шрифт, оба кегля и положение текста каждого слайда.</span></div><button class="button button-primary" id="builderBuildCarousel" type="button">Открыть покадровый монтаж →</button></div>
               </section>
             </div>
           </section>
@@ -585,10 +585,15 @@
                   <label><span>Тип слайда</span><select id="carouselSlideRole"><option value="cover">Обложка</option><option value="longread">Лонгрид</option><option value="quote">Цитата</option><option value="proof">Фото-доказательство</option><option value="pause">Фотопауза</option><option value="cta">Финал / CTA</option></select></label>
                   <label><span>Сцена</span><select id="carouselSlideScene"><option value="paper">Светлое поле</option><option value="dark">Тёмное поле</option><option value="photo-dim">Фото + затемнение</option><option value="photo-clean">Текст на фото</option><option value="plate">Плашка на фото</option><option value="split">Split</option><option value="window">Фото-окно</option><option value="field">Цветовое поле</option><option value="quote">Цитатная</option></select></label>
                   <label><span>Цвет слайда</span><select id="carouselSlidePalette"></select></label>
-                  <label><span>Размер текста</span><input id="carouselSlideSize" type="range" min="28" max="112" value="48"><output id="carouselSlideSizeValue">48 px</output></label>
+                  <label><span>Шрифт этого слайда</span><select id="carouselSlideFont"></select></label>
+                  <label><span>Размер заголовка</span><input id="carouselSlideSize" type="range" min="28" max="132" value="48"><output id="carouselSlideSizeValue">48 px</output></label>
+                  <label><span>Размер основного текста</span><input id="carouselSlideBodySize" type="range" min="24" max="64" value="34"><output id="carouselSlideBodySizeValue">34 px</output></label>
+                  <label><span>Положение блока</span><select id="carouselSlidePlacement"><option value="top">Сверху</option><option value="middle">По центру</option><option value="bottom">Снизу</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
                   <label><span>Выравнивание</span><select id="carouselSlideAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
+                  <label><span>Сдвиг по горизонтали</span><input id="carouselSlideOffsetX" type="range" min="-20" max="20" value="0"><output id="carouselSlideOffsetXValue">0%</output></label>
+                  <label><span>Сдвиг по вертикали</span><input id="carouselSlideOffsetY" type="range" min="-20" max="20" value="0"><output id="carouselSlideOffsetYValue">0%</output></label>
                 </div>
-                <div class="carousel-media-head"><div><strong>Фото этого слайда · вся медиатека</strong><span id="carouselSlidePhotoName">можно выбрать отдельно</span></div><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать фото</button></div>
+                <div class="carousel-media-head"><div><strong>Фото этого слайда · вся медиатека</strong><span id="carouselSlidePhotoName">можно выбрать отдельно</span></div><div class="carousel-media-actions"><label class="carousel-search"><input id="carouselSlideMediaSearch" type="search" placeholder="Найти фото…"></label><button class="button button-quiet" id="carouselShuffleSlideMedia" type="button">Перемешать</button><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать</button></div></div>
                 <div class="carousel-media-strip" id="carouselSlideMedia"></div>
               </section>
             </div>
@@ -679,9 +684,10 @@
   <script src="data/library-data.js"></script>
   <script src="data/carousel-builder-data.js"></script>
   <script src="data/public-stats.js"></script>
+  <script src="type-studio/font-data.js"></script>
   <script src="app.js?v=20260820-4"></script>
-  <script src="carousel-builder.js?v=20260820-3"></script>
-  <script src="carousel-studio.js?v=20260820-3"></script>
+  <script src="carousel-builder.js?v=20260820-4"></script>
+  <script src="carousel-studio.js?v=20260820-4"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>
