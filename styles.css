@@ -1418,13 +1418,13 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .carousel-slide-canvas[data-placement="right"] .carousel-render-content { left: 34%; justify-content: center; }
 .carousel-slide-canvas[data-align="center"] .carousel-render-content { align-items: center; text-align: center; }
 .carousel-slide-canvas[data-align="right"] .carousel-render-content { align-items: flex-end; text-align: right; }
-.carousel-render-series { position: absolute; z-index: 3; top: 10%; left: 10%; max-width: 70%; overflow: hidden; font-size: 10px; font-weight: 750; letter-spacing: .06em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; transform: translate(var(--carousel-label-x, 0), var(--carousel-label-y, 0)); }
-.carousel-render-title { display: block; max-width: 100%; font-family: var(--carousel-head-font), sans-serif; font-size: var(--carousel-title-size); font-weight: 800; line-height: .96; letter-spacing: -.035em; text-wrap: balance; transform: translate(var(--carousel-title-x, 0%), var(--carousel-title-y, 0%)); }
+.carousel-render-series { position: absolute; z-index: 3; top: 10%; left: 10%; max-width: 70%; overflow: hidden; font-family: var(--carousel-label-font), sans-serif; font-size: var(--carousel-label-size, 10px); font-weight: var(--carousel-label-weight, 750); line-height: var(--carousel-label-line, 1); letter-spacing: var(--carousel-label-tracking, .06em); text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; transform: translate(var(--carousel-label-x, 0), var(--carousel-label-y, 0)); }
+.carousel-render-title { display: block; max-width: 100%; font-family: var(--carousel-title-font, var(--carousel-head-font)), sans-serif; font-size: var(--carousel-title-size); font-weight: var(--carousel-title-weight, 800); line-height: var(--carousel-title-line, .96); letter-spacing: var(--carousel-title-tracking, -.035em); text-wrap: balance; transform: translate(var(--carousel-title-x, 0%), var(--carousel-title-y, 0%)); }
 .carousel-render-body { width: 100%; transform: translate(var(--carousel-body-x, 0%), var(--carousel-body-y, 0%)); }
-.carousel-render-content p { width: 100%; margin: 14px 0 0; font-family: var(--carousel-body-font), sans-serif; font-size: var(--carousel-body-size); font-weight: 470; line-height: 1.25; white-space: pre-line; }
+.carousel-render-content p { width: 100%; margin: 14px 0 0; font-family: var(--carousel-body-font), sans-serif; font-size: var(--carousel-body-size); font-weight: var(--carousel-body-weight, 470); line-height: var(--carousel-body-line, 1.25); letter-spacing: var(--carousel-body-tracking, 0); white-space: pre-line; }
 .carousel-render-content p strong { font: inherit; font-weight: 800; letter-spacing: inherit; }
 .carousel-render-content p + p { margin-top: .85em; }
-.carousel-render-counter { position: absolute; z-index: 3; right: 10%; bottom: 10%; font-size: 10px; font-weight: 750; letter-spacing: .08em; transform: translate(var(--carousel-counter-x, 0), var(--carousel-counter-y, 0)); }
+.carousel-render-counter { position: absolute; z-index: 3; right: 10%; bottom: 10%; font-family: var(--carousel-counter-font), sans-serif; font-size: var(--carousel-counter-size, 10px); font-weight: var(--carousel-counter-weight, 750); line-height: var(--carousel-counter-line, 1); letter-spacing: var(--carousel-counter-tracking, .08em); transform: translate(var(--carousel-counter-x, 0), var(--carousel-counter-y, 0)); }
 .carousel-slide-canvas.is-direct-editing { touch-action: none; }
 .carousel-slide-canvas.is-direct-editing .carousel-direct-layer { position: relative; cursor: grab; user-select: none; touch-action: none; }
 .carousel-slide-canvas.is-direct-editing .carousel-render-series, .carousel-slide-canvas.is-direct-editing .carousel-render-counter { position: absolute; }
@@ -1459,6 +1459,9 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .carousel-field-head label { margin: 0; }
 .carousel-field-head button { min-height: 29px; padding: 0 9px; border: 1px solid #d1d9d5; border-radius: 6px; color: var(--ink); background: #fff; font-size: 10px; font-weight: 700; cursor: pointer; }
 .carousel-field-head button:hover { border-color: #9fb3aa; background: var(--accent-soft); }
+.carousel-active-layer-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 15px 0 10px; padding-top: 13px; border-top: 1px solid #dce3df; }
+.carousel-active-layer-head strong { font-size: 12px; }
+.carousel-active-layer-head span { color: var(--muted); font-size: 10px; }
 .carousel-rich-field > small { display: block; margin-top: 5px; color: var(--muted); font-size: 9px; }
 .carousel-layer-toggle { margin: 0 0 12px; }
 .carousel-control-group { margin: 0 0 13px; padding: 0; border: 0; }

@@ -59,8 +59,16 @@
     coverCanvas: document.querySelector("#carouselCoverCanvas"),
     coverTitle: document.querySelector("#carouselCoverTitle"),
     coverSubtitle: document.querySelector("#carouselCoverSubtitle"),
-    coverSize: document.querySelector("#carouselCoverSize"),
-    coverSizeValue: document.querySelector("#carouselCoverSizeValue"),
+    coverTypeLayerLabel: document.querySelector("#carouselCoverTypeLayerLabel"),
+    coverTypeFont: document.querySelector("#carouselCoverTypeFont"),
+    coverTypeWeight: document.querySelector("#carouselCoverTypeWeight"),
+    coverTypeWeightValue: document.querySelector("#carouselCoverTypeWeightValue"),
+    coverTypeSize: document.querySelector("#carouselCoverTypeSize"),
+    coverTypeSizeValue: document.querySelector("#carouselCoverTypeSizeValue"),
+    coverTypeLineHeight: document.querySelector("#carouselCoverTypeLineHeight"),
+    coverTypeLineHeightValue: document.querySelector("#carouselCoverTypeLineHeightValue"),
+    coverTypeTracking: document.querySelector("#carouselCoverTypeTracking"),
+    coverTypeTrackingValue: document.querySelector("#carouselCoverTypeTrackingValue"),
     coverPlacement: document.querySelector("#carouselCoverPlacement"),
     coverAlign: document.querySelector("#carouselCoverAlign"),
     coverCase: document.querySelector("#carouselCoverCase"),
@@ -99,10 +107,16 @@
     slideScene: document.querySelector("#carouselSlideScene"),
     slidePalette: document.querySelector("#carouselSlidePalette"),
     slideFont: document.querySelector("#carouselSlideFont"),
-    slideSize: document.querySelector("#carouselSlideSize"),
-    slideSizeValue: document.querySelector("#carouselSlideSizeValue"),
-    slideBodySize: document.querySelector("#carouselSlideBodySize"),
-    slideBodySizeValue: document.querySelector("#carouselSlideBodySizeValue"),
+    slideTypeLayerLabel: document.querySelector("#carouselSlideTypeLayerLabel"),
+    slideTypeFont: document.querySelector("#carouselSlideTypeFont"),
+    slideTypeWeight: document.querySelector("#carouselSlideTypeWeight"),
+    slideTypeWeightValue: document.querySelector("#carouselSlideTypeWeightValue"),
+    slideTypeSize: document.querySelector("#carouselSlideTypeSize"),
+    slideTypeSizeValue: document.querySelector("#carouselSlideTypeSizeValue"),
+    slideTypeLineHeight: document.querySelector("#carouselSlideTypeLineHeight"),
+    slideTypeLineHeightValue: document.querySelector("#carouselSlideTypeLineHeightValue"),
+    slideTypeTracking: document.querySelector("#carouselSlideTypeTracking"),
+    slideTypeTrackingValue: document.querySelector("#carouselSlideTypeTrackingValue"),
     slidePlacement: document.querySelector("#carouselSlidePlacement"),
     slideAlign: document.querySelector("#carouselSlideAlign"),
     slideOffsetX: document.querySelector("#carouselSlideOffsetX"),
@@ -283,6 +297,11 @@
     return normalized;
   }
 
+  function numberOr(value, fallback) {
+    const number = Number(value);
+    return Number.isFinite(number) ? number : fallback;
+  }
+
   function makeSlide(overrides = {}) {
     return {
       id: `slide-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
@@ -304,6 +323,24 @@
       labelOffsetY: 0,
       counterOffsetX: 0,
       counterOffsetY: 0,
+      titleFontFamily: "",
+      titleWeight: 800,
+      titleLineHeight: .96,
+      titleTracking: -.035,
+      bodyFontFamily: "",
+      bodyWeight: 470,
+      bodyLineHeight: 1.25,
+      bodyTracking: 0,
+      labelFontFamily: "",
+      labelWeight: 750,
+      labelSize: 24,
+      labelLineHeight: 1,
+      labelTracking: .06,
+      counterFontFamily: "",
+      counterWeight: 750,
+      counterSize: 24,
+      counterLineHeight: 1,
+      counterTracking: .08,
       caseKind: "original",
       font: null,
       photoId: null,
@@ -353,6 +390,24 @@
         labelOffsetY: Number(slide.labelOffsetY) || 0,
         counterOffsetX: Number(slide.counterOffsetX) || 0,
         counterOffsetY: Number(slide.counterOffsetY) || 0,
+        titleFontFamily: slide.titleFontFamily || "",
+        titleWeight: numberOr(slide.titleWeight, 800),
+        titleLineHeight: numberOr(slide.titleLineHeight, .96),
+        titleTracking: numberOr(slide.titleTracking, -.035),
+        bodyFontFamily: slide.bodyFontFamily || "",
+        bodyWeight: numberOr(slide.bodyWeight, 470),
+        bodyLineHeight: numberOr(slide.bodyLineHeight, 1.25),
+        bodyTracking: numberOr(slide.bodyTracking, 0),
+        labelFontFamily: slide.labelFontFamily || "",
+        labelWeight: numberOr(slide.labelWeight, 750),
+        labelSize: numberOr(slide.labelSize, 24),
+        labelLineHeight: numberOr(slide.labelLineHeight, 1),
+        labelTracking: numberOr(slide.labelTracking, .06),
+        counterFontFamily: slide.counterFontFamily || "",
+        counterWeight: numberOr(slide.counterWeight, 750),
+        counterSize: numberOr(slide.counterSize, 24),
+        counterLineHeight: numberOr(slide.counterLineHeight, 1),
+        counterTracking: numberOr(slide.counterTracking, .08),
         font: slide.font?.family ? normalizeFontSystem(slide.font) : null,
       })),
     };
@@ -590,8 +645,95 @@
     counter: { x: "counterOffsetX", y: "counterOffsetY", label: "номер слайда" },
   };
 
+  const typographyLayers = {
+    title: { family: "titleFontFamily", weight: "titleWeight", size: "size", lineHeight: "titleLineHeight", tracking: "titleTracking", fallbackWeight: 800, fallbackSize: 46, fallbackLineHeight: .96, fallbackTracking: -.035 },
+    body: { family: "bodyFontFamily", weight: "bodyWeight", size: "bodySize", lineHeight: "bodyLineHeight", tracking: "bodyTracking", fallbackWeight: 470, fallbackSize: 34, fallbackLineHeight: 1.25, fallbackTracking: 0 },
+    label: { family: "labelFontFamily", weight: "labelWeight", size: "labelSize", lineHeight: "labelLineHeight", tracking: "labelTracking", fallbackWeight: 750, fallbackSize: 24, fallbackLineHeight: 1, fallbackTracking: .06 },
+    counter: { family: "counterFontFamily", weight: "counterWeight", size: "counterSize", lineHeight: "counterLineHeight", tracking: "counterTracking", fallbackWeight: 750, fallbackSize: 24, fallbackLineHeight: 1, fallbackTracking: .08 },
+  };
+
+  function slideFontSystem(slide) {
+    return slide.font?.family ? normalizeFontSystem(slide.font) : series.font;
+  }
+
+  function systemFamilyForLayer(slide, target) {
+    const system = slideFontSystem(slide);
+    return target === "title" ? system.family : system.body || companionFor(system.family);
+  }
+
+  function layerTypography(slide, target) {
+    const layer = typographyLayers[target] || typographyLayers.body;
+    return {
+      family: slide[layer.family] || "",
+      resolvedFamily: slide[layer.family] || systemFamilyForLayer(slide, target),
+      weight: numberOr(slide[layer.weight], layer.fallbackWeight),
+      size: numberOr(slide[layer.size], layer.fallbackSize),
+      lineHeight: numberOr(slide[layer.lineHeight], layer.fallbackLineHeight),
+      tracking: numberOr(slide[layer.tracking], layer.fallbackTracking),
+    };
+  }
+
+  function setLayerTypography(slide, target, values) {
+    const layer = typographyLayers[target] || typographyLayers.body;
+    slide[layer.family] = values.family || "";
+    slide[layer.weight] = Number(values.weight);
+    slide[layer.size] = Number(values.size);
+    slide[layer.lineHeight] = Number(values.lineHeight);
+    slide[layer.tracking] = Number(values.tracking);
+  }
+
+  function layerFontFamilies() {
+    const families = fontChoices().flatMap((font) => [font.family, font.body]);
+    return [...new Set(families.filter(Boolean))];
+  }
+
+  function renderLayerFontOptions(select, slide, target) {
+    const typography = layerTypography(slide, target);
+    const families = layerFontFamilies();
+    if (typography.family && !families.includes(typography.family)) families.unshift(typography.family);
+    select.innerHTML = `<option value="">Из системы · ${escapeHtml(systemFamilyForLayer(slide, target))}</option>${families.map((family) => `<option value="${escapeHtml(family)}">${escapeHtml(family)}</option>`).join("")}`;
+    select.value = typography.family;
+  }
+
+  function formatTracking(value) {
+    const number = Number(value) || 0;
+    return `${number < 0 ? "−" : number > 0 ? "+" : ""}${Math.abs(number).toFixed(3)} em`;
+  }
+
+  function syncTypographyControls(mode) {
+    const cover = mode === "cover";
+    const slide = cover ? coverSlide() : activeSlide();
+    const target = cover ? coverMoveTarget : slideMoveTarget;
+    const typography = layerTypography(slide, target);
+    const controls = cover ? {
+      label: ui.coverTypeLayerLabel, font: ui.coverTypeFont, weight: ui.coverTypeWeight, weightValue: ui.coverTypeWeightValue,
+      size: ui.coverTypeSize, sizeValue: ui.coverTypeSizeValue, lineHeight: ui.coverTypeLineHeight, lineHeightValue: ui.coverTypeLineHeightValue,
+      tracking: ui.coverTypeTracking, trackingValue: ui.coverTypeTrackingValue,
+    } : {
+      label: ui.slideTypeLayerLabel, font: ui.slideTypeFont, weight: ui.slideTypeWeight, weightValue: ui.slideTypeWeightValue,
+      size: ui.slideTypeSize, sizeValue: ui.slideTypeSizeValue, lineHeight: ui.slideTypeLineHeight, lineHeightValue: ui.slideTypeLineHeightValue,
+      tracking: ui.slideTypeTracking, trackingValue: ui.slideTypeTrackingValue,
+    };
+    controls.label.textContent = movableLayers[target].label;
+    renderLayerFontOptions(controls.font, slide, target);
+    controls.weight.value = typography.weight;
+    controls.weightValue.textContent = typography.weight;
+    controls.size.value = typography.size;
+    controls.sizeValue.textContent = `${typography.size} px`;
+    controls.lineHeight.value = typography.lineHeight;
+    controls.lineHeightValue.textContent = Number(typography.lineHeight).toFixed(2);
+    controls.tracking.value = typography.tracking;
+    controls.trackingValue.textContent = formatTracking(typography.tracking);
+  }
+
   function applyLayerVariables(element, slide) {
     const set = (name, value) => element.style.setProperty(name, value);
+    const previewSize = (value) => Math.round(Math.max(8, value) * 48) / 100;
+    const titleType = layerTypography(slide, "title");
+    const bodyType = layerTypography(slide, "body");
+    const labelType = layerTypography(slide, "label");
+    const counterType = layerTypography(slide, "counter");
+    [titleType, bodyType, labelType, counterType].forEach((type) => ensureFontFamily(type.resolvedFamily));
     set("--carousel-title-x", `${Number(slide.titleOffsetX) || 0}cqw`);
     set("--carousel-title-y", `${(Number(slide.titleOffsetY) || 0) * 1.25}cqw`);
     set("--carousel-body-x", `${Number(slide.bodyOffsetX) || 0}cqw`);
@@ -600,6 +742,26 @@
     set("--carousel-label-y", `${(Number(slide.labelOffsetY) || 0) * 1.25}cqw`);
     set("--carousel-counter-x", `${Number(slide.counterOffsetX) || 0}cqw`);
     set("--carousel-counter-y", `${(Number(slide.counterOffsetY) || 0) * 1.25}cqw`);
+    set("--carousel-title-font", `"${titleType.resolvedFamily}"`);
+    set("--carousel-title-weight", titleType.weight);
+    set("--carousel-title-size", `${previewSize(titleType.size)}px`);
+    set("--carousel-title-line", titleType.lineHeight);
+    set("--carousel-title-tracking", `${titleType.tracking}em`);
+    set("--carousel-body-font", `"${bodyType.resolvedFamily}"`);
+    set("--carousel-body-weight", bodyType.weight);
+    set("--carousel-body-size", `${previewSize(bodyType.size)}px`);
+    set("--carousel-body-line", bodyType.lineHeight);
+    set("--carousel-body-tracking", `${bodyType.tracking}em`);
+    set("--carousel-label-font", `"${labelType.resolvedFamily}"`);
+    set("--carousel-label-weight", labelType.weight);
+    set("--carousel-label-size", `${previewSize(labelType.size)}px`);
+    set("--carousel-label-line", labelType.lineHeight);
+    set("--carousel-label-tracking", `${labelType.tracking}em`);
+    set("--carousel-counter-font", `"${counterType.resolvedFamily}"`);
+    set("--carousel-counter-weight", counterType.weight);
+    set("--carousel-counter-size", `${previewSize(counterType.size)}px`);
+    set("--carousel-counter-line", counterType.lineHeight);
+    set("--carousel-counter-tracking", `${counterType.tracking}em`);
   }
 
   function renderCanvas(element, slide, index) {
@@ -736,13 +898,12 @@
     ui.seriesName.value = series.name;
     ui.coverTitle.value = slide.title;
     ui.coverSubtitle.value = slide.body;
-    ui.coverSize.value = slide.size;
-    ui.coverSizeValue.textContent = `${slide.size} px`;
     ui.coverPlacement.value = slide.placement || "bottom";
     ui.coverAlign.value = slide.align || "left";
     ui.coverCase.value = slide.caseKind || "original";
     ui.coverShowLabel.checked = slide.showSeriesLabel !== false;
     syncCoverOffsets();
+    syncTypographyControls("cover");
     ui.longread.value = series.longread;
     ui.slideCount.value = String(series.totalSlides || series.slides.length);
     document.querySelectorAll("[data-carousel-scene]").forEach((button) => button.classList.toggle("is-active", button.dataset.carouselScene === slide.scene));
@@ -789,14 +950,11 @@
     ui.slideScene.value = slide.scene;
     renderSlidePaletteOptions(slide.palette);
     renderSlideFontOptions(slide);
-    ui.slideSize.value = slide.size;
-    ui.slideSizeValue.textContent = `${slide.size} px`;
-    ui.slideBodySize.value = slide.bodySize || 34;
-    ui.slideBodySizeValue.textContent = `${slide.bodySize || 34} px`;
     ui.slidePlacement.value = slide.placement || "middle";
     ui.slideAlign.value = slide.align || "left";
     ui.slideShowLabel.checked = slide.showSeriesLabel !== false;
     syncActiveOffsets();
+    syncTypographyControls("slide");
     const photo = photoById(slide.photoId);
     ui.slidePhotoName.textContent = photo?.fileName || "без фотографии";
     ui.removePhoto.disabled = !slide.photoId;
@@ -858,15 +1016,22 @@
     series.name = ui.seriesName.value.trim() || "Новая серия";
     slide.title = ui.coverTitle.value;
     slide.body = ui.coverSubtitle.value;
-    slide.size = Number(ui.coverSize.value);
     slide.placement = ui.coverPlacement.value;
     slide.align = ui.coverAlign.value;
     slide.caseKind = ui.coverCase.value;
     slide.showSeriesLabel = ui.coverShowLabel.checked;
     setLayerOffsets(slide, coverMoveTarget, Number(ui.coverOffsetX.value), Number(ui.coverOffsetY.value));
+    setLayerTypography(slide, coverMoveTarget, {
+      family: ui.coverTypeFont.value,
+      weight: ui.coverTypeWeight.value,
+      size: ui.coverTypeSize.value,
+      lineHeight: ui.coverTypeLineHeight.value,
+      tracking: ui.coverTypeTracking.value,
+    });
+    ensureFontFamily(layerTypography(slide, coverMoveTarget).resolvedFamily);
     slide.savedAt = null;
-    ui.coverSizeValue.textContent = `${slide.size} px`;
     syncCoverOffsets();
+    syncTypographyControls("cover");
     renderCanvas(ui.coverCanvas, slide, 0);
     renderGridPreview();
     markChanged();
@@ -879,15 +1044,20 @@
     slide.role = ui.slideRole.value;
     slide.scene = ui.slideScene.value;
     slide.palette = ui.slidePalette.value;
-    slide.size = Number(ui.slideSize.value);
-    slide.bodySize = Number(ui.slideBodySize.value);
     slide.placement = ui.slidePlacement.value;
     slide.align = ui.slideAlign.value;
     slide.showSeriesLabel = ui.slideShowLabel.checked;
     setLayerOffsets(slide, slideMoveTarget, Number(ui.slideOffsetX.value), Number(ui.slideOffsetY.value));
+    setLayerTypography(slide, slideMoveTarget, {
+      family: ui.slideTypeFont.value,
+      weight: ui.slideTypeWeight.value,
+      size: ui.slideTypeSize.value,
+      lineHeight: ui.slideTypeLineHeight.value,
+      tracking: ui.slideTypeTracking.value,
+    });
+    ensureFontFamily(layerTypography(slide, slideMoveTarget).resolvedFamily);
     slide.savedAt = null;
-    ui.slideSizeValue.textContent = `${slide.size} px`;
-    ui.slideBodySizeValue.textContent = `${slide.bodySize} px`;
+    syncTypographyControls("slide");
     const offsets = layerOffsets(slide, slideMoveTarget);
     ui.slideOffsetXValue.textContent = `${offsets.x}%`;
     ui.slideOffsetYValue.textContent = `${offsets.y}%`;
@@ -914,9 +1084,11 @@
     if (mode === "cover") {
       coverMoveTarget = layer;
       syncCoverOffsets();
+      syncTypographyControls("cover");
     } else {
       slideMoveTarget = layer;
       syncActiveOffsets();
+      syncTypographyControls("slide");
     }
     canvas.querySelectorAll("[data-carousel-layer]").forEach((element) => element.classList.toggle("is-selected-layer", element.dataset.carouselLayer === layer));
   }
@@ -1074,18 +1246,25 @@
     });
   }
 
-  function wrapRichCanvasText(context, text, maxWidth, size, family) {
+  function setCanvasTracking(context, tracking, size) {
+    if ("letterSpacing" in context) context.letterSpacing = `${Number(tracking || 0) * Number(size || 0)}px`;
+  }
+
+  function wrapRichCanvasText(context, text, maxWidth, size, family, weight, tracking) {
     if (!String(text || "").trim()) return [];
     const lines = [[]];
+    const boldWeight = Math.min(900, Math.max(700, Number(weight) + 220));
     richCanvasWords(text).forEach((token) => {
       if (token.paragraphBreak) {
         if (lines.at(-1).length) lines.push([]);
         lines.push([]);
         return;
       }
-      context.font = `${token.bold ? 800 : 500} ${size}px ${family}`;
+      context.font = `${token.bold ? boldWeight : weight} ${size}px ${family}`;
+      setCanvasTracking(context, tracking, size);
       const width = context.measureText(token.word).width;
-      context.font = `500 ${size}px ${family}`;
+      context.font = `${weight} ${size}px ${family}`;
+      setCanvasTracking(context, tracking, size);
       const space = lines.at(-1).length ? context.measureText(" ").width : 0;
       const current = lines.at(-1).reduce((sum, item, itemIndex) => sum + item.width + (itemIndex ? item.space : 0), 0);
       if (lines.at(-1).length && current + space + width > maxWidth) lines.push([]);
@@ -1096,15 +1275,17 @@
 
   function drawRichCanvasLines(context, lines, options) {
     let y = options.startY;
+    const boldWeight = Math.min(900, Math.max(700, Number(options.weight) + 220));
     lines.forEach((line) => {
-      y += options.size * (line.length ? 1.3 : .7);
+      y += options.size * (line.length ? options.lineHeight : Math.max(.7, options.lineHeight * .55));
       if (!line.length) return;
       const width = line.reduce((sum, token, index) => sum + token.width + (index ? token.space : 0), 0);
       let x = options.align === "center" ? options.x - width / 2 : options.align === "right" ? options.x - width : options.x;
       context.textAlign = "left";
       line.forEach((token, tokenIndex) => {
         if (tokenIndex) x += token.space;
-        context.font = `${token.bold ? 800 : 500} ${options.size}px ${options.family}`;
+        context.font = `${token.bold ? boldWeight : options.weight} ${options.size}px ${options.family}`;
+        setCanvasTracking(context, options.tracking, options.size);
         context.fillText(token.word, x, y);
         x += token.width;
       });
@@ -1149,21 +1330,27 @@
     const titleX = baseX + titleXShift;
     const bodyX = baseX + bodyXShift;
     const maxWidth = slide.scene === "split" ? 440 : 880;
-    const fontFamily = `"${slideFont.family}", Arial, sans-serif`;
-    const bodyFontFamily = `"${slideFont.body || companionFor(slideFont.family)}", Arial, sans-serif`;
+    const titleType = layerTypography(slide, "title");
+    const bodyType = layerTypography(slide, "body");
+    const labelType = layerTypography(slide, "label");
+    const counterType = layerTypography(slide, "counter");
+    const fontFamily = `"${titleType.resolvedFamily}", Arial, sans-serif`;
+    const bodyFontFamily = `"${bodyType.resolvedFamily}", Arial, sans-serif`;
     const titleText = displayText(stripInlineMarkup(slide.title), slide.caseKind || slideFont.caseKind);
-    let titleSize = Math.max(40, Math.min(132, Number(slide.size) || 46));
-    context.font = `800 ${titleSize}px ${fontFamily}`;
+    let titleSize = Math.max(8, Math.min(132, titleType.size));
+    context.font = `${titleType.weight} ${titleSize}px ${fontFamily}`;
+    setCanvasTracking(context, titleType.tracking, titleSize);
     let titleLines = wrapCanvasText(context, titleText, maxWidth);
-    while (titleLines.length > 6 && titleSize > 42) {
+    while (titleLines.length > 6 && titleSize > 18) {
       titleSize -= 4;
-      context.font = `800 ${titleSize}px ${fontFamily}`;
+      context.font = `${titleType.weight} ${titleSize}px ${fontFamily}`;
+      setCanvasTracking(context, titleType.tracking, titleSize);
       titleLines = wrapCanvasText(context, titleText, maxWidth);
     }
-    const bodySize = Math.max(24, Math.min(64, Number(slide.bodySize) || Math.round(titleSize * .55)));
-    const bodyLines = wrapRichCanvasText(context, slide.body, maxWidth, bodySize, bodyFontFamily);
-    const titleHeight = titleLines.length * titleSize * .98;
-    const bodyHeight = bodyLines.length * bodySize * 1.3;
+    const bodySize = Math.max(8, Math.min(132, bodyType.size));
+    const bodyLines = wrapRichCanvasText(context, slide.body, maxWidth, bodySize, bodyFontFamily, bodyType.weight, bodyType.tracking);
+    const titleHeight = titleLines.length * titleSize * titleType.lineHeight;
+    const bodyHeight = bodyLines.length * bodySize * bodyType.lineHeight;
     const blockHeight = titleHeight + (titleLines.length && bodyLines.length ? 50 : 0) + bodyHeight;
     let startY = slide.placement === "top" ? 210 : slide.placement === "bottom" ? 1180 - blockHeight : (1350 - blockHeight) / 2;
     if (["window"].includes(slide.scene)) startY = 720;
@@ -1174,21 +1361,25 @@
       context.fill();
       context.fillStyle = palette.foreground;
     }
-    context.font = `800 ${titleSize}px ${fontFamily}`;
+    context.font = `${titleType.weight} ${titleSize}px ${fontFamily}`;
+    setCanvasTracking(context, titleType.tracking, titleSize);
     titleLines.forEach((line, lineIndex) => {
-      context.fillText(line, titleX, startY + titleYShift + titleSize * (lineIndex + .85), maxWidth);
+      context.fillText(line, titleX, startY + titleYShift + titleSize * (.85 + lineIndex * titleType.lineHeight), maxWidth);
     });
     const bodyStartY = startY + titleHeight + (titleLines.length && bodyLines.length ? 50 : 0) + bodyYShift;
-    drawRichCanvasLines(context, bodyLines, { x: bodyX, startY: bodyStartY, size: bodySize, family: bodyFontFamily, align: slide.align || "left" });
-    context.font = `700 24px Arial, sans-serif`;
+    drawRichCanvasLines(context, bodyLines, { x: bodyX, startY: bodyStartY, size: bodySize, family: bodyFontFamily, weight: bodyType.weight, lineHeight: bodyType.lineHeight, tracking: bodyType.tracking, align: slide.align || "left" });
     context.fillStyle = foreground;
     context.textAlign = "left";
     const labelXShift = (Number(slide.labelOffsetX) || 0) * 10.8;
     const labelYShift = (Number(slide.labelOffsetY) || 0) * 13.5;
     const counterXShift = (Number(slide.counterOffsetX) || 0) * 10.8;
     const counterYShift = (Number(slide.counterOffsetY) || 0) * 13.5;
+    context.font = `${labelType.weight} ${labelType.size}px "${labelType.resolvedFamily}", Arial, sans-serif`;
+    setCanvasTracking(context, labelType.tracking, labelType.size);
     if (slide.showSeriesLabel !== false) context.fillText(series.name, 100 + labelXShift, 90 + labelYShift);
     context.textAlign = "right";
+    context.font = `${counterType.weight} ${counterType.size}px "${counterType.resolvedFamily}", Arial, sans-serif`;
+    setCanvasTracking(context, counterType.tracking, counterType.size);
     context.fillText(`${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}`, 980 + counterXShift, 1280 + counterYShift);
     return canvas;
   }
@@ -1198,7 +1389,9 @@
       setStatus("Собираем PNG 1080 × 1350…");
       const slideFont = slide.font?.family ? normalizeFontSystem(slide.font) : series.font;
       ensureFont(slideFont);
-      try { await document.fonts.load(`800 ${slide.size}px "${slideFont.family}"`); } catch {}
+      const textLayers = Object.keys(typographyLayers).map((layer) => layerTypography(slide, layer));
+      textLayers.forEach((type) => ensureFontFamily(type.resolvedFamily));
+      try { await Promise.all(textLayers.map((type) => document.fonts.load(`${type.weight} ${type.size}px "${type.resolvedFamily}"`))); } catch {}
       const canvas = await makeSlideCanvas(slide, index);
       const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
       if (!blob) throw new Error("empty PNG");
@@ -1301,9 +1494,10 @@
   ui.coverMoveTarget.addEventListener("change", () => {
     coverMoveTarget = movableLayers[ui.coverMoveTarget.value] ? ui.coverMoveTarget.value : "title";
     syncCoverOffsets();
+    syncTypographyControls("cover");
     renderCanvas(ui.coverCanvas, coverSlide(), 0);
   });
-  [ui.seriesName, ui.coverTitle, ui.coverSubtitle, ui.coverSize, ui.coverPlacement, ui.coverAlign, ui.coverCase, ui.coverShowLabel, ui.coverOffsetX, ui.coverOffsetY].forEach((control) => control.addEventListener("input", updateCoverFromForm));
+  [ui.seriesName, ui.coverTitle, ui.coverSubtitle, ui.coverTypeFont, ui.coverTypeWeight, ui.coverTypeSize, ui.coverTypeLineHeight, ui.coverTypeTracking, ui.coverPlacement, ui.coverAlign, ui.coverCase, ui.coverShowLabel, ui.coverOffsetX, ui.coverOffsetY].forEach((control) => control.addEventListener("input", updateCoverFromForm));
   document.querySelectorAll("[data-carousel-scene]").forEach((button) => button.addEventListener("click", () => {
     coverSlide().scene = button.dataset.carouselScene;
     coverSlide().savedAt = null;
@@ -1351,9 +1545,10 @@
   ui.slideMoveTarget.addEventListener("change", () => {
     slideMoveTarget = movableLayers[ui.slideMoveTarget.value] ? ui.slideMoveTarget.value : "body";
     syncActiveOffsets();
+    syncTypographyControls("slide");
     renderCanvas(ui.activeCanvas, activeSlide(), series.activeSlide);
   });
-  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slideScene, ui.slidePalette, ui.slideSize, ui.slideBodySize, ui.slidePlacement, ui.slideAlign, ui.slideShowLabel, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
+  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slideScene, ui.slidePalette, ui.slideTypeFont, ui.slideTypeWeight, ui.slideTypeSize, ui.slideTypeLineHeight, ui.slideTypeTracking, ui.slidePlacement, ui.slideAlign, ui.slideShowLabel, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
   ui.slideFont.addEventListener("change", () => {
     const slide = activeSlide();
     if (ui.slideFont.value === "series") slide.font = null;

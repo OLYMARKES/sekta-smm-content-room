@@ -536,14 +536,19 @@
                   <button type="button" data-carousel-scene="field">Цветовое поле</button>
                   <button type="button" data-carousel-scene="paper">Без фото</button>
                 </div></fieldset>
+                <div class="carousel-active-layer-head"><strong>Текст и типографика</strong><span id="carouselCoverTypeLayerLabel">заголовок</span></div>
                 <div class="carousel-control-grid">
-                  <label><span>Размер заголовка</span><input id="carouselCoverSize" type="range" min="54" max="132" value="88"><output id="carouselCoverSizeValue">88 px</output></label>
-                  <label><span>Положение текста</span><select id="carouselCoverPlacement"><option value="bottom">Снизу</option><option value="middle">По центру</option><option value="top">Сверху</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
-                  <label><span>Выравнивание</span><select id="carouselCoverAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
-                  <label><span>Регистр</span><select id="carouselCoverCase"><option value="original">Как написано</option><option value="lower">Строчные</option><option value="upper">КАПС</option></select></label>
                   <label><span>Активный слой</span><select id="carouselCoverMoveTarget"><option value="title">Заголовок</option><option value="body">Подстрочник</option><option value="label">Название серии</option><option value="counter">Номер слайда</option></select></label>
+                  <label><span>Шрифт слоя</span><select id="carouselCoverTypeFont"></select></label>
+                  <label><span>Вес</span><input id="carouselCoverTypeWeight" type="range" min="100" max="900" step="10" value="800"><output id="carouselCoverTypeWeightValue">800</output></label>
+                  <label><span>Размер</span><input id="carouselCoverTypeSize" type="range" min="8" max="132" step="1" value="88"><output id="carouselCoverTypeSizeValue">88 px</output></label>
+                  <label><span>Интерлиньяж</span><input id="carouselCoverTypeLineHeight" type="range" min="0.7" max="1.6" step="0.01" value="0.96"><output id="carouselCoverTypeLineHeightValue">0.96</output></label>
+                  <label><span>Трекинг</span><input id="carouselCoverTypeTracking" type="range" min="-0.04" max="0.16" step="0.005" value="-0.035"><output id="carouselCoverTypeTrackingValue">−0.035 em</output></label>
                   <label><span>Сдвиг влево / вправо</span><input id="carouselCoverOffsetX" type="range" min="-35" max="35" value="0"><output id="carouselCoverOffsetXValue">0%</output></label>
                   <label><span>Сдвиг вверх / вниз</span><input id="carouselCoverOffsetY" type="range" min="-35" max="35" value="0"><output id="carouselCoverOffsetYValue">0%</output></label>
+                  <label><span>Положение текста</span><select id="carouselCoverPlacement"><option value="bottom">Снизу</option><option value="middle">По центру</option><option value="top">Сверху</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
+                  <label><span>Выравнивание</span><select id="carouselCoverAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
+                  <label><span>Регистр заголовка</span><select id="carouselCoverCase"><option value="original">Как написано</option><option value="lower">Строчные</option><option value="upper">КАПС</option></select></label>
                 </div>
                 <div class="carousel-media-head"><div><strong>Фотография · вся медиатека (1059)</strong><span id="carouselCoverPhotoName">выбирайте лентой или через поиск</span></div><label class="carousel-search"><input id="carouselCoverMediaSearch" type="search" placeholder="Найти среди 1059 фото…"></label></div>
                 <div class="carousel-media-strip" id="carouselCoverMedia"></div>
@@ -596,18 +601,22 @@
                 <label class="carousel-field"><span>Заголовок</span><textarea id="carouselSlideTitle" rows="3"></textarea></label>
                 <div class="carousel-field carousel-rich-field"><div class="carousel-field-head"><label for="carouselSlideBody">Основной текст</label><button type="button" id="carouselBodyBold" aria-label="Сделать выделенный фрагмент жирным"><b>Ж</b> Жирный</button></div><textarea id="carouselSlideBody" rows="9"></textarea><small>Выделите фрагмент и нажмите «Жирный». Форматирование сохранится в PNG.</small></div>
                 <label class="carousel-check carousel-layer-toggle"><input id="carouselSlideShowLabel" type="checkbox" checked><span>Показывать название серии сверху</span></label>
+                <div class="carousel-active-layer-head"><strong>Текст и типографика</strong><span id="carouselSlideTypeLayerLabel">заголовок</span></div>
                 <div class="carousel-control-grid">
                   <label><span>Тип слайда</span><select id="carouselSlideRole"><option value="cover">Обложка</option><option value="longread">Лонгрид</option><option value="quote">Цитата</option><option value="proof">Фото-доказательство</option><option value="pause">Фотопауза</option><option value="cta">Финал / CTA</option></select></label>
                   <label><span>Сцена</span><select id="carouselSlideScene"><option value="paper">Светлое поле</option><option value="dark">Тёмное поле</option><option value="photo-dim">Фото + затемнение</option><option value="photo-clean">Текст на фото</option><option value="plate">Плашка на фото</option><option value="split">Split</option><option value="window">Фото-окно</option><option value="field">Цветовое поле</option><option value="quote">Цитатная</option></select></label>
                   <label><span>Цвет слайда</span><select id="carouselSlidePalette"></select></label>
-                  <label><span>Шрифт этого слайда</span><select id="carouselSlideFont"></select></label>
-                  <label><span>Размер заголовка</span><input id="carouselSlideSize" type="range" min="28" max="132" value="48"><output id="carouselSlideSizeValue">48 px</output></label>
-                  <label><span>Размер основного текста</span><input id="carouselSlideBodySize" type="range" min="24" max="64" value="34"><output id="carouselSlideBodySizeValue">34 px</output></label>
-                  <label><span>Положение блока</span><select id="carouselSlidePlacement"><option value="top">Сверху</option><option value="middle">По центру</option><option value="bottom">Снизу</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
-                  <label><span>Выравнивание</span><select id="carouselSlideAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
+                  <label><span>Шрифтовая пара слайда</span><select id="carouselSlideFont"></select></label>
                   <label><span>Активный слой</span><select id="carouselSlideMoveTarget"><option value="title">Заголовок</option><option value="body">Основной текст</option><option value="label">Название серии</option><option value="counter">Номер слайда</option></select></label>
+                  <label><span>Шрифт слоя</span><select id="carouselSlideTypeFont"></select></label>
+                  <label><span>Вес</span><input id="carouselSlideTypeWeight" type="range" min="100" max="900" step="10" value="800"><output id="carouselSlideTypeWeightValue">800</output></label>
+                  <label><span>Размер</span><input id="carouselSlideTypeSize" type="range" min="8" max="132" step="1" value="48"><output id="carouselSlideTypeSizeValue">48 px</output></label>
+                  <label><span>Интерлиньяж</span><input id="carouselSlideTypeLineHeight" type="range" min="0.7" max="1.6" step="0.01" value="0.96"><output id="carouselSlideTypeLineHeightValue">0.96</output></label>
+                  <label><span>Трекинг</span><input id="carouselSlideTypeTracking" type="range" min="-0.04" max="0.16" step="0.005" value="-0.035"><output id="carouselSlideTypeTrackingValue">−0.035 em</output></label>
                   <label><span>Сдвиг влево / вправо</span><input id="carouselSlideOffsetX" type="range" min="-35" max="35" value="0"><output id="carouselSlideOffsetXValue">0%</output></label>
                   <label><span>Сдвиг вверх / вниз</span><input id="carouselSlideOffsetY" type="range" min="-35" max="35" value="0"><output id="carouselSlideOffsetYValue">0%</output></label>
+                  <label><span>Положение блока</span><select id="carouselSlidePlacement"><option value="top">Сверху</option><option value="middle">По центру</option><option value="bottom">Снизу</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
+                  <label><span>Выравнивание</span><select id="carouselSlideAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
                 </div>
                 <div class="carousel-media-head"><div><strong>Фото этого слайда · вся медиатека</strong><span id="carouselSlidePhotoName">можно выбрать отдельно</span></div><div class="carousel-media-actions"><label class="carousel-search"><input id="carouselSlideMediaSearch" type="search" placeholder="Найти фото…"></label><button class="button button-quiet" id="carouselShuffleSlideMedia" type="button">Перемешать</button><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать</button></div></div>
                 <div class="carousel-media-strip" id="carouselSlideMedia"></div>
@@ -714,7 +723,7 @@
   <script src="type-studio/font-data.js"></script>
   <script src="app.js?v=20260820-5"></script>
   <script src="carousel-builder.js?v=20260820-5"></script>
-  <script src="carousel-studio.js?v=20260824-2"></script>
+  <script src="carousel-studio.js?v=20260824-3"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>
