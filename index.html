@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260824-4">
+  <link rel="stylesheet" href="styles.css?v=20260824-5">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -617,7 +617,7 @@
             <div class="carousel-slide-editor">
               <section class="carousel-canvas-column" aria-label="Активный слайд">
                 <div class="carousel-slide-canvas" id="carouselActiveCanvas"></div>
-                <p class="carousel-direct-hint">Тяните блок мышью, а его края и углы — чтобы изменить размер</p>
+                <p class="carousel-direct-hint">Тяните текстовые блоки и их края. Потяните свободное место на фото, чтобы сдвинуть кадр.</p>
                 <div class="carousel-canvas-actions">
                   <button class="button button-primary" id="carouselSaveSlide" type="button">Сохранить слайд</button>
                   <button class="button button-secondary" id="carouselDownloadActive" type="button">Скачать PNG</button>
@@ -628,6 +628,17 @@
                 <label class="carousel-field"><span>Заголовок</span><textarea id="carouselSlideTitle" rows="3"></textarea></label>
                 <div class="carousel-field carousel-rich-field"><div class="carousel-field-head"><label for="carouselSlideBody">Основной текст</label><button type="button" id="carouselBodyBold" aria-label="Сделать выделенный фрагмент жирным"><b>Ж</b> Жирный</button></div><textarea id="carouselSlideBody" rows="9"></textarea><small>Выделите фрагмент и нажмите «Жирный». Форматирование сохранится в PNG.</small></div>
                 <label class="carousel-check carousel-layer-toggle"><input id="carouselSlideShowLabel" type="checkbox" checked><span>Показывать аккаунт / подпись сверху</span></label>
+                <div class="carousel-active-layer-head"><strong>Фото и поверхность</strong><span>этот кадр</span></div>
+                <div class="carousel-appearance-panel">
+                  <div class="carousel-control-grid">
+                    <div class="carousel-color-control"><span>Цвет фона</span><div><input id="carouselSlideBackgroundColor" type="color" value="#17221f" aria-label="Цвет фона слайда"><output id="carouselSlideBackgroundColorValue">из палитры</output><button class="text-button" id="carouselSlideBackgroundColorReset" type="button">Из палитры</button></div></div>
+                    <label><span>Фактура</span><select id="carouselSlideTexture"><option value="none">Без фактуры</option><option value="paper">Бумага</option><option value="grain">Мягкое зерно</option><option value="dots">Редкие точки</option></select></label>
+                    <label><span>Масштаб фото</span><input id="carouselSlidePhotoScale" type="range" min="100" max="220" step="1" value="100"><output id="carouselSlidePhotoScaleValue">100%</output></label>
+                    <label><span>Фото влево / вправо</span><input id="carouselSlidePhotoFocusX" type="range" min="0" max="100" step="1" value="50"><output id="carouselSlidePhotoFocusXValue">50%</output></label>
+                    <label><span>Фото вверх / вниз</span><input id="carouselSlidePhotoFocusY" type="range" min="0" max="100" step="1" value="50"><output id="carouselSlidePhotoFocusYValue">50%</output></label>
+                  </div>
+                  <div class="carousel-series-apply"><div><strong>Повторить оформление</strong><span>Фон, фактура, палитра и шрифтовая система — без замены фото, текста и координат.</span></div><button class="button button-secondary" id="carouselApplyAppearanceToSeries" type="button">Применить ко всей серии</button></div>
+                </div>
                 <div class="carousel-active-layer-head"><strong>Текст и типографика</strong><span id="carouselSlideTypeLayerLabel">заголовок</span></div>
                 <div class="carousel-layer-content-editor">
                   <label class="carousel-field"><span>Текст выбранного слоя</span><textarea id="carouselSlideLayerText" rows="2"></textarea></label>
@@ -640,6 +651,7 @@
                   <label><span>Шрифтовая пара слайда</span><div class="carousel-font-browser"><select id="carouselSlideFont"></select><button id="carouselSlideFontPrev" type="button">Пред.</button><button id="carouselSlideFontNext" type="button">След.</button></div><small class="carousel-font-key-hint">Клавиши ↑ / ↓ листают варианты</small></label>
                   <label><span>Активный слой</span><select id="carouselSlideMoveTarget"><option value="title">Заголовок</option><option value="body">Основной текст</option><option value="label">Аккаунт / подпись</option><option value="counter">Номер слайда</option></select></label>
                   <label><span>Шрифт слоя</span><div class="carousel-font-browser"><select id="carouselSlideTypeFont"></select><button id="carouselSlideTypeFontPrev" type="button">Пред.</button><button id="carouselSlideTypeFontNext" type="button">След.</button></div><small class="carousel-font-key-hint">Фокус на списке + ↑ / ↓ — быстрая примерка</small></label>
+                  <div class="carousel-font-samples" id="carouselSlideFontSamples" aria-label="Примеры шрифтов выбранного слоя"></div>
                   <div class="carousel-color-control"><span>Цвет текста слоя</span><div><input id="carouselSlideLayerColor" type="color" value="#17221f" aria-label="Цвет текста выбранного слоя"><output id="carouselSlideLayerColorValue">из палитры</output><button class="text-button" id="carouselSlideLayerColorReset" type="button">Из палитры</button></div></div>
                   <label><span>Вес</span><input id="carouselSlideTypeWeight" type="range" min="100" max="900" step="10" value="800"><output id="carouselSlideTypeWeightValue">800</output></label>
                   <label><span>Размер</span><input id="carouselSlideTypeSize" type="range" min="8" max="132" step="1" value="48"><output id="carouselSlideTypeSizeValue">48 px</output></label>
@@ -757,7 +769,7 @@
   <script src="type-studio/font-data.js"></script>
   <script src="app.js?v=20260824-1"></script>
   <script src="carousel-builder.js?v=20260824-2"></script>
-  <script src="carousel-studio.js?v=20260824-6"></script>
+  <script src="carousel-studio.js?v=20260824-7"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>
