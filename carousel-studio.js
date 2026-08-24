@@ -6,6 +6,7 @@
   const DRAFT_KEY = "sekta-carousel-studio-draft-v2";
   const SAVED_KEY = "sekta-carousel-studio-series-v1";
   const IMPORT_KEY = "sekta-carousel-studio-taste-import-v1";
+  const MONTAGE_VERSION = 2;
   const DEFAULT_LONGREAD = document.querySelector("#carouselLongreadText")?.value || "";
   const palettes = {
     ink: { name: "Контрастная", background: "#17221f", foreground: "#ffffff", accent: "#f7f7f2", ink: "#17221f" },
@@ -14,6 +15,10 @@
     lime: { name: "Лайм", background: "#d4f04a", foreground: "#17221f", accent: "#ffffff", ink: "#17221f" },
     paper: { name: "Бумага", background: "#fff7e6", foreground: "#5b493b", accent: "#f35ba7", ink: "#392f29" },
     "sekta-yellow": { name: "#Sekta · жёлтый", background: "#17221f", foreground: "#ffe36a", accent: "#ffffff", ink: "#17221f" },
+    "sekta-cream": { name: "#Sekta · молочный", background: "#fbf7ef", foreground: "#17221f", accent: "#ffe36a", ink: "#17221f" },
+    "sekta-sky": { name: "#Sekta · голубой", background: "#c8edf2", foreground: "#17221f", accent: "#ffffff", ink: "#17221f" },
+    "sekta-mint": { name: "#Sekta · мятный", background: "#62d9a4", foreground: "#17221f", accent: "#fbf7ef", ink: "#17221f" },
+    "sekta-pink": { name: "#Sekta · розовый", background: "#f481b5", foreground: "#17221f", accent: "#fbf7ef", ink: "#17221f" },
   };
   const layoutPresets = {
     "paper-column": { name: "Бумажная колонка", role: "longread", scene: "paper", background: "#f3f1e9", foreground: "#171814", accent: "#e9a692", ink: "#171814" },
@@ -45,6 +50,20 @@
     quote: "Цитатная",
   };
   const roleLabels = { cover: "Обложка", longread: "Лонгрид", quote: "Цитата", proof: "Фото-доказательство", pause: "Фотопауза", cta: "Финал / CTA" };
+  const montageTemplates = {
+    cover: { template: "cover-plaque", role: "cover", scene: "plate", palette: "sekta-sky", placement: "bottom", size: 76, bodySize: 24, titleBoxWidth: 72, titleBoxHeight: 30, bodyBoxWidth: 68, bodyBoxHeight: 14, showCounter: false },
+    body: [
+      { template: "light-column", scene: "paper", palette: "sekta-cream", placement: "middle", size: 68, bodySize: 28, titleBoxWidth: 72, bodyBoxWidth: 72 },
+      { template: "photo-field", scene: "window", palette: "sekta-mint", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 78 },
+      { template: "photo-scrim", scene: "photo-dim", palette: "sekta-cream", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 78, textColor: "#ffffff" },
+      { template: "accent-thought", scene: "field", palette: "sekta-pink", placement: "middle", size: 74, bodySize: 26, titleBoxWidth: 80, bodyBoxWidth: 76 },
+      { template: "photo-window", scene: "window", palette: "sekta-yellow", placement: "bottom", size: 62, bodySize: 26, titleBoxWidth: 78, bodyBoxWidth: 78 },
+      { template: "text-photo", scene: "photo-dim", palette: "sekta-cream", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 80, bodyBoxWidth: 78, textColor: "#ffffff" },
+      { template: "light-column", scene: "paper", palette: "sekta-cream", placement: "middle", size: 68, bodySize: 28, titleBoxWidth: 72, bodyBoxWidth: 72 },
+      { template: "photo-field", scene: "window", palette: "sekta-mint", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 78 },
+    ],
+    final: { template: "color-final", role: "cta", scene: "field", palette: "sekta-mint", placement: "middle", size: 70, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 72 },
+  };
 
   const ui = {
     saveState: document.querySelector("#carouselSaveState"),
@@ -363,6 +382,7 @@
       role: "longread",
       title: "",
       body: "",
+      template: "",
       scene: "paper",
       palette: "ink",
       size: 46,
@@ -442,9 +462,10 @@
       activeSlide: 0,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      montageVersion: MONTAGE_VERSION,
       slides: [
-        makeSlide({ role: "cover", title: "Пропустили пять дней? Ничего не сломалось", body: "10 слайдов · сохрани", labelText: "@sektaschool", scene: "photo-clean", palette: "sekta-yellow", size: 106, bodySize: 20, labelSize: 22, titleWeight: 700, titleLineHeight: .86, titleTracking: -.012, titleBoxHeight: 38, bodyBoxHeight: 12, caseKind: "upper", showCounter: false, placement: "bottom", photoId: firstPhoto?.id || null }),
-        makeSlide({ role: "cta", title: "Возвращение не требует наказания", body: "Сохраните, чтобы вернуться к этой мысли в нужный день.", scene: "field", palette: "lime", size: 58 }),
+        makeSlide({ ...montageTemplates.cover, title: "Пропустили пять дней? Ничего не сломалось", body: "10 слайдов · сохрани", labelText: "@sektaschool", labelSize: 22, titleWeight: 700, titleLineHeight: .86, titleTracking: -.012, caseKind: "upper", photoId: firstPhoto?.id || null }),
+        makeSlide({ ...montageTemplates.final, title: "Возвращение не требует наказания", body: "Сохраните, чтобы вернуться к этой мысли в нужный день." }),
       ],
     };
     return splitSeries(series, 10, true, true);
@@ -589,33 +610,76 @@
     return chunks;
   }
 
+  function editorialCopy(text) {
+    const clean = String(text || "").trim();
+    const allWords = words(clean);
+    if (allWords.length <= 12) return { title: clean, body: "" };
+    const firstSentence = clean.match(/^[^.!?…]+[.!?…]+/)?.[0]?.trim() || "";
+    if (firstSentence && words(firstSentence).length <= 10) {
+      return { title: firstSentence, body: clean.slice(firstSentence.length).trim() };
+    }
+    return { title: `${allWords.slice(0, 7).join(" ")}…`, body: clean };
+  }
+
   function splitSeries(source, total, keepParagraphs, photoRhythm) {
     const next = deepClone(source);
-    const cover = next.slides[0] || makeSlide({ role: "cover" });
+    const cover = makeSlide({ ...montageTemplates.cover, ...(next.slides[0] || {}), photoId: next.slides[0]?.photoId || preferredPhoto()?.id || null });
     const previousFinal = next.slides[next.slides.length - 1];
-    const finalSlide = previousFinal?.role === "cta" ? previousFinal : makeSlide({ role: "cta", title: "Сохраните эту мысль", body: "Вернитесь к ней, когда снова захочется начать с наказания.", scene: "field", palette: "lime", size: 58 });
+    const finalSlide = makeSlide({
+      ...montageTemplates.final,
+      ...(previousFinal?.role === "cta" ? previousFinal : { title: "Сохраните эту мысль", body: "Вернитесь к ней, когда снова захочется начать с наказания." }),
+    });
     const chunks = distributeText(next.longread, total - 2, keepParagraphs);
-    const photos = library.filter((item) => item.orientation === "portrait").slice(0, Math.max(1, chunks.length));
+    const photos = library.filter((item) => item.orientation === "portrait");
     const bodySlides = chunks.map((body, index) => {
-      const withPhoto = photoRhythm && index % 3 === 2;
-      const scenes = ["paper", "field", "quote", "dark"];
+      const copy = editorialCopy(body);
+      const template = montageTemplates.body[index % montageTemplates.body.length];
+      const templateUsesPhoto = ["photo-field", "photo-scrim", "photo-window", "text-photo"].includes(template.template);
+      const fallbackScene = templateUsesPhoto && !photoRhythm ? "paper" : template.scene;
       return makeSlide({
-        role: index % 4 === 2 ? "quote" : "longread",
-        body,
-        scene: withPhoto ? "photo-dim" : scenes[index % scenes.length],
-        palette: index % 4 === 1 ? next.palette : index % 4 === 2 ? "paper" : next.palette,
-        size: words(body).length > 70 ? 34 : words(body).length > 48 ? 38 : 44,
-        photoId: withPhoto ? photos[index % photos.length]?.id || null : null,
+        ...template,
+        role: "longread",
+        title: copy.title,
+        body: copy.body,
+        scene: fallbackScene,
+        bodySize: words(body).length > 70 ? 24 : words(body).length > 48 ? 26 : template.bodySize,
+        photoId: templateUsesPhoto && photoRhythm && photos.length ? photos[index % photos.length].id : null,
       });
     });
     next.slides = [cover, ...bodySlides, finalSlide];
+    next.montageVersion = MONTAGE_VERSION;
     next.totalSlides = next.slides.length;
     next.activeSlide = Math.min(next.activeSlide || 0, next.slides.length - 1);
     next.updatedAt = new Date().toISOString();
     return next;
   }
 
+  function applyMontageGrammar(source) {
+    const next = deepClone(source);
+    const photos = library.filter((item) => item.orientation === "portrait");
+    next.slides = next.slides.map((slide, index) => {
+      const isCover = index === 0;
+      const isFinal = index === next.slides.length - 1;
+      const template = isCover ? montageTemplates.cover : isFinal ? montageTemplates.final : montageTemplates.body[(index - 1) % montageTemplates.body.length];
+      const templateUsesPhoto = isCover || ["photo-field", "photo-scrim", "photo-window", "text-photo"].includes(template.template);
+      const copy = !isCover && !isFinal && !slide.title ? editorialCopy(slide.body) : null;
+      return makeSlide({
+        ...slide,
+        ...template,
+        title: copy?.title || slide.title,
+        body: copy ? copy.body : slide.body,
+        labelText: slide.labelText,
+        photoId: templateUsesPhoto ? slide.photoId || photos[(index - 1 + photos.length) % Math.max(1, photos.length)]?.id || preferredPhoto()?.id || null : null,
+        savedAt: null,
+      });
+    });
+    next.montageVersion = MONTAGE_VERSION;
+    next.updatedAt = new Date().toISOString();
+    return next;
+  }
+
   let series = normalizeSeries(readJson(DRAFT_KEY, null));
+  if (series.montageVersion !== MONTAGE_VERSION) series = applyMontageGrammar(series);
   let savedSeries = readJson(SAVED_KEY, []);
   let coverMoveTarget = "title";
   let slideMoveTarget = "body";
@@ -710,10 +774,7 @@
         series.slides.forEach((slide, index) => {
           const visual = idea.visualPlan[index];
           if (!visual) return;
-          if (sceneLabels[visual.scene]) slide.scene = visual.scene;
-          if (paletteChoices()[visual.palette]) slide.palette = visual.palette;
           if (visual.photoId && photoById(visual.photoId)) slide.photoId = visual.photoId;
-          else if (["paper", "field", "dark", "quote"].includes(slide.scene)) slide.photoId = null;
         });
       }
       if (idea.coverDesign) {
@@ -1185,6 +1246,7 @@
     const selectedLayer = element === ui.coverCanvas ? coverMoveTarget : element === ui.activeCanvas ? slideMoveTarget : "";
     element.className = `carousel-slide-canvas${directEditing ? " is-direct-editing" : ""}`;
     element.dataset.scene = slide.scene;
+    element.dataset.template = slide.template || "";
     element.dataset.palette = slide.palette;
     element.dataset.placement = slide.placement || "middle";
     element.dataset.align = slide.align || "left";
@@ -1402,7 +1464,7 @@
     const photo = photoById(slide.photoId);
     const image = photo && !["paper", "field", "dark", "quote"].includes(slide.scene) ? `<img src="${escapeHtml(photo.thumb)}" alt="">` : "";
     const label = slide.title || slide.body || roleLabels[slide.role];
-    return `<button type="button" class="carousel-mini-slide${index === series.activeSlide ? " is-active" : ""}${slide.savedAt ? " is-saved" : ""}" data-carousel-slide-index="${index}" style="--mini-bg:${slide.backgroundColor || palette.background};--mini-fg:${palette.foreground};--mini-font:'${escapeHtml(slideFont.family)}'"><span>${String(index + 1).padStart(2, "0")}</span><div>${image}<strong>${escapeHtml(label)}</strong></div><small>${escapeHtml(roleLabels[slide.role] || slide.role)}</small></button>`;
+    return `<button type="button" class="carousel-mini-slide${index === series.activeSlide ? " is-active" : ""}${slide.savedAt ? " is-saved" : ""}" data-carousel-slide-index="${index}" data-scene="${escapeHtml(slide.scene)}" data-template="${escapeHtml(slide.template || "")}" style="--mini-bg:${slide.backgroundColor || palette.background};--mini-fg:${slideForeground(slide)};--mini-font:'${escapeHtml(slideFont.family)}'"><span>${String(index + 1).padStart(2, "0")}</span><div>${image}<strong>${escapeHtml(label)}</strong></div><small>${escapeHtml(roleLabels[slide.role] || slide.role)}</small></button>`;
   }
 
   function renderRail() {
@@ -2065,6 +2127,7 @@
     if (usesPhoto) {
       const image = await loadImage(photo.exportImage || photo.thumb);
       if (slide.scene === "split") cropImage(context, image, 600, 0, 480, 1350, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
+      else if (slide.scene === "window" && slide.template === "photo-field") cropImage(context, image, 0, 0, 1080, 720, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
       else if (slide.scene === "window") cropImage(context, image, 90, 90, 900, 520, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
       else cropImage(context, image, 0, 0, 1080, 1350, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
       if (slide.scene === "photo-dim" || slide.scene === "plate") {
@@ -2110,7 +2173,7 @@
     const bodyHeight = richCanvasHeight(bodyLines, bodySize, bodyType.lineHeight);
     const blockHeight = titleHeight + (titleLines.length && bodyLines.length ? 50 : 0) + bodyHeight;
     let startY = slide.placement === "top" ? 210 : slide.placement === "bottom" ? 1180 - blockHeight : (1350 - blockHeight) / 2;
-    if (["window"].includes(slide.scene)) startY = 720;
+    if (slide.scene === "window") startY = slide.template === "photo-field" ? 790 : 720;
     if (slide.scene === "plate") {
       context.fillStyle = palette.background;
       context.beginPath();
