@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260820-5">
+  <link rel="stylesheet" href="styles.css?v=20260824-1">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -508,7 +508,15 @@
           <div class="carousel-stage-panel is-active" id="carouselStageCoverPanel" role="tabpanel" aria-labelledby="carouselStageCoverTab" data-carousel-stage-panel="cover">
             <div class="carousel-cover-workspace">
               <section class="carousel-canvas-column" aria-label="Предпросмотр обложки">
+                <div class="carousel-preview-switch" role="tablist" aria-label="Режим предпросмотра обложки">
+                  <button type="button" class="is-active" role="tab" aria-selected="true" data-carousel-preview="cover">Макет</button>
+                  <button type="button" role="tab" aria-selected="false" data-carousel-preview="grid">В сетке</button>
+                </div>
                 <div class="carousel-slide-canvas" id="carouselCoverCanvas"></div>
+                <div class="carousel-grid-preview" id="carouselGridPreview" hidden>
+                  <div class="carousel-grid-profile"><span class="profile-badge">#S</span><div><strong>sektaschool</strong><small>предпросмотр профиля</small></div><span>•••</span></div>
+                  <div class="carousel-grid-cells" id="carouselGridCells"></div>
+                </div>
                 <div class="carousel-canvas-actions">
                   <button class="button button-primary" id="carouselSaveCover" type="button">Сохранить слайд</button>
                   <button class="button button-secondary" id="carouselDownloadSlide" type="button">Скачать PNG</button>
@@ -519,6 +527,7 @@
                 <div class="section-head"><div><h2>Обложка серии</h2><p>Все изменения видны на макете сразу</p></div><span>1080 × 1350</span></div>
                 <label class="carousel-field"><span>Что пишем на обложке</span><textarea id="carouselCoverTitle" rows="4">Пропустили пять дней? Ничего не сломалось</textarea></label>
                 <label class="carousel-field"><span>Подстрочник или служебная строка</span><input id="carouselCoverSubtitle" type="text" value="10 слайдов · сохрани"></label>
+                <label class="carousel-check carousel-layer-toggle"><input id="carouselCoverShowLabel" type="checkbox" checked><span>Показывать название серии сверху</span></label>
                 <fieldset class="carousel-control-group"><legend>Сцена</legend><div class="carousel-choice-row">
                   <button type="button" data-carousel-scene="photo-dim">Фото + затемнение</button>
                   <button type="button" data-carousel-scene="photo-clean">Текст на фото</button>
@@ -531,6 +540,9 @@
                   <label><span>Положение текста</span><select id="carouselCoverPlacement"><option value="bottom">Снизу</option><option value="middle">По центру</option><option value="top">Сверху</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
                   <label><span>Выравнивание</span><select id="carouselCoverAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
                   <label><span>Регистр</span><select id="carouselCoverCase"><option value="original">Как написано</option><option value="lower">Строчные</option><option value="upper">КАПС</option></select></label>
+                  <label><span>Что двигаем</span><select id="carouselCoverMoveTarget"><option value="title">Заголовок</option><option value="body">Подстрочник</option></select></label>
+                  <label><span>Сдвиг влево / вправо</span><input id="carouselCoverOffsetX" type="range" min="-35" max="35" value="0"><output id="carouselCoverOffsetXValue">0%</output></label>
+                  <label><span>Сдвиг вверх / вниз</span><input id="carouselCoverOffsetY" type="range" min="-35" max="35" value="0"><output id="carouselCoverOffsetYValue">0%</output></label>
                 </div>
                 <div class="carousel-media-head"><div><strong>Фотография · вся медиатека (1059)</strong><span id="carouselCoverPhotoName">выбирайте лентой или через поиск</span></div><label class="carousel-search"><input id="carouselCoverMediaSearch" type="search" placeholder="Найти среди 1059 фото…"></label></div>
                 <div class="carousel-media-strip" id="carouselCoverMedia"></div>
@@ -580,7 +592,8 @@
               <section class="panel carousel-controls-panel">
                 <div class="section-head"><div><h2 id="carouselActiveTitle">Слайд 1</h2><p id="carouselActiveMeta">обложка · не сохранён</p></div><button class="button button-quiet" id="carouselDuplicateSlide" type="button">Дублировать</button></div>
                 <label class="carousel-field"><span>Заголовок</span><textarea id="carouselSlideTitle" rows="3"></textarea></label>
-                <label class="carousel-field"><span>Основной текст</span><textarea id="carouselSlideBody" rows="9"></textarea></label>
+                <div class="carousel-field carousel-rich-field"><div class="carousel-field-head"><label for="carouselSlideBody">Основной текст</label><button type="button" id="carouselBodyBold" aria-label="Сделать выделенный фрагмент жирным"><b>Ж</b> Жирный</button></div><textarea id="carouselSlideBody" rows="9"></textarea><small>Выделите фрагмент и нажмите «Жирный». Форматирование сохранится в PNG.</small></div>
+                <label class="carousel-check carousel-layer-toggle"><input id="carouselSlideShowLabel" type="checkbox" checked><span>Показывать название серии сверху</span></label>
                 <div class="carousel-control-grid">
                   <label><span>Тип слайда</span><select id="carouselSlideRole"><option value="cover">Обложка</option><option value="longread">Лонгрид</option><option value="quote">Цитата</option><option value="proof">Фото-доказательство</option><option value="pause">Фотопауза</option><option value="cta">Финал / CTA</option></select></label>
                   <label><span>Сцена</span><select id="carouselSlideScene"><option value="paper">Светлое поле</option><option value="dark">Тёмное поле</option><option value="photo-dim">Фото + затемнение</option><option value="photo-clean">Текст на фото</option><option value="plate">Плашка на фото</option><option value="split">Split</option><option value="window">Фото-окно</option><option value="field">Цветовое поле</option><option value="quote">Цитатная</option></select></label>
@@ -590,8 +603,9 @@
                   <label><span>Размер основного текста</span><input id="carouselSlideBodySize" type="range" min="24" max="64" value="34"><output id="carouselSlideBodySizeValue">34 px</output></label>
                   <label><span>Положение блока</span><select id="carouselSlidePlacement"><option value="top">Сверху</option><option value="middle">По центру</option><option value="bottom">Снизу</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
                   <label><span>Выравнивание</span><select id="carouselSlideAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
-                  <label><span>Сдвиг по горизонтали</span><input id="carouselSlideOffsetX" type="range" min="-20" max="20" value="0"><output id="carouselSlideOffsetXValue">0%</output></label>
-                  <label><span>Сдвиг по вертикали</span><input id="carouselSlideOffsetY" type="range" min="-20" max="20" value="0"><output id="carouselSlideOffsetYValue">0%</output></label>
+                  <label><span>Что двигаем</span><select id="carouselSlideMoveTarget"><option value="title">Заголовок</option><option value="body">Основной текст</option></select></label>
+                  <label><span>Сдвиг влево / вправо</span><input id="carouselSlideOffsetX" type="range" min="-35" max="35" value="0"><output id="carouselSlideOffsetXValue">0%</output></label>
+                  <label><span>Сдвиг вверх / вниз</span><input id="carouselSlideOffsetY" type="range" min="-35" max="35" value="0"><output id="carouselSlideOffsetYValue">0%</output></label>
                 </div>
                 <div class="carousel-media-head"><div><strong>Фото этого слайда · вся медиатека</strong><span id="carouselSlidePhotoName">можно выбрать отдельно</span></div><div class="carousel-media-actions"><label class="carousel-search"><input id="carouselSlideMediaSearch" type="search" placeholder="Найти фото…"></label><button class="button button-quiet" id="carouselShuffleSlideMedia" type="button">Перемешать</button><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать</button></div></div>
                 <div class="carousel-media-strip" id="carouselSlideMedia"></div>
@@ -698,7 +712,7 @@
   <script src="type-studio/font-data.js"></script>
   <script src="app.js?v=20260820-5"></script>
   <script src="carousel-builder.js?v=20260820-5"></script>
-  <script src="carousel-studio.js?v=20260820-5"></script>
+  <script src="carousel-studio.js?v=20260824-1"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>

@@ -64,6 +64,14 @@
     coverPlacement: document.querySelector("#carouselCoverPlacement"),
     coverAlign: document.querySelector("#carouselCoverAlign"),
     coverCase: document.querySelector("#carouselCoverCase"),
+    coverShowLabel: document.querySelector("#carouselCoverShowLabel"),
+    coverMoveTarget: document.querySelector("#carouselCoverMoveTarget"),
+    coverOffsetX: document.querySelector("#carouselCoverOffsetX"),
+    coverOffsetXValue: document.querySelector("#carouselCoverOffsetXValue"),
+    coverOffsetY: document.querySelector("#carouselCoverOffsetY"),
+    coverOffsetYValue: document.querySelector("#carouselCoverOffsetYValue"),
+    gridPreview: document.querySelector("#carouselGridPreview"),
+    gridCells: document.querySelector("#carouselGridCells"),
     coverMedia: document.querySelector("#carouselCoverMedia"),
     coverMediaSearch: document.querySelector("#carouselCoverMediaSearch"),
     coverPhotoName: document.querySelector("#carouselCoverPhotoName"),
@@ -84,6 +92,9 @@
     activeMeta: document.querySelector("#carouselActiveMeta"),
     slideTitle: document.querySelector("#carouselSlideTitle"),
     slideBody: document.querySelector("#carouselSlideBody"),
+    bodyBold: document.querySelector("#carouselBodyBold"),
+    slideShowLabel: document.querySelector("#carouselSlideShowLabel"),
+    slideMoveTarget: document.querySelector("#carouselSlideMoveTarget"),
     slideRole: document.querySelector("#carouselSlideRole"),
     slideScene: document.querySelector("#carouselSlideScene"),
     slidePalette: document.querySelector("#carouselSlidePalette"),
@@ -120,6 +131,8 @@
   };
 
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
+  const inlineMarkupHtml = (value) => escapeHtml(value).replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>");
+  const stripInlineMarkup = (value) => String(value || "").replace(/\*\*([^*]+)\*\*/g, "$1");
   const readJson = (key, fallback) => {
     try {
       const parsed = JSON.parse(localStorage.getItem(key));
@@ -282,8 +295,11 @@
       bodySize: 34,
       align: "left",
       placement: "middle",
-      offsetX: 0,
-      offsetY: 0,
+      showSeriesLabel: true,
+      titleOffsetX: 0,
+      titleOffsetY: 0,
+      bodyOffsetX: 0,
+      bodyOffsetY: 0,
       caseKind: "original",
       font: null,
       photoId: null,
@@ -322,7 +338,15 @@
       longread: candidate.longread || DEFAULT_LONGREAD,
       totalSlides: candidate.slides.length,
       activeSlide: Math.min(Math.max(Number(candidate.activeSlide) || 0, 0), candidate.slides.length - 1),
-      slides: candidate.slides.map((slide) => makeSlide({ ...slide, font: slide.font?.family ? normalizeFontSystem(slide.font) : null })),
+      slides: candidate.slides.map((slide) => makeSlide({
+        ...slide,
+        showSeriesLabel: slide.showSeriesLabel !== false,
+        titleOffsetX: Number(slide.titleOffsetX ?? slide.offsetX) || 0,
+        titleOffsetY: Number(slide.titleOffsetY ?? slide.offsetY) || 0,
+        bodyOffsetX: Number(slide.bodyOffsetX ?? slide.offsetX) || 0,
+        bodyOffsetY: Number(slide.bodyOffsetY ?? slide.offsetY) || 0,
+        font: slide.font?.family ? normalizeFontSystem(slide.font) : null,
+      })),
     };
   }
 
@@ -417,6 +441,8 @@
 
   let series = normalizeSeries(readJson(DRAFT_KEY, null));
   let savedSeries = readJson(SAVED_KEY, []);
+  let coverMoveTarget = "title";
+  let slideMoveTarget = "body";
   if (!Array.isArray(savedSeries)) savedSeries = [];
   let activeStage = "cover";
   let generationVariant = 0;
@@ -569,14 +595,17 @@
     element.style.setProperty("--carousel-ink", palette.ink);
     element.style.setProperty("--carousel-title-size", `${Math.max(24, Math.round((slide.size || 46) * .48))}px`);
     element.style.setProperty("--carousel-body-size", `${Math.max(12, Math.min(31, Math.round((slide.bodySize || 34) * .48)))}px`);
-    element.style.setProperty("--carousel-offset-x", `${Number(slide.offsetX) || 0}%`);
-    element.style.setProperty("--carousel-offset-y", `${Number(slide.offsetY) || 0}%`);
+    element.style.setProperty("--carousel-title-x", `${Number(slide.titleOffsetX) || 0}cqw`);
+    element.style.setProperty("--carousel-title-y", `${(Number(slide.titleOffsetY) || 0) * 1.25}cqw`);
+    element.style.setProperty("--carousel-body-x", `${Number(slide.bodyOffsetX) || 0}cqw`);
+    element.style.setProperty("--carousel-body-y", `${(Number(slide.bodyOffsetY) || 0) * 1.25}cqw`);
     const image = photo && !["paper", "field", "dark", "quote"].includes(slide.scene)
       ? `<img class="carousel-render-photo" src="${escapeHtml(photo.thumb)}" alt="">`
       : "";
-    const title = slide.title ? `<strong>${escapeHtml(displayText(slide.title, slide.caseKind || slideFont.caseKind))}</strong>` : "";
-    const body = slide.body ? `<p>${escapeHtml(slide.body).replace(/\n\n/g, "</p><p>")}</p>` : "";
-    element.innerHTML = `${image}<div class="carousel-render-shade"></div><div class="carousel-render-content"><span class="carousel-render-series">${escapeHtml(series.name)}</span>${title}${body}<small>${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}</small></div>`;
+    const title = slide.title ? `<strong class="carousel-render-title">${escapeHtml(displayText(stripInlineMarkup(slide.title), slide.caseKind || slideFont.caseKind))}</strong>` : "";
+    const body = slide.body ? `<div class="carousel-render-body"><p>${inlineMarkupHtml(slide.body).replace(/\n\s*\n/g, "</p><p>")}</p></div>` : "";
+    const label = slide.showSeriesLabel === false ? "" : `<span class="carousel-render-series">${escapeHtml(series.name)}</span>`;
+    element.innerHTML = `${image}<div class="carousel-render-shade"></div>${label}<div class="carousel-render-content">${title}${body}</div><small class="carousel-render-counter">${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}</small>`;
   }
 
   function renderFontStrip() {
@@ -639,6 +668,28 @@
     return series.slides[series.activeSlide] || series.slides[0];
   }
 
+  function layerOffsets(slide, target) {
+    return target === "title"
+      ? { x: Number(slide.titleOffsetX) || 0, y: Number(slide.titleOffsetY) || 0 }
+      : { x: Number(slide.bodyOffsetX) || 0, y: Number(slide.bodyOffsetY) || 0 };
+  }
+
+  function syncCoverOffsets() {
+    const offsets = layerOffsets(coverSlide(), coverMoveTarget);
+    ui.coverMoveTarget.value = coverMoveTarget;
+    ui.coverOffsetX.value = offsets.x;
+    ui.coverOffsetY.value = offsets.y;
+    ui.coverOffsetXValue.textContent = `${offsets.x}%`;
+    ui.coverOffsetYValue.textContent = `${offsets.y}%`;
+  }
+
+  function renderGridPreview() {
+    if (!ui.gridCells) return;
+    const currentGrid = window.SEKTA_CURRENT_GRID || [];
+    ui.gridCells.innerHTML = `<div class="carousel-grid-cell is-draft"><div class="carousel-slide-canvas" data-carousel-grid-draft></div><span class="carousel-grid-new">NEW</span></div>${currentGrid.slice(0, 8).map((item) => `<div class="carousel-grid-cell"><img src="${escapeHtml(item.image)}" alt="" loading="lazy"><span class="carousel-grid-kind">${item.pinned ? "◆" : item.type === "Reel" ? "▶" : "▣"}</span></div>`).join("")}`;
+    renderCanvas(ui.gridCells.querySelector("[data-carousel-grid-draft]"), coverSlide(), 0);
+  }
+
   function syncCoverForm() {
     const slide = coverSlide();
     ui.seriesName.value = series.name;
@@ -649,6 +700,8 @@
     ui.coverPlacement.value = slide.placement || "bottom";
     ui.coverAlign.value = slide.align || "left";
     ui.coverCase.value = slide.caseKind || "original";
+    ui.coverShowLabel.checked = slide.showSeriesLabel !== false;
+    syncCoverOffsets();
     ui.longread.value = series.longread;
     ui.slideCount.value = String(series.totalSlides || series.slides.length);
     document.querySelectorAll("[data-carousel-scene]").forEach((button) => button.classList.toggle("is-active", button.dataset.carouselScene === slide.scene));
@@ -659,6 +712,7 @@
 
   function renderCover() {
     renderCanvas(ui.coverCanvas, coverSlide(), 0);
+    renderGridPreview();
     syncCoverForm();
   }
 
@@ -700,10 +754,13 @@
     ui.slideBodySizeValue.textContent = `${slide.bodySize || 34} px`;
     ui.slidePlacement.value = slide.placement || "middle";
     ui.slideAlign.value = slide.align || "left";
-    ui.slideOffsetX.value = slide.offsetX || 0;
-    ui.slideOffsetXValue.textContent = `${Number(slide.offsetX) || 0}%`;
-    ui.slideOffsetY.value = slide.offsetY || 0;
-    ui.slideOffsetYValue.textContent = `${Number(slide.offsetY) || 0}%`;
+    ui.slideShowLabel.checked = slide.showSeriesLabel !== false;
+    const offsets = layerOffsets(slide, slideMoveTarget);
+    ui.slideMoveTarget.value = slideMoveTarget;
+    ui.slideOffsetX.value = offsets.x;
+    ui.slideOffsetXValue.textContent = `${offsets.x}%`;
+    ui.slideOffsetY.value = offsets.y;
+    ui.slideOffsetYValue.textContent = `${offsets.y}%`;
     const photo = photoById(slide.photoId);
     ui.slidePhotoName.textContent = photo?.fileName || "без фотографии";
     ui.removePhoto.disabled = !slide.photoId;
@@ -769,9 +826,19 @@
     slide.placement = ui.coverPlacement.value;
     slide.align = ui.coverAlign.value;
     slide.caseKind = ui.coverCase.value;
+    slide.showSeriesLabel = ui.coverShowLabel.checked;
+    if (coverMoveTarget === "title") {
+      slide.titleOffsetX = Number(ui.coverOffsetX.value);
+      slide.titleOffsetY = Number(ui.coverOffsetY.value);
+    } else {
+      slide.bodyOffsetX = Number(ui.coverOffsetX.value);
+      slide.bodyOffsetY = Number(ui.coverOffsetY.value);
+    }
     slide.savedAt = null;
     ui.coverSizeValue.textContent = `${slide.size} px`;
+    syncCoverOffsets();
     renderCanvas(ui.coverCanvas, slide, 0);
+    renderGridPreview();
     markChanged();
   }
 
@@ -786,14 +853,22 @@
     slide.bodySize = Number(ui.slideBodySize.value);
     slide.placement = ui.slidePlacement.value;
     slide.align = ui.slideAlign.value;
-    slide.offsetX = Number(ui.slideOffsetX.value);
-    slide.offsetY = Number(ui.slideOffsetY.value);
+    slide.showSeriesLabel = ui.slideShowLabel.checked;
+    if (slideMoveTarget === "title") {
+      slide.titleOffsetX = Number(ui.slideOffsetX.value);
+      slide.titleOffsetY = Number(ui.slideOffsetY.value);
+    } else {
+      slide.bodyOffsetX = Number(ui.slideOffsetX.value);
+      slide.bodyOffsetY = Number(ui.slideOffsetY.value);
+    }
     slide.savedAt = null;
     ui.slideSizeValue.textContent = `${slide.size} px`;
     ui.slideBodySizeValue.textContent = `${slide.bodySize} px`;
-    ui.slideOffsetXValue.textContent = `${slide.offsetX}%`;
-    ui.slideOffsetYValue.textContent = `${slide.offsetY}%`;
+    const offsets = layerOffsets(slide, slideMoveTarget);
+    ui.slideOffsetXValue.textContent = `${offsets.x}%`;
+    ui.slideOffsetYValue.textContent = `${offsets.y}%`;
     renderCanvas(ui.activeCanvas, slide, series.activeSlide);
+    if (series.activeSlide === 0) renderGridPreview();
     ui.activeMeta.textContent = `${roleLabels[slide.role] || slide.role} · есть изменения`;
     renderRail();
     markChanged();
@@ -875,6 +950,63 @@
     return result;
   }
 
+  function richCanvasWords(text) {
+    const paragraphs = String(text || "").split(/\n\s*\n/);
+    return paragraphs.flatMap((paragraph, paragraphIndex) => {
+      const tokens = [];
+      const pattern = /\*\*([^*]+)\*\*/g;
+      let cursor = 0;
+      const add = (value, bold) => words(value).forEach((word) => tokens.push({ word, bold }));
+      let match;
+      while ((match = pattern.exec(paragraph))) {
+        add(paragraph.slice(cursor, match.index), false);
+        add(match[1], true);
+        cursor = match.index + match[0].length;
+      }
+      add(paragraph.slice(cursor), false);
+      if (paragraphIndex < paragraphs.length - 1) tokens.push({ paragraphBreak: true });
+      return tokens;
+    });
+  }
+
+  function wrapRichCanvasText(context, text, maxWidth, size, family) {
+    if (!String(text || "").trim()) return [];
+    const lines = [[]];
+    richCanvasWords(text).forEach((token) => {
+      if (token.paragraphBreak) {
+        if (lines.at(-1).length) lines.push([]);
+        lines.push([]);
+        return;
+      }
+      context.font = `${token.bold ? 800 : 500} ${size}px ${family}`;
+      const width = context.measureText(token.word).width;
+      context.font = `500 ${size}px ${family}`;
+      const space = lines.at(-1).length ? context.measureText(" ").width : 0;
+      const current = lines.at(-1).reduce((sum, item, itemIndex) => sum + item.width + (itemIndex ? item.space : 0), 0);
+      if (lines.at(-1).length && current + space + width > maxWidth) lines.push([]);
+      lines.at(-1).push({ ...token, width, space: lines.at(-1).length ? space : 0 });
+    });
+    return lines;
+  }
+
+  function drawRichCanvasLines(context, lines, options) {
+    let y = options.startY;
+    lines.forEach((line) => {
+      y += options.size * (line.length ? 1.3 : .7);
+      if (!line.length) return;
+      const width = line.reduce((sum, token, index) => sum + token.width + (index ? token.space : 0), 0);
+      let x = options.align === "center" ? options.x - width / 2 : options.align === "right" ? options.x - width : options.x;
+      context.textAlign = "left";
+      line.forEach((token, tokenIndex) => {
+        if (tokenIndex) x += token.space;
+        context.font = `${token.bold ? 800 : 500} ${options.size}px ${options.family}`;
+        context.fillText(token.word, x, y);
+        x += token.width;
+      });
+    });
+    return y;
+  }
+
   async function makeSlideCanvas(slide, index) {
     const canvas = document.createElement("canvas");
     canvas.width = 1080;
@@ -904,13 +1036,17 @@
     context.fillStyle = foreground;
     context.textAlign = slide.align || "left";
     context.textBaseline = "alphabetic";
-    const xShift = (Number(slide.offsetX) || 0) * 10.8;
-    const yShift = (Number(slide.offsetY) || 0) * 13.5;
-    const x = (slide.align === "center" ? 540 : slide.align === "right" ? 980 : 100) + xShift;
+    const baseX = slide.align === "center" ? 540 : slide.align === "right" ? 980 : 100;
+    const titleXShift = (Number(slide.titleOffsetX) || 0) * 10.8;
+    const titleYShift = (Number(slide.titleOffsetY) || 0) * 13.5;
+    const bodyXShift = (Number(slide.bodyOffsetX) || 0) * 10.8;
+    const bodyYShift = (Number(slide.bodyOffsetY) || 0) * 13.5;
+    const titleX = baseX + titleXShift;
+    const bodyX = baseX + bodyXShift;
     const maxWidth = slide.scene === "split" ? 440 : 880;
     const fontFamily = `"${slideFont.family}", Arial, sans-serif`;
     const bodyFontFamily = `"${slideFont.body || companionFor(slideFont.family)}", Arial, sans-serif`;
-    const titleText = displayText(slide.title, slide.caseKind || slideFont.caseKind);
+    const titleText = displayText(stripInlineMarkup(slide.title), slide.caseKind || slideFont.caseKind);
     let titleSize = Math.max(40, Math.min(132, Number(slide.size) || 46));
     context.font = `800 ${titleSize}px ${fontFamily}`;
     let titleLines = wrapCanvasText(context, titleText, maxWidth);
@@ -920,35 +1056,29 @@
       titleLines = wrapCanvasText(context, titleText, maxWidth);
     }
     const bodySize = Math.max(24, Math.min(64, Number(slide.bodySize) || Math.round(titleSize * .55)));
-    context.font = `500 ${bodySize}px ${bodyFontFamily}`;
-    const bodyLines = wrapCanvasText(context, slide.body, maxWidth);
+    const bodyLines = wrapRichCanvasText(context, slide.body, maxWidth, bodySize, bodyFontFamily);
     const titleHeight = titleLines.length * titleSize * .98;
     const bodyHeight = bodyLines.length * bodySize * 1.3;
     const blockHeight = titleHeight + (titleLines.length && bodyLines.length ? 50 : 0) + bodyHeight;
     let startY = slide.placement === "top" ? 210 : slide.placement === "bottom" ? 1180 - blockHeight : (1350 - blockHeight) / 2;
     if (["window"].includes(slide.scene)) startY = 720;
-    startY += yShift;
     if (slide.scene === "plate") {
       context.fillStyle = palette.background;
       context.beginPath();
-      context.roundRect(65 + xShift, startY - titleSize, 950, blockHeight + 100, 18);
+      context.roundRect(65, startY - titleSize, 950, blockHeight + 100, 18);
       context.fill();
       context.fillStyle = palette.foreground;
     }
     context.font = `800 ${titleSize}px ${fontFamily}`;
     titleLines.forEach((line, lineIndex) => {
-      context.fillText(line, x, startY + titleSize * (lineIndex + .85), maxWidth);
+      context.fillText(line, titleX, startY + titleYShift + titleSize * (lineIndex + .85), maxWidth);
     });
-    let bodyY = startY + titleHeight + (titleLines.length && bodyLines.length ? 50 : 0);
-    context.font = `500 ${bodySize}px ${bodyFontFamily}`;
-    bodyLines.forEach((line) => {
-      bodyY += bodySize * (line ? 1.3 : .7);
-      if (line) context.fillText(line, x, bodyY, maxWidth);
-    });
+    const bodyStartY = startY + titleHeight + (titleLines.length && bodyLines.length ? 50 : 0) + bodyYShift;
+    drawRichCanvasLines(context, bodyLines, { x: bodyX, startY: bodyStartY, size: bodySize, family: bodyFontFamily, align: slide.align || "left" });
     context.font = `700 24px Arial, sans-serif`;
     context.fillStyle = foreground;
     context.textAlign = "left";
-    context.fillText(series.name, 100, 90);
+    if (slide.showSeriesLabel !== false) context.fillText(series.name, 100, 90);
     context.textAlign = "right";
     context.fillText(`${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}`, 980, 1280);
     return canvas;
@@ -982,6 +1112,22 @@
     link.click();
     setTimeout(() => URL.revokeObjectURL(link.href), 1000);
     setStatus("Структура серии экспортирована в JSON.");
+  }
+
+  function makeSelectionBold(textarea) {
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    if (start === end) {
+      setStatus("Сначала выделите фрагмент основного текста.");
+      textarea.focus();
+      return;
+    }
+    const selected = textarea.value.slice(start, end);
+    const alreadyBold = selected.startsWith("**") && selected.endsWith("**");
+    const replacement = alreadyBold ? selected.slice(2, -2) : `**${selected}**`;
+    textarea.setRangeText(replacement, start, end, "select");
+    textarea.dispatchEvent(new Event("input", { bubbles: true }));
+    textarea.focus();
   }
 
   document.querySelectorAll("[data-carousel-stage]").forEach((button) => button.addEventListener("click", () => setStage(button.dataset.carouselStage)));
@@ -1032,7 +1178,22 @@
     setTimeout(() => { ui.importTaste.textContent = tasteBundle.importedAt ? "Обновить выбор" : "Импортировать выбор"; }, 3200);
   });
 
-  [ui.seriesName, ui.coverTitle, ui.coverSubtitle, ui.coverSize, ui.coverPlacement, ui.coverAlign, ui.coverCase].forEach((control) => control.addEventListener("input", updateCoverFromForm));
+  document.querySelectorAll("[data-carousel-preview]").forEach((button) => button.addEventListener("click", () => {
+    const showGrid = button.dataset.carouselPreview === "grid";
+    ui.coverCanvas.hidden = showGrid;
+    ui.gridPreview.hidden = !showGrid;
+    document.querySelectorAll("[data-carousel-preview]").forEach((choice) => {
+      const active = choice === button;
+      choice.classList.toggle("is-active", active);
+      choice.setAttribute("aria-selected", String(active));
+    });
+    if (showGrid) renderGridPreview();
+  }));
+  ui.coverMoveTarget.addEventListener("change", () => {
+    coverMoveTarget = ui.coverMoveTarget.value === "body" ? "body" : "title";
+    syncCoverOffsets();
+  });
+  [ui.seriesName, ui.coverTitle, ui.coverSubtitle, ui.coverSize, ui.coverPlacement, ui.coverAlign, ui.coverCase, ui.coverShowLabel, ui.coverOffsetX, ui.coverOffsetY].forEach((control) => control.addEventListener("input", updateCoverFromForm));
   document.querySelectorAll("[data-carousel-scene]").forEach((button) => button.addEventListener("click", () => {
     coverSlide().scene = button.dataset.carouselScene;
     coverSlide().savedAt = null;
@@ -1076,7 +1237,12 @@
     renderActiveEditor();
     markChanged();
   });
-  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slideScene, ui.slidePalette, ui.slideSize, ui.slideBodySize, ui.slidePlacement, ui.slideAlign, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
+  ui.bodyBold.addEventListener("click", () => makeSelectionBold(ui.slideBody));
+  ui.slideMoveTarget.addEventListener("change", () => {
+    slideMoveTarget = ui.slideMoveTarget.value === "title" ? "title" : "body";
+    syncActiveForm();
+  });
+  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slideScene, ui.slidePalette, ui.slideSize, ui.slideBodySize, ui.slidePlacement, ui.slideAlign, ui.slideShowLabel, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
   ui.slideFont.addEventListener("change", () => {
     const slide = activeSlide();
     if (ui.slideFont.value === "series") slide.font = null;
