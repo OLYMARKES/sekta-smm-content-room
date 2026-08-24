@@ -3,7 +3,7 @@
   const root = document.querySelector('[data-view-panel="postbuilder"]');
   if (!root) return;
 
-  const DRAFT_KEY = "sekta-carousel-studio-draft-v1";
+  const DRAFT_KEY = "sekta-carousel-studio-draft-v2";
   const SAVED_KEY = "sekta-carousel-studio-series-v1";
   const IMPORT_KEY = "sekta-carousel-studio-taste-import-v1";
   const DEFAULT_LONGREAD = document.querySelector("#carouselLongreadText")?.value || "";
@@ -13,6 +13,7 @@
     blue: { name: "Синяя", background: "#3155e4", foreground: "#ffffff", accent: "#dce5ff", ink: "#17211e" },
     lime: { name: "Лайм", background: "#d4f04a", foreground: "#17221f", accent: "#ffffff", ink: "#17221f" },
     paper: { name: "Бумага", background: "#fff7e6", foreground: "#5b493b", accent: "#f35ba7", ink: "#392f29" },
+    "sekta-yellow": { name: "#Sekta · жёлтый", background: "#17221f", foreground: "#ffe36a", accent: "#ffffff", ink: "#17221f" },
   };
   const layoutPresets = {
     "paper-column": { name: "Бумажная колонка", role: "longread", scene: "paper", background: "#f3f1e9", foreground: "#171814", accent: "#e9a692", ink: "#171814" },
@@ -59,6 +60,9 @@
     coverCanvas: document.querySelector("#carouselCoverCanvas"),
     coverTitle: document.querySelector("#carouselCoverTitle"),
     coverSubtitle: document.querySelector("#carouselCoverSubtitle"),
+    coverLayerText: document.querySelector("#carouselCoverLayerText"),
+    coverLayerVisible: document.querySelector("#carouselCoverLayerVisible"),
+    coverLayerRemove: document.querySelector("#carouselCoverLayerRemove"),
     coverTypeLayerLabel: document.querySelector("#carouselCoverTypeLayerLabel"),
     coverTypeFont: document.querySelector("#carouselCoverTypeFont"),
     coverTypeWeight: document.querySelector("#carouselCoverTypeWeight"),
@@ -100,6 +104,9 @@
     activeMeta: document.querySelector("#carouselActiveMeta"),
     slideTitle: document.querySelector("#carouselSlideTitle"),
     slideBody: document.querySelector("#carouselSlideBody"),
+    slideLayerText: document.querySelector("#carouselSlideLayerText"),
+    slideLayerVisible: document.querySelector("#carouselSlideLayerVisible"),
+    slideLayerRemove: document.querySelector("#carouselSlideLayerRemove"),
     bodyBold: document.querySelector("#carouselBodyBold"),
     slideShowLabel: document.querySelector("#carouselSlideShowLabel"),
     slideMoveTarget: document.querySelector("#carouselSlideMoveTarget"),
@@ -315,6 +322,11 @@
       align: "left",
       placement: "middle",
       showSeriesLabel: true,
+      showTitle: true,
+      showBody: true,
+      showCounter: true,
+      labelText: "",
+      counterText: "",
       titleOffsetX: 0,
       titleOffsetY: 0,
       bodyOffsetX: 0,
@@ -351,7 +363,7 @@
 
   function defaultSeries() {
     const firstPhoto = preferredPhoto();
-    const firstFont = fontChoices()[0] || { family: "Onest", caseKind: "original" };
+    const firstFont = fontChoices().find((font) => font.family === "PT Sans Narrow") || { family: "PT Sans Narrow", body: "Manrope", caseKind: "upper" };
     const series = {
       id: `series-${Date.now()}`,
       name: "Возвращение после паузы",
@@ -363,7 +375,7 @@
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       slides: [
-        makeSlide({ role: "cover", title: "Пропустили пять дней? Ничего не сломалось", body: "10 слайдов · сохрани", scene: "photo-dim", palette: "ink", size: 88, placement: "bottom", photoId: firstPhoto?.id || null }),
+        makeSlide({ role: "cover", title: "Пропустили пять дней? Ничего не сломалось", body: "10 слайдов · сохрани", labelText: "@sektaschool", scene: "photo-clean", palette: "sekta-yellow", size: 106, bodySize: 20, labelSize: 22, titleWeight: 700, titleLineHeight: .86, titleTracking: -.012, caseKind: "upper", showCounter: false, placement: "bottom", photoId: firstPhoto?.id || null }),
         makeSlide({ role: "cta", title: "Возвращение не требует наказания", body: "Сохраните, чтобы вернуться к этой мысли в нужный день.", scene: "field", palette: "lime", size: 58 }),
       ],
     };
@@ -603,6 +615,26 @@
           else if (["paper", "field", "dark", "quote"].includes(slide.scene)) slide.photoId = null;
         });
       }
+      if (idea.coverDesign) {
+        const target = series.slides[0];
+        target.scene = sceneLabels[idea.coverDesign.scene] ? idea.coverDesign.scene : target.scene;
+        target.palette = paletteChoices()[idea.coverDesign.palette] ? idea.coverDesign.palette : target.palette;
+        target.labelText = idea.coverDesign.labelText || "@sektaschool";
+        [["title", idea.coverDesign.title], ["body", idea.coverDesign.body], ["label", idea.coverDesign.label]].forEach(([layerName, source]) => {
+          if (!source) return;
+          const type = typographyLayers[layerName];
+          const offsets = movableLayers[layerName];
+          target[type.family] = source.family || target[type.family];
+          target[type.weight] = Number(source.weight) || target[type.weight];
+          target[type.size] = Number(source.size) || target[type.size];
+          target[type.lineHeight] = Number(source.lineHeight) || target[type.lineHeight];
+          target[type.tracking] = Number(source.tracking) || 0;
+          target[offsets.x] = Number(source.x) || 0;
+          target[offsets.y] = Number(source.y) || 0;
+          setLayerVisible(target, layerName, source.visible !== false);
+        });
+        target.showCounter = false;
+      }
       ui.longreadDraftState.textContent = "Сценарий из банка идей · можно редактировать";
       series.activeSlide = Math.min(Math.max(Number(idea.activeSlide) || 0, 0), series.slides.length - 1);
       renderAll();
@@ -641,9 +673,33 @@
   const movableLayers = {
     title: { x: "titleOffsetX", y: "titleOffsetY", label: "заголовок" },
     body: { x: "bodyOffsetX", y: "bodyOffsetY", label: "основной текст" },
-    label: { x: "labelOffsetX", y: "labelOffsetY", label: "название серии" },
+    label: { x: "labelOffsetX", y: "labelOffsetY", label: "аккаунт / подпись" },
     counter: { x: "counterOffsetX", y: "counterOffsetY", label: "номер слайда" },
   };
+
+  const layerContent = {
+    title: { text: "title", visible: "showTitle", fallback: () => "" },
+    body: { text: "body", visible: "showBody", fallback: () => "" },
+    label: { text: "labelText", visible: "showSeriesLabel", fallback: () => series.name },
+    counter: { text: "counterText", visible: "showCounter", fallback: (index) => `${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}` },
+  };
+
+  function layerText(slide, target, index = series.activeSlide) {
+    const layer = layerContent[target];
+    return String(slide[layer.text] || layer.fallback(index));
+  }
+
+  function layerVisible(slide, target) {
+    return slide[layerContent[target].visible] !== false;
+  }
+
+  function setLayerText(slide, target, value) {
+    slide[layerContent[target].text] = value;
+  }
+
+  function setLayerVisible(slide, target, visible) {
+    slide[layerContent[target].visible] = Boolean(visible);
+  }
 
   const typographyLayers = {
     title: { family: "titleFontFamily", weight: "titleWeight", size: "size", lineHeight: "titleLineHeight", tracking: "titleTracking", fallbackWeight: 800, fallbackSize: 46, fallbackLineHeight: .96, fallbackTracking: -.035 },
@@ -726,6 +782,18 @@
     controls.trackingValue.textContent = formatTracking(typography.tracking);
   }
 
+  function syncLayerContentControls(mode) {
+    const cover = mode === "cover";
+    const slide = cover ? coverSlide() : activeSlide();
+    const target = cover ? coverMoveTarget : slideMoveTarget;
+    const textControl = cover ? ui.coverLayerText : ui.slideLayerText;
+    const visibleControl = cover ? ui.coverLayerVisible : ui.slideLayerVisible;
+    const removeControl = cover ? ui.coverLayerRemove : ui.slideLayerRemove;
+    textControl.value = layerText(slide, target, cover ? 0 : series.activeSlide);
+    visibleControl.checked = layerVisible(slide, target);
+    removeControl.textContent = visibleControl.checked ? "Удалить элемент" : "Вернуть элемент";
+  }
+
   function applyLayerVariables(element, slide) {
     const set = (name, value) => element.style.setProperty(name, value);
     const previewSize = (value) => Math.round(Math.max(8, value) * 48) / 100;
@@ -790,10 +858,12 @@
     const image = photo && !["paper", "field", "dark", "quote"].includes(slide.scene)
       ? `<img class="carousel-render-photo" src="${escapeHtml(photo.thumb)}" alt="">`
       : "";
-    const title = slide.title ? `<strong class="carousel-render-title${directEditing ? ` carousel-direct-layer${selectedLayer === "title" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="title" data-layer-label="${movableLayers.title.label}"` : ""}>${escapeHtml(displayText(stripInlineMarkup(slide.title), slide.caseKind || slideFont.caseKind))}</strong>` : "";
-    const body = slide.body ? `<div class="carousel-render-body${directEditing ? ` carousel-direct-layer${selectedLayer === "body" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="body" data-layer-label="${movableLayers.body.label}"` : ""}><p>${inlineMarkupHtml(slide.body).replace(/\n\s*\n/g, "</p><p>")}</p></div>` : "";
-    const label = slide.showSeriesLabel === false ? "" : `<span class="carousel-render-series${directEditing ? ` carousel-direct-layer${selectedLayer === "label" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="label" data-layer-label="${movableLayers.label.label}"` : ""}>${escapeHtml(series.name)}</span>`;
-    const counter = `<small class="carousel-render-counter${directEditing ? ` carousel-direct-layer${selectedLayer === "counter" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="counter" data-layer-label="${movableLayers.counter.label}"` : ""}>${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}</small>`;
+    const titleText = layerText(slide, "title", index);
+    const bodyText = layerText(slide, "body", index);
+    const title = layerVisible(slide, "title") && titleText ? `<strong class="carousel-render-title${directEditing ? ` carousel-direct-layer${selectedLayer === "title" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="title" data-layer-label="${movableLayers.title.label}"` : ""}>${escapeHtml(displayText(stripInlineMarkup(titleText), slide.caseKind || slideFont.caseKind))}</strong>` : "";
+    const body = layerVisible(slide, "body") && bodyText ? `<div class="carousel-render-body${directEditing ? ` carousel-direct-layer${selectedLayer === "body" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="body" data-layer-label="${movableLayers.body.label}"` : ""}><p>${inlineMarkupHtml(bodyText).replace(/\n\s*\n/g, "</p><p>")}</p></div>` : "";
+    const label = !layerVisible(slide, "label") ? "" : `<span class="carousel-render-series${directEditing ? ` carousel-direct-layer${selectedLayer === "label" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="label" data-layer-label="${movableLayers.label.label}"` : ""}>${escapeHtml(layerText(slide, "label", index))}</span>`;
+    const counter = !layerVisible(slide, "counter") ? "" : `<small class="carousel-render-counter${directEditing ? ` carousel-direct-layer${selectedLayer === "counter" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="counter" data-layer-label="${movableLayers.counter.label}"` : ""}>${escapeHtml(layerText(slide, "counter", index))}</small>`;
     element.innerHTML = `${image}<div class="carousel-render-shade"></div>${label}<div class="carousel-render-content">${title}${body}</div>${counter}`;
   }
 
@@ -904,6 +974,7 @@
     ui.coverShowLabel.checked = slide.showSeriesLabel !== false;
     syncCoverOffsets();
     syncTypographyControls("cover");
+    syncLayerContentControls("cover");
     ui.longread.value = series.longread;
     ui.slideCount.value = String(series.totalSlides || series.slides.length);
     document.querySelectorAll("[data-carousel-scene]").forEach((button) => button.classList.toggle("is-active", button.dataset.carouselScene === slide.scene));
@@ -955,6 +1026,7 @@
     ui.slideShowLabel.checked = slide.showSeriesLabel !== false;
     syncActiveOffsets();
     syncTypographyControls("slide");
+    syncLayerContentControls("slide");
     const photo = photoById(slide.photoId);
     ui.slidePhotoName.textContent = photo?.fileName || "без фотографии";
     ui.removePhoto.disabled = !slide.photoId;
@@ -1032,6 +1104,7 @@
     slide.savedAt = null;
     syncCoverOffsets();
     syncTypographyControls("cover");
+    syncLayerContentControls("cover");
     renderCanvas(ui.coverCanvas, slide, 0);
     renderGridPreview();
     markChanged();
@@ -1058,6 +1131,7 @@
     ensureFontFamily(layerTypography(slide, slideMoveTarget).resolvedFamily);
     slide.savedAt = null;
     syncTypographyControls("slide");
+    syncLayerContentControls("slide");
     const offsets = layerOffsets(slide, slideMoveTarget);
     ui.slideOffsetXValue.textContent = `${offsets.x}%`;
     ui.slideOffsetYValue.textContent = `${offsets.y}%`;
@@ -1065,6 +1139,30 @@
     if (series.activeSlide === 0) renderGridPreview();
     ui.activeMeta.textContent = `${roleLabels[slide.role] || slide.role} · есть изменения`;
     renderRail();
+    markChanged();
+  }
+
+  function updateSelectedLayerContent(mode) {
+    const cover = mode === "cover";
+    const slide = cover ? coverSlide() : activeSlide();
+    const target = cover ? coverMoveTarget : slideMoveTarget;
+    const textControl = cover ? ui.coverLayerText : ui.slideLayerText;
+    const visibleControl = cover ? ui.coverLayerVisible : ui.slideLayerVisible;
+    setLayerText(slide, target, textControl.value);
+    setLayerVisible(slide, target, visibleControl.checked);
+    if (cover && target === "title") ui.coverTitle.value = slide.title;
+    if (cover && target === "body") ui.coverSubtitle.value = slide.body;
+    if (!cover && target === "title") ui.slideTitle.value = slide.title;
+    if (!cover && target === "body") ui.slideBody.value = slide.body;
+    if (target === "label") {
+      if (cover) ui.coverShowLabel.checked = visibleControl.checked;
+      else ui.slideShowLabel.checked = visibleControl.checked;
+    }
+    slide.savedAt = null;
+    renderCanvas(cover ? ui.coverCanvas : ui.activeCanvas, slide, cover ? 0 : series.activeSlide);
+    if (cover || series.activeSlide === 0) renderGridPreview();
+    if (!cover) renderRail();
+    syncLayerContentControls(mode);
     markChanged();
   }
 
@@ -1085,10 +1183,12 @@
       coverMoveTarget = layer;
       syncCoverOffsets();
       syncTypographyControls("cover");
+      syncLayerContentControls("cover");
     } else {
       slideMoveTarget = layer;
       syncActiveOffsets();
       syncTypographyControls("slide");
+      syncLayerContentControls("slide");
     }
     canvas.querySelectorAll("[data-carousel-layer]").forEach((element) => element.classList.toggle("is-selected-layer", element.dataset.carouselLayer === layer));
   }
@@ -1318,7 +1418,7 @@
       }
     }
     const lightScene = ["paper", "quote", "field", "dark"].includes(slide.scene) || slide.scene === "split";
-    const foreground = lightScene ? palette.foreground : "#ffffff";
+    const foreground = lightScene || slide.palette === "sekta-yellow" ? palette.foreground : "#ffffff";
     context.fillStyle = foreground;
     context.textAlign = slide.align || "left";
     context.textBaseline = "alphabetic";
@@ -1336,7 +1436,7 @@
     const counterType = layerTypography(slide, "counter");
     const fontFamily = `"${titleType.resolvedFamily}", Arial, sans-serif`;
     const bodyFontFamily = `"${bodyType.resolvedFamily}", Arial, sans-serif`;
-    const titleText = displayText(stripInlineMarkup(slide.title), slide.caseKind || slideFont.caseKind);
+    const titleText = layerVisible(slide, "title") ? displayText(stripInlineMarkup(layerText(slide, "title", index)), slide.caseKind || slideFont.caseKind) : "";
     let titleSize = Math.max(8, Math.min(132, titleType.size));
     context.font = `${titleType.weight} ${titleSize}px ${fontFamily}`;
     setCanvasTracking(context, titleType.tracking, titleSize);
@@ -1348,7 +1448,7 @@
       titleLines = wrapCanvasText(context, titleText, maxWidth);
     }
     const bodySize = Math.max(8, Math.min(132, bodyType.size));
-    const bodyLines = wrapRichCanvasText(context, slide.body, maxWidth, bodySize, bodyFontFamily, bodyType.weight, bodyType.tracking);
+    const bodyLines = layerVisible(slide, "body") ? wrapRichCanvasText(context, layerText(slide, "body", index), maxWidth, bodySize, bodyFontFamily, bodyType.weight, bodyType.tracking) : [];
     const titleHeight = titleLines.length * titleSize * titleType.lineHeight;
     const bodyHeight = bodyLines.length * bodySize * bodyType.lineHeight;
     const blockHeight = titleHeight + (titleLines.length && bodyLines.length ? 50 : 0) + bodyHeight;
@@ -1376,11 +1476,11 @@
     const counterYShift = (Number(slide.counterOffsetY) || 0) * 13.5;
     context.font = `${labelType.weight} ${labelType.size}px "${labelType.resolvedFamily}", Arial, sans-serif`;
     setCanvasTracking(context, labelType.tracking, labelType.size);
-    if (slide.showSeriesLabel !== false) context.fillText(series.name, 100 + labelXShift, 90 + labelYShift);
+    if (layerVisible(slide, "label")) context.fillText(layerText(slide, "label", index), 100 + labelXShift, 90 + labelYShift);
     context.textAlign = "right";
     context.font = `${counterType.weight} ${counterType.size}px "${counterType.resolvedFamily}", Arial, sans-serif`;
     setCanvasTracking(context, counterType.tracking, counterType.size);
-    context.fillText(`${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}`, 980 + counterXShift, 1280 + counterYShift);
+    if (layerVisible(slide, "counter")) context.fillText(layerText(slide, "counter", index), 980 + counterXShift, 1280 + counterYShift);
     return canvas;
   }
 
@@ -1495,7 +1595,14 @@
     coverMoveTarget = movableLayers[ui.coverMoveTarget.value] ? ui.coverMoveTarget.value : "title";
     syncCoverOffsets();
     syncTypographyControls("cover");
+    syncLayerContentControls("cover");
     renderCanvas(ui.coverCanvas, coverSlide(), 0);
+  });
+  [ui.coverLayerText, ui.coverLayerVisible].forEach((control) => control.addEventListener("input", () => updateSelectedLayerContent("cover")));
+  ui.coverLayerRemove.addEventListener("click", () => {
+    ui.coverLayerVisible.checked = !ui.coverLayerVisible.checked;
+    updateSelectedLayerContent("cover");
+    setStatus(ui.coverLayerVisible.checked ? "Элемент возвращён на обложку." : "Элемент удалён с обложки.");
   });
   [ui.seriesName, ui.coverTitle, ui.coverSubtitle, ui.coverTypeFont, ui.coverTypeWeight, ui.coverTypeSize, ui.coverTypeLineHeight, ui.coverTypeTracking, ui.coverPlacement, ui.coverAlign, ui.coverCase, ui.coverShowLabel, ui.coverOffsetX, ui.coverOffsetY].forEach((control) => control.addEventListener("input", updateCoverFromForm));
   document.querySelectorAll("[data-carousel-scene]").forEach((button) => button.addEventListener("click", () => {
@@ -1546,7 +1653,14 @@
     slideMoveTarget = movableLayers[ui.slideMoveTarget.value] ? ui.slideMoveTarget.value : "body";
     syncActiveOffsets();
     syncTypographyControls("slide");
+    syncLayerContentControls("slide");
     renderCanvas(ui.activeCanvas, activeSlide(), series.activeSlide);
+  });
+  [ui.slideLayerText, ui.slideLayerVisible].forEach((control) => control.addEventListener("input", () => updateSelectedLayerContent("slide")));
+  ui.slideLayerRemove.addEventListener("click", () => {
+    ui.slideLayerVisible.checked = !ui.slideLayerVisible.checked;
+    updateSelectedLayerContent("slide");
+    setStatus(ui.slideLayerVisible.checked ? "Элемент возвращён на слайд." : "Элемент удалён со слайда.");
   });
   [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slideScene, ui.slidePalette, ui.slideTypeFont, ui.slideTypeWeight, ui.slideTypeSize, ui.slideTypeLineHeight, ui.slideTypeTracking, ui.slidePlacement, ui.slideAlign, ui.slideShowLabel, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
   ui.slideFont.addEventListener("change", () => {

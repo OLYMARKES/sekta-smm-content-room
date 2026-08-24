@@ -553,6 +553,13 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .builder-cover-account { position: absolute; z-index: 3; top: 14%; left: 22px; color: #fff; font-size: 8px; font-weight: 800; letter-spacing: .06em; text-shadow: 0 1px 7px rgba(0,0,0,.72); }
 .builder-cover strong { position: absolute; z-index: 2; left: 22px; right: 22px; bottom: 20%; font-size: clamp(32px, 3.05vw, 52px); font-weight: 900; line-height: .9; letter-spacing: -.04em; text-wrap: balance; }
 .builder-cover small { position: absolute; z-index: 2; left: 23px; right: 23px; bottom: 14%; font-size: 8px; font-weight: 780; letter-spacing: .08em; text-transform: uppercase; }
+.builder-cover.is-direct-editing { touch-action: none; }
+.builder-cover.is-direct-editing .builder-direct-layer { cursor: grab; user-select: none; touch-action: none; transform: translate(var(--builder-layer-x, 0), var(--builder-layer-y, 0)); }
+.builder-cover.is-direct-editing .builder-direct-layer:active { cursor: grabbing; }
+.builder-cover.is-direct-editing .builder-direct-layer:hover { outline: 1px dashed rgba(255,255,255,.78); outline-offset: 5px; }
+.builder-cover.is-direct-editing .builder-direct-layer.is-selected-layer { outline: 2px solid #fff; outline-offset: 5px; filter: drop-shadow(0 1px 3px rgba(8,14,12,.72)); }
+.builder-cover.is-direct-editing .builder-direct-layer.is-selected-layer::after { content: attr(data-layer-label); position: absolute; z-index: 12; left: 0; top: -25px; padding: 4px 6px; border-radius: 4px; color: #fff; background: rgba(23,34,31,.9); font: 700 9px/1 var(--ui-font, sans-serif); letter-spacing: 0; text-transform: none; white-space: nowrap; pointer-events: none; }
+.builder-direct-hint { width: min(100%, 470px); margin: -7px auto 14px; }
 .builder-cover-clean[data-placement="middle"] strong, .builder-cover-plate[data-placement="middle"] strong { top: 42%; bottom: auto; transform: translateY(-50%); text-align: center; }
 .builder-cover-clean[data-placement="middle"] small, .builder-cover-plate[data-placement="middle"] small { bottom: 14%; text-align: center; }
 .builder-cover-clean[data-placement="left"] strong, .builder-cover-plate[data-placement="left"] strong { top: 31%; right: 38%; bottom: auto; }
@@ -589,6 +596,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .builder-grid-kind, .builder-grid-new { position: absolute; z-index: 8; top: 6px; right: 6px; min-width: 17px; height: 17px; display: grid; place-items: center; padding: 0 4px; border-radius: 4px; color: #fff; background: rgba(9,16,14,.76); font-size: 6px; font-weight: 850; letter-spacing: .03em; }
 .builder-grid-new { color: #10201a; background: #63dda7; }
 .builder-grid-draft.builder-cover { position: absolute; inset: -12.5% 0 auto; width: 100%; height: 125%; aspect-ratio: auto; margin: 0; border-radius: 0; box-shadow: none; }
+.builder-grid-draft .builder-cover-account, .builder-grid-draft strong, .builder-grid-draft small { transform: translate(var(--builder-layer-x, 0), var(--builder-layer-y, 0)); }
 .builder-grid-draft .builder-cover-account { top: 14%; left: 7px; font-size: 3px; }
 .builder-grid-draft.builder-cover strong { left: 7px; right: 7px; bottom: 20%; font-size: clamp(10px, 1.3vw, 18px); }
 .builder-grid-draft.builder-cover small { left: 7px; right: 7px; bottom: 14%; font-size: 3px; }
@@ -602,6 +610,12 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .builder-grid-reading i { width: 7px; height: 7px; border-radius: 50%; background: #63dda7; }
 .builder-grid-reading p { max-width: 280px; margin: 0; color: var(--soft); font-size: 8px; line-height: 1.4; text-align: right; }
 .builder-copy-fields { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 8px; }
+.builder-layer-inspector { margin-top: 14px; padding: 0 12px 12px; border: 1px solid var(--line); border-radius: 10px; background: #f7f9f8; }
+.builder-layer-inspector .carousel-active-layer-head { margin-top: 0; }
+.builder-layer-content-row { display: grid; grid-template-columns: minmax(130px,.6fr) minmax(190px,1fr) auto; align-items: end; gap: 8px; }
+.builder-layer-content-row select, .builder-layer-content-row input { width: 100%; height: 38px; padding: 0 10px; border: 1px solid #d5dcd8; border-radius: 7px; color: var(--ink); background: #fff; font-size: 10px; }
+.builder-layer-remove { min-height: 38px; white-space: nowrap; }
+.builder-layer-controls { margin-top: 10px; }
 .builder-design-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; margin-top: 16px; padding-top: 15px; border-top: 1px solid var(--line); }
 .builder-control-wide { grid-column: 1 / -1; }
 .builder-control-block { min-width: 0; margin: 0; padding: 0; border: 0; }
@@ -1028,6 +1042,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 }
 
 @media (max-width: 820px) {
+  .builder-layer-content-row, .carousel-layer-content-editor { grid-template-columns: 1fr; }
   :root { --sidebar: 224px; }
   .app-shell { display: block; }
   .sidebar { transform: translateX(-102%); transition: transform .2s ease; box-shadow: 10px 0 35px rgba(0,0,0,.22); }
@@ -1464,6 +1479,10 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .carousel-active-layer-head span { color: var(--muted); font-size: 10px; }
 .carousel-rich-field > small { display: block; margin-top: 5px; color: var(--muted); font-size: 9px; }
 .carousel-layer-toggle { margin: 0 0 12px; }
+.carousel-layer-content-editor { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: end; gap: 10px; margin-bottom: 10px; padding: 10px; border: 1px solid var(--line); border-radius: 9px; background: #f7f9f8; }
+.carousel-layer-content-editor textarea { min-height: 58px; }
+.carousel-layer-content-editor > div { display: grid; gap: 7px; padding-bottom: 1px; }
+.carousel-layer-content-editor .carousel-check { margin: 0; }
 .carousel-control-group { margin: 0 0 13px; padding: 0; border: 0; }
 .carousel-control-group legend { margin-bottom: 7px; color: var(--muted); font-size: 10px; font-weight: 700; }
 .carousel-choice-row { display: flex; flex-wrap: wrap; gap: 5px; }

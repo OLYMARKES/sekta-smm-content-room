@@ -25,6 +25,23 @@
     coverAccount: document.querySelector("#builderCoverAccount"),
     coverHeadline: document.querySelector("#builderCoverHeadline"),
     coverPromise: document.querySelector("#builderCoverPromise"),
+    layerLabel: document.querySelector("#builderLayerLabel"),
+    layerTarget: document.querySelector("#builderLayerTarget"),
+    layerText: document.querySelector("#builderLayerText"),
+    layerRemove: document.querySelector("#builderLayerRemove"),
+    layerFont: document.querySelector("#builderLayerFont"),
+    layerWeight: document.querySelector("#builderLayerWeight"),
+    layerWeightValue: document.querySelector("#builderLayerWeightValue"),
+    layerSize: document.querySelector("#builderLayerSize"),
+    layerSizeValue: document.querySelector("#builderLayerSizeValue"),
+    layerLineHeight: document.querySelector("#builderLayerLineHeight"),
+    layerLineHeightValue: document.querySelector("#builderLayerLineHeightValue"),
+    layerTracking: document.querySelector("#builderLayerTracking"),
+    layerTrackingValue: document.querySelector("#builderLayerTrackingValue"),
+    layerOffsetX: document.querySelector("#builderLayerOffsetX"),
+    layerOffsetXValue: document.querySelector("#builderLayerOffsetXValue"),
+    layerOffsetY: document.querySelector("#builderLayerOffsetY"),
+    layerOffsetYValue: document.querySelector("#builderLayerOffsetYValue"),
     coverStatus: document.querySelector("#builderCoverStatus"),
     gridFitting: document.querySelector("#builderGridFitting"),
     liveGrid: document.querySelector("#builderLiveGrid"),
@@ -119,11 +136,11 @@
   const folderLabels = new Map(library.map((item) => [item.folder, item.folderLabel]).filter(([id]) => id));
 
   let activeTopic = config.topics[0];
-  let activeStyle = "plate";
-  let activePlacement = "left";
+  let activeStyle = "clean";
+  let activePlacement = "bottom";
   let activeFont = "tempo";
-  let activeAccent = "sky";
-  let activeTextColor = "auto";
+  let activeAccent = "yellow";
+  let activeTextColor = "accent";
   let activePreview = "cover";
   let tasteFont = null;
   let hookIndex = 0;
@@ -137,6 +154,12 @@
   let mediaPool = [];
   let selectedPhoto = null;
   let activeSeriesSystem = "tempo";
+  let activeCoverLayer = "headline";
+  const coverLayers = {
+    headline: { label: "заголовок", visible: true, family: "PT Sans Narrow", weight: 700, size: 106, lineHeight: .86, tracking: -.012, x: 0, y: 0 },
+    subtitle: { label: "подстрочник", visible: true, family: "Manrope", weight: 800, size: 20, lineHeight: 1, tracking: .08, x: 0, y: 0 },
+    account: { label: "аккаунт", visible: true, family: "Manrope", weight: 800, size: 22, lineHeight: 1, tracking: .06, x: 0, y: 0 },
+  };
 
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
   const plural = (number, one, few, many) => {
@@ -160,7 +183,7 @@
     try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; }
   }
 
-  const coverSystemKey = "sekta-builder-cover-system-v2";
+  const coverSystemKey = "sekta-builder-cover-system-v3";
   function restoreCoverSystem() {
     const saved = readLocalJson(coverSystemKey, {});
     if (["clean", "plate", "rail", "footer"].includes(saved.style)) activeStyle = saved.style;
@@ -302,6 +325,81 @@
     return `${count} ${plural(count, "слайд", "слайда", "слайдов")} · ${actions[ui.goal.value] || actions.save}`;
   }
 
+  function layerElement(key) {
+    return key === "headline" ? ui.coverHeadline : key === "subtitle" ? ui.coverPromise : ui.coverAccount;
+  }
+
+  function layerText(key) {
+    return key === "headline" ? ui.hook.value : key === "subtitle" ? ui.subtitle.value : ui.account.value;
+  }
+
+  function setLayerText(key, value) {
+    if (key === "headline") ui.hook.value = value;
+    else if (key === "subtitle") ui.subtitle.value = value;
+    else {
+      const option = [...ui.account.options].find((item) => item.value === value);
+      if (option) ui.account.value = value;
+      else {
+        const custom = document.createElement("option");
+        custom.value = value;
+        custom.textContent = value || "Без подписи";
+        ui.account.append(custom);
+        ui.account.value = value;
+      }
+    }
+  }
+
+  function syncLayerInspector() {
+    const layer = coverLayers[activeCoverLayer];
+    ui.layerTarget.value = activeCoverLayer;
+    ui.layerLabel.textContent = layer.label;
+    ui.layerText.value = layerText(activeCoverLayer);
+    ui.layerFont.value = layer.family;
+    ui.layerWeight.value = layer.weight;
+    ui.layerWeightValue.textContent = layer.weight;
+    ui.layerSize.value = layer.size;
+    ui.layerSizeValue.textContent = `${layer.size} px`;
+    ui.layerLineHeight.value = layer.lineHeight;
+    ui.layerLineHeightValue.textContent = Number(layer.lineHeight).toFixed(2);
+    ui.layerTracking.value = layer.tracking;
+    ui.layerTrackingValue.textContent = `${layer.tracking < 0 ? "−" : layer.tracking > 0 ? "+" : ""}${Math.abs(layer.tracking).toFixed(3)} em`;
+    ui.layerOffsetX.value = layer.x;
+    ui.layerOffsetXValue.textContent = `${layer.x}%`;
+    ui.layerOffsetY.value = layer.y;
+    ui.layerOffsetYValue.textContent = `${layer.y}%`;
+    ui.layerRemove.textContent = layer.visible ? "Удалить элемент" : "Вернуть элемент";
+  }
+
+  function applyCoverLayers() {
+    Object.entries(coverLayers).forEach(([key, layer]) => {
+      const element = layerElement(key);
+      element.hidden = !layer.visible;
+      element.classList.toggle("is-selected-layer", key === activeCoverLayer);
+      element.style.setProperty("--builder-layer-x", `${layer.x}cqw`);
+      element.style.setProperty("--builder-layer-y", `${layer.y * 1.25}cqw`);
+      element.style.fontFamily = `"${layer.family}", sans-serif`;
+      element.style.fontWeight = layer.weight;
+      element.style.fontSize = `${Math.round(layer.size * 48) / 100}px`;
+      element.style.lineHeight = layer.lineHeight;
+      element.style.letterSpacing = `${layer.tracking}em`;
+    });
+  }
+
+  function updateLayerFromInspector() {
+    const layer = coverLayers[activeCoverLayer];
+    setLayerText(activeCoverLayer, ui.layerText.value);
+    layer.family = ui.layerFont.value;
+    layer.weight = Number(ui.layerWeight.value);
+    layer.size = Number(ui.layerSize.value);
+    layer.lineHeight = Number(ui.layerLineHeight.value);
+    layer.tracking = Number(ui.layerTracking.value);
+    layer.x = Number(ui.layerOffsetX.value);
+    layer.y = Number(ui.layerOffsetY.value);
+    layer.visible = true;
+    renderCover();
+    syncLayerInspector();
+  }
+
   function renderCover() {
     ui.cover.className = `builder-cover builder-cover-${activeStyle}`;
     ui.cover.dataset.placement = activePlacement;
@@ -317,6 +415,7 @@
     ui.coverHeadline.textContent = ui.hook.value;
     ui.coverPromise.textContent = ui.subtitle.value;
     ui.coverAccount.textContent = ui.account.value;
+    applyCoverLayers();
     ui.coverStatus.textContent = `#Sekta · ${styleLabels[activeStyle]} · ${accentLabels[activeAccent]}`;
     document.querySelectorAll("[data-builder-style]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderStyle === activeStyle));
     document.querySelectorAll("[data-builder-placement]").forEach((button) => {
@@ -328,12 +427,19 @@
     document.querySelectorAll("[data-builder-accent]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderAccent === activeAccent));
     document.querySelectorAll("[data-builder-text-color]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderTextColor === activeTextColor));
     renderGridFitting();
+    syncLayerInspector();
     saveCoverSystem();
   }
 
   function renderGridFitting() {
     if (!ui.liveGrid) return;
-    const draft = `<div class="builder-grid-cell is-draft"><div class="builder-grid-draft builder-cover builder-cover-${activeStyle}" data-placement="${escapeHtml(activePlacement)}" data-font="${escapeHtml(activeFont)}" data-accent="${escapeHtml(activeAccent)}" data-taste-case="${escapeHtml(tasteFont?.caseKind || "lower")}" data-text-color="${escapeHtml(activeTextColor)}" style="--builder-accent:${accentColors[activeAccent]};--builder-headline-font:${tasteFont ? `'${escapeHtml(tasteFont.family)}'` : `'Golos Text'`};--focus-x:${ui.focusX.value}%;--focus-y:${ui.focusY.value}%"><img src="${escapeHtml(selectedPhoto?.thumb || "")}" alt=""><span class="builder-cover-account">${escapeHtml(ui.account.value)}</span><strong>${escapeHtml(ui.hook.value)}</strong><small>${escapeHtml(ui.subtitle.value)}</small></div><span class="builder-grid-new">NEW</span></div>`;
+    const layerMarkup = (key, tag, className, text) => {
+      const layer = coverLayers[key];
+      if (!layer.visible) return "";
+      const style = `--builder-layer-x:${layer.x}cqw;--builder-layer-y:${layer.y * 1.25}cqw;font-family:'${escapeHtml(layer.family)}',sans-serif;font-weight:${layer.weight};font-size:${Math.round(layer.size * .144)}px;line-height:${layer.lineHeight};letter-spacing:${layer.tracking}em`;
+      return `<${tag} class="${className}" style="${style}">${escapeHtml(text)}</${tag}>`;
+    };
+    const draft = `<div class="builder-grid-cell is-draft"><div class="builder-grid-draft builder-cover builder-cover-${activeStyle}" data-placement="${escapeHtml(activePlacement)}" data-font="${escapeHtml(activeFont)}" data-accent="${escapeHtml(activeAccent)}" data-taste-case="${escapeHtml(tasteFont?.caseKind || "lower")}" data-text-color="${escapeHtml(activeTextColor)}" style="--builder-accent:${accentColors[activeAccent]};--builder-headline-font:${tasteFont ? `'${escapeHtml(tasteFont.family)}'` : `'Golos Text'`};--focus-x:${ui.focusX.value}%;--focus-y:${ui.focusY.value}%"><img src="${escapeHtml(selectedPhoto?.thumb || "")}" alt="">${layerMarkup("account", "span", "builder-cover-account", ui.account.value)}${layerMarkup("headline", "strong", "", ui.hook.value)}${layerMarkup("subtitle", "small", "", ui.subtitle.value)}</div><span class="builder-grid-new">NEW</span></div>`;
     const existing = currentGrid.slice(0, 8).map((item) => `<div class="builder-grid-cell"><img src="${escapeHtml(item.image)}" alt="" loading="lazy"><span class="builder-grid-kind">${item.pinned ? "◆" : item.type === "Reel" ? "▶" : "▣"}</span></div>`).join("");
     ui.liveGrid.innerHTML = draft + existing;
   }
@@ -506,6 +612,14 @@
       longread: longreadFromSlides(),
       photoId: selectedPhoto?.id || null,
       font: { ...selectedSeriesSystem(), recipe: "сохранённая кириллическая пара" },
+      coverDesign: {
+        scene: activeStyle === "clean" ? "photo-clean" : activeStyle === "plate" ? "plate" : "photo-dim",
+        palette: activeTextColor === "accent" && activeAccent === "yellow" ? "sekta-yellow" : "ink",
+        labelText: ui.account.value,
+        title: { ...coverLayers.headline },
+        body: { ...coverLayers.subtitle },
+        label: { ...coverLayers.account },
+      },
       slides: rows.map((slide, index) => ({
         role: index === 0 ? "cover" : index === rows.length - 1 ? "cta" : "longread",
         title: slide.querySelector(".builder-slide-copy strong")?.textContent.trim() || "",
@@ -585,12 +699,7 @@
     const context = canvas.getContext("2d");
     const image = await loadImage(selectedPhoto.exportImage || selectedPhoto.thumb);
     const scale = width / 1080;
-    if (activeFont === "tempo") {
-      try { await document.fonts.load(`700 ${106 * scale}px "PT Sans Narrow"`); } catch {}
-    }
-    if (activeFont === "taste" && tasteFont) {
-      try { await document.fonts.load(`800 ${96 * scale}px "${tasteFont.family}"`); } catch {}
-    }
+    try { await Promise.all(Object.values(coverLayers).map((layer) => document.fonts.load(`${layer.weight} ${layer.size * scale}px "${layer.family}"`))); } catch {}
     drawCoverImage(context, image, 0, 0, width, height);
 
     const gradient = activeStyle === "clean"
@@ -603,29 +712,34 @@
 
     const isSide = activePlacement === "left" || activePlacement === "right";
     let maxWidth = width * (activeStyle === "rail" ? .34 : activeStyle === "footer" ? .82 : isSide ? .52 : .82);
-    let fontSize = (activeFont === "tempo" ? 106 : activeFont === "editorial" ? 78 : activeFont === "grotesk" || activeFont === "taste" ? 86 : 96) * scale;
-    const family = activeFont === "tempo" ? '"PT Sans Narrow", "Arial Narrow", sans-serif' : activeFont === "taste" && tasteFont ? `"${tasteFont.family}", sans-serif` : activeFont === "editorial" ? "Georgia, serif" : "Arial, sans-serif";
+    const headlineLayer = coverLayers.headline;
+    const subtitleLayer = coverLayers.subtitle;
+    const accountLayer = coverLayers.account;
+    let fontSize = headlineLayer.size * scale;
+    const family = `"${headlineLayer.family}", Arial, sans-serif`;
     const headline = activeFont === "tempo" ? ui.hook.value.toLocaleUpperCase("ru-RU") : activeFont === "taste" && tasteFont?.caseKind === "upper" ? ui.hook.value.toLocaleUpperCase("ru-RU") : activeFont === "taste" && tasteFont?.caseKind === "lower" ? ui.hook.value.toLocaleLowerCase("ru-RU") : ui.hook.value;
-    const headlineWeight = activeFont === "tempo" || activeFont === "editorial" ? 700 : activeFont === "taste" ? 800 : 900;
+    const headlineWeight = headlineLayer.weight;
     let lines = [];
     do {
       context.font = `${headlineWeight} ${fontSize}px ${family}`;
+      if ("letterSpacing" in context) context.letterSpacing = `${headlineLayer.tracking * fontSize}px`;
       lines = wrapLines(context, headline, maxWidth);
       if (lines.length > 5) fontSize -= 5 * scale;
     } while (lines.length > 5 && fontSize > 50 * scale);
     if (!lines.length) lines = [""];
 
-    const lineHeight = fontSize * (activeFont === "tempo" ? .86 : activeFont === "editorial" ? 1.03 : activeFont === "taste" ? .96 : .93);
+    const lineHeight = fontSize * headlineLayer.lineHeight;
     const textBlockHeight = lines.length * lineHeight;
     const footerHeight = Math.max(height * .31, textBlockHeight + 150 * scale);
-    const x = activeStyle === "rail" ? 48 * scale : activePlacement === "right" ? width - 58 * scale : activePlacement === "middle" ? width / 2 : 58 * scale;
-    const startY = activeStyle === "rail"
+    const x = (activeStyle === "rail" ? 48 * scale : activePlacement === "right" ? width - 58 * scale : activePlacement === "middle" ? width / 2 : 58 * scale) + headlineLayer.x / 100 * width;
+    const startYBase = activeStyle === "rail"
       ? height / 2 - ((lines.length - 1) * lineHeight) / 2
       : activeStyle === "footer"
         ? height - footerHeight + 62 * scale + fontSize * .72
         : activePlacement === "middle"
           ? height / 2 - ((lines.length - 1) * lineHeight) / 2
           : height - textBlockHeight - 118 * scale;
+    const startY = startYBase + headlineLayer.y / 100 * height;
     context.textAlign = activeStyle === "rail" || activeStyle === "footer" ? "left" : activePlacement === "right" ? "right" : activePlacement === "middle" ? "center" : "left";
 
     context.fillStyle = accentColors[activeAccent];
@@ -647,17 +761,20 @@
       context.shadowBlur = 22 * scale;
       context.shadowOffsetY = 4 * scale;
     }
-    lines.forEach((line, index) => context.fillText(line, x, startY + index * lineHeight));
+    if (headlineLayer.visible) lines.forEach((line, index) => context.fillText(line, x, startY + index * lineHeight));
     context.shadowColor = "transparent";
     context.shadowBlur = 0;
     context.shadowOffsetY = 0;
 
-    const subtitleY = Math.min(height - 165 * scale, startY + textBlockHeight + 34 * scale);
-    context.font = `800 ${20 * scale}px Arial, sans-serif`;
+    const subtitleX = x + subtitleLayer.x / 100 * width;
+    const subtitleY = Math.min(height - 165 * scale, startY + textBlockHeight + 34 * scale) + subtitleLayer.y / 100 * height;
+    context.font = `${subtitleLayer.weight} ${subtitleLayer.size * scale}px "${subtitleLayer.family}", Arial, sans-serif`;
+    if ("letterSpacing" in context) context.letterSpacing = `${subtitleLayer.tracking * subtitleLayer.size * scale}px`;
     context.fillStyle = headlineColor;
-    context.fillText(ui.subtitle.value.toUpperCase(), x, subtitleY);
+    if (subtitleLayer.visible) context.fillText(ui.subtitle.value.toUpperCase(), subtitleX, subtitleY);
 
-    context.font = `800 ${22 * scale}px Arial, sans-serif`;
+    context.font = `${accountLayer.weight} ${accountLayer.size * scale}px "${accountLayer.family}", Arial, sans-serif`;
+    if ("letterSpacing" in context) context.letterSpacing = `${accountLayer.tracking * accountLayer.size * scale}px`;
     context.fillStyle = activeStyle === "rail" ? "#101a1e" : "#ffffff";
     if (activeStyle !== "rail") {
       context.shadowColor = "rgba(0,0,0,.72)";
@@ -665,7 +782,7 @@
       context.shadowOffsetY = 2 * scale;
     }
     context.textAlign = "left";
-    context.fillText(ui.account.value, 54 * scale, 170 * scale);
+    if (accountLayer.visible) context.fillText(ui.account.value, 54 * scale + accountLayer.x / 100 * width, 170 * scale + accountLayer.y / 100 * height);
     context.shadowColor = "transparent";
     context.shadowBlur = 0;
     context.shadowOffsetY = 0;
@@ -713,6 +830,51 @@
   ui.mediaFolder.innerHTML += [...folderLabels.entries()].map(([id, label]) => `<option value="${escapeHtml(id)}">${escapeHtml(label)}</option>`).join("");
 
   ui.form.addEventListener("submit", (event) => { event.preventDefault(); generateConcept(); });
+  ui.layerTarget.addEventListener("change", () => {
+    activeCoverLayer = ui.layerTarget.value;
+    syncLayerInspector();
+    applyCoverLayers();
+  });
+  [ui.layerText, ui.layerFont, ui.layerWeight, ui.layerSize, ui.layerLineHeight, ui.layerTracking, ui.layerOffsetX, ui.layerOffsetY].forEach((control) => control.addEventListener("input", updateLayerFromInspector));
+  ui.layerRemove.addEventListener("click", () => {
+    const layer = coverLayers[activeCoverLayer];
+    layer.visible = !layer.visible;
+    renderCover();
+    setStatus(layer.visible ? `${layer.label} возвращён на обложку.` : `${layer.label} удалён с обложки.`);
+  });
+  let coverDrag = null;
+  ui.cover.addEventListener("pointerdown", (event) => {
+    const element = event.target.closest("[data-builder-layer]");
+    if (!element || !ui.cover.contains(element)) return;
+    const key = element.dataset.builderLayer;
+    activeCoverLayer = key;
+    const layer = coverLayers[key];
+    const rect = ui.cover.getBoundingClientRect();
+    coverDrag = { id: event.pointerId, key, startX: event.clientX, startY: event.clientY, x: layer.x, y: layer.y, width: rect.width, height: rect.height, moved: false };
+    event.preventDefault();
+    element.setPointerCapture(event.pointerId);
+    syncLayerInspector();
+    applyCoverLayers();
+  });
+  ui.cover.addEventListener("pointermove", (event) => {
+    if (!coverDrag || coverDrag.id !== event.pointerId) return;
+    const layer = coverLayers[coverDrag.key];
+    layer.x = Math.max(-35, Math.min(35, Math.round((coverDrag.x + (event.clientX - coverDrag.startX) / coverDrag.width * 100) * 2) / 2));
+    layer.y = Math.max(-35, Math.min(35, Math.round((coverDrag.y + (event.clientY - coverDrag.startY) / coverDrag.height * 100) * 2) / 2));
+    coverDrag.moved ||= Math.abs(event.clientX - coverDrag.startX) + Math.abs(event.clientY - coverDrag.startY) > 2;
+    applyCoverLayers();
+    syncLayerInspector();
+  });
+  const finishCoverDrag = (event) => {
+    if (!coverDrag || coverDrag.id !== event.pointerId) return;
+    const moved = coverDrag.moved;
+    const label = coverLayers[coverDrag.key].label;
+    coverDrag = null;
+    renderGridFitting();
+    setStatus(moved ? `${label} перемещён мышкой.` : `${label} выбран.`);
+  };
+  ui.cover.addEventListener("pointerup", finishCoverDrag);
+  ui.cover.addEventListener("pointercancel", finishCoverDrag);
   ui.refreshIdeas.addEventListener("click", () => refreshIdeas());
   ui.closeDevelopment.addEventListener("click", () => {
     ui.development.hidden = true;
@@ -749,7 +911,15 @@
   }));
   document.querySelectorAll("[data-builder-preview]").forEach((button) => button.addEventListener("click", () => setPreviewMode(button.dataset.builderPreview)));
   document.querySelectorAll("[data-builder-placement]").forEach((button) => button.addEventListener("click", () => { activePlacement = button.dataset.builderPlacement; renderCover(); }));
-  document.querySelectorAll("[data-builder-font]").forEach((button) => button.addEventListener("click", () => { activeFont = button.dataset.builderFont; renderCover(); }));
+  document.querySelectorAll("[data-builder-font]").forEach((button) => button.addEventListener("click", () => {
+    activeFont = button.dataset.builderFont;
+    const layer = coverLayers.headline;
+    if (activeFont === "tempo") Object.assign(layer, { family: "PT Sans Narrow", weight: 700, lineHeight: .86, tracking: -.012 });
+    if (activeFont === "grotesk") Object.assign(layer, { family: "Manrope", weight: 850, lineHeight: .93, tracking: -.04 });
+    if (activeFont === "editorial") Object.assign(layer, { family: "Georgia", weight: 700, lineHeight: 1.03, tracking: -.025 });
+    if (activeFont === "taste" && tasteFont) Object.assign(layer, { family: tasteFont.family, weight: 800, lineHeight: .96, tracking: -.025 });
+    renderCover();
+  }));
   window.addEventListener("sekta:apply-type-taste", () => {
     if (!refreshTasteFont(true)) return setStatus("Сначала отметьте хотя бы один шрифтовой кадр как понравившийся.");
     renderCover();
