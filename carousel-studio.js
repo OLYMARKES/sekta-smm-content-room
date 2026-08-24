@@ -6,7 +6,7 @@
   const DRAFT_KEY = "sekta-carousel-studio-draft-v2";
   const SAVED_KEY = "sekta-carousel-studio-series-v1";
   const IMPORT_KEY = "sekta-carousel-studio-taste-import-v1";
-  const MONTAGE_VERSION = 2;
+  const MONTAGE_VERSION = 3;
   const DEFAULT_LONGREAD = document.querySelector("#carouselLongreadText")?.value || "";
   const palettes = {
     ink: { name: "Контрастная", background: "#17221f", foreground: "#ffffff", accent: "#f7f7f2", ink: "#17221f" },
@@ -19,6 +19,7 @@
     "sekta-sky": { name: "#Sekta · голубой", background: "#c8edf2", foreground: "#17221f", accent: "#ffffff", ink: "#17221f" },
     "sekta-mint": { name: "#Sekta · мятный", background: "#62d9a4", foreground: "#17221f", accent: "#fbf7ef", ink: "#17221f" },
     "sekta-pink": { name: "#Sekta · розовый", background: "#f481b5", foreground: "#17221f", accent: "#fbf7ef", ink: "#17221f" },
+    "sekta-sun": { name: "#Sekta · солнечный", background: "#ffe36a", foreground: "#17221f", accent: "#f481b5", ink: "#17221f" },
   };
   const layoutPresets = {
     "paper-column": { name: "Бумажная колонка", role: "longread", scene: "paper", background: "#f3f1e9", foreground: "#171814", accent: "#e9a692", ink: "#171814" },
@@ -50,16 +51,31 @@
     quote: "Цитатная",
   };
   const roleLabels = { cover: "Обложка", longread: "Лонгрид", quote: "Цитата", proof: "Фото-доказательство", pause: "Фотопауза", cta: "Финал / CTA" };
+  const templateDefinitions = {
+    "cover-plaque": { name: "Фото + нижняя плашка", scene: "plate", placement: "bottom", usesPhoto: true },
+    "light-column": { name: "Колонка + боковая полоса", scene: "paper", placement: "middle", usesPhoto: false },
+    "photo-field": { name: "Фото сверху + поле снизу", scene: "window", placement: "bottom", usesPhoto: true },
+    "side-plaque": { name: "Фото + боковая плашка", scene: "split", placement: "middle", usesPhoto: true },
+    "top-plaque": { name: "Фото + верхняя плашка", scene: "plate", placement: "top", usesPhoto: true },
+    "photo-window": { name: "Фото-окно + поле", scene: "window", placement: "bottom", usesPhoto: true },
+    "photo-scrim": { name: "Фото + scrim", scene: "photo-dim", placement: "bottom", usesPhoto: true },
+    "text-photo": { name: "Текст на фото", scene: "photo-clean", placement: "bottom", usesPhoto: true },
+    "accent-thought": { name: "Акцентный тезис", scene: "field", placement: "middle", usesPhoto: false },
+    "color-final": { name: "Цветовой финал", scene: "field", placement: "middle", usesPhoto: false },
+  };
+  const defaultTemplateForScene = {
+    paper: "light-column", dark: "color-final", "photo-dim": "photo-scrim", "photo-clean": "text-photo", plate: "cover-plaque", split: "side-plaque", window: "photo-window", field: "accent-thought", quote: "light-column",
+  };
   const montageTemplates = {
     cover: { template: "cover-plaque", role: "cover", scene: "plate", palette: "sekta-sky", placement: "bottom", size: 76, bodySize: 24, titleBoxWidth: 72, titleBoxHeight: 30, bodyBoxWidth: 68, bodyBoxHeight: 14, showCounter: false },
     body: [
       { template: "light-column", scene: "paper", palette: "sekta-cream", placement: "middle", size: 68, bodySize: 28, titleBoxWidth: 72, bodyBoxWidth: 72 },
       { template: "photo-field", scene: "window", palette: "sekta-mint", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 78 },
-      { template: "photo-scrim", scene: "photo-dim", palette: "sekta-cream", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 78, textColor: "#ffffff" },
+      { template: "side-plaque", scene: "split", palette: "blue", placement: "middle", size: 60, bodySize: 26, titleBoxWidth: 46, bodyBoxWidth: 46, textColor: "#ffffff" },
       { template: "accent-thought", scene: "field", palette: "sekta-pink", placement: "middle", size: 74, bodySize: 26, titleBoxWidth: 80, bodyBoxWidth: 76 },
-      { template: "photo-window", scene: "window", palette: "sekta-yellow", placement: "bottom", size: 62, bodySize: 26, titleBoxWidth: 78, bodyBoxWidth: 78 },
-      { template: "text-photo", scene: "photo-dim", palette: "sekta-cream", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 80, bodyBoxWidth: 78, textColor: "#ffffff" },
-      { template: "light-column", scene: "paper", palette: "sekta-cream", placement: "middle", size: 68, bodySize: 28, titleBoxWidth: 72, bodyBoxWidth: 72 },
+      { template: "photo-window", scene: "window", palette: "sekta-sun", placement: "bottom", size: 62, bodySize: 26, titleBoxWidth: 78, bodyBoxWidth: 78 },
+      { template: "top-plaque", scene: "plate", palette: "sekta-cream", placement: "top", size: 58, bodySize: 25, titleBoxWidth: 78, bodyBoxWidth: 76, textColor: "#17221f" },
+      { template: "photo-scrim", scene: "photo-dim", palette: "sekta-cream", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 80, bodyBoxWidth: 78, textColor: "#ffffff" },
       { template: "photo-field", scene: "window", palette: "sekta-mint", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 78 },
     ],
     final: { template: "color-final", role: "cta", scene: "field", palette: "sekta-mint", placement: "middle", size: 70, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 72 },
@@ -146,6 +162,7 @@
     slideShowLabel: document.querySelector("#carouselSlideShowLabel"),
     slideMoveTarget: document.querySelector("#carouselSlideMoveTarget"),
     slideRole: document.querySelector("#carouselSlideRole"),
+    slideTemplate: document.querySelector("#carouselSlideTemplate"),
     slideScene: document.querySelector("#carouselSlideScene"),
     slidePalette: document.querySelector("#carouselSlidePalette"),
     slideFont: document.querySelector("#carouselSlideFont"),
@@ -634,7 +651,7 @@
     const bodySlides = chunks.map((body, index) => {
       const copy = editorialCopy(body);
       const template = montageTemplates.body[index % montageTemplates.body.length];
-      const templateUsesPhoto = ["photo-field", "photo-scrim", "photo-window", "text-photo"].includes(template.template);
+      const templateUsesPhoto = templateDefinitions[template.template]?.usesPhoto === true;
       const fallbackScene = templateUsesPhoto && !photoRhythm ? "paper" : template.scene;
       return makeSlide({
         ...template,
@@ -661,7 +678,7 @@
       const isCover = index === 0;
       const isFinal = index === next.slides.length - 1;
       const template = isCover ? montageTemplates.cover : isFinal ? montageTemplates.final : montageTemplates.body[(index - 1) % montageTemplates.body.length];
-      const templateUsesPhoto = isCover || ["photo-field", "photo-scrim", "photo-window", "text-photo"].includes(template.template);
+      const templateUsesPhoto = isCover || templateDefinitions[template.template]?.usesPhoto === true;
       const copy = !isCover && !isFinal && !slide.title ? editorialCopy(slide.body) : null;
       return makeSlide({
         ...slide,
@@ -1279,7 +1296,8 @@
       const style = `--custom-x:${Number(layer.x) || 0}cqw;--custom-y:${(Number(layer.y) || 0) * 1.25}cqw;width:${box.width}cqw;max-height:${box.height * 1.25}cqw;color:${resolvedLayerColor(slide, target)};font-family:'${escapeHtml(type.resolvedFamily)}',sans-serif;font-weight:${type.weight};font-size:${Math.round(type.size * 48) / 100}px;line-height:${type.lineHeight};letter-spacing:${type.tracking}em;text-shadow:${effects.shadow};-webkit-text-stroke:${effects.strokeWidth} ${effects.strokeColor};paint-order:stroke fill`;
       return `<div class="carousel-render-custom${directEditing ? ` carousel-direct-layer${selectedLayer === target ? " is-selected-layer" : ""}` : ""}" style="${style}" data-carousel-fit-layer="${escapeHtml(target)}"${directEditing ? ` data-carousel-layer="${escapeHtml(target)}" data-layer-label="текстовый блок"` : ""}><span class="carousel-layer-text">${escapeHtml(layer.text)}</span>${layerEditingControls(directEditing, selectedLayer, target, slide)}</div>`;
     }).join("");
-    element.innerHTML = `${image}<div class="carousel-render-shade"></div><div class="carousel-render-texture" aria-hidden="true"></div>${label}<div class="carousel-render-content">${title}${body}</div>${counter}${custom}`;
+    const geometry = `<div class="carousel-render-geometry" data-serial="${String(index + 1).padStart(2, "0")}" aria-hidden="true"></div>`;
+    element.innerHTML = `${image}<div class="carousel-render-shade"></div>${geometry}<div class="carousel-render-texture" aria-hidden="true"></div>${label}<div class="carousel-render-content">${title}${body}</div>${counter}${custom}`;
     fitCanvasTextLayers(element);
     document.fonts?.ready?.then(() => { if (element.isConnected) fitCanvasTextLayers(element); });
   }
@@ -1451,7 +1469,11 @@
 
   function renderSplitPreview() {
     const bodySlides = series.slides.slice(1, -1);
-    ui.splitPreview.innerHTML = bodySlides.map((slide, index) => `<button type="button" data-edit-split="${index + 1}"><span>${String(index + 2).padStart(2, "0")}</span><strong>${escapeHtml(sceneLabels[slide.scene] || slide.scene)}</strong><p>${escapeHtml(slide.body || "Пустой слайд")}</p><small>${words(slide.body).length} ${plural(words(slide.body).length, "слово", "слова", "слов")}</small></button>`).join("");
+    ui.splitPreview.innerHTML = bodySlides.map((slide, index) => {
+      const previewText = [slide.title, slide.body].filter(Boolean).join("\n\n");
+      const wordCount = words(previewText).length;
+      return `<button type="button" data-edit-split="${index + 1}"><span>${String(index + 2).padStart(2, "0")}</span><strong>${escapeHtml(templateDefinitions[slide.template]?.name || sceneLabels[slide.scene] || slide.scene)}</strong><p>${escapeHtml(previewText || "Пустой слайд")}</p><small>${wordCount} ${plural(wordCount, "слово", "слова", "слов")}</small></button>`;
+    }).join("");
     const count = Number(ui.slideCount.value || series.totalSlides || 10);
     ui.splitMath.innerHTML = `<strong>1 + ${Math.max(0, count - 2)} + 1</strong><span>обложка · текст · финал</span>`;
     const countWords = words(ui.longread.value).length;
@@ -1478,6 +1500,7 @@
     ui.slideTitle.value = slide.title || "";
     ui.slideBody.value = slide.body || "";
     ui.slideRole.value = slide.role;
+    ui.slideTemplate.value = templateDefinitions[slide.template] ? slide.template : (defaultTemplateForScene[slide.scene] || "light-column");
     ui.slideScene.value = slide.scene;
     renderSlidePaletteOptions(slide.palette);
     renderSlideFontOptions(slide);
@@ -1603,6 +1626,7 @@
     slide.title = ui.slideTitle.value;
     slide.body = ui.slideBody.value;
     slide.role = ui.slideRole.value;
+    slide.template = ui.slideTemplate.value;
     slide.scene = ui.slideScene.value;
     slide.palette = ui.slidePalette.value;
     if (!slide.backgroundColor) {
@@ -2122,21 +2146,49 @@
     const photo = photoById(slide.photoId);
     const slideFont = slide.font?.family ? normalizeFontSystem(slide.font) : series.font;
     const usesPhoto = photo && !["paper", "field", "dark", "quote"].includes(slide.scene);
-    context.fillStyle = slide.backgroundColor || palette.background;
+    const surfaceColor = slide.backgroundColor || palette.background;
+    context.fillStyle = surfaceColor;
     context.fillRect(0, 0, 1080, 1350);
     if (usesPhoto) {
       const image = await loadImage(photo.exportImage || photo.thumb);
-      if (slide.scene === "split") cropImage(context, image, 600, 0, 480, 1350, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
+      if (slide.template === "photo-window") {
+        context.fillStyle = "#ffffff";
+        context.beginPath();
+        context.roundRect(65, 68, 950, 660, 22);
+        context.fill();
+        cropImage(context, image, 88, 94, 904, 608, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
+      }
+      else if (slide.scene === "split") cropImage(context, image, 562, 0, 518, 1350, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
       else if (slide.scene === "window" && slide.template === "photo-field") cropImage(context, image, 0, 0, 1080, 720, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
       else if (slide.scene === "window") cropImage(context, image, 90, 90, 900, 520, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
       else cropImage(context, image, 0, 0, 1080, 1350, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
-      if (slide.scene === "photo-dim" || slide.scene === "plate") {
+      if (slide.scene === "photo-dim" || slide.template === "cover-plaque") {
         const gradient = context.createLinearGradient(0, 250, 0, 1350);
         gradient.addColorStop(0, "rgba(10,16,14,.08)");
         gradient.addColorStop(1, "rgba(10,16,14,.88)");
         context.fillStyle = gradient;
         context.fillRect(0, 0, 1080, 1350);
       }
+    }
+    if (slide.template === "side-plaque") {
+      context.fillStyle = surfaceColor;
+      context.fillRect(0, 0, 626, 1350);
+      context.fillStyle = palette.accent;
+      context.fillRect(76, 214, 174, 18);
+    } else if (slide.template === "top-plaque") {
+      context.fillStyle = surfaceColor;
+      context.fillRect(0, 0, 1080, 594);
+      context.fillStyle = palette.accent;
+      context.fillRect(76, 574, 280, 20);
+    } else if (slide.template === "light-column") {
+      context.fillStyle = palette.accent;
+      context.fillRect(1004, 0, 76, 1350);
+    } else if (slide.template === "accent-thought") {
+      context.fillStyle = palette.accent;
+      context.fillRect(86, 214, 194, 20);
+    } else if (slide.template === "color-final") {
+      context.fillStyle = palette.accent;
+      context.fillRect(0, 1188, 1080, 162);
     }
     drawCanvasTexture(context, slide.texture);
     const lightScene = ["paper", "quote", "field", "dark"].includes(slide.scene) || slide.scene === "split";
@@ -2173,9 +2225,12 @@
     const bodyHeight = richCanvasHeight(bodyLines, bodySize, bodyType.lineHeight);
     const blockHeight = titleHeight + (titleLines.length && bodyLines.length ? 50 : 0) + bodyHeight;
     let startY = slide.placement === "top" ? 210 : slide.placement === "bottom" ? 1180 - blockHeight : (1350 - blockHeight) / 2;
-    if (slide.scene === "window") startY = slide.template === "photo-field" ? 790 : 720;
-    if (slide.scene === "plate") {
-      context.fillStyle = palette.background;
+    if (slide.template === "photo-field") startY = 790;
+    else if (slide.template === "photo-window") startY = 785;
+    else if (slide.template === "side-plaque") startY = Math.max(310, (1350 - blockHeight) / 2);
+    else if (slide.template === "top-plaque") startY = Math.max(120, (540 - blockHeight) / 2);
+    if (slide.template === "cover-plaque") {
+      context.fillStyle = surfaceColor;
       context.beginPath();
       context.roundRect(65, startY - titleSize, 950, blockHeight + 100, 18);
       context.fill();
@@ -2447,6 +2502,8 @@
   ui.coverShadowReset.addEventListener("click", () => restoreAutomaticShadow("cover"));
   document.querySelectorAll("[data-carousel-scene]").forEach((button) => button.addEventListener("click", () => {
     coverSlide().scene = button.dataset.carouselScene;
+    coverSlide().template = defaultTemplateForScene[coverSlide().scene] || "cover-plaque";
+    coverSlide().placement = templateDefinitions[coverSlide().template]?.placement || coverSlide().placement;
     coverSlide().savedAt = null;
     document.querySelectorAll("[data-carousel-scene]").forEach((choice) => choice.classList.toggle("is-active", choice === button));
     renderCanvas(ui.coverCanvas, coverSlide(), 0);
@@ -2515,7 +2572,21 @@
     updateSelectedLayerContent("slide");
     setStatus(ui.slideLayerVisible.checked ? "Элемент возвращён на слайд." : "Элемент удалён со слайда.");
   });
-  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slideScene, ui.slidePalette, ui.slideTypeFont, ui.slideTypeWeight, ui.slideTypeSize, ui.slideBoxWidth, ui.slideBoxHeight, ui.slideTypeLineHeight, ui.slideTypeTracking, ui.slidePlacement, ui.slideAlign, ui.slideShowLabel, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
+  ui.slideTemplate.addEventListener("input", () => {
+    const definition = templateDefinitions[ui.slideTemplate.value];
+    if (definition) {
+      ui.slideScene.value = definition.scene;
+      ui.slidePlacement.value = definition.placement;
+    }
+    updateActiveFromForm();
+  });
+  ui.slideScene.addEventListener("input", () => {
+    ui.slideTemplate.value = defaultTemplateForScene[ui.slideScene.value] || "light-column";
+    const definition = templateDefinitions[ui.slideTemplate.value];
+    if (definition) ui.slidePlacement.value = definition.placement;
+    updateActiveFromForm();
+  });
+  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slidePalette, ui.slideTypeFont, ui.slideTypeWeight, ui.slideTypeSize, ui.slideBoxWidth, ui.slideBoxHeight, ui.slideTypeLineHeight, ui.slideTypeTracking, ui.slidePlacement, ui.slideAlign, ui.slideShowLabel, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
   ui.slideLayerColor.addEventListener("input", () => updateLayerColor("slide", ui.slideLayerColor.value));
   ui.slideLayerColorReset.addEventListener("click", () => updateLayerColor("slide", ""));
   [ui.slideShadowOpacity, ui.slideShadowColor, ui.slideOutlineWidth, ui.slideOutlineColor].forEach((control) => control.addEventListener("input", () => updateLayerEffects("slide")));
