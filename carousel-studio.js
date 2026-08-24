@@ -66,10 +66,17 @@
     coverLayerAdd: document.querySelector("#carouselCoverLayerAdd"),
     coverTypeLayerLabel: document.querySelector("#carouselCoverTypeLayerLabel"),
     coverTypeFont: document.querySelector("#carouselCoverTypeFont"),
+    coverLayerColor: document.querySelector("#carouselCoverLayerColor"),
+    coverLayerColorValue: document.querySelector("#carouselCoverLayerColorValue"),
+    coverLayerColorReset: document.querySelector("#carouselCoverLayerColorReset"),
     coverTypeWeight: document.querySelector("#carouselCoverTypeWeight"),
     coverTypeWeightValue: document.querySelector("#carouselCoverTypeWeightValue"),
     coverTypeSize: document.querySelector("#carouselCoverTypeSize"),
     coverTypeSizeValue: document.querySelector("#carouselCoverTypeSizeValue"),
+    coverBoxWidth: document.querySelector("#carouselCoverBoxWidth"),
+    coverBoxWidthValue: document.querySelector("#carouselCoverBoxWidthValue"),
+    coverBoxHeight: document.querySelector("#carouselCoverBoxHeight"),
+    coverBoxHeightValue: document.querySelector("#carouselCoverBoxHeightValue"),
     coverTypeLineHeight: document.querySelector("#carouselCoverTypeLineHeight"),
     coverTypeLineHeightValue: document.querySelector("#carouselCoverTypeLineHeightValue"),
     coverTypeTracking: document.querySelector("#carouselCoverTypeTracking"),
@@ -116,12 +123,23 @@
     slideScene: document.querySelector("#carouselSlideScene"),
     slidePalette: document.querySelector("#carouselSlidePalette"),
     slideFont: document.querySelector("#carouselSlideFont"),
+    slideFontPrev: document.querySelector("#carouselSlideFontPrev"),
+    slideFontNext: document.querySelector("#carouselSlideFontNext"),
     slideTypeLayerLabel: document.querySelector("#carouselSlideTypeLayerLabel"),
     slideTypeFont: document.querySelector("#carouselSlideTypeFont"),
+    slideTypeFontPrev: document.querySelector("#carouselSlideTypeFontPrev"),
+    slideTypeFontNext: document.querySelector("#carouselSlideTypeFontNext"),
+    slideLayerColor: document.querySelector("#carouselSlideLayerColor"),
+    slideLayerColorValue: document.querySelector("#carouselSlideLayerColorValue"),
+    slideLayerColorReset: document.querySelector("#carouselSlideLayerColorReset"),
     slideTypeWeight: document.querySelector("#carouselSlideTypeWeight"),
     slideTypeWeightValue: document.querySelector("#carouselSlideTypeWeightValue"),
     slideTypeSize: document.querySelector("#carouselSlideTypeSize"),
     slideTypeSizeValue: document.querySelector("#carouselSlideTypeSizeValue"),
+    slideBoxWidth: document.querySelector("#carouselSlideBoxWidth"),
+    slideBoxWidthValue: document.querySelector("#carouselSlideBoxWidthValue"),
+    slideBoxHeight: document.querySelector("#carouselSlideBoxHeight"),
+    slideBoxHeightValue: document.querySelector("#carouselSlideBoxHeightValue"),
     slideTypeLineHeight: document.querySelector("#carouselSlideTypeLineHeight"),
     slideTypeLineHeightValue: document.querySelector("#carouselSlideTypeLineHeightValue"),
     slideTypeTracking: document.querySelector("#carouselSlideTypeTracking"),
@@ -340,6 +358,18 @@
       labelOffsetY: 0,
       counterOffsetX: 0,
       counterOffsetY: 0,
+      titleBoxWidth: 80,
+      titleBoxHeight: 30,
+      bodyBoxWidth: 80,
+      bodyBoxHeight: 44,
+      labelBoxWidth: 52,
+      labelBoxHeight: 8,
+      counterBoxWidth: 22,
+      counterBoxHeight: 8,
+      titleColor: "",
+      bodyColor: "",
+      labelColor: "",
+      counterColor: "",
       titleFontFamily: "",
       titleWeight: 800,
       titleLineHeight: .96,
@@ -383,7 +413,7 @@
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       slides: [
-        makeSlide({ role: "cover", title: "Пропустили пять дней? Ничего не сломалось", body: "10 слайдов · сохрани", labelText: "@sektaschool", scene: "photo-clean", palette: "sekta-yellow", size: 106, bodySize: 20, labelSize: 22, titleWeight: 700, titleLineHeight: .86, titleTracking: -.012, caseKind: "upper", showCounter: false, placement: "bottom", photoId: firstPhoto?.id || null }),
+        makeSlide({ role: "cover", title: "Пропустили пять дней? Ничего не сломалось", body: "10 слайдов · сохрани", labelText: "@sektaschool", scene: "photo-clean", palette: "sekta-yellow", size: 106, bodySize: 20, labelSize: 22, titleWeight: 700, titleLineHeight: .86, titleTracking: -.012, titleBoxHeight: 38, bodyBoxHeight: 12, caseKind: "upper", showCounter: false, placement: "bottom", photoId: firstPhoto?.id || null }),
         makeSlide({ role: "cta", title: "Возвращение не требует наказания", body: "Сохраните, чтобы вернуться к этой мысли в нужный день.", scene: "field", palette: "lime", size: 58 }),
       ],
     };
@@ -410,6 +440,18 @@
         labelOffsetY: Number(slide.labelOffsetY) || 0,
         counterOffsetX: Number(slide.counterOffsetX) || 0,
         counterOffsetY: Number(slide.counterOffsetY) || 0,
+        titleBoxWidth: numberOr(slide.titleBoxWidth, 80),
+        titleBoxHeight: numberOr(slide.titleBoxHeight, slide.role === "cover" ? 38 : 30),
+        bodyBoxWidth: numberOr(slide.bodyBoxWidth, 80),
+        bodyBoxHeight: numberOr(slide.bodyBoxHeight, slide.role === "cover" ? 12 : 44),
+        labelBoxWidth: numberOr(slide.labelBoxWidth, 52),
+        labelBoxHeight: numberOr(slide.labelBoxHeight, 8),
+        counterBoxWidth: numberOr(slide.counterBoxWidth, 22),
+        counterBoxHeight: numberOr(slide.counterBoxHeight, 8),
+        titleColor: slide.titleColor || "",
+        bodyColor: slide.bodyColor || "",
+        labelColor: slide.labelColor || "",
+        counterColor: slide.counterColor || "",
         titleFontFamily: slide.titleFontFamily || "",
         titleWeight: numberOr(slide.titleWeight, 800),
         titleLineHeight: numberOr(slide.titleLineHeight, .96),
@@ -439,6 +481,9 @@
           size: numberOr(layer.size, 32),
           lineHeight: numberOr(layer.lineHeight, 1),
           tracking: numberOr(layer.tracking, 0),
+          width: numberOr(layer.width, 60),
+          height: numberOr(layer.height, 18),
+          color: layer.color || "",
         })) : [],
         font: slide.font?.family ? normalizeFontSystem(slide.font) : null,
       })),
@@ -713,6 +758,63 @@
   const isCustomTarget = (target) => String(target || "").startsWith("custom:");
   const customLayer = (slide, target) => slide.customLayers?.find((layer) => `custom:${layer.id}` === target);
   const layerLabel = (slide, target) => isCustomTarget(target) ? customLayer(slide, target)?.text || "текстовый блок" : movableLayers[target]?.label || "текст";
+  const layerBoxFields = {
+    title: { width: "titleBoxWidth", height: "titleBoxHeight", color: "titleColor", defaultWidth: 80, defaultHeight: 30 },
+    body: { width: "bodyBoxWidth", height: "bodyBoxHeight", color: "bodyColor", defaultWidth: 80, defaultHeight: 44 },
+    label: { width: "labelBoxWidth", height: "labelBoxHeight", color: "labelColor", defaultWidth: 52, defaultHeight: 8 },
+    counter: { width: "counterBoxWidth", height: "counterBoxHeight", color: "counterColor", defaultWidth: 22, defaultHeight: 8 },
+  };
+
+  const clampLayerWidth = (value) => Math.max(10, Math.min(96, Math.round(Number(value) * 10) / 10));
+  const clampLayerHeight = (value) => Math.max(5, Math.min(80, Math.round(Number(value) * 10) / 10));
+
+  function layerBox(slide, target) {
+    if (isCustomTarget(target)) {
+      const layer = customLayer(slide, target) || {};
+      return { width: clampLayerWidth(numberOr(layer.width, 60)), height: clampLayerHeight(numberOr(layer.height, 18)) };
+    }
+    const fields = layerBoxFields[target] || layerBoxFields.body;
+    return { width: clampLayerWidth(numberOr(slide[fields.width], fields.defaultWidth)), height: clampLayerHeight(numberOr(slide[fields.height], fields.defaultHeight)) };
+  }
+
+  function setLayerBox(slide, target, width, height) {
+    const next = { width: clampLayerWidth(width), height: clampLayerHeight(height) };
+    if (isCustomTarget(target)) {
+      const layer = customLayer(slide, target);
+      if (layer) { layer.width = next.width; layer.height = next.height; }
+      return next;
+    }
+    const fields = layerBoxFields[target] || layerBoxFields.body;
+    slide[fields.width] = next.width;
+    slide[fields.height] = next.height;
+    return next;
+  }
+
+  function layerColor(slide, target) {
+    if (isCustomTarget(target)) return customLayer(slide, target)?.color || "";
+    const fields = layerBoxFields[target] || layerBoxFields.body;
+    return slide[fields.color] || "";
+  }
+
+  function setLayerColor(slide, target, color) {
+    if (isCustomTarget(target)) {
+      const layer = customLayer(slide, target);
+      if (layer) layer.color = color || "";
+      return;
+    }
+    const fields = layerBoxFields[target] || layerBoxFields.body;
+    slide[fields.color] = color || "";
+  }
+
+  function slideForeground(slide) {
+    const palette = paletteFor(slide.palette || series.palette);
+    const lightScene = ["paper", "quote", "field", "dark"].includes(slide.scene) || slide.scene === "split";
+    return slide.textColor || (lightScene || slide.palette === "sekta-yellow" ? palette.foreground : "#ffffff");
+  }
+
+  function resolvedLayerColor(slide, target) {
+    return layerColor(slide, target) || slideForeground(slide);
+  }
 
   function layerText(slide, target, index = series.activeSlide) {
     if (isCustomTarget(target)) return String(customLayer(slide, target)?.text || "");
@@ -827,11 +929,13 @@
     const controls = cover ? {
       label: ui.coverTypeLayerLabel, font: ui.coverTypeFont, weight: ui.coverTypeWeight, weightValue: ui.coverTypeWeightValue,
       size: ui.coverTypeSize, sizeValue: ui.coverTypeSizeValue, lineHeight: ui.coverTypeLineHeight, lineHeightValue: ui.coverTypeLineHeightValue,
-      tracking: ui.coverTypeTracking, trackingValue: ui.coverTypeTrackingValue,
+      tracking: ui.coverTypeTracking, trackingValue: ui.coverTypeTrackingValue, boxWidth: ui.coverBoxWidth, boxWidthValue: ui.coverBoxWidthValue,
+      boxHeight: ui.coverBoxHeight, boxHeightValue: ui.coverBoxHeightValue, color: ui.coverLayerColor, colorValue: ui.coverLayerColorValue,
     } : {
       label: ui.slideTypeLayerLabel, font: ui.slideTypeFont, weight: ui.slideTypeWeight, weightValue: ui.slideTypeWeightValue,
       size: ui.slideTypeSize, sizeValue: ui.slideTypeSizeValue, lineHeight: ui.slideTypeLineHeight, lineHeightValue: ui.slideTypeLineHeightValue,
-      tracking: ui.slideTypeTracking, trackingValue: ui.slideTypeTrackingValue,
+      tracking: ui.slideTypeTracking, trackingValue: ui.slideTypeTrackingValue, boxWidth: ui.slideBoxWidth, boxWidthValue: ui.slideBoxWidthValue,
+      boxHeight: ui.slideBoxHeight, boxHeightValue: ui.slideBoxHeightValue, color: ui.slideLayerColor, colorValue: ui.slideLayerColorValue,
     };
     controls.label.textContent = layerLabel(slide, target);
     renderLayerFontOptions(controls.font, slide, target);
@@ -843,6 +947,14 @@
     controls.lineHeightValue.textContent = Number(typography.lineHeight).toFixed(2);
     controls.tracking.value = typography.tracking;
     controls.trackingValue.textContent = formatTracking(typography.tracking);
+    const box = layerBox(slide, target);
+    controls.boxWidth.value = box.width;
+    controls.boxWidthValue.textContent = `${box.width}%`;
+    controls.boxHeight.value = box.height;
+    controls.boxHeightValue.textContent = `${box.height}%`;
+    const customColor = layerColor(slide, target);
+    controls.color.value = resolvedLayerColor(slide, target);
+    controls.colorValue.textContent = customColor || "из палитры";
   }
 
   function syncLayerContentControls(mode) {
@@ -864,6 +976,10 @@
     const bodyType = layerTypography(slide, "body");
     const labelType = layerTypography(slide, "label");
     const counterType = layerTypography(slide, "counter");
+    const titleBox = layerBox(slide, "title");
+    const bodyBox = layerBox(slide, "body");
+    const labelBox = layerBox(slide, "label");
+    const counterBox = layerBox(slide, "counter");
     [titleType, bodyType, labelType, counterType].forEach((type) => ensureFontFamily(type.resolvedFamily));
     set("--carousel-title-x", `${Number(slide.titleOffsetX) || 0}cqw`);
     set("--carousel-title-y", `${(Number(slide.titleOffsetY) || 0) * 1.25}cqw`);
@@ -878,21 +994,60 @@
     set("--carousel-title-size", `${previewSize(titleType.size)}px`);
     set("--carousel-title-line", titleType.lineHeight);
     set("--carousel-title-tracking", `${titleType.tracking}em`);
+    set("--carousel-title-width", `${titleBox.width}cqw`);
+    set("--carousel-title-height", `${titleBox.height * 1.25}cqw`);
+    set("--carousel-title-color", resolvedLayerColor(slide, "title"));
     set("--carousel-body-font", `"${bodyType.resolvedFamily}"`);
     set("--carousel-body-weight", bodyType.weight);
     set("--carousel-body-size", `${previewSize(bodyType.size)}px`);
     set("--carousel-body-line", bodyType.lineHeight);
     set("--carousel-body-tracking", `${bodyType.tracking}em`);
+    set("--carousel-body-width", `${bodyBox.width}cqw`);
+    set("--carousel-body-height", `${bodyBox.height * 1.25}cqw`);
+    set("--carousel-body-color", resolvedLayerColor(slide, "body"));
     set("--carousel-label-font", `"${labelType.resolvedFamily}"`);
     set("--carousel-label-weight", labelType.weight);
     set("--carousel-label-size", `${previewSize(labelType.size)}px`);
     set("--carousel-label-line", labelType.lineHeight);
     set("--carousel-label-tracking", `${labelType.tracking}em`);
+    set("--carousel-label-width", `${labelBox.width}cqw`);
+    set("--carousel-label-height", `${labelBox.height * 1.25}cqw`);
+    set("--carousel-label-color", resolvedLayerColor(slide, "label"));
     set("--carousel-counter-font", `"${counterType.resolvedFamily}"`);
     set("--carousel-counter-weight", counterType.weight);
     set("--carousel-counter-size", `${previewSize(counterType.size)}px`);
     set("--carousel-counter-line", counterType.lineHeight);
     set("--carousel-counter-tracking", `${counterType.tracking}em`);
+    set("--carousel-counter-width", `${counterBox.width}cqw`);
+    set("--carousel-counter-height", `${counterBox.height * 1.25}cqw`);
+    set("--carousel-counter-color", resolvedLayerColor(slide, "counter"));
+  }
+
+  const resizeHandles = ["nw", "n", "ne", "e", "se", "s", "sw", "w"];
+
+  function layerEditingControls(directEditing, selectedLayer, target, slide) {
+    if (!directEditing || selectedLayer !== target) return "";
+    const label = layerLabel(slide, target);
+    return `<span class="carousel-layer-controls"><button class="carousel-layer-close" type="button" data-layer-close="${escapeHtml(target)}" aria-label="Удалить ${escapeHtml(label)}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>${resizeHandles.map((handle) => `<span class="carousel-resize-handle" data-resize-handle="${handle}" aria-hidden="true"></span>`).join("")}</span>`;
+  }
+
+  function fitDomTextLayer(element) {
+    const textBox = element.querySelector(".carousel-layer-text") || element;
+    const textNodes = element.matches(".carousel-render-body") ? [...textBox.querySelectorAll("p")] : [element];
+    if (!textNodes.length || !textBox.clientWidth || !textBox.clientHeight) return;
+    textNodes.forEach((node) => { node.style.removeProperty("font-size"); });
+    let size = parseFloat(getComputedStyle(textNodes[0]).fontSize) || 12;
+    const min = Math.min(size, 6);
+    const overflows = () => textBox.scrollHeight > textBox.clientHeight + 1 || textBox.scrollWidth > textBox.clientWidth + 1;
+    while (overflows() && size > min) {
+      size = Math.max(min, size - .5);
+      textNodes.forEach((node) => { node.style.fontSize = `${size}px`; });
+    }
+    element.dataset.fittedSize = String(Math.round(size * 10) / 10);
+  }
+
+  function fitCanvasTextLayers(canvas) {
+    canvas.querySelectorAll("[data-carousel-fit-layer]").forEach(fitDomTextLayer);
   }
 
   function renderCanvas(element, slide, index) {
@@ -912,7 +1067,7 @@
     element.style.setProperty("--carousel-head-font", `"${slideFont.family}"`);
     element.style.setProperty("--carousel-body-font", `"${slideFont.body || companionFor(slideFont.family)}"`);
     element.style.setProperty("--carousel-bg", palette.background);
-    element.style.setProperty("--carousel-fg", slide.textColor || palette.foreground);
+    element.style.setProperty("--carousel-fg", slideForeground(slide));
     element.style.setProperty("--carousel-accent", palette.accent);
     element.style.setProperty("--carousel-ink", palette.ink);
     element.style.setProperty("--carousel-title-size", `${Math.max(24, Math.round((slide.size || 46) * .48))}px`);
@@ -923,18 +1078,21 @@
       : "";
     const titleText = layerText(slide, "title", index);
     const bodyText = layerText(slide, "body", index);
-    const title = layerVisible(slide, "title") && titleText ? `<strong class="carousel-render-title${directEditing ? ` carousel-direct-layer${selectedLayer === "title" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="title" data-layer-label="${movableLayers.title.label}"` : ""}>${escapeHtml(displayText(stripInlineMarkup(titleText), slide.caseKind || slideFont.caseKind))}</strong>` : "";
-    const body = layerVisible(slide, "body") && bodyText ? `<div class="carousel-render-body${directEditing ? ` carousel-direct-layer${selectedLayer === "body" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="body" data-layer-label="${movableLayers.body.label}"` : ""}><p>${inlineMarkupHtml(bodyText).replace(/\n\s*\n/g, "</p><p>")}</p></div>` : "";
-    const label = !layerVisible(slide, "label") ? "" : `<span class="carousel-render-series${directEditing ? ` carousel-direct-layer${selectedLayer === "label" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="label" data-layer-label="${movableLayers.label.label}"` : ""}>${escapeHtml(layerText(slide, "label", index))}</span>`;
-    const counter = !layerVisible(slide, "counter") ? "" : `<small class="carousel-render-counter${directEditing ? ` carousel-direct-layer${selectedLayer === "counter" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="counter" data-layer-label="${movableLayers.counter.label}"` : ""}>${escapeHtml(layerText(slide, "counter", index))}</small>`;
+    const title = layerVisible(slide, "title") && titleText ? `<strong class="carousel-render-title${directEditing ? ` carousel-direct-layer${selectedLayer === "title" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="title"${directEditing ? ` data-carousel-layer="title" data-layer-label="${movableLayers.title.label}"` : ""}><span class="carousel-layer-text">${escapeHtml(displayText(stripInlineMarkup(titleText), slide.caseKind || slideFont.caseKind))}</span>${layerEditingControls(directEditing, selectedLayer, "title", slide)}</strong>` : "";
+    const body = layerVisible(slide, "body") && bodyText ? `<div class="carousel-render-body${directEditing ? ` carousel-direct-layer${selectedLayer === "body" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="body"${directEditing ? ` data-carousel-layer="body" data-layer-label="${movableLayers.body.label}"` : ""}><div class="carousel-layer-text"><p>${inlineMarkupHtml(bodyText).replace(/\n\s*\n/g, "</p><p>")}</p></div>${layerEditingControls(directEditing, selectedLayer, "body", slide)}</div>` : "";
+    const label = !layerVisible(slide, "label") ? "" : `<span class="carousel-render-series${directEditing ? ` carousel-direct-layer${selectedLayer === "label" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="label"${directEditing ? ` data-carousel-layer="label" data-layer-label="${movableLayers.label.label}"` : ""}><span class="carousel-layer-text">${escapeHtml(layerText(slide, "label", index))}</span>${layerEditingControls(directEditing, selectedLayer, "label", slide)}</span>`;
+    const counter = !layerVisible(slide, "counter") ? "" : `<small class="carousel-render-counter${directEditing ? ` carousel-direct-layer${selectedLayer === "counter" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="counter"${directEditing ? ` data-carousel-layer="counter" data-layer-label="${movableLayers.counter.label}"` : ""}><span class="carousel-layer-text">${escapeHtml(layerText(slide, "counter", index))}</span>${layerEditingControls(directEditing, selectedLayer, "counter", slide)}</small>`;
     const custom = (slide.customLayers || []).filter((layer) => layer.visible !== false && layer.text).map((layer) => {
       const target = `custom:${layer.id}`;
       const type = layerTypography(slide, target);
       ensureFontFamily(type.resolvedFamily);
-      const style = `--custom-x:${Number(layer.x) || 0}cqw;--custom-y:${(Number(layer.y) || 0) * 1.25}cqw;font-family:'${escapeHtml(type.resolvedFamily)}',sans-serif;font-weight:${type.weight};font-size:${Math.round(type.size * 48) / 100}px;line-height:${type.lineHeight};letter-spacing:${type.tracking}em`;
-      return `<div class="carousel-render-custom${directEditing ? ` carousel-direct-layer${selectedLayer === target ? " is-selected-layer" : ""}` : ""}" style="${style}"${directEditing ? ` data-carousel-layer="${escapeHtml(target)}" data-layer-label="текстовый блок"` : ""}>${escapeHtml(layer.text)}</div>`;
+      const box = layerBox(slide, target);
+      const style = `--custom-x:${Number(layer.x) || 0}cqw;--custom-y:${(Number(layer.y) || 0) * 1.25}cqw;width:${box.width}cqw;height:${box.height * 1.25}cqw;color:${resolvedLayerColor(slide, target)};font-family:'${escapeHtml(type.resolvedFamily)}',sans-serif;font-weight:${type.weight};font-size:${Math.round(type.size * 48) / 100}px;line-height:${type.lineHeight};letter-spacing:${type.tracking}em`;
+      return `<div class="carousel-render-custom${directEditing ? ` carousel-direct-layer${selectedLayer === target ? " is-selected-layer" : ""}` : ""}" style="${style}" data-carousel-fit-layer="${escapeHtml(target)}"${directEditing ? ` data-carousel-layer="${escapeHtml(target)}" data-layer-label="текстовый блок"` : ""}><span class="carousel-layer-text">${escapeHtml(layer.text)}</span>${layerEditingControls(directEditing, selectedLayer, target, slide)}</div>`;
     }).join("");
     element.innerHTML = `${image}<div class="carousel-render-shade"></div>${label}<div class="carousel-render-content">${title}${body}</div>${counter}${custom}`;
+    fitCanvasTextLayers(element);
+    document.fonts?.ready?.then(() => { if (element.isConnected) fitCanvasTextLayers(element); });
   }
 
   function renderFontStrip() {
@@ -1206,6 +1364,7 @@
     slide.caseKind = ui.coverCase.value;
     slide.showSeriesLabel = ui.coverShowLabel.checked;
     setLayerOffsets(slide, coverMoveTarget, Number(ui.coverOffsetX.value), Number(ui.coverOffsetY.value));
+    setLayerBox(slide, coverMoveTarget, Number(ui.coverBoxWidth.value), Number(ui.coverBoxHeight.value));
     setLayerTypography(slide, coverMoveTarget, {
       family: ui.coverTypeFont.value,
       weight: ui.coverTypeWeight.value,
@@ -1234,6 +1393,7 @@
     slide.align = ui.slideAlign.value;
     slide.showSeriesLabel = ui.slideShowLabel.checked;
     setLayerOffsets(slide, slideMoveTarget, Number(ui.slideOffsetX.value), Number(ui.slideOffsetY.value));
+    setLayerBox(slide, slideMoveTarget, Number(ui.slideBoxWidth.value), Number(ui.slideBoxHeight.value));
     setLayerTypography(slide, slideMoveTarget, {
       family: ui.slideTypeFont.value,
       weight: ui.slideTypeWeight.value,
@@ -1294,6 +1454,9 @@
       size: 32,
       lineHeight: 1,
       tracking: 0,
+      width: 60,
+      height: 18,
+      color: "",
     };
     slide.customLayers ||= [];
     slide.customLayers.push(layer);
@@ -1337,9 +1500,32 @@
     canvas.querySelectorAll("[data-carousel-layer]").forEach((element) => element.classList.toggle("is-selected-layer", element.dataset.carouselLayer === layer));
   }
 
+  function removeCanvasLayer(mode, target) {
+    const cover = mode === "cover";
+    const slide = cover ? coverSlide() : activeSlide();
+    const label = layerLabel(slide, target);
+    const custom = isCustomTarget(target);
+    if (custom) slide.customLayers = (slide.customLayers || []).filter((layer) => `custom:${layer.id}` !== target);
+    else setLayerVisible(slide, target, false);
+    if (cover) coverMoveTarget = target === "title" ? "body" : "title";
+    else slideMoveTarget = target === "body" ? "title" : "body";
+    slide.savedAt = null;
+    if (cover) renderCover();
+    else renderActiveEditor();
+    markChanged();
+    setStatus(custom ? `${label} удалён со слайда.` : `${label} скрыт. Вернуть его можно через список слоёв и переключатель «Показывать».`);
+  }
+
   function bindCanvasLayerDrag(canvas, mode) {
     let drag = null;
     canvas.addEventListener("pointerdown", (event) => {
+      const closeButton = event.target.closest("[data-layer-close]");
+      if (closeButton && canvas.contains(closeButton)) {
+        event.preventDefault();
+        event.stopPropagation();
+        removeCanvasLayer(mode, closeButton.dataset.layerClose);
+        return;
+      }
       const layerElement = event.target.closest("[data-carousel-layer]");
       if (!layerElement || !canvas.contains(layerElement)) return;
       const layer = layerElement.dataset.carouselLayer;
@@ -1348,33 +1534,68 @@
       event.preventDefault();
       selectCanvasLayer(mode, layer, canvas);
       const offsets = layerOffsets(slide, layer);
+      const box = layerBox(slide, layer);
       const rect = canvas.getBoundingClientRect();
+      const resizeHandle = event.target.closest("[data-resize-handle]");
       drag = {
+        kind: resizeHandle ? "resize" : "move",
         id: event.pointerId,
         layer,
         element: layerElement,
+        handle: resizeHandle?.dataset.resizeHandle || "",
         startX: event.clientX,
         startY: event.clientY,
         originX: offsets.x,
         originY: offsets.y,
+        originWidth: box.width,
+        originHeight: box.height,
         width: rect.width,
         height: rect.height,
         moved: false,
       };
-      layerElement.setPointerCapture(event.pointerId);
-      setStatus(`${layerLabel(slide, layer)} · двигайте мышкой`);
+      (resizeHandle || layerElement).setPointerCapture(event.pointerId);
+      setStatus(resizeHandle ? `${layerLabel(slide, layer)} · тяните край или угол` : `${layerLabel(slide, layer)} · двигайте мышкой`);
     });
     canvas.addEventListener("pointermove", (event) => {
       if (!drag || drag.id !== event.pointerId) return;
       const slide = mode === "cover" ? coverSlide() : activeSlide();
-      const x = clampLayerOffset(drag.originX + (event.clientX - drag.startX) / drag.width * 100);
-      const y = clampLayerOffset(drag.originY + (event.clientY - drag.startY) / drag.height * 100);
+      const deltaX = (event.clientX - drag.startX) / drag.width * 100;
+      const deltaY = (event.clientY - drag.startY) / drag.height * 100;
       drag.moved ||= Math.abs(event.clientX - drag.startX) + Math.abs(event.clientY - drag.startY) > 2;
-      setLayerOffsets(slide, drag.layer, x, y);
-      if (isCustomTarget(drag.layer)) {
-        drag.element.style.setProperty("--custom-x", `${x}cqw`);
-        drag.element.style.setProperty("--custom-y", `${y * 1.25}cqw`);
-      } else applyLayerVariables(canvas, slide);
+      if (drag.kind === "resize") {
+        let width = drag.originWidth;
+        let height = drag.originHeight;
+        let x = drag.originX;
+        let y = drag.originY;
+        if (drag.handle.includes("e")) width = drag.originWidth + deltaX;
+        if (drag.handle.includes("w")) {
+          width = drag.originWidth - deltaX;
+          x = clampLayerOffset(drag.originX + (drag.originWidth - clampLayerWidth(width)));
+        }
+        if (drag.handle.includes("s")) height = drag.originHeight + deltaY;
+        if (drag.handle.includes("n")) {
+          height = drag.originHeight - deltaY;
+          y = clampLayerOffset(drag.originY + (drag.originHeight - clampLayerHeight(height)));
+        }
+        const nextBox = setLayerBox(slide, drag.layer, width, height);
+        setLayerOffsets(slide, drag.layer, x, y);
+        if (isCustomTarget(drag.layer)) {
+          drag.element.style.width = `${nextBox.width}cqw`;
+          drag.element.style.height = `${nextBox.height * 1.25}cqw`;
+          drag.element.style.setProperty("--custom-x", `${x}cqw`);
+          drag.element.style.setProperty("--custom-y", `${y * 1.25}cqw`);
+        } else applyLayerVariables(canvas, slide);
+        fitDomTextLayer(drag.element);
+        syncTypographyControls(mode);
+      } else {
+        const x = clampLayerOffset(drag.originX + deltaX);
+        const y = clampLayerOffset(drag.originY + deltaY);
+        setLayerOffsets(slide, drag.layer, x, y);
+        if (isCustomTarget(drag.layer)) {
+          drag.element.style.setProperty("--custom-x", `${x}cqw`);
+          drag.element.style.setProperty("--custom-y", `${y * 1.25}cqw`);
+        } else applyLayerVariables(canvas, slide);
+      }
       if (mode === "cover") syncCoverOffsets();
       else syncActiveOffsets();
       slide.savedAt = null;
@@ -1385,6 +1606,7 @@
       if (!drag || drag.id !== event.pointerId) return;
       const movedLayer = drag.layer;
       const moved = drag.moved;
+      const dragKind = drag.kind;
       drag = null;
       if (moved) {
         const slide = mode === "cover" ? coverSlide() : activeSlide();
@@ -1393,7 +1615,7 @@
         markChanged();
       }
       const slide = mode === "cover" ? coverSlide() : activeSlide();
-      setStatus(moved ? `${layerLabel(slide, movedLayer)} перемещён — координаты сохранены.` : `${layerLabel(slide, movedLayer)} выбран.`);
+      setStatus(moved ? `${layerLabel(slide, movedLayer)} ${dragKind === "resize" ? "изменён" : "перемещён"} — состояние сохранено.` : `${layerLabel(slide, movedLayer)} выбран.`);
     };
     canvas.addEventListener("pointerup", finishDrag);
     canvas.addEventListener("pointercancel", finishDrag);
@@ -1541,6 +1763,34 @@
     return y;
   }
 
+  function fitPlainCanvasBox(context, text, type, family, maxWidth, maxHeight) {
+    let size = Math.max(8, Math.min(132, type.size));
+    let lines = [];
+    while (size >= 8) {
+      context.font = `${type.weight} ${size}px ${family}`;
+      setCanvasTracking(context, type.tracking, size);
+      lines = wrapCanvasText(context, text, maxWidth);
+      if (lines.length * size * type.lineHeight <= maxHeight || size === 8) break;
+      size = Math.max(8, size - 2);
+    }
+    return { size, lines };
+  }
+
+  function richCanvasHeight(lines, size, lineHeight) {
+    return lines.reduce((height, line) => height + size * (line.length ? lineHeight : Math.max(.7, lineHeight * .55)), 0);
+  }
+
+  function fitRichCanvasBox(context, text, type, family, maxWidth, maxHeight) {
+    let size = Math.max(8, Math.min(132, type.size));
+    let lines = [];
+    while (size >= 8) {
+      lines = wrapRichCanvasText(context, text, maxWidth, size, family, type.weight, type.tracking);
+      if (richCanvasHeight(lines, size, type.lineHeight) <= maxHeight || size === 8) break;
+      size = Math.max(8, size - 2);
+    }
+    return { size, lines };
+  }
+
   async function makeSlideCanvas(slide, index) {
     const canvas = document.createElement("canvas");
     canvas.width = 1080;
@@ -1566,7 +1816,7 @@
       }
     }
     const lightScene = ["paper", "quote", "field", "dark"].includes(slide.scene) || slide.scene === "split";
-    const foreground = slide.textColor || (lightScene || slide.palette === "sekta-yellow" ? palette.foreground : "#ffffff");
+    const foreground = slideForeground(slide);
     context.fillStyle = foreground;
     context.textAlign = slide.align || "left";
     context.textBaseline = "alphabetic";
@@ -1577,7 +1827,6 @@
     const bodyYShift = (Number(slide.bodyOffsetY) || 0) * 13.5;
     const titleX = baseX + titleXShift;
     const bodyX = baseX + bodyXShift;
-    const maxWidth = slide.scene === "split" ? 440 : 880;
     const titleType = layerTypography(slide, "title");
     const bodyType = layerTypography(slide, "body");
     const labelType = layerTypography(slide, "label");
@@ -1585,20 +1834,19 @@
     const fontFamily = `"${titleType.resolvedFamily}", Arial, sans-serif`;
     const bodyFontFamily = `"${bodyType.resolvedFamily}", Arial, sans-serif`;
     const titleText = layerVisible(slide, "title") ? displayText(stripInlineMarkup(layerText(slide, "title", index)), slide.caseKind || slideFont.caseKind) : "";
-    let titleSize = Math.max(8, Math.min(132, titleType.size));
-    context.font = `${titleType.weight} ${titleSize}px ${fontFamily}`;
-    setCanvasTracking(context, titleType.tracking, titleSize);
-    let titleLines = wrapCanvasText(context, titleText, maxWidth);
-    while (titleLines.length > 6 && titleSize > 18) {
-      titleSize -= 4;
-      context.font = `${titleType.weight} ${titleSize}px ${fontFamily}`;
-      setCanvasTracking(context, titleType.tracking, titleSize);
-      titleLines = wrapCanvasText(context, titleText, maxWidth);
-    }
-    const bodySize = Math.max(8, Math.min(132, bodyType.size));
-    const bodyLines = layerVisible(slide, "body") ? wrapRichCanvasText(context, layerText(slide, "body", index), maxWidth, bodySize, bodyFontFamily, bodyType.weight, bodyType.tracking) : [];
+    const titleBox = layerBox(slide, "title");
+    const bodyBox = layerBox(slide, "body");
+    const sceneWidthLimit = slide.scene === "split" ? 440 : 1036;
+    const titleMaxWidth = Math.min(sceneWidthLimit, titleBox.width * 10.8);
+    const bodyMaxWidth = Math.min(sceneWidthLimit, bodyBox.width * 10.8);
+    const fittedTitle = fitPlainCanvasBox(context, titleText, titleType, fontFamily, titleMaxWidth, titleBox.height * 13.5);
+    const titleSize = fittedTitle.size;
+    const titleLines = fittedTitle.lines;
+    const fittedBody = layerVisible(slide, "body") ? fitRichCanvasBox(context, layerText(slide, "body", index), bodyType, bodyFontFamily, bodyMaxWidth, bodyBox.height * 13.5) : { size: bodyType.size, lines: [] };
+    const bodySize = fittedBody.size;
+    const bodyLines = fittedBody.lines;
     const titleHeight = titleLines.length * titleSize * titleType.lineHeight;
-    const bodyHeight = bodyLines.length * bodySize * bodyType.lineHeight;
+    const bodyHeight = richCanvasHeight(bodyLines, bodySize, bodyType.lineHeight);
     const blockHeight = titleHeight + (titleLines.length && bodyLines.length ? 50 : 0) + bodyHeight;
     let startY = slide.placement === "top" ? 210 : slide.placement === "bottom" ? 1180 - blockHeight : (1350 - blockHeight) / 2;
     if (["window"].includes(slide.scene)) startY = 720;
@@ -1612,35 +1860,45 @@
     context.font = `${titleType.weight} ${titleSize}px ${fontFamily}`;
     setCanvasTracking(context, titleType.tracking, titleSize);
     titleLines.forEach((line, lineIndex) => {
-      context.fillText(line, titleX, startY + titleYShift + titleSize * (.85 + lineIndex * titleType.lineHeight), maxWidth);
+      context.fillStyle = resolvedLayerColor(slide, "title");
+      context.fillText(line, titleX, startY + titleYShift + titleSize * (.85 + lineIndex * titleType.lineHeight), titleMaxWidth);
     });
     const bodyStartY = startY + titleHeight + (titleLines.length && bodyLines.length ? 50 : 0) + bodyYShift;
+    context.fillStyle = resolvedLayerColor(slide, "body");
     drawRichCanvasLines(context, bodyLines, { x: bodyX, startY: bodyStartY, size: bodySize, family: bodyFontFamily, weight: bodyType.weight, lineHeight: bodyType.lineHeight, tracking: bodyType.tracking, align: slide.align || "left" });
-    context.fillStyle = foreground;
     context.textAlign = "left";
     const labelXShift = (Number(slide.labelOffsetX) || 0) * 10.8;
     const labelYShift = (Number(slide.labelOffsetY) || 0) * 13.5;
     const counterXShift = (Number(slide.counterOffsetX) || 0) * 10.8;
     const counterYShift = (Number(slide.counterOffsetY) || 0) * 13.5;
-    context.font = `${labelType.weight} ${labelType.size}px "${labelType.resolvedFamily}", Arial, sans-serif`;
-    setCanvasTracking(context, labelType.tracking, labelType.size);
-    if (layerVisible(slide, "label")) context.fillText(layerText(slide, "label", index), 100 + labelXShift, 90 + labelYShift);
+    const labelBox = layerBox(slide, "label");
+    const labelFamily = `"${labelType.resolvedFamily}", Arial, sans-serif`;
+    const fittedLabel = fitPlainCanvasBox(context, layerText(slide, "label", index), labelType, labelFamily, labelBox.width * 10.8, labelBox.height * 13.5);
+    context.font = `${labelType.weight} ${fittedLabel.size}px ${labelFamily}`;
+    setCanvasTracking(context, labelType.tracking, fittedLabel.size);
+    context.fillStyle = resolvedLayerColor(slide, "label");
+    if (layerVisible(slide, "label")) fittedLabel.lines.forEach((line, lineIndex) => context.fillText(line, 100 + labelXShift, 90 + labelYShift + lineIndex * fittedLabel.size * labelType.lineHeight, labelBox.width * 10.8));
     context.textAlign = "right";
-    context.font = `${counterType.weight} ${counterType.size}px "${counterType.resolvedFamily}", Arial, sans-serif`;
-    setCanvasTracking(context, counterType.tracking, counterType.size);
-    if (layerVisible(slide, "counter")) context.fillText(layerText(slide, "counter", index), 980 + counterXShift, 1280 + counterYShift);
+    const counterBox = layerBox(slide, "counter");
+    const counterFamily = `"${counterType.resolvedFamily}", Arial, sans-serif`;
+    const fittedCounter = fitPlainCanvasBox(context, layerText(slide, "counter", index), counterType, counterFamily, counterBox.width * 10.8, counterBox.height * 13.5);
+    context.font = `${counterType.weight} ${fittedCounter.size}px ${counterFamily}`;
+    setCanvasTracking(context, counterType.tracking, fittedCounter.size);
+    context.fillStyle = resolvedLayerColor(slide, "counter");
+    if (layerVisible(slide, "counter")) fittedCounter.lines.forEach((line, lineIndex) => context.fillText(line, 980 + counterXShift, 1280 + counterYShift + lineIndex * fittedCounter.size * counterType.lineHeight, counterBox.width * 10.8));
     (slide.customLayers || []).filter((layer) => layer.visible !== false && layer.text).forEach((layer) => {
       const target = `custom:${layer.id}`;
       const type = layerTypography(slide, target);
       const family = `"${type.resolvedFamily}", Arial, sans-serif`;
       context.textAlign = "left";
-      context.fillStyle = foreground;
-      context.font = `${type.weight} ${type.size}px ${family}`;
-      setCanvasTracking(context, type.tracking, type.size);
-      const lines = wrapCanvasText(context, layer.text, 860);
+      context.fillStyle = resolvedLayerColor(slide, target);
+      const box = layerBox(slide, target);
+      const fitted = fitPlainCanvasBox(context, layer.text, type, family, box.width * 10.8, box.height * 13.5);
+      context.font = `${type.weight} ${fitted.size}px ${family}`;
+      setCanvasTracking(context, type.tracking, fitted.size);
       const x = 100 + (Number(layer.x) || 0) * 10.8;
       const y = 675 + (Number(layer.y) || 0) * 13.5;
-      lines.forEach((line, lineIndex) => context.fillText(line, x, y + lineIndex * type.size * type.lineHeight));
+      fitted.lines.forEach((line, lineIndex) => context.fillText(line, x, y + lineIndex * fitted.size * type.lineHeight, box.width * 10.8));
     });
     return canvas;
   }
@@ -1694,6 +1952,37 @@
     textarea.setRangeText(replacement, start, end, "select");
     textarea.dispatchEvent(new Event("input", { bubbles: true }));
     textarea.focus();
+  }
+
+  function updateLayerColor(mode, color) {
+    const cover = mode === "cover";
+    const slide = cover ? coverSlide() : activeSlide();
+    const target = cover ? coverMoveTarget : slideMoveTarget;
+    setLayerColor(slide, target, color);
+    slide.savedAt = null;
+    syncTypographyControls(mode);
+    renderCanvas(cover ? ui.coverCanvas : ui.activeCanvas, slide, cover ? 0 : series.activeSlide);
+    if (cover || series.activeSlide === 0) renderGridPreview();
+    if (!cover) renderRail();
+    markChanged();
+    setStatus(color ? `${layerLabel(slide, target)} · цвет ${color.toUpperCase()}` : `${layerLabel(slide, target)} снова использует цвет палитры.`);
+  }
+
+  function bindFontBrowser(select, previous, next, eventName) {
+    const step = (direction) => {
+      const count = select.options.length;
+      if (!count) return;
+      select.selectedIndex = (select.selectedIndex + direction + count) % count;
+      select.dispatchEvent(new Event(eventName, { bubbles: true }));
+      requestAnimationFrame(() => select.focus());
+    };
+    previous.addEventListener("click", () => step(-1));
+    next.addEventListener("click", () => step(1));
+    select.addEventListener("keydown", (event) => {
+      if (!['ArrowUp', 'ArrowDown'].includes(event.key)) return;
+      event.preventDefault();
+      step(event.key === 'ArrowDown' ? 1 : -1);
+    });
   }
 
   document.querySelectorAll("[data-carousel-stage]").forEach((button) => button.addEventListener("click", () => setStage(button.dataset.carouselStage)));
@@ -1777,7 +2066,9 @@
     updateSelectedLayerContent("cover");
     setStatus(ui.coverLayerVisible.checked ? "Элемент возвращён на обложку." : "Элемент удалён с обложки.");
   });
-  [ui.seriesName, ui.coverTitle, ui.coverSubtitle, ui.coverTypeFont, ui.coverTypeWeight, ui.coverTypeSize, ui.coverTypeLineHeight, ui.coverTypeTracking, ui.coverPlacement, ui.coverAlign, ui.coverCase, ui.coverShowLabel, ui.coverOffsetX, ui.coverOffsetY].forEach((control) => control.addEventListener("input", updateCoverFromForm));
+  [ui.seriesName, ui.coverTitle, ui.coverSubtitle, ui.coverTypeFont, ui.coverTypeWeight, ui.coverTypeSize, ui.coverBoxWidth, ui.coverBoxHeight, ui.coverTypeLineHeight, ui.coverTypeTracking, ui.coverPlacement, ui.coverAlign, ui.coverCase, ui.coverShowLabel, ui.coverOffsetX, ui.coverOffsetY].forEach((control) => control.addEventListener("input", updateCoverFromForm));
+  ui.coverLayerColor.addEventListener("input", () => updateLayerColor("cover", ui.coverLayerColor.value));
+  ui.coverLayerColorReset.addEventListener("click", () => updateLayerColor("cover", ""));
   document.querySelectorAll("[data-carousel-scene]").forEach((button) => button.addEventListener("click", () => {
     coverSlide().scene = button.dataset.carouselScene;
     coverSlide().savedAt = null;
@@ -1848,7 +2139,9 @@
     updateSelectedLayerContent("slide");
     setStatus(ui.slideLayerVisible.checked ? "Элемент возвращён на слайд." : "Элемент удалён со слайда.");
   });
-  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slideScene, ui.slidePalette, ui.slideTypeFont, ui.slideTypeWeight, ui.slideTypeSize, ui.slideTypeLineHeight, ui.slideTypeTracking, ui.slidePlacement, ui.slideAlign, ui.slideShowLabel, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
+  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slideScene, ui.slidePalette, ui.slideTypeFont, ui.slideTypeWeight, ui.slideTypeSize, ui.slideBoxWidth, ui.slideBoxHeight, ui.slideTypeLineHeight, ui.slideTypeTracking, ui.slidePlacement, ui.slideAlign, ui.slideShowLabel, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
+  ui.slideLayerColor.addEventListener("input", () => updateLayerColor("slide", ui.slideLayerColor.value));
+  ui.slideLayerColorReset.addEventListener("click", () => updateLayerColor("slide", ""));
   ui.slideFont.addEventListener("change", () => {
     const slide = activeSlide();
     if (ui.slideFont.value === "series") slide.font = null;
@@ -1862,6 +2155,8 @@
     markChanged();
     setStatus(slide.font ? `${slide.font.family} применён только к слайду ${series.activeSlide + 1}.` : `Слайд ${series.activeSlide + 1} снова использует шрифт всей серии.`);
   });
+  bindFontBrowser(ui.slideFont, ui.slideFontPrev, ui.slideFontNext, "change");
+  bindFontBrowser(ui.slideTypeFont, ui.slideTypeFontPrev, ui.slideTypeFontNext, "input");
   ui.slideMedia.addEventListener("click", (event) => {
     const button = event.target.closest("[data-carousel-photo]");
     if (!button) return;

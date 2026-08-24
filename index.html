@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260824-3">
+  <link rel="stylesheet" href="styles.css?v=20260824-4">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -564,8 +564,11 @@
                 <div class="carousel-control-grid">
                   <label><span>Активный слой</span><select id="carouselCoverMoveTarget"><option value="title">Заголовок</option><option value="body">Подстрочник</option><option value="label">Аккаунт / подпись</option><option value="counter">Номер слайда</option></select></label>
                   <label><span>Шрифт слоя</span><select id="carouselCoverTypeFont"></select></label>
+                  <div class="carousel-color-control"><span>Цвет текста слоя</span><div><input id="carouselCoverLayerColor" type="color" value="#17221f" aria-label="Цвет текста выбранного слоя"><output id="carouselCoverLayerColorValue">из палитры</output><button class="text-button" id="carouselCoverLayerColorReset" type="button">Из палитры</button></div></div>
                   <label><span>Вес</span><input id="carouselCoverTypeWeight" type="range" min="100" max="900" step="10" value="800"><output id="carouselCoverTypeWeightValue">800</output></label>
                   <label><span>Размер</span><input id="carouselCoverTypeSize" type="range" min="8" max="132" step="1" value="88"><output id="carouselCoverTypeSizeValue">88 px</output></label>
+                  <label><span>Ширина блока</span><input id="carouselCoverBoxWidth" type="range" min="10" max="96" step="1" value="80"><output id="carouselCoverBoxWidthValue">80%</output></label>
+                  <label><span>Высота блока</span><input id="carouselCoverBoxHeight" type="range" min="5" max="80" step="1" value="30"><output id="carouselCoverBoxHeightValue">30%</output></label>
                   <label><span>Интерлиньяж</span><input id="carouselCoverTypeLineHeight" type="range" min="0.7" max="1.6" step="0.01" value="0.96"><output id="carouselCoverTypeLineHeightValue">0.96</output></label>
                   <label><span>Трекинг</span><input id="carouselCoverTypeTracking" type="range" min="-0.04" max="0.16" step="0.005" value="-0.035"><output id="carouselCoverTypeTrackingValue">−0.035 em</output></label>
                   <label><span>Сдвиг влево / вправо</span><input id="carouselCoverOffsetX" type="range" min="-35" max="35" value="0"><output id="carouselCoverOffsetXValue">0%</output></label>
@@ -614,7 +617,7 @@
             <div class="carousel-slide-editor">
               <section class="carousel-canvas-column" aria-label="Активный слайд">
                 <div class="carousel-slide-canvas" id="carouselActiveCanvas"></div>
-                <p class="carousel-direct-hint">Кликните по нужному слою и тяните мышью</p>
+                <p class="carousel-direct-hint">Тяните блок мышью, а его края и углы — чтобы изменить размер</p>
                 <div class="carousel-canvas-actions">
                   <button class="button button-primary" id="carouselSaveSlide" type="button">Сохранить слайд</button>
                   <button class="button button-secondary" id="carouselDownloadActive" type="button">Скачать PNG</button>
@@ -634,11 +637,14 @@
                   <label><span>Тип слайда</span><select id="carouselSlideRole"><option value="cover">Обложка</option><option value="longread">Лонгрид</option><option value="quote">Цитата</option><option value="proof">Фото-доказательство</option><option value="pause">Фотопауза</option><option value="cta">Финал / CTA</option></select></label>
                   <label><span>Сцена</span><select id="carouselSlideScene"><option value="paper">Светлое поле</option><option value="dark">Тёмное поле</option><option value="photo-dim">Фото + затемнение</option><option value="photo-clean">Текст на фото</option><option value="plate">Плашка на фото</option><option value="split">Split</option><option value="window">Фото-окно</option><option value="field">Цветовое поле</option><option value="quote">Цитатная</option></select></label>
                   <label><span>Цвет слайда</span><select id="carouselSlidePalette"></select></label>
-                  <label><span>Шрифтовая пара слайда</span><select id="carouselSlideFont"></select></label>
+                  <label><span>Шрифтовая пара слайда</span><div class="carousel-font-browser"><select id="carouselSlideFont"></select><button id="carouselSlideFontPrev" type="button">Пред.</button><button id="carouselSlideFontNext" type="button">След.</button></div><small class="carousel-font-key-hint">Клавиши ↑ / ↓ листают варианты</small></label>
                   <label><span>Активный слой</span><select id="carouselSlideMoveTarget"><option value="title">Заголовок</option><option value="body">Основной текст</option><option value="label">Аккаунт / подпись</option><option value="counter">Номер слайда</option></select></label>
-                  <label><span>Шрифт слоя</span><select id="carouselSlideTypeFont"></select></label>
+                  <label><span>Шрифт слоя</span><div class="carousel-font-browser"><select id="carouselSlideTypeFont"></select><button id="carouselSlideTypeFontPrev" type="button">Пред.</button><button id="carouselSlideTypeFontNext" type="button">След.</button></div><small class="carousel-font-key-hint">Фокус на списке + ↑ / ↓ — быстрая примерка</small></label>
+                  <div class="carousel-color-control"><span>Цвет текста слоя</span><div><input id="carouselSlideLayerColor" type="color" value="#17221f" aria-label="Цвет текста выбранного слоя"><output id="carouselSlideLayerColorValue">из палитры</output><button class="text-button" id="carouselSlideLayerColorReset" type="button">Из палитры</button></div></div>
                   <label><span>Вес</span><input id="carouselSlideTypeWeight" type="range" min="100" max="900" step="10" value="800"><output id="carouselSlideTypeWeightValue">800</output></label>
                   <label><span>Размер</span><input id="carouselSlideTypeSize" type="range" min="8" max="132" step="1" value="48"><output id="carouselSlideTypeSizeValue">48 px</output></label>
+                  <label><span>Ширина блока</span><input id="carouselSlideBoxWidth" type="range" min="10" max="96" step="1" value="80"><output id="carouselSlideBoxWidthValue">80%</output></label>
+                  <label><span>Высота блока</span><input id="carouselSlideBoxHeight" type="range" min="5" max="80" step="1" value="42"><output id="carouselSlideBoxHeightValue">42%</output></label>
                   <label><span>Интерлиньяж</span><input id="carouselSlideTypeLineHeight" type="range" min="0.7" max="1.6" step="0.01" value="0.96"><output id="carouselSlideTypeLineHeightValue">0.96</output></label>
                   <label><span>Трекинг</span><input id="carouselSlideTypeTracking" type="range" min="-0.04" max="0.16" step="0.005" value="-0.035"><output id="carouselSlideTypeTrackingValue">−0.035 em</output></label>
                   <label><span>Сдвиг влево / вправо</span><input id="carouselSlideOffsetX" type="range" min="-35" max="35" value="0"><output id="carouselSlideOffsetXValue">0%</output></label>
@@ -751,7 +757,7 @@
   <script src="type-studio/font-data.js"></script>
   <script src="app.js?v=20260824-1"></script>
   <script src="carousel-builder.js?v=20260824-2"></script>
-  <script src="carousel-studio.js?v=20260824-5"></script>
+  <script src="carousel-studio.js?v=20260824-6"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>
