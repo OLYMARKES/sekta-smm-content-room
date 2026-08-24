@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260824-6">
+  <link rel="stylesheet" href="styles.css?v=20260824-7">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -565,6 +565,12 @@
                   <label><span>Активный слой</span><select id="carouselCoverMoveTarget"><option value="title">Заголовок</option><option value="body">Подстрочник</option><option value="label">Аккаунт / подпись</option><option value="counter">Номер слайда</option></select></label>
                   <label><span>Шрифт слоя</span><select id="carouselCoverTypeFont"></select></label>
                   <div class="carousel-color-control"><span>Цвет текста слоя</span><div><input id="carouselCoverLayerColor" type="color" value="#17221f" aria-label="Цвет текста выбранного слоя"><output id="carouselCoverLayerColorValue">из палитры</output><button class="text-button" id="carouselCoverLayerColorReset" type="button">Из палитры</button></div></div>
+                  <fieldset class="carousel-text-effects"><legend>Тень и обводка выбранного слоя</legend>
+                    <label><span>Тень</span><input id="carouselCoverShadowOpacity" type="range" min="0" max="100" step="5" value="0"><output id="carouselCoverShadowOpacityValue">из сцены</output></label>
+                    <label class="carousel-effect-color"><span>Цвет тени</span><input id="carouselCoverShadowColor" type="color" value="#000000" aria-label="Цвет тени выбранного слоя"><button class="text-button" id="carouselCoverShadowReset" type="button">Авто</button></label>
+                    <label><span>Толщина обводки</span><input id="carouselCoverOutlineWidth" type="range" min="0" max="12" step="0.5" value="0"><output id="carouselCoverOutlineWidthValue">нет</output></label>
+                    <label class="carousel-effect-color"><span>Цвет обводки</span><input id="carouselCoverOutlineColor" type="color" value="#000000" aria-label="Цвет обводки выбранного слоя"></label>
+                  </fieldset>
                   <label><span>Вес</span><input id="carouselCoverTypeWeight" type="range" min="100" max="900" step="10" value="800"><output id="carouselCoverTypeWeightValue">800</output></label>
                   <label><span>Размер</span><input id="carouselCoverTypeSize" type="range" min="8" max="132" step="1" value="88"><output id="carouselCoverTypeSizeValue">88 px</output></label>
                   <label><span>Ширина блока</span><input id="carouselCoverBoxWidth" type="range" min="10" max="96" step="1" value="80"><output id="carouselCoverBoxWidthValue">80%</output></label>
@@ -653,6 +659,12 @@
                   <label><span>Шрифт слоя</span><div class="carousel-font-browser"><select id="carouselSlideTypeFont"></select><button id="carouselSlideTypeFontPrev" type="button">Пред.</button><button id="carouselSlideTypeFontNext" type="button">След.</button></div><small class="carousel-font-key-hint">Фокус на списке + ↑ / ↓ — быстрая примерка</small></label>
                   <div class="carousel-font-samples" id="carouselSlideFontSamples" aria-label="Примеры шрифтов выбранного слоя"></div>
                   <div class="carousel-color-control"><span>Цвет текста слоя</span><div><input id="carouselSlideLayerColor" type="color" value="#17221f" aria-label="Цвет текста выбранного слоя"><output id="carouselSlideLayerColorValue">из палитры</output><button class="text-button" id="carouselSlideLayerColorReset" type="button">Из палитры</button></div></div>
+                  <fieldset class="carousel-text-effects"><legend>Тень и обводка выбранного слоя</legend>
+                    <label><span>Тень</span><input id="carouselSlideShadowOpacity" type="range" min="0" max="100" step="5" value="0"><output id="carouselSlideShadowOpacityValue">из сцены</output></label>
+                    <label class="carousel-effect-color"><span>Цвет тени</span><input id="carouselSlideShadowColor" type="color" value="#000000" aria-label="Цвет тени выбранного слоя"><button class="text-button" id="carouselSlideShadowReset" type="button">Авто</button></label>
+                    <label><span>Толщина обводки</span><input id="carouselSlideOutlineWidth" type="range" min="0" max="12" step="0.5" value="0"><output id="carouselSlideOutlineWidthValue">нет</output></label>
+                    <label class="carousel-effect-color"><span>Цвет обводки</span><input id="carouselSlideOutlineColor" type="color" value="#000000" aria-label="Цвет обводки выбранного слоя"></label>
+                  </fieldset>
                   <label><span>Вес</span><input id="carouselSlideTypeWeight" type="range" min="100" max="900" step="10" value="800"><output id="carouselSlideTypeWeightValue">800</output></label>
                   <label><span>Размер</span><input id="carouselSlideTypeSize" type="range" min="8" max="132" step="1" value="48"><output id="carouselSlideTypeSizeValue">48 px</output></label>
                   <label><span>Ширина блока</span><input id="carouselSlideBoxWidth" type="range" min="10" max="96" step="1" value="80"><output id="carouselSlideBoxWidthValue">80%</output></label>
@@ -769,7 +781,7 @@
   <script src="type-studio/font-data.js"></script>
   <script src="app.js?v=20260824-1"></script>
   <script src="carousel-builder.js?v=20260824-2"></script>
-  <script src="carousel-studio.js?v=20260824-8"></script>
+  <script src="carousel-studio.js?v=20260824-9"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>
