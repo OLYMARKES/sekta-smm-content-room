@@ -63,6 +63,7 @@
     coverLayerText: document.querySelector("#carouselCoverLayerText"),
     coverLayerVisible: document.querySelector("#carouselCoverLayerVisible"),
     coverLayerRemove: document.querySelector("#carouselCoverLayerRemove"),
+    coverLayerAdd: document.querySelector("#carouselCoverLayerAdd"),
     coverTypeLayerLabel: document.querySelector("#carouselCoverTypeLayerLabel"),
     coverTypeFont: document.querySelector("#carouselCoverTypeFont"),
     coverTypeWeight: document.querySelector("#carouselCoverTypeWeight"),
@@ -107,6 +108,7 @@
     slideLayerText: document.querySelector("#carouselSlideLayerText"),
     slideLayerVisible: document.querySelector("#carouselSlideLayerVisible"),
     slideLayerRemove: document.querySelector("#carouselSlideLayerRemove"),
+    slideLayerAdd: document.querySelector("#carouselSlideLayerAdd"),
     bodyBold: document.querySelector("#carouselBodyBold"),
     slideShowLabel: document.querySelector("#carouselSlideShowLabel"),
     slideMoveTarget: document.querySelector("#carouselSlideMoveTarget"),
@@ -196,6 +198,8 @@
     "PT Sans Narrow|lower", "PT Sans Narrow|upper", "Rubik|lower", "Rubik|upper",
   ];
   let slideMediaOrder = [...library];
+  let coverMediaLimit = 48;
+  let slideMediaLimit = 48;
   const words = (value) => String(value || "").trim().split(/\s+/).filter(Boolean);
   const plural = (number, one, few, many) => {
     const mod10 = number % 10;
@@ -327,6 +331,7 @@
       showCounter: true,
       labelText: "",
       counterText: "",
+      customLayers: [],
       titleOffsetX: 0,
       titleOffsetY: 0,
       bodyOffsetX: 0,
@@ -356,6 +361,9 @@
       caseKind: "original",
       font: null,
       photoId: null,
+      photoFocusX: 50,
+      photoFocusY: 50,
+      textColor: "",
       savedAt: null,
       ...overrides,
     };
@@ -420,6 +428,18 @@
         counterSize: numberOr(slide.counterSize, 24),
         counterLineHeight: numberOr(slide.counterLineHeight, 1),
         counterTracking: numberOr(slide.counterTracking, .08),
+        customLayers: Array.isArray(slide.customLayers) ? slide.customLayers.map((layer) => ({
+          id: layer.id || `custom-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+          text: layer.text || "Новый текст",
+          visible: layer.visible !== false,
+          x: Number(layer.x) || 0,
+          y: Number(layer.y) || 0,
+          fontFamily: layer.fontFamily || "",
+          weight: numberOr(layer.weight, 700),
+          size: numberOr(layer.size, 32),
+          lineHeight: numberOr(layer.lineHeight, 1),
+          tracking: numberOr(layer.tracking, 0),
+        })) : [],
         font: slide.font?.family ? normalizeFontSystem(slide.font) : null,
       })),
     };
@@ -619,7 +639,13 @@
         const target = series.slides[0];
         target.scene = sceneLabels[idea.coverDesign.scene] ? idea.coverDesign.scene : target.scene;
         target.palette = paletteChoices()[idea.coverDesign.palette] ? idea.coverDesign.palette : target.palette;
+        target.title = idea.coverDesign.titleText || target.title;
+        target.body = idea.coverDesign.subtitleText || target.body;
         target.labelText = idea.coverDesign.labelText || "@sektaschool";
+        target.placement = idea.coverDesign.placement || target.placement;
+        target.photoFocusX = Number(idea.coverDesign.focusX) || 50;
+        target.photoFocusY = Number(idea.coverDesign.focusY) || 50;
+        target.textColor = idea.coverDesign.textColor || "";
         [["title", idea.coverDesign.title], ["body", idea.coverDesign.body], ["label", idea.coverDesign.label]].forEach(([layerName, source]) => {
           if (!source) return;
           const type = typographyLayers[layerName];
@@ -684,20 +710,36 @@
     counter: { text: "counterText", visible: "showCounter", fallback: (index) => `${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}` },
   };
 
+  const isCustomTarget = (target) => String(target || "").startsWith("custom:");
+  const customLayer = (slide, target) => slide.customLayers?.find((layer) => `custom:${layer.id}` === target);
+  const layerLabel = (slide, target) => isCustomTarget(target) ? customLayer(slide, target)?.text || "текстовый блок" : movableLayers[target]?.label || "текст";
+
   function layerText(slide, target, index = series.activeSlide) {
+    if (isCustomTarget(target)) return String(customLayer(slide, target)?.text || "");
     const layer = layerContent[target];
     return String(slide[layer.text] || layer.fallback(index));
   }
 
   function layerVisible(slide, target) {
+    if (isCustomTarget(target)) return customLayer(slide, target)?.visible !== false;
     return slide[layerContent[target].visible] !== false;
   }
 
   function setLayerText(slide, target, value) {
+    if (isCustomTarget(target)) {
+      const layer = customLayer(slide, target);
+      if (layer) layer.text = value;
+      return;
+    }
     slide[layerContent[target].text] = value;
   }
 
   function setLayerVisible(slide, target, visible) {
+    if (isCustomTarget(target)) {
+      const layer = customLayer(slide, target);
+      if (layer) layer.visible = Boolean(visible);
+      return;
+    }
     slide[layerContent[target].visible] = Boolean(visible);
   }
 
@@ -718,6 +760,17 @@
   }
 
   function layerTypography(slide, target) {
+    if (isCustomTarget(target)) {
+      const layer = customLayer(slide, target) || {};
+      return {
+        family: layer.fontFamily || "",
+        resolvedFamily: layer.fontFamily || systemFamilyForLayer(slide, target),
+        weight: numberOr(layer.weight, 700),
+        size: numberOr(layer.size, 32),
+        lineHeight: numberOr(layer.lineHeight, 1),
+        tracking: numberOr(layer.tracking, 0),
+      };
+    }
     const layer = typographyLayers[target] || typographyLayers.body;
     return {
       family: slide[layer.family] || "",
@@ -730,6 +783,16 @@
   }
 
   function setLayerTypography(slide, target, values) {
+    if (isCustomTarget(target)) {
+      const custom = customLayer(slide, target);
+      if (!custom) return;
+      custom.fontFamily = values.family || "";
+      custom.weight = Number(values.weight);
+      custom.size = Number(values.size);
+      custom.lineHeight = Number(values.lineHeight);
+      custom.tracking = Number(values.tracking);
+      return;
+    }
     const layer = typographyLayers[target] || typographyLayers.body;
     slide[layer.family] = values.family || "";
     slide[layer.weight] = Number(values.weight);
@@ -770,7 +833,7 @@
       size: ui.slideTypeSize, sizeValue: ui.slideTypeSizeValue, lineHeight: ui.slideTypeLineHeight, lineHeightValue: ui.slideTypeLineHeightValue,
       tracking: ui.slideTypeTracking, trackingValue: ui.slideTypeTrackingValue,
     };
-    controls.label.textContent = movableLayers[target].label;
+    controls.label.textContent = layerLabel(slide, target);
     renderLayerFontOptions(controls.font, slide, target);
     controls.weight.value = typography.weight;
     controls.weightValue.textContent = typography.weight;
@@ -849,14 +912,14 @@
     element.style.setProperty("--carousel-head-font", `"${slideFont.family}"`);
     element.style.setProperty("--carousel-body-font", `"${slideFont.body || companionFor(slideFont.family)}"`);
     element.style.setProperty("--carousel-bg", palette.background);
-    element.style.setProperty("--carousel-fg", palette.foreground);
+    element.style.setProperty("--carousel-fg", slide.textColor || palette.foreground);
     element.style.setProperty("--carousel-accent", palette.accent);
     element.style.setProperty("--carousel-ink", palette.ink);
     element.style.setProperty("--carousel-title-size", `${Math.max(24, Math.round((slide.size || 46) * .48))}px`);
     element.style.setProperty("--carousel-body-size", `${Math.max(12, Math.min(31, Math.round((slide.bodySize || 34) * .48)))}px`);
     applyLayerVariables(element, slide);
     const image = photo && !["paper", "field", "dark", "quote"].includes(slide.scene)
-      ? `<img class="carousel-render-photo" src="${escapeHtml(photo.thumb)}" alt="">`
+      ? `<img class="carousel-render-photo" src="${escapeHtml(photo.thumb)}" alt="" style="object-position:${Number(slide.photoFocusX) || 50}% ${Number(slide.photoFocusY) || 50}%">`
       : "";
     const titleText = layerText(slide, "title", index);
     const bodyText = layerText(slide, "body", index);
@@ -864,7 +927,14 @@
     const body = layerVisible(slide, "body") && bodyText ? `<div class="carousel-render-body${directEditing ? ` carousel-direct-layer${selectedLayer === "body" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="body" data-layer-label="${movableLayers.body.label}"` : ""}><p>${inlineMarkupHtml(bodyText).replace(/\n\s*\n/g, "</p><p>")}</p></div>` : "";
     const label = !layerVisible(slide, "label") ? "" : `<span class="carousel-render-series${directEditing ? ` carousel-direct-layer${selectedLayer === "label" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="label" data-layer-label="${movableLayers.label.label}"` : ""}>${escapeHtml(layerText(slide, "label", index))}</span>`;
     const counter = !layerVisible(slide, "counter") ? "" : `<small class="carousel-render-counter${directEditing ? ` carousel-direct-layer${selectedLayer === "counter" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="counter" data-layer-label="${movableLayers.counter.label}"` : ""}>${escapeHtml(layerText(slide, "counter", index))}</small>`;
-    element.innerHTML = `${image}<div class="carousel-render-shade"></div>${label}<div class="carousel-render-content">${title}${body}</div>${counter}`;
+    const custom = (slide.customLayers || []).filter((layer) => layer.visible !== false && layer.text).map((layer) => {
+      const target = `custom:${layer.id}`;
+      const type = layerTypography(slide, target);
+      ensureFontFamily(type.resolvedFamily);
+      const style = `--custom-x:${Number(layer.x) || 0}cqw;--custom-y:${(Number(layer.y) || 0) * 1.25}cqw;font-family:'${escapeHtml(type.resolvedFamily)}',sans-serif;font-weight:${type.weight};font-size:${Math.round(type.size * 48) / 100}px;line-height:${type.lineHeight};letter-spacing:${type.tracking}em`;
+      return `<div class="carousel-render-custom${directEditing ? ` carousel-direct-layer${selectedLayer === target ? " is-selected-layer" : ""}` : ""}" style="${style}"${directEditing ? ` data-carousel-layer="${escapeHtml(target)}" data-layer-label="текстовый блок"` : ""}>${escapeHtml(layer.text)}</div>`;
+    }).join("");
+    element.innerHTML = `${image}<div class="carousel-render-shade"></div>${label}<div class="carousel-render-content">${title}${body}</div>${counter}${custom}`;
   }
 
   function renderFontStrip() {
@@ -911,12 +981,31 @@
   function mediaPool(query = "", order = library) {
     const normalized = query.trim().toLocaleLowerCase("ru");
     const pool = normalized ? order.filter((item) => [item.fileName, item.folderLabel, ...(item.contentThemes || []), ...(item.carouselRoles || [])].join(" ").toLocaleLowerCase("ru").includes(normalized)) : order;
-    return (order === library ? [...pool].sort((a, b) => Number(b.orientation === "portrait") - Number(a.orientation === "portrait")) : [...pool]).slice(0, 24);
+    return order === library ? [...pool].sort((a, b) => Number(b.orientation === "portrait") - Number(a.orientation === "portrait")) : [...pool];
   }
 
   function renderMediaStrip(element, selectedId, query = "", order = library) {
     const pool = mediaPool(query, order);
-    element.innerHTML = pool.length ? pool.map((photo) => `<button type="button" class="${photo.id === selectedId ? "is-selected" : ""}" data-carousel-photo="${escapeHtml(photo.id)}" aria-label="Выбрать ${escapeHtml(photo.fileName)}"><img src="${escapeHtml(photo.thumb)}" alt="" loading="lazy"></button>`).join("") : `<span class="carousel-media-empty">Ничего не найдено.</span>`;
+    const limit = element === ui.coverMedia ? coverMediaLimit : slideMediaLimit;
+    const visible = pool.slice(0, limit);
+    element.dataset.mediaTotal = pool.length;
+    element.innerHTML = visible.length ? visible.map((photo) => `<button type="button" class="${photo.id === selectedId ? "is-selected" : ""}" data-carousel-photo="${escapeHtml(photo.id)}" aria-label="Выбрать ${escapeHtml(photo.fileName)}"><img src="${escapeHtml(photo.thumb)}" alt="" loading="lazy"></button>`).join("") : `<span class="carousel-media-empty">Ничего не найдено.</span>`;
+  }
+
+  function bindInfiniteMedia(element, mode) {
+    element.addEventListener("scroll", () => {
+      if (element.scrollTop + element.clientHeight < element.scrollHeight - 180) return;
+      const total = Number(element.dataset.mediaTotal) || 0;
+      if (mode === "cover") {
+        if (coverMediaLimit >= total) return;
+        coverMediaLimit = Math.min(coverMediaLimit + 48, total);
+        renderMediaStrip(element, coverSlide().photoId, ui.coverMediaSearch.value);
+      } else {
+        if (slideMediaLimit >= total) return;
+        slideMediaLimit = Math.min(slideMediaLimit + 48, total);
+        renderMediaStrip(element, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);
+      }
+    }, { passive: true });
   }
 
   function coverSlide() {
@@ -928,18 +1017,30 @@
   }
 
   function layerOffsets(slide, target) {
+    if (isCustomTarget(target)) {
+      const custom = customLayer(slide, target);
+      return { x: Number(custom?.x) || 0, y: Number(custom?.y) || 0 };
+    }
     const layer = movableLayers[target] || movableLayers.body;
     return { x: Number(slide[layer.x]) || 0, y: Number(slide[layer.y]) || 0 };
   }
 
   function setLayerOffsets(slide, target, x, y) {
+    if (isCustomTarget(target)) {
+      const custom = customLayer(slide, target);
+      if (custom) { custom.x = x; custom.y = y; }
+      return;
+    }
     const layer = movableLayers[target] || movableLayers.body;
     slide[layer.x] = x;
     slide[layer.y] = y;
   }
 
   function syncCoverOffsets() {
-    const offsets = layerOffsets(coverSlide(), coverMoveTarget);
+    const slide = coverSlide();
+    if (isCustomTarget(coverMoveTarget) && !customLayer(slide, coverMoveTarget)) coverMoveTarget = "title";
+    renderLayerTargetOptions(ui.coverMoveTarget, slide, coverMoveTarget);
+    const offsets = layerOffsets(slide, coverMoveTarget);
     ui.coverMoveTarget.value = coverMoveTarget;
     ui.coverOffsetX.value = offsets.x;
     ui.coverOffsetY.value = offsets.y;
@@ -948,12 +1049,24 @@
   }
 
   function syncActiveOffsets() {
-    const offsets = layerOffsets(activeSlide(), slideMoveTarget);
+    const slide = activeSlide();
+    if (isCustomTarget(slideMoveTarget) && !customLayer(slide, slideMoveTarget)) slideMoveTarget = "body";
+    renderLayerTargetOptions(ui.slideMoveTarget, slide, slideMoveTarget);
+    const offsets = layerOffsets(slide, slideMoveTarget);
     ui.slideMoveTarget.value = slideMoveTarget;
     ui.slideOffsetX.value = offsets.x;
     ui.slideOffsetXValue.textContent = `${offsets.x}%`;
     ui.slideOffsetY.value = offsets.y;
     ui.slideOffsetYValue.textContent = `${offsets.y}%`;
+  }
+
+  function renderLayerTargetOptions(select, slide, selected) {
+    const builtIns = [
+      ["title", "Заголовок"], ["body", "Основной текст"], ["label", "Аккаунт / подпись"], ["counter", "Номер слайда"],
+    ];
+    const custom = (slide.customLayers || []).map((layer, index) => [`custom:${layer.id}`, `Текстовый блок ${index + 1}`]);
+    select.innerHTML = [...builtIns, ...custom].map(([value, label]) => `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`).join("");
+    select.value = selected;
   }
 
   function renderGridPreview() {
@@ -1163,7 +1276,37 @@
     if (cover || series.activeSlide === 0) renderGridPreview();
     if (!cover) renderRail();
     syncLayerContentControls(mode);
+    syncTypographyControls(mode);
     markChanged();
+  }
+
+  function addCustomTextLayer(mode) {
+    const cover = mode === "cover";
+    const slide = cover ? coverSlide() : activeSlide();
+    const layer = {
+      id: `custom-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      text: "Новый текст",
+      visible: true,
+      x: 0,
+      y: 0,
+      fontFamily: "",
+      weight: 700,
+      size: 32,
+      lineHeight: 1,
+      tracking: 0,
+    };
+    slide.customLayers ||= [];
+    slide.customLayers.push(layer);
+    if (cover) coverMoveTarget = `custom:${layer.id}`;
+    else slideMoveTarget = `custom:${layer.id}`;
+    slide.savedAt = null;
+    if (cover) renderCover();
+    else renderActiveEditor();
+    const input = cover ? ui.coverLayerText : ui.slideLayerText;
+    input.focus();
+    input.select();
+    markChanged();
+    setStatus("Добавлен новый текстовый блок — напишите текст и переместите его мышью.");
   }
 
   const clampLayerOffset = (value) => Math.max(-35, Math.min(35, Math.round(value * 10) / 10));
@@ -1178,7 +1321,8 @@
   }
 
   function selectCanvasLayer(mode, layer, canvas) {
-    if (!movableLayers[layer]) return;
+    const slide = mode === "cover" ? coverSlide() : activeSlide();
+    if (!movableLayers[layer] && !customLayer(slide, layer)) return;
     if (mode === "cover") {
       coverMoveTarget = layer;
       syncCoverOffsets();
@@ -1199,10 +1343,10 @@
       const layerElement = event.target.closest("[data-carousel-layer]");
       if (!layerElement || !canvas.contains(layerElement)) return;
       const layer = layerElement.dataset.carouselLayer;
-      if (!movableLayers[layer]) return;
+      const slide = mode === "cover" ? coverSlide() : activeSlide();
+      if (!movableLayers[layer] && !customLayer(slide, layer)) return;
       event.preventDefault();
       selectCanvasLayer(mode, layer, canvas);
-      const slide = mode === "cover" ? coverSlide() : activeSlide();
       const offsets = layerOffsets(slide, layer);
       const rect = canvas.getBoundingClientRect();
       drag = {
@@ -1218,7 +1362,7 @@
         moved: false,
       };
       layerElement.setPointerCapture(event.pointerId);
-      setStatus(`${movableLayers[layer].label} · двигайте мышкой`);
+      setStatus(`${layerLabel(slide, layer)} · двигайте мышкой`);
     });
     canvas.addEventListener("pointermove", (event) => {
       if (!drag || drag.id !== event.pointerId) return;
@@ -1227,7 +1371,10 @@
       const y = clampLayerOffset(drag.originY + (event.clientY - drag.startY) / drag.height * 100);
       drag.moved ||= Math.abs(event.clientX - drag.startX) + Math.abs(event.clientY - drag.startY) > 2;
       setLayerOffsets(slide, drag.layer, x, y);
-      applyLayerVariables(canvas, slide);
+      if (isCustomTarget(drag.layer)) {
+        drag.element.style.setProperty("--custom-x", `${x}cqw`);
+        drag.element.style.setProperty("--custom-y", `${y * 1.25}cqw`);
+      } else applyLayerVariables(canvas, slide);
       if (mode === "cover") syncCoverOffsets();
       else syncActiveOffsets();
       slide.savedAt = null;
@@ -1245,7 +1392,8 @@
         if (mode === "cover" || series.activeSlide === 0) renderGridPreview();
         markChanged();
       }
-      setStatus(moved ? `${movableLayers[movedLayer].label} перемещён — координаты сохранены.` : `${movableLayers[movedLayer].label} выбран.`);
+      const slide = mode === "cover" ? coverSlide() : activeSlide();
+      setStatus(moved ? `${layerLabel(slide, movedLayer)} перемещён — координаты сохранены.` : `${layerLabel(slide, movedLayer)} выбран.`);
     };
     canvas.addEventListener("pointerup", finishDrag);
     canvas.addEventListener("pointercancel", finishDrag);
@@ -1301,12 +1449,12 @@
     });
   }
 
-  function cropImage(context, image, x, y, width, height) {
+  function cropImage(context, image, x, y, width, height, focusX = 50, focusY = 50) {
     const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
     const sourceWidth = width / scale;
     const sourceHeight = height / scale;
-    const sourceX = (image.naturalWidth - sourceWidth) / 2;
-    const sourceY = (image.naturalHeight - sourceHeight) / 2;
+    const sourceX = (image.naturalWidth - sourceWidth) * Math.max(0, Math.min(100, Number(focusX) || 50)) / 100;
+    const sourceY = (image.naturalHeight - sourceHeight) * Math.max(0, Math.min(100, Number(focusY) || 50)) / 100;
     context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
   }
 
@@ -1406,9 +1554,9 @@
     context.fillRect(0, 0, 1080, 1350);
     if (usesPhoto) {
       const image = await loadImage(photo.exportImage || photo.thumb);
-      if (slide.scene === "split") cropImage(context, image, 600, 0, 480, 1350);
-      else if (slide.scene === "window") cropImage(context, image, 90, 90, 900, 520);
-      else cropImage(context, image, 0, 0, 1080, 1350);
+      if (slide.scene === "split") cropImage(context, image, 600, 0, 480, 1350, slide.photoFocusX, slide.photoFocusY);
+      else if (slide.scene === "window") cropImage(context, image, 90, 90, 900, 520, slide.photoFocusX, slide.photoFocusY);
+      else cropImage(context, image, 0, 0, 1080, 1350, slide.photoFocusX, slide.photoFocusY);
       if (slide.scene === "photo-dim" || slide.scene === "plate") {
         const gradient = context.createLinearGradient(0, 250, 0, 1350);
         gradient.addColorStop(0, "rgba(10,16,14,.08)");
@@ -1418,7 +1566,7 @@
       }
     }
     const lightScene = ["paper", "quote", "field", "dark"].includes(slide.scene) || slide.scene === "split";
-    const foreground = lightScene || slide.palette === "sekta-yellow" ? palette.foreground : "#ffffff";
+    const foreground = slide.textColor || (lightScene || slide.palette === "sekta-yellow" ? palette.foreground : "#ffffff");
     context.fillStyle = foreground;
     context.textAlign = slide.align || "left";
     context.textBaseline = "alphabetic";
@@ -1481,6 +1629,19 @@
     context.font = `${counterType.weight} ${counterType.size}px "${counterType.resolvedFamily}", Arial, sans-serif`;
     setCanvasTracking(context, counterType.tracking, counterType.size);
     if (layerVisible(slide, "counter")) context.fillText(layerText(slide, "counter", index), 980 + counterXShift, 1280 + counterYShift);
+    (slide.customLayers || []).filter((layer) => layer.visible !== false && layer.text).forEach((layer) => {
+      const target = `custom:${layer.id}`;
+      const type = layerTypography(slide, target);
+      const family = `"${type.resolvedFamily}", Arial, sans-serif`;
+      context.textAlign = "left";
+      context.fillStyle = foreground;
+      context.font = `${type.weight} ${type.size}px ${family}`;
+      setCanvasTracking(context, type.tracking, type.size);
+      const lines = wrapCanvasText(context, layer.text, 860);
+      const x = 100 + (Number(layer.x) || 0) * 10.8;
+      const y = 675 + (Number(layer.y) || 0) * 13.5;
+      lines.forEach((line, lineIndex) => context.fillText(line, x, y + lineIndex * type.size * type.lineHeight));
+    });
     return canvas;
   }
 
@@ -1489,7 +1650,10 @@
       setStatus("Собираем PNG 1080 × 1350…");
       const slideFont = slide.font?.family ? normalizeFontSystem(slide.font) : series.font;
       ensureFont(slideFont);
-      const textLayers = Object.keys(typographyLayers).map((layer) => layerTypography(slide, layer));
+      const textLayers = [
+        ...Object.keys(typographyLayers).map((layer) => layerTypography(slide, layer)),
+        ...(slide.customLayers || []).map((layer) => layerTypography(slide, `custom:${layer.id}`)),
+      ];
       textLayers.forEach((type) => ensureFontFamily(type.resolvedFamily));
       try { await Promise.all(textLayers.map((type) => document.fonts.load(`${type.weight} ${type.size}px "${type.resolvedFamily}"`))); } catch {}
       const canvas = await makeSlideCanvas(slide, index);
@@ -1592,14 +1756,23 @@
     if (showGrid) renderGridPreview();
   }));
   ui.coverMoveTarget.addEventListener("change", () => {
-    coverMoveTarget = movableLayers[ui.coverMoveTarget.value] ? ui.coverMoveTarget.value : "title";
+    coverMoveTarget = movableLayers[ui.coverMoveTarget.value] || customLayer(coverSlide(), ui.coverMoveTarget.value) ? ui.coverMoveTarget.value : "title";
     syncCoverOffsets();
     syncTypographyControls("cover");
     syncLayerContentControls("cover");
     renderCanvas(ui.coverCanvas, coverSlide(), 0);
   });
   [ui.coverLayerText, ui.coverLayerVisible].forEach((control) => control.addEventListener("input", () => updateSelectedLayerContent("cover")));
+  ui.coverLayerAdd.addEventListener("click", () => addCustomTextLayer("cover"));
   ui.coverLayerRemove.addEventListener("click", () => {
+    if (isCustomTarget(coverMoveTarget)) {
+      coverSlide().customLayers = coverSlide().customLayers.filter((layer) => `custom:${layer.id}` !== coverMoveTarget);
+      coverMoveTarget = "title";
+      renderCover();
+      markChanged();
+      setStatus("Текстовый блок удалён с обложки.");
+      return;
+    }
     ui.coverLayerVisible.checked = !ui.coverLayerVisible.checked;
     updateSelectedLayerContent("cover");
     setStatus(ui.coverLayerVisible.checked ? "Элемент возвращён на обложку." : "Элемент удалён с обложки.");
@@ -1621,7 +1794,11 @@
     renderCover();
     markChanged();
   });
-  ui.coverMediaSearch.addEventListener("input", () => renderMediaStrip(ui.coverMedia, coverSlide().photoId, ui.coverMediaSearch.value));
+  ui.coverMediaSearch.addEventListener("input", () => {
+    coverMediaLimit = 48;
+    renderMediaStrip(ui.coverMedia, coverSlide().photoId, ui.coverMediaSearch.value);
+    ui.coverMedia.scrollTop = 0;
+  });
   ui.saveCover.addEventListener("click", () => saveCurrentSlide(0));
   ui.downloadCover.addEventListener("click", () => downloadSlide(coverSlide(), 0));
 
@@ -1650,14 +1827,23 @@
   });
   ui.bodyBold.addEventListener("click", () => makeSelectionBold(ui.slideBody));
   ui.slideMoveTarget.addEventListener("change", () => {
-    slideMoveTarget = movableLayers[ui.slideMoveTarget.value] ? ui.slideMoveTarget.value : "body";
+    slideMoveTarget = movableLayers[ui.slideMoveTarget.value] || customLayer(activeSlide(), ui.slideMoveTarget.value) ? ui.slideMoveTarget.value : "body";
     syncActiveOffsets();
     syncTypographyControls("slide");
     syncLayerContentControls("slide");
     renderCanvas(ui.activeCanvas, activeSlide(), series.activeSlide);
   });
   [ui.slideLayerText, ui.slideLayerVisible].forEach((control) => control.addEventListener("input", () => updateSelectedLayerContent("slide")));
+  ui.slideLayerAdd.addEventListener("click", () => addCustomTextLayer("slide"));
   ui.slideLayerRemove.addEventListener("click", () => {
+    if (isCustomTarget(slideMoveTarget)) {
+      activeSlide().customLayers = activeSlide().customLayers.filter((layer) => `custom:${layer.id}` !== slideMoveTarget);
+      slideMoveTarget = "body";
+      renderActiveEditor();
+      markChanged();
+      setStatus("Текстовый блок удалён со слайда.");
+      return;
+    }
     ui.slideLayerVisible.checked = !ui.slideLayerVisible.checked;
     updateSelectedLayerContent("slide");
     setStatus(ui.slideLayerVisible.checked ? "Элемент возвращён на слайд." : "Элемент удалён со слайда.");
@@ -1686,7 +1872,11 @@
     renderActiveEditor();
     markChanged();
   });
-  ui.slideMediaSearch.addEventListener("input", () => renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder));
+  ui.slideMediaSearch.addEventListener("input", () => {
+    slideMediaLimit = 48;
+    renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);
+    ui.slideMedia.scrollTop = 0;
+  });
   window.addEventListener("sekta:library-updated", () => {
     slideMediaOrder = [...library];
     renderMediaStrip(ui.coverMedia, coverSlide().photoId, ui.coverMediaSearch.value);
@@ -1694,7 +1884,9 @@
   });
   ui.shuffleSlideMedia.addEventListener("click", () => {
     slideMediaOrder = shuffle(slideMediaOrder);
+    slideMediaLimit = 48;
     renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);
+    ui.slideMedia.scrollTop = 0;
     setStatus("Фотографии для этого слайда перемешаны.");
   });
   ui.removePhoto.addEventListener("click", () => {
@@ -1782,6 +1974,8 @@
 
   bindCanvasLayerDrag(ui.coverCanvas, "cover");
   bindCanvasLayerDrag(ui.activeCanvas, "slide");
+  bindInfiniteMedia(ui.coverMedia, "cover");
+  bindInfiniteMedia(ui.slideMedia, "slide");
   ensureFont(series.font);
   renderAll();
   setStage("cover");

@@ -58,7 +58,7 @@
     showAllMedia: document.querySelector("#builderShowAllMedia"),
     shuffleMedia: document.querySelector("#builderShuffleMedia"),
     expandMedia: document.querySelector("#builderExpandMedia"),
-    loadMoreMedia: document.querySelector("#builderLoadMoreMedia"),
+    sendToPost: document.querySelector("#builderSendToPost"),
     wordCount: document.querySelector("#builderWordCount"),
     scriptTitle: document.querySelector("#builderScriptTitle"),
     buildCarousel: document.querySelector("#builderBuildCarousel"),
@@ -147,8 +147,8 @@
   let scriptVariant = 0;
   let selectedIdeaKey = "";
   let currentIdeas = [];
-  let mediaScope = "relevant";
-  let mediaLimit = 24;
+  let mediaScope = "all";
+  let mediaLimit = 40;
   let mediaOrder = [...library];
   let mediaRandomized = false;
   let mediaPool = [];
@@ -267,8 +267,8 @@
     ui.developmentTitle.textContent = idea.topic.label;
     ui.developmentHook.textContent = idea.hook;
     ui.development.hidden = false;
-    mediaScope = "relevant";
-    mediaLimit = 24;
+    mediaScope = "all";
+    mediaLimit = 40;
     mediaRandomized = false;
     renderIdeaStrip();
     renderMedia();
@@ -295,7 +295,7 @@
     if (mediaScope === "relevant" && pool.length < 16) pool = [...mediaOrder];
     if (folder !== "all") pool = pool.filter((item) => item.folder === folder);
     if (query) pool = pool.filter((item) => [item.fileName, item.folderLabel, item.sourceCategory, ...(item.contentThemes || []), ...(item.carouselRoles || [])].join(" ").toLocaleLowerCase("ru").includes(query));
-    if (mediaScope === "relevant" && !mediaRandomized) pool.sort((a, b) => candidateScore(b) - candidateScore(a));
+    if (!mediaRandomized) pool.sort((a, b) => candidateScore(b) - candidateScore(a));
     return pool;
   }
 
@@ -310,7 +310,6 @@
       ? visible.map((item) => `<button type="button" class="builder-media${item.id === selectedPhoto?.id ? " is-selected" : ""}" data-builder-media="${escapeHtml(item.id)}" data-name="${escapeHtml(item.fileName)}" aria-label="Выбрать ${escapeHtml(item.fileName)}"><img src="${escapeHtml(item.thumb)}" alt="" loading="lazy"></button>`).join("")
       : `<div class="builder-media-empty"><strong>Ничего не найдено</strong><span>Сбросьте поиск или выберите другую коллекцию.</span></div>`;
     ui.mediaShown.textContent = `Показано ${visible.length} из ${mediaPool.length}`;
-    ui.loadMoreMedia.hidden = visible.length >= mediaPool.length;
     ui.showAllMedia.textContent = mediaScope === "all" ? "Только по теме" : "Показать все";
     ui.showAllMedia.classList.toggle("is-active", mediaScope === "all");
   }
@@ -567,8 +566,8 @@
     ui.subtitle.value = subtitleForGoal();
     scriptVariant = 0;
     selectedIdeaKey = "";
-    mediaScope = "relevant";
-    mediaLimit = 24;
+    mediaScope = "all";
+    mediaLimit = 40;
     mediaRandomized = false;
     renderIdeaStrip();
     renderMedia();
@@ -615,7 +614,13 @@
       coverDesign: {
         scene: activeStyle === "clean" ? "photo-clean" : activeStyle === "plate" ? "plate" : "photo-dim",
         palette: activeTextColor === "accent" && activeAccent === "yellow" ? "sekta-yellow" : "ink",
+        titleText: ui.hook.value,
+        subtitleText: ui.subtitle.value,
         labelText: ui.account.value,
+        placement: activePlacement,
+        focusX: Number(ui.focusX.value),
+        focusY: Number(ui.focusY.value),
+        textColor: activeTextColor === "accent" ? accentColors[activeAccent] : activeTextColor === "white" ? "#ffffff" : activeTextColor === "ink" ? "#17221f" : activeStyle === "clean" ? accentColors[activeAccent] : "#101a1e",
         title: { ...coverLayers.headline },
         body: { ...coverLayers.subtitle },
         label: { ...coverLayers.account },
@@ -947,27 +952,32 @@
   });
   ui.copyScript.addEventListener("click", async () => { await copyText(scriptText()); setStatus("Сценарий скопирован в буфер обмена."); });
   ui.buildCarousel.addEventListener("click", () => sendToCarouselBuilder(0));
+  ui.sendToPost.addEventListener("click", () => sendToCarouselBuilder(0));
   ui.slides.addEventListener("click", (event) => {
     const button = event.target.closest("[data-edit-builder-slide]");
     if (!button) return;
     sendToCarouselBuilder(Number(button.dataset.editBuilderSlide) || 0);
   });
-  ui.mediaSearch.addEventListener("input", () => { mediaLimit = 24; renderMedia(); });
-  ui.mediaFolder.addEventListener("change", () => { mediaLimit = 24; renderMedia(); });
+  ui.mediaSearch.addEventListener("input", () => { mediaLimit = 40; renderMedia(); ui.mediaGrid.scrollTop = 0; });
+  ui.mediaFolder.addEventListener("change", () => { mediaLimit = 40; renderMedia(); ui.mediaGrid.scrollTop = 0; });
   ui.showAllMedia.addEventListener("click", () => {
     mediaScope = mediaScope === "all" ? "relevant" : "all";
-    mediaLimit = 24;
+    mediaLimit = 40;
     renderMedia();
     setStatus(mediaScope === "all" ? "Открыт весь каталог медиатеки." : "Показаны фотографии по теме карусели.");
   });
   ui.shuffleMedia.addEventListener("click", () => {
     mediaOrder = shuffle(mediaOrder);
     mediaRandomized = true;
-    mediaLimit = Math.max(mediaLimit, 24);
+    mediaLimit = Math.max(mediaLimit, 40);
     renderMedia();
     setStatus("Фотографии перемешаны. Выбранная обложка сохранена.");
   });
-  ui.loadMoreMedia.addEventListener("click", () => { mediaLimit += 24; renderMedia(); });
+  ui.mediaGrid.addEventListener("scroll", () => {
+    if (ui.mediaGrid.scrollTop + ui.mediaGrid.clientHeight < ui.mediaGrid.scrollHeight - 180 || mediaLimit >= mediaPool.length) return;
+    mediaLimit = Math.min(mediaLimit + 40, mediaPool.length);
+    renderMedia();
+  }, { passive: true });
   window.addEventListener("sekta:library-updated", () => {
     mediaOrder = [...library];
     renderMedia();

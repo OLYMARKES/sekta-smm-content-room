@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260824-2">
+  <link rel="stylesheet" href="styles.css?v=20260824-3">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -385,7 +385,8 @@
               </div>
 
               <div class="builder-cover-actions">
-                <button class="button button-primary" id="builderDownload" type="button">Скачать PNG</button>
+                <button class="button button-primary builder-send-post" id="builderSendToPost" type="button">Отправить в конструктор поста →</button>
+                <button class="button button-secondary" id="builderDownload" type="button">Скачать PNG</button>
                 <button class="button button-secondary" id="builderAddGrid" type="button">+ В будущую сетку</button>
               </div>
             </section>
@@ -399,7 +400,7 @@
                 <button class="button button-secondary" id="builderShuffleMedia" type="button">Перемешать ↻</button>
               </div>
               <div class="builder-media-grid" id="builderMediaGrid"></div>
-              <div class="builder-media-footer"><span id="builderMediaShown">Показано 0</span><button class="text-button" id="builderLoadMoreMedia" type="button">Показать ещё</button></div>
+              <div class="builder-media-footer"><span id="builderMediaShown">Показано 0</span><small>Листайте вниз — фото подгружаются автоматически</small></div>
             </aside>
           </div>
 
@@ -558,7 +559,7 @@
                 <div class="carousel-active-layer-head"><strong>Текст и типографика</strong><span id="carouselCoverTypeLayerLabel">заголовок</span></div>
                 <div class="carousel-layer-content-editor">
                   <label class="carousel-field"><span>Текст выбранного слоя</span><textarea id="carouselCoverLayerText" rows="2"></textarea></label>
-                  <div><label class="carousel-check"><input id="carouselCoverLayerVisible" type="checkbox" checked><span>Показывать</span></label><button class="button button-quiet" id="carouselCoverLayerRemove" type="button">Удалить элемент</button></div>
+                  <div><label class="carousel-check"><input id="carouselCoverLayerVisible" type="checkbox" checked><span>Показывать</span></label><button class="button button-secondary" id="carouselCoverLayerAdd" type="button">+ Текстовый блок</button><button class="button button-quiet" id="carouselCoverLayerRemove" type="button">Удалить элемент</button></div>
                 </div>
                 <div class="carousel-control-grid">
                   <label><span>Активный слой</span><select id="carouselCoverMoveTarget"><option value="title">Заголовок</option><option value="body">Подстрочник</option><option value="label">Аккаунт / подпись</option><option value="counter">Номер слайда</option></select></label>
@@ -573,7 +574,7 @@
                   <label><span>Выравнивание</span><select id="carouselCoverAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
                   <label><span>Регистр заголовка</span><select id="carouselCoverCase"><option value="original">Как написано</option><option value="lower">Строчные</option><option value="upper">КАПС</option></select></label>
                 </div>
-                <div class="carousel-media-head"><div><strong>Фотография · вся медиатека (1059)</strong><span id="carouselCoverPhotoName">выбирайте лентой или через поиск</span></div><label class="carousel-search"><input id="carouselCoverMediaSearch" type="search" placeholder="Найти среди 1059 фото…"></label></div>
+                <div class="carousel-media-head"><div><strong>Фотография · вся медиатека (1059)</strong><span id="carouselCoverPhotoName">листайте вниз или используйте поиск</span></div><label class="carousel-search"><input id="carouselCoverMediaSearch" type="search" placeholder="Найти среди 1059 фото…"></label></div>
                 <div class="carousel-media-strip" id="carouselCoverMedia"></div>
                 <button class="button button-secondary carousel-next-stage" type="button" data-carousel-go="longread">Дальше: вставить лонгрид →</button>
               </section>
@@ -627,7 +628,7 @@
                 <div class="carousel-active-layer-head"><strong>Текст и типографика</strong><span id="carouselSlideTypeLayerLabel">заголовок</span></div>
                 <div class="carousel-layer-content-editor">
                   <label class="carousel-field"><span>Текст выбранного слоя</span><textarea id="carouselSlideLayerText" rows="2"></textarea></label>
-                  <div><label class="carousel-check"><input id="carouselSlideLayerVisible" type="checkbox" checked><span>Показывать</span></label><button class="button button-quiet" id="carouselSlideLayerRemove" type="button">Удалить элемент</button></div>
+                  <div><label class="carousel-check"><input id="carouselSlideLayerVisible" type="checkbox" checked><span>Показывать</span></label><button class="button button-secondary" id="carouselSlideLayerAdd" type="button">+ Текстовый блок</button><button class="button button-quiet" id="carouselSlideLayerRemove" type="button">Удалить элемент</button></div>
                 </div>
                 <div class="carousel-control-grid">
                   <label><span>Тип слайда</span><select id="carouselSlideRole"><option value="cover">Обложка</option><option value="longread">Лонгрид</option><option value="quote">Цитата</option><option value="proof">Фото-доказательство</option><option value="pause">Фотопауза</option><option value="cta">Финал / CTA</option></select></label>
@@ -645,7 +646,7 @@
                   <label><span>Положение блока</span><select id="carouselSlidePlacement"><option value="top">Сверху</option><option value="middle">По центру</option><option value="bottom">Снизу</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
                   <label><span>Выравнивание</span><select id="carouselSlideAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
                 </div>
-                <div class="carousel-media-head"><div><strong>Фото этого слайда · вся медиатека</strong><span id="carouselSlidePhotoName">можно выбрать отдельно</span></div><div class="carousel-media-actions"><label class="carousel-search"><input id="carouselSlideMediaSearch" type="search" placeholder="Найти фото…"></label><button class="button button-quiet" id="carouselShuffleSlideMedia" type="button">Перемешать</button><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать</button></div></div>
+                <div class="carousel-media-head"><div><strong>Фото этого слайда · вся медиатека</strong><span id="carouselSlidePhotoName">листайте вниз или используйте поиск</span></div><div class="carousel-media-actions"><label class="carousel-search"><input id="carouselSlideMediaSearch" type="search" placeholder="Найти фото…"></label><button class="button button-quiet" id="carouselShuffleSlideMedia" type="button">Перемешать</button><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать</button></div></div>
                 <div class="carousel-media-strip" id="carouselSlideMedia"></div>
               </section>
             </div>
@@ -695,7 +696,7 @@
           </div>
           <div class="result-line"><span id="libraryResultCount">1059 материалов</span><span>Нажмите на фото, чтобы добавить его в черновую сетку</span></div>
           <div class="media-grid" id="mediaGrid"></div>
-          <div class="load-more-wrap"><button class="button button-secondary" id="loadMore">Показать ещё</button></div>
+          <div class="load-more-wrap"><div class="library-infinite-sentinel" id="libraryInfiniteSentinel">Листайте вниз — медиатека продолжится автоматически</div></div>
         </section>
 
         <section class="view" data-view-panel="planner">
@@ -748,9 +749,9 @@
   <script src="data/carousel-builder-data.js"></script>
   <script src="data/public-stats.js"></script>
   <script src="type-studio/font-data.js"></script>
-  <script src="app.js?v=20260820-5"></script>
-  <script src="carousel-builder.js?v=20260824-1"></script>
-  <script src="carousel-studio.js?v=20260824-4"></script>
+  <script src="app.js?v=20260824-1"></script>
+  <script src="carousel-builder.js?v=20260824-2"></script>
+  <script src="carousel-studio.js?v=20260824-5"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>

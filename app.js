@@ -41,7 +41,7 @@
     libraryUploadInput: document.querySelector("#libraryUploadInput"),
     libraryUploadState: document.querySelector("#libraryUploadState"),
     libraryUploadClear: document.querySelector("#libraryUploadClear"),
-    loadMore: document.querySelector("#loadMore"),
+    libraryInfiniteSentinel: document.querySelector("#libraryInfiniteSentinel"),
     sandboxGrid: document.querySelector("#sandboxGrid"),
     sandboxCount: document.querySelector("#sandboxCount"),
     idealFeedGrid: document.querySelector("#idealFeedGrid"),
@@ -506,7 +506,7 @@
     const orientationIcon = { portrait: "▯", landscape: "▭", square: "□" };
     ui.mediaGrid.innerHTML = shown.map((item) => `<button class="media-card" data-media-id="${item.id}" data-name="${escapeHtml(item.fileName)}" aria-label="Открыть ${escapeHtml(item.fileName)}"><img src="${escapeHtml(item.thumb)}" alt="" loading="lazy"><span class="orientation-tag">${orientationIcon[item.orientation] || "□"}</span></button>`).join("");
     ui.libraryResultCount.textContent = `${filtered.length} ${plural(filtered.length, "материал", "материала", "материалов")}`;
-    ui.loadMore.hidden = shown.length >= filtered.length;
+    ui.libraryInfiniteSentinel.hidden = shown.length >= filtered.length;
     if (!filtered.length) ui.mediaGrid.innerHTML = `<div class="empty-state"><strong>Ничего не найдено</strong><span>Попробуйте убрать фильтр или изменить запрос.</span></div>`;
   }
 
@@ -760,7 +760,14 @@
   ui.librarySearch.addEventListener("input", () => renderLibrary(true));
   ui.themeFilter.addEventListener("change", () => renderLibrary(true));
   ui.orientationFilter.addEventListener("change", () => renderLibrary(true));
-  ui.loadMore.addEventListener("click", () => { visibleMedia += 42; renderLibrary(); });
+  if (ui.libraryInfiniteSentinel && "IntersectionObserver" in window) {
+    const libraryObserver = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting) || ui.libraryInfiniteSentinel.hidden) return;
+      visibleMedia += 48;
+      renderLibrary();
+    }, { rootMargin: "500px 0px" });
+    libraryObserver.observe(ui.libraryInfiniteSentinel);
+  }
   ui.libraryShuffle.addEventListener("click", shuffleLibrary);
   ui.libraryUploadInput?.addEventListener("change", (event) => addLocalUploads(event.target.files));
   ui.libraryUploadClear?.addEventListener("click", clearLocalUploads);
