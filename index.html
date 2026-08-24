@@ -513,6 +513,7 @@
                   <button type="button" role="tab" aria-selected="false" data-carousel-preview="grid">В сетке</button>
                 </div>
                 <div class="carousel-slide-canvas" id="carouselCoverCanvas"></div>
+                <p class="carousel-direct-hint">Кликните по тексту на макете и тяните мышью</p>
                 <div class="carousel-grid-preview" id="carouselGridPreview" hidden>
                   <div class="carousel-grid-profile"><span class="profile-badge">#S</span><div><strong>sektaschool</strong><small>предпросмотр профиля</small></div><span>•••</span></div>
                   <div class="carousel-grid-cells" id="carouselGridCells"></div>
@@ -540,7 +541,7 @@
                   <label><span>Положение текста</span><select id="carouselCoverPlacement"><option value="bottom">Снизу</option><option value="middle">По центру</option><option value="top">Сверху</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
                   <label><span>Выравнивание</span><select id="carouselCoverAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
                   <label><span>Регистр</span><select id="carouselCoverCase"><option value="original">Как написано</option><option value="lower">Строчные</option><option value="upper">КАПС</option></select></label>
-                  <label><span>Что двигаем</span><select id="carouselCoverMoveTarget"><option value="title">Заголовок</option><option value="body">Подстрочник</option></select></label>
+                  <label><span>Активный слой</span><select id="carouselCoverMoveTarget"><option value="title">Заголовок</option><option value="body">Подстрочник</option><option value="label">Название серии</option><option value="counter">Номер слайда</option></select></label>
                   <label><span>Сдвиг влево / вправо</span><input id="carouselCoverOffsetX" type="range" min="-35" max="35" value="0"><output id="carouselCoverOffsetXValue">0%</output></label>
                   <label><span>Сдвиг вверх / вниз</span><input id="carouselCoverOffsetY" type="range" min="-35" max="35" value="0"><output id="carouselCoverOffsetYValue">0%</output></label>
                 </div>
@@ -584,6 +585,7 @@
             <div class="carousel-slide-editor">
               <section class="carousel-canvas-column" aria-label="Активный слайд">
                 <div class="carousel-slide-canvas" id="carouselActiveCanvas"></div>
+                <p class="carousel-direct-hint">Кликните по нужному слою и тяните мышью</p>
                 <div class="carousel-canvas-actions">
                   <button class="button button-primary" id="carouselSaveSlide" type="button">Сохранить слайд</button>
                   <button class="button button-secondary" id="carouselDownloadActive" type="button">Скачать PNG</button>
@@ -603,7 +605,7 @@
                   <label><span>Размер основного текста</span><input id="carouselSlideBodySize" type="range" min="24" max="64" value="34"><output id="carouselSlideBodySizeValue">34 px</output></label>
                   <label><span>Положение блока</span><select id="carouselSlidePlacement"><option value="top">Сверху</option><option value="middle">По центру</option><option value="bottom">Снизу</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
                   <label><span>Выравнивание</span><select id="carouselSlideAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
-                  <label><span>Что двигаем</span><select id="carouselSlideMoveTarget"><option value="title">Заголовок</option><option value="body">Основной текст</option></select></label>
+                  <label><span>Активный слой</span><select id="carouselSlideMoveTarget"><option value="title">Заголовок</option><option value="body">Основной текст</option><option value="label">Название серии</option><option value="counter">Номер слайда</option></select></label>
                   <label><span>Сдвиг влево / вправо</span><input id="carouselSlideOffsetX" type="range" min="-35" max="35" value="0"><output id="carouselSlideOffsetXValue">0%</output></label>
                   <label><span>Сдвиг вверх / вниз</span><input id="carouselSlideOffsetY" type="range" min="-35" max="35" value="0"><output id="carouselSlideOffsetYValue">0%</output></label>
                 </div>
@@ -712,7 +714,7 @@
   <script src="type-studio/font-data.js"></script>
   <script src="app.js?v=20260820-5"></script>
   <script src="carousel-builder.js?v=20260820-5"></script>
-  <script src="carousel-studio.js?v=20260824-1"></script>
+  <script src="carousel-studio.js?v=20260824-2"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>

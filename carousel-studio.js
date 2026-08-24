@@ -300,6 +300,10 @@
       titleOffsetY: 0,
       bodyOffsetX: 0,
       bodyOffsetY: 0,
+      labelOffsetX: 0,
+      labelOffsetY: 0,
+      counterOffsetX: 0,
+      counterOffsetY: 0,
       caseKind: "original",
       font: null,
       photoId: null,
@@ -345,6 +349,10 @@
         titleOffsetY: Number(slide.titleOffsetY ?? slide.offsetY) || 0,
         bodyOffsetX: Number(slide.bodyOffsetX ?? slide.offsetX) || 0,
         bodyOffsetY: Number(slide.bodyOffsetY ?? slide.offsetY) || 0,
+        labelOffsetX: Number(slide.labelOffsetX) || 0,
+        labelOffsetY: Number(slide.labelOffsetY) || 0,
+        counterOffsetX: Number(slide.counterOffsetX) || 0,
+        counterOffsetY: Number(slide.counterOffsetY) || 0,
         font: slide.font?.family ? normalizeFontSystem(slide.font) : null,
       })),
     };
@@ -575,13 +583,34 @@
     return String(text || "");
   }
 
+  const movableLayers = {
+    title: { x: "titleOffsetX", y: "titleOffsetY", label: "заголовок" },
+    body: { x: "bodyOffsetX", y: "bodyOffsetY", label: "основной текст" },
+    label: { x: "labelOffsetX", y: "labelOffsetY", label: "название серии" },
+    counter: { x: "counterOffsetX", y: "counterOffsetY", label: "номер слайда" },
+  };
+
+  function applyLayerVariables(element, slide) {
+    const set = (name, value) => element.style.setProperty(name, value);
+    set("--carousel-title-x", `${Number(slide.titleOffsetX) || 0}cqw`);
+    set("--carousel-title-y", `${(Number(slide.titleOffsetY) || 0) * 1.25}cqw`);
+    set("--carousel-body-x", `${Number(slide.bodyOffsetX) || 0}cqw`);
+    set("--carousel-body-y", `${(Number(slide.bodyOffsetY) || 0) * 1.25}cqw`);
+    set("--carousel-label-x", `${Number(slide.labelOffsetX) || 0}cqw`);
+    set("--carousel-label-y", `${(Number(slide.labelOffsetY) || 0) * 1.25}cqw`);
+    set("--carousel-counter-x", `${Number(slide.counterOffsetX) || 0}cqw`);
+    set("--carousel-counter-y", `${(Number(slide.counterOffsetY) || 0) * 1.25}cqw`);
+  }
+
   function renderCanvas(element, slide, index) {
     if (!element || !slide) return;
     const photo = photoById(slide.photoId);
     const palette = paletteFor(slide.palette || series.palette);
     const slideFont = slide.font?.family ? normalizeFontSystem(slide.font) : series.font;
     ensureFont(slideFont);
-    element.className = "carousel-slide-canvas";
+    const directEditing = element === ui.coverCanvas || element === ui.activeCanvas;
+    const selectedLayer = element === ui.coverCanvas ? coverMoveTarget : element === ui.activeCanvas ? slideMoveTarget : "";
+    element.className = `carousel-slide-canvas${directEditing ? " is-direct-editing" : ""}`;
     element.dataset.scene = slide.scene;
     element.dataset.palette = slide.palette;
     element.dataset.placement = slide.placement || "middle";
@@ -595,17 +624,15 @@
     element.style.setProperty("--carousel-ink", palette.ink);
     element.style.setProperty("--carousel-title-size", `${Math.max(24, Math.round((slide.size || 46) * .48))}px`);
     element.style.setProperty("--carousel-body-size", `${Math.max(12, Math.min(31, Math.round((slide.bodySize || 34) * .48)))}px`);
-    element.style.setProperty("--carousel-title-x", `${Number(slide.titleOffsetX) || 0}cqw`);
-    element.style.setProperty("--carousel-title-y", `${(Number(slide.titleOffsetY) || 0) * 1.25}cqw`);
-    element.style.setProperty("--carousel-body-x", `${Number(slide.bodyOffsetX) || 0}cqw`);
-    element.style.setProperty("--carousel-body-y", `${(Number(slide.bodyOffsetY) || 0) * 1.25}cqw`);
+    applyLayerVariables(element, slide);
     const image = photo && !["paper", "field", "dark", "quote"].includes(slide.scene)
       ? `<img class="carousel-render-photo" src="${escapeHtml(photo.thumb)}" alt="">`
       : "";
-    const title = slide.title ? `<strong class="carousel-render-title">${escapeHtml(displayText(stripInlineMarkup(slide.title), slide.caseKind || slideFont.caseKind))}</strong>` : "";
-    const body = slide.body ? `<div class="carousel-render-body"><p>${inlineMarkupHtml(slide.body).replace(/\n\s*\n/g, "</p><p>")}</p></div>` : "";
-    const label = slide.showSeriesLabel === false ? "" : `<span class="carousel-render-series">${escapeHtml(series.name)}</span>`;
-    element.innerHTML = `${image}<div class="carousel-render-shade"></div>${label}<div class="carousel-render-content">${title}${body}</div><small class="carousel-render-counter">${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}</small>`;
+    const title = slide.title ? `<strong class="carousel-render-title${directEditing ? ` carousel-direct-layer${selectedLayer === "title" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="title" data-layer-label="${movableLayers.title.label}"` : ""}>${escapeHtml(displayText(stripInlineMarkup(slide.title), slide.caseKind || slideFont.caseKind))}</strong>` : "";
+    const body = slide.body ? `<div class="carousel-render-body${directEditing ? ` carousel-direct-layer${selectedLayer === "body" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="body" data-layer-label="${movableLayers.body.label}"` : ""}><p>${inlineMarkupHtml(slide.body).replace(/\n\s*\n/g, "</p><p>")}</p></div>` : "";
+    const label = slide.showSeriesLabel === false ? "" : `<span class="carousel-render-series${directEditing ? ` carousel-direct-layer${selectedLayer === "label" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="label" data-layer-label="${movableLayers.label.label}"` : ""}>${escapeHtml(series.name)}</span>`;
+    const counter = `<small class="carousel-render-counter${directEditing ? ` carousel-direct-layer${selectedLayer === "counter" ? " is-selected-layer" : ""}` : ""}"${directEditing ? ` data-carousel-layer="counter" data-layer-label="${movableLayers.counter.label}"` : ""}>${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}</small>`;
+    element.innerHTML = `${image}<div class="carousel-render-shade"></div>${label}<div class="carousel-render-content">${title}${body}</div>${counter}`;
   }
 
   function renderFontStrip() {
@@ -669,9 +696,14 @@
   }
 
   function layerOffsets(slide, target) {
-    return target === "title"
-      ? { x: Number(slide.titleOffsetX) || 0, y: Number(slide.titleOffsetY) || 0 }
-      : { x: Number(slide.bodyOffsetX) || 0, y: Number(slide.bodyOffsetY) || 0 };
+    const layer = movableLayers[target] || movableLayers.body;
+    return { x: Number(slide[layer.x]) || 0, y: Number(slide[layer.y]) || 0 };
+  }
+
+  function setLayerOffsets(slide, target, x, y) {
+    const layer = movableLayers[target] || movableLayers.body;
+    slide[layer.x] = x;
+    slide[layer.y] = y;
   }
 
   function syncCoverOffsets() {
@@ -681,6 +713,15 @@
     ui.coverOffsetY.value = offsets.y;
     ui.coverOffsetXValue.textContent = `${offsets.x}%`;
     ui.coverOffsetYValue.textContent = `${offsets.y}%`;
+  }
+
+  function syncActiveOffsets() {
+    const offsets = layerOffsets(activeSlide(), slideMoveTarget);
+    ui.slideMoveTarget.value = slideMoveTarget;
+    ui.slideOffsetX.value = offsets.x;
+    ui.slideOffsetXValue.textContent = `${offsets.x}%`;
+    ui.slideOffsetY.value = offsets.y;
+    ui.slideOffsetYValue.textContent = `${offsets.y}%`;
   }
 
   function renderGridPreview() {
@@ -755,12 +796,7 @@
     ui.slidePlacement.value = slide.placement || "middle";
     ui.slideAlign.value = slide.align || "left";
     ui.slideShowLabel.checked = slide.showSeriesLabel !== false;
-    const offsets = layerOffsets(slide, slideMoveTarget);
-    ui.slideMoveTarget.value = slideMoveTarget;
-    ui.slideOffsetX.value = offsets.x;
-    ui.slideOffsetXValue.textContent = `${offsets.x}%`;
-    ui.slideOffsetY.value = offsets.y;
-    ui.slideOffsetYValue.textContent = `${offsets.y}%`;
+    syncActiveOffsets();
     const photo = photoById(slide.photoId);
     ui.slidePhotoName.textContent = photo?.fileName || "без фотографии";
     ui.removePhoto.disabled = !slide.photoId;
@@ -827,13 +863,7 @@
     slide.align = ui.coverAlign.value;
     slide.caseKind = ui.coverCase.value;
     slide.showSeriesLabel = ui.coverShowLabel.checked;
-    if (coverMoveTarget === "title") {
-      slide.titleOffsetX = Number(ui.coverOffsetX.value);
-      slide.titleOffsetY = Number(ui.coverOffsetY.value);
-    } else {
-      slide.bodyOffsetX = Number(ui.coverOffsetX.value);
-      slide.bodyOffsetY = Number(ui.coverOffsetY.value);
-    }
+    setLayerOffsets(slide, coverMoveTarget, Number(ui.coverOffsetX.value), Number(ui.coverOffsetY.value));
     slide.savedAt = null;
     ui.coverSizeValue.textContent = `${slide.size} px`;
     syncCoverOffsets();
@@ -854,13 +884,7 @@
     slide.placement = ui.slidePlacement.value;
     slide.align = ui.slideAlign.value;
     slide.showSeriesLabel = ui.slideShowLabel.checked;
-    if (slideMoveTarget === "title") {
-      slide.titleOffsetX = Number(ui.slideOffsetX.value);
-      slide.titleOffsetY = Number(ui.slideOffsetY.value);
-    } else {
-      slide.bodyOffsetX = Number(ui.slideOffsetX.value);
-      slide.bodyOffsetY = Number(ui.slideOffsetY.value);
-    }
+    setLayerOffsets(slide, slideMoveTarget, Number(ui.slideOffsetX.value), Number(ui.slideOffsetY.value));
     slide.savedAt = null;
     ui.slideSizeValue.textContent = `${slide.size} px`;
     ui.slideBodySizeValue.textContent = `${slide.bodySize} px`;
@@ -872,6 +896,87 @@
     ui.activeMeta.textContent = `${roleLabels[slide.role] || slide.role} · есть изменения`;
     renderRail();
     markChanged();
+  }
+
+  const clampLayerOffset = (value) => Math.max(-35, Math.min(35, Math.round(value * 10) / 10));
+  let gridPreviewFrame = 0;
+
+  function scheduleGridPreview() {
+    if (gridPreviewFrame) return;
+    gridPreviewFrame = requestAnimationFrame(() => {
+      gridPreviewFrame = 0;
+      renderGridPreview();
+    });
+  }
+
+  function selectCanvasLayer(mode, layer, canvas) {
+    if (!movableLayers[layer]) return;
+    if (mode === "cover") {
+      coverMoveTarget = layer;
+      syncCoverOffsets();
+    } else {
+      slideMoveTarget = layer;
+      syncActiveOffsets();
+    }
+    canvas.querySelectorAll("[data-carousel-layer]").forEach((element) => element.classList.toggle("is-selected-layer", element.dataset.carouselLayer === layer));
+  }
+
+  function bindCanvasLayerDrag(canvas, mode) {
+    let drag = null;
+    canvas.addEventListener("pointerdown", (event) => {
+      const layerElement = event.target.closest("[data-carousel-layer]");
+      if (!layerElement || !canvas.contains(layerElement)) return;
+      const layer = layerElement.dataset.carouselLayer;
+      if (!movableLayers[layer]) return;
+      event.preventDefault();
+      selectCanvasLayer(mode, layer, canvas);
+      const slide = mode === "cover" ? coverSlide() : activeSlide();
+      const offsets = layerOffsets(slide, layer);
+      const rect = canvas.getBoundingClientRect();
+      drag = {
+        id: event.pointerId,
+        layer,
+        element: layerElement,
+        startX: event.clientX,
+        startY: event.clientY,
+        originX: offsets.x,
+        originY: offsets.y,
+        width: rect.width,
+        height: rect.height,
+        moved: false,
+      };
+      layerElement.setPointerCapture(event.pointerId);
+      setStatus(`${movableLayers[layer].label} · двигайте мышкой`);
+    });
+    canvas.addEventListener("pointermove", (event) => {
+      if (!drag || drag.id !== event.pointerId) return;
+      const slide = mode === "cover" ? coverSlide() : activeSlide();
+      const x = clampLayerOffset(drag.originX + (event.clientX - drag.startX) / drag.width * 100);
+      const y = clampLayerOffset(drag.originY + (event.clientY - drag.startY) / drag.height * 100);
+      drag.moved ||= Math.abs(event.clientX - drag.startX) + Math.abs(event.clientY - drag.startY) > 2;
+      setLayerOffsets(slide, drag.layer, x, y);
+      applyLayerVariables(canvas, slide);
+      if (mode === "cover") syncCoverOffsets();
+      else syncActiveOffsets();
+      slide.savedAt = null;
+      if (mode === "cover" || series.activeSlide === 0) scheduleGridPreview();
+      markChanged();
+    });
+    const finishDrag = (event) => {
+      if (!drag || drag.id !== event.pointerId) return;
+      const movedLayer = drag.layer;
+      const moved = drag.moved;
+      drag = null;
+      if (moved) {
+        const slide = mode === "cover" ? coverSlide() : activeSlide();
+        renderCanvas(canvas, slide, mode === "cover" ? 0 : series.activeSlide);
+        if (mode === "cover" || series.activeSlide === 0) renderGridPreview();
+        markChanged();
+      }
+      setStatus(moved ? `${movableLayers[movedLayer].label} перемещён — координаты сохранены.` : `${movableLayers[movedLayer].label} выбран.`);
+    };
+    canvas.addEventListener("pointerup", finishDrag);
+    canvas.addEventListener("pointercancel", finishDrag);
   }
 
   function saveCurrentSlide(index = series.activeSlide) {
@@ -1078,9 +1183,13 @@
     context.font = `700 24px Arial, sans-serif`;
     context.fillStyle = foreground;
     context.textAlign = "left";
-    if (slide.showSeriesLabel !== false) context.fillText(series.name, 100, 90);
+    const labelXShift = (Number(slide.labelOffsetX) || 0) * 10.8;
+    const labelYShift = (Number(slide.labelOffsetY) || 0) * 13.5;
+    const counterXShift = (Number(slide.counterOffsetX) || 0) * 10.8;
+    const counterYShift = (Number(slide.counterOffsetY) || 0) * 13.5;
+    if (slide.showSeriesLabel !== false) context.fillText(series.name, 100 + labelXShift, 90 + labelYShift);
     context.textAlign = "right";
-    context.fillText(`${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}`, 980, 1280);
+    context.fillText(`${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}`, 980 + counterXShift, 1280 + counterYShift);
     return canvas;
   }
 
@@ -1190,8 +1299,9 @@
     if (showGrid) renderGridPreview();
   }));
   ui.coverMoveTarget.addEventListener("change", () => {
-    coverMoveTarget = ui.coverMoveTarget.value === "body" ? "body" : "title";
+    coverMoveTarget = movableLayers[ui.coverMoveTarget.value] ? ui.coverMoveTarget.value : "title";
     syncCoverOffsets();
+    renderCanvas(ui.coverCanvas, coverSlide(), 0);
   });
   [ui.seriesName, ui.coverTitle, ui.coverSubtitle, ui.coverSize, ui.coverPlacement, ui.coverAlign, ui.coverCase, ui.coverShowLabel, ui.coverOffsetX, ui.coverOffsetY].forEach((control) => control.addEventListener("input", updateCoverFromForm));
   document.querySelectorAll("[data-carousel-scene]").forEach((button) => button.addEventListener("click", () => {
@@ -1239,8 +1349,9 @@
   });
   ui.bodyBold.addEventListener("click", () => makeSelectionBold(ui.slideBody));
   ui.slideMoveTarget.addEventListener("change", () => {
-    slideMoveTarget = ui.slideMoveTarget.value === "title" ? "title" : "body";
-    syncActiveForm();
+    slideMoveTarget = movableLayers[ui.slideMoveTarget.value] ? ui.slideMoveTarget.value : "body";
+    syncActiveOffsets();
+    renderCanvas(ui.activeCanvas, activeSlide(), series.activeSlide);
   });
   [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slideScene, ui.slidePalette, ui.slideSize, ui.slideBodySize, ui.slidePlacement, ui.slideAlign, ui.slideShowLabel, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
   ui.slideFont.addEventListener("change", () => {
@@ -1360,6 +1471,8 @@
   window.addEventListener("sekta:open-carousel-studio", () => renderAll());
   window.addEventListener("sekta:post-builder-load", (event) => loadIdea(event.detail || fallbackIdea));
 
+  bindCanvasLayerDrag(ui.coverCanvas, "cover");
+  bindCanvasLayerDrag(ui.activeCanvas, "slide");
   ensureFont(series.font);
   renderAll();
   setStage("cover");
