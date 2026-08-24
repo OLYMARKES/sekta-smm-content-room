@@ -1077,7 +1077,7 @@
     textNodes.forEach((node) => { node.style.removeProperty("font-size"); });
     let size = parseFloat(getComputedStyle(textNodes[0]).fontSize) || 12;
     const min = Math.min(size, 6);
-    const overflows = () => textBox.scrollHeight > textBox.clientHeight + 1 || textBox.scrollWidth > textBox.clientWidth + 1;
+    const overflows = () => textBox.scrollHeight > textBox.clientHeight + 8 || textBox.scrollWidth > textBox.clientWidth + 4;
     while (overflows() && size > min) {
       size = Math.max(min, size - .5);
       textNodes.forEach((node) => { node.style.fontSize = `${size}px`; });
@@ -1127,7 +1127,7 @@
       const type = layerTypography(slide, target);
       ensureFontFamily(type.resolvedFamily);
       const box = layerBox(slide, target);
-      const style = `--custom-x:${Number(layer.x) || 0}cqw;--custom-y:${(Number(layer.y) || 0) * 1.25}cqw;width:${box.width}cqw;height:${box.height * 1.25}cqw;color:${resolvedLayerColor(slide, target)};font-family:'${escapeHtml(type.resolvedFamily)}',sans-serif;font-weight:${type.weight};font-size:${Math.round(type.size * 48) / 100}px;line-height:${type.lineHeight};letter-spacing:${type.tracking}em`;
+      const style = `--custom-x:${Number(layer.x) || 0}cqw;--custom-y:${(Number(layer.y) || 0) * 1.25}cqw;width:${box.width}cqw;max-height:${box.height * 1.25}cqw;color:${resolvedLayerColor(slide, target)};font-family:'${escapeHtml(type.resolvedFamily)}',sans-serif;font-weight:${type.weight};font-size:${Math.round(type.size * 48) / 100}px;line-height:${type.lineHeight};letter-spacing:${type.tracking}em`;
       return `<div class="carousel-render-custom${directEditing ? ` carousel-direct-layer${selectedLayer === target ? " is-selected-layer" : ""}` : ""}" style="${style}" data-carousel-fit-layer="${escapeHtml(target)}"${directEditing ? ` data-carousel-layer="${escapeHtml(target)}" data-layer-label="текстовый блок"` : ""}><span class="carousel-layer-text">${escapeHtml(layer.text)}</span>${layerEditingControls(directEditing, selectedLayer, target, slide)}</div>`;
     }).join("");
     element.innerHTML = `${image}<div class="carousel-render-shade"></div><div class="carousel-render-texture" aria-hidden="true"></div>${label}<div class="carousel-render-content">${title}${body}</div>${counter}${custom}`;
@@ -1628,6 +1628,7 @@
       selectCanvasLayer(mode, layer, canvas);
       const offsets = layerOffsets(slide, layer);
       const box = layerBox(slide, layer);
+      const typography = layerTypography(slide, layer);
       const rect = canvas.getBoundingClientRect();
       const resizeHandle = event.target.closest("[data-resize-handle]");
       drag = {
@@ -1642,12 +1643,13 @@
         originY: offsets.y,
         originWidth: box.width,
         originHeight: box.height,
+        originTypography: typography,
         width: rect.width,
         height: rect.height,
         moved: false,
       };
       (resizeHandle || layerElement).setPointerCapture(event.pointerId);
-      setStatus(resizeHandle ? `${layerLabel(slide, layer)} · тяните край или угол` : `${layerLabel(slide, layer)} · двигайте мышкой`);
+      setStatus(resizeHandle ? `${layerLabel(slide, layer)} · боковые ручки меняют ширину строк, углы масштабируют текст` : `${layerLabel(slide, layer)} · двигайте мышкой`);
     });
     canvas.addEventListener("pointermove", (event) => {
       if (!drag || drag.id !== event.pointerId) return;
@@ -1667,26 +1669,40 @@
         }
       } else if (drag.kind === "resize") {
         let width = drag.originWidth;
-        let height = drag.originHeight;
         let x = drag.originX;
-        let y = drag.originY;
         if (drag.handle.includes("e")) width = drag.originWidth + deltaX;
         if (drag.handle.includes("w")) {
           width = drag.originWidth - deltaX;
           x = clampLayerOffset(drag.originX + (drag.originWidth - clampLayerWidth(width)));
         }
-        if (drag.handle.includes("s")) height = drag.originHeight + deltaY;
-        if (drag.handle.includes("n")) {
-          height = drag.originHeight - deltaY;
-          y = clampLayerOffset(drag.originY + (drag.originHeight - clampLayerHeight(height)));
+        const scalesText = drag.handle.length === 2 || drag.handle === "n" || drag.handle === "s";
+        if (scalesText) {
+          const horizontalScale = drag.handle.includes("e")
+            ? (drag.originWidth + deltaX) / drag.originWidth
+            : drag.handle.includes("w")
+              ? (drag.originWidth - deltaX) / drag.originWidth
+              : 1;
+          const verticalScale = drag.handle.includes("s")
+            ? 1 + deltaY / Math.max(8, drag.originHeight)
+            : drag.handle.includes("n")
+              ? 1 - deltaY / Math.max(8, drag.originHeight)
+              : 1;
+          const scale = drag.handle.length === 2
+            ? Math.sqrt(Math.max(.16, horizontalScale * verticalScale))
+            : verticalScale;
+          setLayerTypography(slide, drag.layer, {
+            ...drag.originTypography,
+            size: Math.max(8, Math.min(132, Math.round(drag.originTypography.size * scale))),
+          });
         }
-        const nextBox = setLayerBox(slide, drag.layer, width, height);
-        setLayerOffsets(slide, drag.layer, x, y);
+        const nextBox = setLayerBox(slide, drag.layer, width, drag.originHeight);
+        setLayerOffsets(slide, drag.layer, x, drag.originY);
         if (isCustomTarget(drag.layer)) {
           drag.element.style.width = `${nextBox.width}cqw`;
-          drag.element.style.height = `${nextBox.height * 1.25}cqw`;
+          drag.element.style.maxHeight = `${nextBox.height * 1.25}cqw`;
+          drag.element.style.fontSize = `${Math.round(layerTypography(slide, drag.layer).size * 48) / 100}px`;
           drag.element.style.setProperty("--custom-x", `${x}cqw`);
-          drag.element.style.setProperty("--custom-y", `${y * 1.25}cqw`);
+          drag.element.style.setProperty("--custom-y", `${drag.originY * 1.25}cqw`);
         } else applyLayerVariables(canvas, slide);
         fitDomTextLayer(drag.element);
         syncTypographyControls(mode);
