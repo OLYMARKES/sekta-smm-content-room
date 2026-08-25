@@ -982,6 +982,23 @@
     mediaOrder = [...library];
     renderMedia();
   });
+  window.addEventListener("sekta:cover-builder-direction", (event) => {
+    const direction = event.detail || {};
+    if (styleLabels[direction.style]) activeStyle = direction.style;
+    if (["bottom", "middle", "left", "right"].includes(direction.placement)) activePlacement = direction.placement;
+    else if (direction.placement === "top") activePlacement = "middle";
+    if (accentColors[direction.accent]) activeAccent = direction.accent;
+    if (["auto", "ink", "white", "accent"].includes(direction.textColor)) activeTextColor = direction.textColor;
+    if (fontLabels[direction.font]) activeFont = direction.font === "taste" && !tasteFont ? "grotesk" : direction.font;
+    const layer = coverLayers.headline;
+    if (activeFont === "tempo") Object.assign(layer, { family: "PT Sans Narrow", weight: 700, lineHeight: .86, tracking: -.012 });
+    if (activeFont === "grotesk") Object.assign(layer, { family: "Manrope", weight: 850, lineHeight: .93, tracking: -.04 });
+    if (activeFont === "editorial") Object.assign(layer, { family: "Georgia", weight: 700, lineHeight: 1.03, tracking: -.025 });
+    if (activeFont === "taste" && tasteFont) Object.assign(layer, { family: tasteFont.family, weight: 800, lineHeight: .96, tracking: -.025 });
+    renderCover();
+    saveCoverSystem();
+    setStatus(`Применено направление: ${styleLabels[activeStyle]} · ${fontLabels[activeFont]} · ${accentLabels[activeAccent]}.`);
+  });
   ui.expandMedia.addEventListener("click", () => {
     const expanded = ui.workspace.classList.toggle("is-media-expanded");
     ui.expandMedia.textContent = expanded ? "Вернуть обложку" : "Развернуть";

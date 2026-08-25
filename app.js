@@ -4,6 +4,7 @@
   const idealGrid = window.SEKTA_IDEAL_GRID || [];
   const growthRoom = window.SEKTA_GROWTH_ROOM || { principles: [], next: [], ideas: [] };
   const growthIdeas = growthRoom.ideas || [];
+  const ideaRadar = window.SEKTA_IDEA_RADAR || { sources: [], mechanics: [], directions: {}, items: [] };
   const libraryPayload = window.SEKTA_LIBRARY || { items: [], uniqueCount: 0, duplicateCount: 0, sourceCount: 0 };
   const library = libraryPayload.items || [];
   const publicStats = window.SEKTA_PUBLIC_STATS || { checkedAt: "", note: "", channels: [] };
@@ -54,7 +55,12 @@
     growthDetail: document.querySelector("#growthDetail"),
     growthAsset: document.querySelector("#growthAsset"),
     growthResultCount: document.querySelector("#growthResultCount"),
+    ideaSourceRadar: document.querySelector("#ideaSourceRadar"),
     ideaBankGrid: document.querySelector("#ideaBankGrid"),
+    ideaMechanicFilter: document.querySelector("#ideaMechanicFilter"),
+    ideaBankResult: document.querySelector("#ideaBankResult"),
+    ideaBankRecipe: document.querySelector("#ideaBankRecipe"),
+    mixIdeaRadar: document.querySelector("#mixIdeaRadar"),
     refreshIdeaBank: document.querySelector("#refreshIdeaBank"),
     ideaDetailDialog: document.querySelector("#ideaDetailDialog"),
     ideaDetailContent: document.querySelector("#ideaDetailContent"),
@@ -82,6 +88,8 @@
   let activeGrowthRoomTab = "ideas";
   let activeGrowthGoal = "all";
   let activeIdeaKind = "post";
+  let activeIdeaSource = "all";
+  let activeIdeaMechanic = "all";
   let ideaBankOffset = 0;
   let activeGrowthId = growthRoom.next?.[0] || growthIdeas[0]?.id;
   let currentCoverMode = "current";
@@ -91,32 +99,12 @@
 
   const gridSnapshotKey = "sekta-grid-snapshots-v1";
 
-  const ideaBankCatalog = {
-    post: [
-      { title: "Что в движении считается, кроме минут", hook: "Тренировка закончилась. А что осталось?", objective: "Сохранения", asset: "Фото после тренировки + короткий список", cta: "Сохранить и дописать свой пункт", readiness: "Можно собрать сегодня" },
-      { title: "Возвращение без наказания", hook: "Пауза не обнуляет навык возвращаться", objective: "Теплота", asset: "Домашние фото или спокойный портрет", cta: "Рассказать, как вы возвращаетесь", readiness: "Текст + фото" },
-      { title: "Семь минут — полноценное решение", hook: "Коротко — не значит впустую", objective: "Сохранения", asset: "3–5 кадров короткой тренировки", cta: "Выбрать сегодня 7 / 15 / 30", readiness: "Можно собрать сегодня" },
-      { title: "Неочевидный результат программы", hook: "Раньше веса меняется кое-что важнее", objective: "Доверие", asset: "Фото движения + разрешённые цитаты", cta: "Открыть описание программы", readiness: "Нужен ревью специалиста" },
-      { title: "Как выбрать нагрузку на обычный день", hook: "Не максимум. Подходящий уровень.", objective: "Польза", asset: "Фото двух вариантов одного упражнения", cta: "Сохранить схему выбора", readiness: "Нужен методический ревью" },
-      { title: "Что команда делает после пропуска", hook: "Мы тоже выпадаем", objective: "Теплота", asset: "4 коротких ответа команды", cta: "Дополнить список своим способом", readiness: "Нужны ответы команды" }
-    ],
-    reel: [
-      { title: "Тело не ленится", hook: "Оно голосует против плана, который не помещается в жизнь", objective: "Охват", asset: "Видео начала домашней тренировки", cta: "Отправить тому, кто ругает себя", readiness: "Можно собрать сегодня" },
-      { title: "План и реальность", hook: "40 минут тренировки / 12 минут ищу резинку", objective: "Пересылки", asset: "Смешной бытовой дубль", cta: "Признаться, что ищете вы", readiness: "Нужен один кадр" },
-      { title: "Я в фитнесе — и тоже не хочу", hook: "Система нужна именно в такие дни", objective: "Теплота", asset: "Видео на коврике + voice-over", cta: "Ответить: 7 / 15 / 30", readiness: "Нужен голос" },
-      { title: "Разминка между созвонами", hook: "Три движения, пока грузится следующий звонок", objective: "Сохранения", asset: "Видео полного роста", cta: "Сделать один круг сейчас", readiness: "Нужен экспертный ревью" },
-      { title: "Четыре человека перед ковриком", hook: "Кто вы сегодня?", objective: "Комментарии", asset: "Четыре коротких дубля дома", cta: "Выбрать номер 1–4", readiness: "Можно собрать из дублей" },
-      { title: "Остановилась раньше — и это правильно", hook: "План говорил: ещё два круга", objective: "Доверие", asset: "Пауза, вода, выключение таймера", cta: "Обсудить остановку без вины", readiness: "Нужен voice-over" }
-    ],
-    series: [
-      { title: "Одна минута считается", hook: "Один короткий вход в движение каждую неделю", objective: "Узнаваемость", asset: "Вертикальные видео 7–15 секунд", cta: "Повторить сегодня", readiness: "Серия на 8 выпусков" },
-      { title: "Возвращение — тоже навык", hook: "Один реальный сценарий возвращения", objective: "Теплота", asset: "Истории команды и участников", cta: "Добавить свой способ", readiness: "Серия на 6 выпусков" },
-      { title: "Тело в обычной жизни", hook: "Не идеальная тренировка, а реальный день", objective: "Доверие", asset: "Архив домашних видео", cta: "Узнать себя", readiness: "Серия на 10 выпусков" },
-      { title: "Семь / пятнадцать / тридцать", hook: "Один день — три доступных входа", objective: "Сохранения", asset: "Три версии движения", cta: "Выбрать длительность", readiness: "Нужен методический шаблон" },
-      { title: "Люди #Sekta", hook: "Один человек, один живой ответ", objective: "Комьюнити", asset: "Портрет + короткая реплика", cta: "Ответить на тот же вопрос", readiness: "Нужны согласия героев" },
-      { title: "Неочевидно, но работает", hook: "Одна контринтуитивная мысль о движении", objective: "Охват", asset: "Любой сильный B-roll", cta: "Сохранить или переслать", readiness: "Серия на 12 выпусков" }
-    ]
-  };
+  const ideaBankCatalog = ideaRadar.items.reduce((catalog, item) => {
+    const kind = item.kind || "post";
+    if (!catalog[kind]) catalog[kind] = [];
+    catalog[kind].push(item);
+    return catalog;
+  }, { post: [], reel: [], series: [] });
 
   function loadSandbox() {
     const fallback = [{ id: "approved-carousel", thumb: "assets/approved-carousel/slide-01.png", title: "Мои главные победы", source: "Готовая карусель" }];
@@ -326,29 +314,71 @@
     renderGrowthDetail();
   }
 
+  const ideaSource = (id) => ideaRadar.sources.find((source) => source.id === id) || { id, label: "Рабочая идея", note: "курированный источник", tone: "paper" };
+  const ideaMechanic = (id) => ideaRadar.mechanics.find((mechanic) => mechanic.id === id) || { id, label: "Новый заход" };
+  const ideaDirection = (id) => ideaRadar.directions?.[id] || { label: "Система #Sekta", note: "базовая визуальная система" };
+
+  function renderIdeaSources() {
+    if (!ui.ideaSourceRadar) return;
+    const all = { id: "all", label: "Все источники", count: ideaRadar.items.length, note: "смешать архив, науку, личный голос и готовые механики", tone: "ink" };
+    ui.ideaSourceRadar.innerHTML = [all, ...ideaRadar.sources].map((source) => `<button type="button" class="idea-source-card tone-${escapeHtml(source.tone || "paper")}${activeIdeaSource === source.id ? " is-active" : ""}" data-idea-source="${escapeHtml(source.id)}" aria-pressed="${activeIdeaSource === source.id}"><span>${escapeHtml(source.label)}</span><strong>${escapeHtml(source.count)}</strong><small>${escapeHtml(source.note)}</small></button>`).join("");
+  }
+
+  function filteredIdeaBank() {
+    return (ideaBankCatalog[activeIdeaKind] || []).map((item, index) => ({ item, index })).filter(({ item }) => (activeIdeaSource === "all" || item.source === activeIdeaSource) && (activeIdeaMechanic === "all" || item.mechanic === activeIdeaMechanic));
+  }
+
   function renderIdeaBank() {
     if (!ui.ideaBankGrid) return;
-    const catalog = ideaBankCatalog[activeIdeaKind] || [];
-    const visible = Array.from({ length: Math.min(3, catalog.length) }, (_, offset) => ({ item: catalog[(ideaBankOffset + offset) % catalog.length], index: (ideaBankOffset + offset) % catalog.length }));
-    ui.ideaBankGrid.innerHTML = visible.map(({ item, index }) => `<article class="idea-bank-card" data-idea-card="${activeIdeaKind}:${index}"><div><span>${escapeHtml(item.objective)}</span><em>${escapeHtml(item.readiness)}</em></div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.hook)}</p><dl><div><dt>Что нужно</dt><dd>${escapeHtml(item.asset)}</dd></div><div><dt>CTA</dt><dd>${escapeHtml(item.cta)}</dd></div></dl><div class="idea-bank-actions"><button type="button" class="button button-secondary" data-idea-detail="${activeIdeaKind}:${index}">Подробнее</button><button type="button" class="button button-primary" data-idea-build-post="${activeIdeaKind}:${index}">Собрать пост →</button></div></article>`).join("");
+    const catalog = filteredIdeaBank();
+    if (!catalog.length) {
+      ui.ideaBankGrid.innerHTML = `<div class="idea-bank-empty"><strong>Для такой связки пока нет готовой идеи</strong><span>Смешайте источники или выберите другую механику.</span><button class="button button-secondary" type="button" data-reset-idea-radar>Показать всё</button></div>`;
+      ui.ideaBankResult.textContent = "0 идей";
+      ui.ideaBankRecipe.textContent = "измените один из фильтров";
+      return;
+    }
+    ideaBankOffset %= catalog.length;
+    const visible = Array.from({ length: Math.min(6, catalog.length) }, (_, offset) => catalog[(ideaBankOffset + offset) % catalog.length]);
+    const sourceLabel = activeIdeaSource === "all" ? "все источники" : ideaSource(activeIdeaSource).label;
+    const mechanicLabel = activeIdeaMechanic === "all" ? "все механики" : ideaMechanic(activeIdeaMechanic).label;
+    ui.ideaBankResult.textContent = `${catalog.length} ${plural(catalog.length, "идея", "идеи", "идей")} в этой связке`;
+    ui.ideaBankRecipe.textContent = `${sourceLabel} · ${mechanicLabel}`;
+    ui.ideaBankGrid.innerHTML = visible.map(({ item, index }, position) => {
+      const source = ideaSource(item.source);
+      const mechanic = ideaMechanic(item.mechanic);
+      const direction = ideaDirection(item.direction);
+      const reference = `${activeIdeaKind}:${index}`;
+      return `<article class="idea-bank-card${position === 0 && visible.length > 2 ? " is-featured" : ""}" data-idea-card="${reference}"><div class="idea-card-visual direction-${escapeHtml(item.direction)}"><span>${escapeHtml(source.label)}</span><strong>${escapeHtml(item.hook)}</strong><small>${escapeHtml(direction.label)}</small></div><div class="idea-card-copy"><div class="idea-bank-meta"><span>${escapeHtml(item.objective)}</span><em>${escapeHtml(mechanic.label)}</em></div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.angle)}</p><dl><div><dt>Исходник</dt><dd>${escapeHtml(item.asset)}</dd></div><div><dt>Готовность</dt><dd>${escapeHtml(item.readiness)}</dd></div></dl><div class="idea-bank-actions"><button type="button" class="button button-secondary" data-idea-detail="${reference}">Развернуть</button><button type="button" class="button button-primary" data-idea-build-post="${reference}">В монтаж →</button></div></div></article>`;
+    }).join("");
   }
 
   function catalogIdea(reference) {
     const [kind, rawIndex] = String(reference || "").split(":");
     const item = ideaBankCatalog[kind]?.[Number(rawIndex)];
-    return item ? { ...item, kind, id: `${kind}-${rawIndex}` } : null;
+    return item ? { ...item, kind, id: `${kind}-${rawIndex}`, sourceMeta: ideaSource(item.source), mechanicMeta: ideaMechanic(item.mechanic), direction: ideaDirection(item.direction) } : null;
   }
 
   function ideaDescription(item) {
     const kindText = item.kind === "reel" ? "Reel можно собрать как короткий сценарий и при необходимости превратить в поясняющую карусель." : item.kind === "series" ? "Это повторяемая рубрика: первый выпуск должен сразу объяснить механику серии и дать читателю простой вход." : "Это самостоятельный пост-карусель: начинаем с узнаваемого напряжения, затем даём новую рамку и один выполнимый следующий шаг.";
-    return `${kindText} Главная мысль — «${item.hook}». Не доказываем её абстрактно: показываем через ${item.asset.toLocaleLowerCase("ru")}.`;
+    return `${kindText} ${item.angle} Главная мысль — «${item.hook}». Не доказываем её абстрактно: показываем через ${item.asset.toLocaleLowerCase("ru")}.`;
+  }
+
+  function ideaBeats(item) {
+    const beats = {
+      "then-now": ["Показываем исходную фразу и точную дату.", "Отделяем то, что было контекстом времени.", "Формулируем, что выдержало проверку.", "Добавляем сегодняшний кадр или комментарий.", `CTA: ${item.cta}.`],
+      myth: ["Называем миф без насмешки над человеком.", "Коротко объясняем, почему он звучит убедительно.", "Показываем один механизм или доказательство.", "Даём практический вывод без нового запрета.", `CTA: ${item.cta}.`],
+      confession: ["Одна честная фраза без долгой экспозиции.", "Живая сцена, которая подтверждает её.", "Разрешаем противоречие, не исправляя себя.", "Один вывод, полезный не только автору.", `CTA: ${item.cta}.`],
+      experiment: ["Называем один вопрос для проверки.", "Фиксируем безопасные условия эксперимента.", "Показываем процесс, а не обещанный результат.", "Предлагаем читателю наблюдать за собой.", `CTA: ${item.cta}.`],
+      series: ["Первый выпуск сразу объясняет правило рубрики.", "Один источник превращается в один самостоятельный тезис.", "Визуальная система повторяется, содержание — нет.", "Следующий выпуск рождается из ответа аудитории.", `CTA: ${item.cta}.`],
+    };
+    return beats[item.mechanic] || ["Сцена, которую легко узнать.", "Неожиданный поворот рамки.", "Один конкретный пример.", "Выполнимое действие или вопрос.", `CTA: ${item.cta}.`];
   }
 
   function openIdeaDetail(reference) {
     const item = catalogIdea(reference);
     if (!item || !ui.ideaDetailDialog || !ui.ideaDetailContent) return;
     const needsReview = /ревью|специалист|методическ|эксперт/i.test(item.readiness);
-    ui.ideaDetailContent.innerHTML = `<header class="idea-detail-head"><span>${escapeHtml(item.kind === "post" ? "Пост / карусель" : item.kind === "reel" ? "Reel" : "Серия")}</span><h2 id="ideaDetailTitle">${escapeHtml(item.title)}</h2><p>${escapeHtml(item.hook)}</p></header><div class="idea-detail-body"><section><h3>О чём этот материал</h3><p>${escapeHtml(ideaDescription(item))}</p></section><dl><div><dt>Задача</dt><dd>${escapeHtml(item.objective)}</dd></div><div><dt>Исходники</dt><dd>${escapeHtml(item.asset)}</dd></div><div><dt>Действие читателя</dt><dd>${escapeHtml(item.cta)}</dd></div><div><dt>Готовность</dt><dd>${escapeHtml(item.readiness)}</dd></div></dl>${needsReview ? `<p class="idea-review-gate">Перед публикацией нужен человеческий методический или экспертный ревью.</p>` : ""}<section><h3>Предлагаемая драматургия</h3><ol><li>Узнаваемая ситуация без обвинения.</li><li>Мысль, которая меняет привычную рамку.</li><li>Конкретный пример из жизни или движения.</li><li>Один выполнимый шаг на сегодня.</li><li>CTA: ${escapeHtml(item.cta)}.</li></ol></section></div><footer class="idea-detail-actions"><button class="button button-secondary" type="button" data-idea-cover="${escapeHtml(reference)}">Собрать только обложку</button><button class="button button-primary" type="button" data-idea-build-post="${escapeHtml(reference)}">Собрать пост целиком →</button></footer>`;
+    ui.ideaDetailContent.innerHTML = `<header class="idea-detail-head"><span>${escapeHtml(item.kind === "post" ? "Пост / карусель" : item.kind === "reel" ? "Reel" : "Серия")} · ${escapeHtml(item.mechanicMeta.label)}</span><h2 id="ideaDetailTitle">${escapeHtml(item.title)}</h2><p>${escapeHtml(item.hook)}</p></header><div class="idea-detail-body"><section class="idea-origin"><div><span>Источник</span><strong>${escapeHtml(item.sourceMeta.label)}</strong><p>${escapeHtml(item.sourceMeta.note)}</p></div><div><span>Визуальное направление</span><strong>${escapeHtml(item.direction.label)}</strong><p>${escapeHtml(item.direction.note)}</p></div></section><section><h3>О чём этот материал</h3><p>${escapeHtml(ideaDescription(item))}</p></section><dl><div><dt>Задача</dt><dd>${escapeHtml(item.objective)}</dd></div><div><dt>Исходники</dt><dd>${escapeHtml(item.asset)}</dd></div><div><dt>Действие читателя</dt><dd>${escapeHtml(item.cta)}</dd></div><div><dt>Готовность</dt><dd>${escapeHtml(item.readiness)}</dd></div></dl>${needsReview ? `<p class="idea-review-gate">Перед публикацией нужен человеческий методический или экспертный ревью.</p>` : ""}<section><h3>Предлагаемая драматургия</h3><ol>${ideaBeats(item).map((beat) => `<li>${escapeHtml(beat)}</li>`).join("")}</ol></section></div><footer class="idea-detail-actions"><button class="button button-secondary" type="button" data-idea-cover="${escapeHtml(reference)}">Только обложка</button><button class="button button-primary" type="button" data-idea-build-post="${escapeHtml(reference)}">Собрать с этой системой →</button></footer>`;
     ui.ideaDetailDialog.showModal();
   }
 
@@ -369,7 +399,8 @@
       hookInput.value = item.hook;
       hookInput.dispatchEvent(new Event("input", { bubbles: true }));
     }
-    toast("Идея открыта в конструкторе обложки");
+    window.dispatchEvent(new CustomEvent("sekta:cover-builder-direction", { detail: item.direction?.coverBuilder || {} }));
+    toast(`Обложка открыта в системе «${item.direction?.label || "#Sekta"}»`);
   }
 
   function growthBriefText(item) {
@@ -729,12 +760,43 @@
     });
     renderIdeaBank();
   }));
+  ui.ideaSourceRadar?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-idea-source]");
+    if (!button) return;
+    activeIdeaSource = button.dataset.ideaSource;
+    ideaBankOffset = 0;
+    renderIdeaSources();
+    renderIdeaBank();
+  });
+  ui.ideaMechanicFilter?.addEventListener("change", () => {
+    activeIdeaMechanic = ui.ideaMechanicFilter.value;
+    ideaBankOffset = 0;
+    renderIdeaBank();
+  });
+  ui.mixIdeaRadar?.addEventListener("click", () => {
+    activeIdeaSource = "all";
+    activeIdeaMechanic = "all";
+    ideaBankOffset = Math.floor(Math.random() * Math.max(1, ideaBankCatalog[activeIdeaKind].length));
+    if (ui.ideaMechanicFilter) ui.ideaMechanicFilter.value = "all";
+    renderIdeaSources();
+    renderIdeaBank();
+    toast("Источники смешаны — показываем другую связку");
+  });
   ui.refreshIdeaBank?.addEventListener("click", () => {
-    ideaBankOffset = (ideaBankOffset + 3) % ideaBankCatalog[activeIdeaKind].length;
+    const total = filteredIdeaBank().length;
+    ideaBankOffset = total ? (ideaBankOffset + Math.min(6, total)) % total : 0;
     renderIdeaBank();
     toast("Подборка обновлена");
   });
   document.addEventListener("click", (event) => {
+    if (event.target.closest("[data-reset-idea-radar]")) {
+      activeIdeaSource = "all";
+      activeIdeaMechanic = "all";
+      ideaBankOffset = 0;
+      if (ui.ideaMechanicFilter) ui.ideaMechanicFilter.value = "all";
+      renderIdeaSources();
+      renderIdeaBank();
+    }
     const detailButton = event.target.closest("[data-idea-detail]");
     if (detailButton) openIdeaDetail(detailButton.dataset.ideaDetail);
     const ideaCard = event.target.closest("[data-idea-card]");
@@ -820,6 +882,8 @@
   renderGrowthPrinciples();
   renderGrowthNext();
   renderGrowthIdeas();
+  if (ui.ideaMechanicFilter) ui.ideaMechanicFilter.insertAdjacentHTML("beforeend", ideaRadar.mechanics.map((mechanic) => `<option value="${escapeHtml(mechanic.id)}">${escapeHtml(mechanic.label)}</option>`).join(""));
+  renderIdeaSources();
   renderIdeaBank();
   renderLibrary();
   renderSandbox();

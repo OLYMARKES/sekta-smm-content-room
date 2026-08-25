@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260825-5">
+  <link rel="stylesheet" href="styles.css?v=20260825-6">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -170,19 +170,27 @@
 
         <section class="view" data-view-panel="growth">
           <div class="page-heading compact growth-heading">
-            <div><h1>Банк идей</h1><p>Выберите формат и обновляйте подборку, пока не найдёте тему, которую хочется произвести. Готовые Reels можно сразу открыть как полный бриф.</p></div>
-            <span class="snapshot-label"><i></i>идеи собраны под материалы #Sekta</span>
+            <div><h1>Банк идей</h1><p>Не ещё один список тем, а машина заходов: выберите источник, механику и формат — и сразу отправьте результат в монтаж.</p></div>
+            <span class="snapshot-label"><i></i>12 000+ архивных материалов превращены в курированные входы</span>
           </div>
 
           <section class="idea-generator" aria-label="Генератор идей">
-            <div class="idea-generator-head">
+            <div class="idea-radar-head">
+              <div><h2>Из чего начать</h2><p>Сырые архивы остаются закрытыми. Здесь — только производственные направления и честное происхождение идеи.</p></div>
+              <button class="button button-secondary" id="mixIdeaRadar" type="button">Смешать источники</button>
+            </div>
+            <div class="idea-source-radar" id="ideaSourceRadar" role="list" aria-label="Источники идей"></div>
+
+            <div class="idea-generator-head idea-recipe-bar">
               <div class="idea-kind-switch" role="tablist" aria-label="Формат идей">
                 <button class="is-active" type="button" data-idea-kind="post" role="tab" aria-selected="true">Посты</button>
                 <button type="button" data-idea-kind="reel" role="tab" aria-selected="false">Reels</button>
                 <button type="button" data-idea-kind="series" role="tab" aria-selected="false">Системные серии</button>
               </div>
-              <button class="button button-primary" id="refreshIdeaBank" type="button">Обновить подборку ↻</button>
+              <label class="idea-mechanic-filter"><span>Механика захода</span><select id="ideaMechanicFilter"><option value="all">Все механики</option></select></label>
+              <button class="button button-primary" id="refreshIdeaBank" type="button">Ещё шесть идей ↻</button>
             </div>
+            <div class="idea-bank-result"><strong id="ideaBankResult">Показываем 6 идей</strong><span id="ideaBankRecipe">все источники · все механики</span></div>
             <div class="idea-bank-grid" id="ideaBankGrid" aria-live="polite"></div>
           </section>
 
@@ -806,11 +814,12 @@
   <script src="data/growth-room.js"></script>
   <script src="data/library-data.js"></script>
   <script src="data/carousel-builder-data.js"></script>
+  <script src="data/idea-radar.js"></script>
   <script src="data/public-stats.js"></script>
   <script src="type-studio/font-data.js"></script>
-  <script src="app.js?v=20260824-1"></script>
-  <script src="carousel-builder.js?v=20260824-2"></script>
-  <script src="carousel-studio.js?v=20260825-3"></script>
+  <script src="app.js?v=20260825-1"></script>
+  <script src="carousel-builder.js?v=20260825-1"></script>
+  <script src="carousel-studio.js?v=20260825-4"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>

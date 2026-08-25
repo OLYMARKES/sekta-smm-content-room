@@ -788,6 +788,35 @@
     setStatus(`Лонгрид по теме «${idea.title}» создан. Его можно править перед разбиением.`);
   }
 
+  function applyIdeaDirection(idea) {
+    const direction = idea?.direction;
+    if (!direction?.cover || !Array.isArray(direction.sequence) || !direction.sequence.length) return false;
+    if (direction.font?.family) {
+      series.font = normalizeFontSystem(direction.font);
+      ensureFont(series.font);
+    }
+    if (paletteChoices()[direction.palette]) series.palette = direction.palette;
+    const portraitPhotos = library.filter((item) => item.orientation === "portrait");
+    series.slides.forEach((slide, index) => {
+      const isCover = index === 0;
+      const isFinal = index === series.slides.length - 1;
+      const spec = isCover ? direction.cover : isFinal ? direction.final : direction.sequence[(index - 1) % direction.sequence.length];
+      if (!spec) return;
+      const preserved = { title: slide.title, body: slide.body, role: slide.role, labelText: slide.labelText, showSeriesLabel: slide.showSeriesLabel, showTitle: slide.showTitle, showBody: slide.showBody, showCounter: slide.showCounter };
+      Object.assign(slide, spec, preserved, {
+        textColor: spec.textColor || "",
+        plaqueEnabled: spec.plaqueEnabled === true,
+        savedAt: null,
+      });
+      if (paletteChoices()[spec.palette]) slide.palette = spec.palette;
+      const usesPhoto = templateDefinitions[slide.template]?.usesPhoto === true;
+      slide.photoId = usesPhoto ? slide.photoId || portraitPhotos[index % Math.max(1, portraitPhotos.length)]?.id || preferredPhoto()?.id || null : null;
+      slide.font = null;
+    });
+    series.updatedAt = new Date().toISOString();
+    return true;
+  }
+
   function loadIdea(detail) {
     const idea = { ...fallbackIdea, ...detail };
     series.idea = idea;
@@ -863,9 +892,11 @@
     } else {
       generateFromIdea(false);
     }
+    const directionApplied = applyIdeaDirection(idea);
     renderSource();
     renderAll();
     setStage(idea.openSlides ? "slides" : "longread");
+    if (directionApplied) setStatus(`Идея перенесена в систему «${idea.direction.label}»: палитра, шрифты и ритм слайдов уже подобраны.`);
   }
 
   function setStatus(message) {
