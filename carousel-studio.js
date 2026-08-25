@@ -9,17 +9,17 @@
   const MONTAGE_VERSION = 4;
   const DEFAULT_LONGREAD = document.querySelector("#carouselLongreadText")?.value || "";
   const palettes = {
-    ink: { name: "Контрастная", background: "#17221f", foreground: "#ffffff", accent: "#f7f7f2", ink: "#17221f" },
-    pink: { name: "Розовая", background: "#f35ba7", foreground: "#17221f", accent: "#ffffff", ink: "#17221f" },
-    blue: { name: "Синяя", background: "#3155e4", foreground: "#ffffff", accent: "#dce5ff", ink: "#17211e" },
-    lime: { name: "Лайм", background: "#d4f04a", foreground: "#17221f", accent: "#ffffff", ink: "#17221f" },
-    paper: { name: "Бумага", background: "#fff7e6", foreground: "#5b493b", accent: "#f35ba7", ink: "#392f29" },
-    "sekta-yellow": { name: "#Sekta · жёлтый", background: "#17221f", foreground: "#ffe36a", accent: "#ffffff", ink: "#17221f" },
-    "sekta-cream": { name: "#Sekta · молочный", background: "#fbf7ef", foreground: "#17221f", accent: "#ffe36a", ink: "#17221f" },
-    "sekta-sky": { name: "#Sekta · голубой", background: "#c8edf2", foreground: "#17221f", accent: "#ffffff", ink: "#17221f" },
-    "sekta-mint": { name: "#Sekta · мятный", background: "#62d9a4", foreground: "#17221f", accent: "#fbf7ef", ink: "#17221f" },
-    "sekta-pink": { name: "#Sekta · розовый", background: "#f481b5", foreground: "#17221f", accent: "#fbf7ef", ink: "#17221f" },
-    "sekta-sun": { name: "#Sekta · солнечный", background: "#ffe36a", foreground: "#17221f", accent: "#f481b5", ink: "#17221f" },
+    ink: { name: "Контрастная", background: "#17221f", foreground: "#ffffff", accent: "#f7f7f2", ink: "#17221f", plaque: "#f7f7f2", plaqueText: "#17221f" },
+    pink: { name: "Розовая", background: "#f35ba7", foreground: "#17221f", accent: "#ffffff", ink: "#17221f", plaque: "#ffffff", plaqueText: "#17221f" },
+    blue: { name: "Синяя", background: "#3155e4", foreground: "#ffffff", accent: "#dce5ff", ink: "#17211e", plaque: "#dce5ff", plaqueText: "#17211e" },
+    lime: { name: "Лайм", background: "#d4f04a", foreground: "#17221f", accent: "#ffffff", ink: "#17221f", plaque: "#17221f", plaqueText: "#ffffff" },
+    paper: { name: "Бумага", background: "#fff7e6", foreground: "#5b493b", accent: "#f35ba7", ink: "#392f29", plaque: "#f35ba7", plaqueText: "#17221f" },
+    "sekta-yellow": { name: "#Sekta · жёлтый", background: "#17221f", foreground: "#ffe36a", accent: "#ffffff", ink: "#17221f", plaque: "#ffe36a", plaqueText: "#17221f" },
+    "sekta-cream": { name: "#Sekta · молочный", background: "#fbf7ef", foreground: "#17221f", accent: "#ffe36a", ink: "#17221f", plaque: "#17221f", plaqueText: "#fbf7ef" },
+    "sekta-sky": { name: "#Sekta · голубой", background: "#c8edf2", foreground: "#17221f", accent: "#ffffff", ink: "#17221f", plaque: "#ffe36a", plaqueText: "#17221f" },
+    "sekta-mint": { name: "#Sekta · мятный", background: "#62d9a4", foreground: "#17221f", accent: "#fbf7ef", ink: "#17221f", plaque: "#17221f", plaqueText: "#ffffff" },
+    "sekta-pink": { name: "#Sekta · розовый", background: "#f481b5", foreground: "#17221f", accent: "#fbf7ef", ink: "#17221f", plaque: "#c8edf2", plaqueText: "#17221f" },
+    "sekta-sun": { name: "#Sekta · солнечный", background: "#ffe36a", foreground: "#17221f", accent: "#f481b5", ink: "#17221f", plaque: "#f481b5", plaqueText: "#17221f" },
   };
   const layoutPresets = {
     "paper-column": { name: "Бумажная колонка", role: "longread", scene: "paper", background: "#f3f1e9", foreground: "#171814", accent: "#e9a692", ink: "#171814" },
@@ -308,6 +308,16 @@
     "Geologica|lower", "Geologica|upper", "Golos Text|lower", "Golos Text|upper", "Manrope|lower", "Manrope|upper",
     "PT Sans Narrow|lower", "PT Sans Narrow|upper", "Rubik|lower", "Rubik|upper",
   ];
+  const optimalFontSystems = [
+    { family: "PT Sans Narrow", caseKind: "upper", body: "Manrope", recipe: "контрастная обложка" },
+    { family: "Geologica", caseKind: "lower", body: "Golos Text", recipe: "мягкий современный" },
+    { family: "Commissioner", caseKind: "lower", body: "Manrope", recipe: "редакционный гротеск" },
+    { family: "Golos Text", caseKind: "lower", body: "Golos Text", recipe: "спокойный лонгрид" },
+    { family: "Manrope", caseKind: "lower", body: "Golos Text", recipe: "чистая универсальная" },
+    { family: "Alumni Sans", caseKind: "upper", body: "Manrope", recipe: "узкий плакатный" },
+    { family: "Alegreya Sans", caseKind: "lower", body: "Golos Text", recipe: "живой гуманистический" },
+    { family: "Alice", caseKind: "lower", body: "Manrope", recipe: "мягкий editorial" },
+  ];
   let slideMediaOrder = [...library];
   let coverMediaLimit = 48;
   let slideMediaLimit = 48;
@@ -330,8 +340,9 @@
     const add = (family, caseKind = "original", body = "", recipe = "") => {
       if (!family) return;
       const normalized = { family, caseKind: caseKind || "original", body: body || companionFor(family), recipe };
+      const identity = [normalized.family, normalized.caseKind, normalized.body].join("|");
       normalized.key = [normalized.family, normalized.caseKind, normalized.body, normalized.recipe].join("|");
-      if (selected.some((font) => font.key === normalized.key)) return;
+      if (selected.some((font) => [font.family, font.caseKind, font.body].join("|") === identity)) return;
       selected.push(normalized);
     };
     savedSystems.forEach((system) => {
@@ -343,12 +354,11 @@
       const [family, caseKind] = preferredChoice.split("|");
       add(family, caseKind, tasteBundle.layoutPrefs?.body || layoutPrefs.body);
     }
+    optimalFontSystems.forEach((font) => add(font.family, font.caseKind, font.body, font.recipe));
     (tasteBundle.fontLikes || []).forEach((key) => {
       const split = String(key).lastIndexOf("|");
       if (split > 0) add(key.slice(0, split), key.slice(split + 1));
     });
-    add("PT Sans Narrow", "upper", "Manrope", "система #Sekta");
-    add("Golos Text", "lower", "Golos Text", "спокойный текст");
     builtInLikedFrames.forEach((key) => {
       const split = key.lastIndexOf("|");
       add(key.slice(0, split), key.slice(split + 1), "", "из профиля Оли");
@@ -367,9 +377,41 @@
   }
 
   function companionFor(family) {
+    const optimalCompanions = {
+      "PT Sans Narrow": "Manrope", "Alumni Sans": "Manrope", "Akt": "Manrope", "Alice": "Manrope",
+      "Commissioner": "Manrope", "Comfortaa": "Manrope", "Geologica": "Golos Text", "Golos Text": "Golos Text",
+      "Manrope": "Golos Text", "Rubik": "Golos Text", "Alegreya Sans": "Golos Text", "Literata": "Onest",
+      "Prata": "Golos Text", "Cormorant": "Golos Text",
+    };
+    if (optimalCompanions[family]) return optimalCompanions[family];
     const font = (window.CYRILLIC_FONT_DATA || []).find((item) => item.family === family);
-    if (!font) return family === "Literata" ? "Onest" : "Literata";
-    return ["Serif"].includes(font.category) ? "Onest" : "Literata";
+    if (!font) return "Golos Text";
+    return ["Serif"].includes(font.category) ? "Golos Text" : "Manrope";
+  }
+
+  function fontPairRecipe(font) {
+    const family = font?.family || "Onest";
+    const condensed = /PT Sans Narrow|Alumni Sans/i.test(family);
+    const editorial = /Alice|Literata|Prata|Cormorant/i.test(family);
+    const soft = /Alegreya Sans|Commissioner/i.test(family);
+    return {
+      titleWeight: editorial ? 700 : condensed ? 700 : 800,
+      titleLineHeight: condensed ? .88 : editorial ? .98 : soft ? .96 : .93,
+      titleTracking: condensed ? -.012 : editorial ? -.022 : soft ? -.018 : -.03,
+      bodyWeight: 470,
+      bodyLineHeight: 1.25,
+      bodyTracking: 0,
+    };
+  }
+
+  function applyFontSystemTypography(slide, font) {
+    const recipe = fontPairRecipe(font);
+    slide.font = null;
+    slide.titleFontFamily = "";
+    slide.bodyFontFamily = "";
+    slide.caseKind = font.caseKind || "original";
+    Object.assign(slide, recipe);
+    slide.savedAt = null;
   }
 
   function ensureFontFamily(family) {
@@ -1389,15 +1431,20 @@
     ui.fontStrip.innerHTML = choices.map((font) => {
       const key = fontSystemKey(font);
       const caseLabel = font.caseKind === "upper" ? "КАПС" : font.caseKind === "lower" ? "строчные" : "исходный регистр";
-      const recipe = font.recipe && font.recipe !== "стартовая система" ? ` · ${font.recipe}` : "";
-      return `<button type="button" class="carousel-font-system${key === activeKey ? " is-active" : ""}" data-carousel-system-key="${escapeHtml(key)}" style="--font-choice:'${escapeHtml(font.family)}'"><span>${escapeHtml(font.family)} <i>× ${escapeHtml(font.body)}</i></span><small>${caseLabel}${escapeHtml(recipe)}</small></button>`;
+      const sample = displayText("Пауза — не откат", font.caseKind);
+      const recipe = font.recipe && font.recipe !== "стартовая система" ? font.recipe : "готовая пара";
+      return `<button type="button" class="carousel-font-system${key === activeKey ? " is-active" : ""}" data-carousel-system-key="${escapeHtml(key)}" style="--font-choice:'${escapeHtml(font.family)}';--body-choice:'${escapeHtml(font.body)}'"><span>${escapeHtml(sample)}</span><small>${escapeHtml(font.family)} × ${escapeHtml(font.body)}</small><em>${caseLabel} · ${escapeHtml(recipe)}</em></button>`;
     }).join("");
     choices.forEach(ensureFont);
   }
 
   function renderPaletteState() {
     const choices = paletteChoices();
-    ui.paletteStrip.innerHTML = Object.entries(choices).map(([id, palette]) => `<button type="button" class="carousel-palette-system${id === series.palette ? " is-active" : ""}" data-carousel-palette="${escapeHtml(id)}" aria-label="${escapeHtml(palette.name)}" style="--palette:${palette.background};--palette-2:${palette.foreground};--palette-3:${palette.accent}"><span></span><small>${escapeHtml(palette.name)}</small>${palette.sourceId ? `<em>${escapeHtml(roleLabels[palette.role] || palette.role)}</em>` : ""}</button>`).join("");
+    ui.paletteStrip.innerHTML = Object.entries(choices).map(([id, palette]) => {
+      const plaque = palette.plaque || palette.accent;
+      const plaqueText = palette.plaqueText || readableTextColor(plaque);
+      return `<button type="button" class="carousel-palette-system${id === series.palette ? " is-active" : ""}" data-carousel-palette="${escapeHtml(id)}" aria-label="${escapeHtml(palette.name)}: текст и плашка" style="--palette:${palette.background};--palette-2:${palette.foreground};--palette-3:${palette.accent};--palette-plaque:${plaque};--palette-plaque-text:${plaqueText}"><span aria-hidden="true"><b>Аа</b></span><small>${escapeHtml(palette.name)}</small><em>${palette.sourceId ? escapeHtml(roleLabels[palette.role] || palette.role) : "текст + плашка"}</em></button>`;
+    }).join("");
   }
 
   function renderSlidePaletteOptions(selectedId) {
@@ -1615,6 +1662,32 @@
     (slide.customLayers || []).forEach((layer) => { layer.color = ""; });
   }
 
+  function readableTextColor(surface) {
+    const raw = String(surface || "#ffffff").replace("#", "");
+    const hex = raw.length === 3 ? raw.split("").map((value) => value + value).join("") : raw.padEnd(6, "f").slice(0, 6);
+    const channels = [0, 2, 4].map((index) => parseInt(hex.slice(index, index + 2), 16) / 255).map((value) => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4);
+    const luminance = channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
+    return luminance > .36 ? "#17221f" : "#ffffff";
+  }
+
+  function applyPaletteRoles(slide, id) {
+    const palette = paletteFor(id);
+    slide.palette = id;
+    resetSlidePaletteOverrides(slide);
+    const textOverPhoto = ["photo-clean", "photo-dim", "plate"].includes(slide.scene);
+    const plaqueColor = palette.plaque || (textOverPhoto ? palette.background : palette.accent);
+    const canvasTextColor = textOverPhoto ? "#ffffff" : readableTextColor(slide.backgroundColor || palette.background);
+    slide.plaqueEnabled = slide.showTitle !== false && Boolean(String(slide.title || "").trim());
+    slide.plaqueColor = plaqueColor;
+    slide.plaqueOpacity = textOverPhoto ? .94 : 1;
+    slide.textColor = canvasTextColor;
+    slide.titleColor = palette.plaqueText || readableTextColor(plaqueColor);
+    slide.bodyColor = canvasTextColor;
+    slide.labelColor = canvasTextColor;
+    slide.counterColor = canvasTextColor;
+    slide.savedAt = null;
+  }
+
   function applyQuickLayoutData(slide, preset, resetOffsets = true) {
     ["template", "scene", "placement", "size", "bodySize", "titleBoxWidth", "titleBoxHeight", "bodyBoxWidth", "bodyBoxHeight"].forEach((key) => {
       if (preset[key] !== undefined) slide[key] = preset[key];
@@ -1630,9 +1703,7 @@
   function applyQuickPalette(id) {
     if (!palettes[id]) return;
     const slide = activeSlide();
-    slide.palette = id;
-    resetSlidePaletteOverrides(slide);
-    slide.savedAt = null;
+    applyPaletteRoles(slide, id);
     renderActiveEditor();
     if (series.activeSlide === 0) renderGridPreview();
     markChanged();
@@ -2667,11 +2738,12 @@
     if (!choice) return;
     series.font = normalizeFontSystem(choice);
     ensureFont(series.font);
+    series.slides.forEach((slide) => applyFontSystemTypography(slide, series.font));
     renderFontStrip();
     renderCover();
     renderActiveEditor();
     markChanged();
-    setStatus(`${series.font.family} × ${series.font.body} применены ко всей карусели.`);
+    setStatus(`${series.font.family} × ${series.font.body}: применены готовые веса и ритм заголовка с основным текстом.`);
   });
   ui.paletteStrip.addEventListener("click", (event) => {
     const button = event.target.closest("[data-carousel-palette]");
@@ -2679,16 +2751,15 @@
     series.palette = button.dataset.carouselPalette;
     const choice = paletteFor(series.palette);
     series.slides.forEach((slide, index) => {
-      slide.palette = series.palette;
       if (choice.sourceId && ((choice.role === "cover" && index === 0) || (choice.role === "longread" && index > 0 && index < series.slides.length - 1) || (choice.role === "quote" && slide.role === "quote"))) slide.scene = choice.scene;
-      slide.savedAt = null;
+      applyPaletteRoles(slide, series.palette);
     });
     renderPaletteState();
     renderCover();
     renderSplitPreview();
     renderActiveEditor();
     markChanged();
-    setStatus(choice.sourceId ? `Система «${choice.name}» применена вместе с подходящей сценой.` : "Палитра применена ко всей серии; любой слайд можно перекрасить отдельно.");
+    setStatus(choice.sourceId ? `Система «${choice.name}» применила сцену, цвет текста и плашки.` : `«${choice.name}»: текст и плашки перекрашены во всей серии.`);
   });
 
   ui.importTaste.addEventListener("click", () => {
@@ -2855,7 +2926,13 @@
     if (definition) ui.slidePlacement.value = definition.placement;
     updateActiveFromForm();
   });
-  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slidePalette, ui.slideTypeFont, ui.slideTypeWeight, ui.slideTypeSize, ui.slideBoxWidth, ui.slideBoxHeight, ui.slideTypeLineHeight, ui.slideTypeTracking, ui.slidePlacement, ui.slideAlign, ui.slideShowLabel, ui.slidePlaqueEnabled, ui.slidePlaqueOpacity, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
+  ui.slidePalette.addEventListener("input", () => {
+    applyPaletteRoles(activeSlide(), ui.slidePalette.value);
+    renderActiveEditor();
+    if (series.activeSlide === 0) renderGridPreview();
+    markChanged();
+  });
+  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slideTypeFont, ui.slideTypeWeight, ui.slideTypeSize, ui.slideBoxWidth, ui.slideBoxHeight, ui.slideTypeLineHeight, ui.slideTypeTracking, ui.slidePlacement, ui.slideAlign, ui.slideShowLabel, ui.slidePlaqueEnabled, ui.slidePlaqueOpacity, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
   ui.slidePlaqueColor.addEventListener("input", () => {
     ui.slidePlaqueColorValue.textContent = ui.slidePlaqueColor.value.toUpperCase();
     updateActiveFromForm();
