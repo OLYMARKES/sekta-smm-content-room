@@ -8,7 +8,7 @@
   const libraryPayload = window.SEKTA_LIBRARY || { items: [], uniqueCount: 0, duplicateCount: 0, sourceCount: 0 };
   const library = libraryPayload.items || [];
   const publicStats = window.SEKTA_PUBLIC_STATS || { checkedAt: "", note: "", channels: [] };
-  const viewLabels = { overview: "Рабочий обзор", growth: "Банк идей", production: "Материалы", coach: "Коуч роста", builder: "Идеи и обложки", postbuilder: "Конструктор поста", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
+  const viewLabels = { overview: "Рабочий обзор", growth: "Банк идей", timehop: "Таймхоп Оли", production: "Материалы", coach: "Коуч роста", builder: "Идеи и обложки", postbuilder: "Конструктор поста", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
   const statusClass = (status) => status === "Готово" ? "status-ready" : status === "На ревью" || status === "Текст готов" ? "status-review" : "status-shoot";
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
 
@@ -62,6 +62,11 @@
     ideaBankRecipe: document.querySelector("#ideaBankRecipe"),
     mixIdeaRadar: document.querySelector("#mixIdeaRadar"),
     refreshIdeaBank: document.querySelector("#refreshIdeaBank"),
+    olyaTimehopGrid: document.querySelector("#olyaTimehopGrid"),
+    timehopVisibleCount: document.querySelector("#timehopVisibleCount"),
+    timehopArchiveCount: document.querySelector("#timehopArchiveCount"),
+    navTimehopCount: document.querySelector("#navTimehopCount"),
+    refreshOlyaTimehop: document.querySelector("#refreshOlyaTimehop"),
     ideaDetailDialog: document.querySelector("#ideaDetailDialog"),
     ideaDetailContent: document.querySelector("#ideaDetailContent"),
     detailDialog: document.querySelector("#detailDialog"),
@@ -91,6 +96,7 @@
   let activeIdeaSource = "all";
   let activeIdeaMechanic = "all";
   let ideaBankOffset = 0;
+  let olyaTimehopOffset = 0;
   let activeGrowthId = growthRoom.next?.[0] || growthIdeas[0]?.id;
   let currentCoverMode = "current";
   let toastTimer;
@@ -349,6 +355,37 @@
       const direction = ideaDirection(item.direction);
       const reference = `${activeIdeaKind}:${index}`;
       return `<article class="idea-bank-card${position === 0 && visible.length > 2 ? " is-featured" : ""}" data-idea-card="${reference}"><div class="idea-card-visual direction-${escapeHtml(item.direction)}"><span>${escapeHtml(source.label)}</span><strong>${escapeHtml(item.hook)}</strong><small>${escapeHtml(direction.label)}</small></div><div class="idea-card-copy"><div class="idea-bank-meta"><span>${escapeHtml(item.objective)}</span><em>${escapeHtml(mechanic.label)}</em></div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.angle)}</p><dl><div><dt>Исходник</dt><dd>${escapeHtml(item.asset)}</dd></div><div><dt>Готовность</dt><dd>${escapeHtml(item.readiness)}</dd></div></dl><div class="idea-bank-actions"><button type="button" class="button button-secondary" data-idea-detail="${reference}">Развернуть</button><button type="button" class="button button-primary" data-idea-build-post="${reference}">В монтаж →</button></div></div></article>`;
+    }).join("");
+  }
+
+  function olyaTimehopCatalog() {
+    return Object.entries(ideaBankCatalog).flatMap(([kind, items]) => items.map((item, index) => ({ kind, index, item })).filter(({ item }) => item.source === "olya-timehop"));
+  }
+
+  function timehopYear(item) {
+    const match = `${item.asset || ""} ${item.title || ""}`.match(/\b(20\d{2})\b/);
+    return match?.[1] || "архив";
+  }
+
+  function renderOlyaTimehop() {
+    if (!ui.olyaTimehopGrid) return;
+    const catalog = olyaTimehopCatalog();
+    const archiveSource = ideaSource("olya-timehop");
+    if (ui.timehopArchiveCount) ui.timehopArchiveCount.textContent = archiveSource.count || "7 506";
+    if (ui.navTimehopCount) ui.navTimehopCount.textContent = catalog.length;
+    if (ui.timehopVisibleCount) ui.timehopVisibleCount.textContent = `${catalog.length} ${plural(catalog.length, "готовый заход", "готовых захода", "готовых заходов")}`;
+    if (!catalog.length) {
+      ui.olyaTimehopGrid.innerHTML = `<div class="idea-bank-empty"><strong>Входы из архива ещё собираются</strong><span>Когда появится первая курированная мысль Оли, она будет показана здесь.</span></div>`;
+      return;
+    }
+    olyaTimehopOffset %= catalog.length;
+    const ordered = catalog.map((_, index) => catalog[(olyaTimehopOffset + index) % catalog.length]);
+    ui.olyaTimehopGrid.innerHTML = ordered.map(({ kind, index, item }, position) => {
+      const mechanic = ideaMechanic(item.mechanic);
+      const direction = ideaDirection(item.direction);
+      const reference = `${kind}:${index}`;
+      const format = kind === "reel" ? "Reel" : kind === "series" ? "Серия" : "Пост / карусель";
+      return `<article class="idea-bank-card${position === 0 && ordered.length > 2 ? " is-featured" : ""}" data-idea-card="${reference}"><div class="idea-card-visual direction-${escapeHtml(item.direction)}"><span>${escapeHtml(timehopYear(item))} · ${escapeHtml(format)}</span><strong>${escapeHtml(item.hook)}</strong><small>${escapeHtml(direction.label)}</small></div><div class="idea-card-copy"><div class="idea-bank-meta"><span>${escapeHtml(item.objective)}</span><em>${escapeHtml(mechanic.label)}</em></div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.angle)}</p><dl><div><dt>Берём</dt><dd>${escapeHtml(item.asset)}</dd></div><div><dt>Делаем</dt><dd>${escapeHtml(item.cta)}</dd></div></dl><div class="idea-bank-actions"><button type="button" class="button button-secondary" data-idea-cover="${reference}">Обложка</button><button type="button" class="button button-primary" data-idea-build-post="${reference}">В монтаж →</button></div></div></article>`;
     }).join("");
   }
 
@@ -792,6 +829,12 @@
     renderIdeaBank();
     toast("Подборка обновлена");
   });
+  ui.refreshOlyaTimehop?.addEventListener("click", () => {
+    const total = olyaTimehopCatalog().length;
+    olyaTimehopOffset = total ? (olyaTimehopOffset + 1) % total : 0;
+    renderOlyaTimehop();
+    toast("Показываем другой вход из архива Оли");
+  });
   document.addEventListener("click", (event) => {
     if (event.target.closest("[data-reset-idea-radar]")) {
       activeIdeaSource = "all";
@@ -905,6 +948,7 @@
   if (ui.ideaMechanicFilter) ui.ideaMechanicFilter.insertAdjacentHTML("beforeend", ideaRadar.mechanics.map((mechanic) => `<option value="${escapeHtml(mechanic.id)}">${escapeHtml(mechanic.label)}</option>`).join(""));
   renderIdeaSources();
   renderIdeaBank();
+  renderOlyaTimehop();
   renderLibrary();
   renderSandbox();
   window.SEKTA_IDEA_BANK = ideaBankCatalog;

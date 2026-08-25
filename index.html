@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260825-13">
+  <link rel="stylesheet" href="styles.css?v=20260825-14">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -29,6 +29,7 @@
         <button class="nav-item" data-view="builder"><span>▤</span>Идеи и обложки</button>
         <button class="nav-item" data-view="postbuilder"><span>▥</span>Конструктор поста</button>
         <button class="nav-item" data-view="growth"><span>↗</span>Банк идей</button>
+        <button class="nav-item" data-view="timehop"><span class="nav-type-mark">Т</span>Таймхоп Оли <em id="navTimehopCount">5</em></button>
         <button class="nav-item" data-view="production"><span class="nav-type-mark">М</span>Материалы <em id="navProductionCount">5</em></button>
         <button class="nav-item" data-view="coach"><span class="nav-type-mark">К</span>Коуч роста</button>
         <button class="nav-item" data-view="current"><span>▦</span>Текущая сетка</button>
@@ -261,6 +262,24 @@
           <section class="identity-all">
             <div><h2>Сравнить четыре цветовых режима</h2><p>Во всех версиях одинаковые фотографии, композиционные задачи и пара PT Sans Narrow × Manrope.</p></div>
             <div class="identity-compare" id="identityCompare"></div>
+          </section>
+        </section>
+
+        <section class="view" data-view-panel="timehop">
+          <div class="page-heading compact timehop-heading">
+            <div><h1>Таймхоп Оли</h1><p>Прошлые формулировки, планы и сцены Оли — не для репоста, а как вход в новый материал «тогда / сейчас».</p></div>
+            <div class="timehop-heading-actions">
+              <span class="snapshot-label"><i></i><strong id="timehopArchiveCount">7 506</strong> материалов в индексе</span>
+              <button class="button button-primary" id="refreshOlyaTimehop" type="button">Другой заход ↻</button>
+            </div>
+          </div>
+
+          <section class="idea-generator timehop-generator" aria-labelledby="timehopTodayTitle">
+            <div class="timehop-datebar">
+              <div><h2 id="timehopTodayTitle">Сегодня, 25 августа</h2><p>Берём одну архивную мысль и сразу видим, как превратить её в обложку, пост или повторяемую серию.</p></div>
+              <span id="timehopVisibleCount">5 готовых заходов</span>
+            </div>
+            <div class="idea-bank-grid timehop-grid" id="olyaTimehopGrid" aria-live="polite"></div>
           </section>
         </section>
 
@@ -916,7 +935,7 @@
   <script src="data/production-projects.js"></script>
   <script src="data/public-stats.js"></script>
   <script src="type-studio/font-data.js"></script>
-  <script src="app.js?v=20260825-4"></script>
+  <script src="app.js?v=20260825-5"></script>
   <script src="growth-coach.js?v=20260825-3"></script>
   <script src="production-room.js?v=20260825-2"></script>
   <script src="carousel-builder.js?v=20260825-5"></script>
