@@ -183,7 +183,12 @@
     try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; }
   }
 
+  function writeLocalJson(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* private mode: keep the current session usable */ }
+  }
+
   const coverSystemKey = "sekta-builder-cover-system-v3";
+  const discoveryStateKey = "sekta-builder-discovery-v1";
   function restoreCoverSystem() {
     const saved = readLocalJson(coverSystemKey, {});
     if (["clean", "plate", "rail", "footer"].includes(saved.style)) activeStyle = saved.style;
@@ -240,9 +245,10 @@
   }
 
   function refreshIdeas({ initial = false } = {}) {
+    const lastDiscovery = readLocalJson(discoveryStateKey, {});
     const previousKeys = new Set(currentIdeas.map((idea) => idea.key));
     const fresh = shuffle(ideaPool());
-    const unseen = fresh.filter((idea) => !previousKeys.has(idea.key));
+    const unseen = fresh.filter((idea) => !previousKeys.has(idea.key) && idea.key !== lastDiscovery.ideaKey);
     currentIdeas = [...unseen, ...fresh].slice(0, 10);
     selectedIdeaKey = "";
     ui.development.hidden = true;
@@ -254,7 +260,7 @@
     ui.ideaStrip.innerHTML = currentIdeas.map((idea) => `<button type="button" class="builder-idea${idea.key === selectedIdeaKey ? " is-active" : ""}" data-builder-idea="${escapeHtml(idea.key)}"><span>${escapeHtml(idea.topic.label)}</span><strong>${escapeHtml(idea.hook)}</strong><small>${escapeHtml(idea.topic.promise)}</small></button>`).join("");
   }
 
-  function selectIdea(key) {
+  function selectIdea(key, { scroll = true, revealDevelopment = true, announce = true } = {}) {
     const idea = currentIdeas.find((item) => item.key === key);
     if (!idea) return;
     selectedIdeaKey = idea.key;
@@ -266,7 +272,7 @@
     ui.subtitle.value = subtitleForGoal();
     ui.developmentTitle.textContent = idea.topic.label;
     ui.developmentHook.textContent = idea.hook;
-    ui.development.hidden = false;
+    ui.development.hidden = !revealDevelopment;
     mediaScope = "all";
     mediaLimit = 40;
     mediaRandomized = false;
@@ -274,8 +280,8 @@
     renderMedia();
     renderCover();
     renderSlides();
-    setStatus(`Идея «${activeTopic.label}» раскрыта: выберите объём и соберите карусель.`);
-    ui.development.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    if (announce) setStatus(`Идея «${activeTopic.label}» раскрыта: выберите объём и соберите карусель.`);
+    if (scroll) ui.development.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
   function candidateScore(item) {
@@ -284,6 +290,60 @@
     const portrait = item.orientation === "portrait" ? 1 : 0;
     const beforePhotoPenalty = item.sourceFolder === "тело ДО" && activeTopic.id !== "body-neutrality" ? -5 : 0;
     return coverRole + actionRole + portrait + beforePhotoPenalty + Number(item.agentScore || 0);
+  }
+
+  function qualityShuffle(items, bandSize = 10) {
+    const ranked = [...items].sort((a, b) => candidateScore(b) - candidateScore(a));
+    const result = [];
+    for (let index = 0; index < ranked.length; index += bandSize) result.push(...shuffle(ranked.slice(index, index + bandSize)));
+    return result;
+  }
+
+  function freshCoverMediaOrder(previousPhotoId = "") {
+    const collectionIds = ["neuro", "camp", "maternity", "body", "olya"];
+    const collectionQueues = new Map(collectionIds.map((id) => [
+      id,
+      qualityShuffle(library.filter((item) => item.collections?.includes(id))).slice(0, 48),
+    ]));
+    const result = [];
+    const used = new Set();
+    const add = (item) => {
+      if (!item || used.has(item.id) || item.id === previousPhotoId) return;
+      used.add(item.id);
+      result.push(item);
+    };
+
+    // A different collection leads each session; the strongest candidates then
+    // rotate so one source never floods the first rows of the picker.
+    const rotatingCollections = shuffle(collectionIds);
+    for (let round = 0; round < 8; round += 1) rotatingCollections.forEach((id) => add(collectionQueues.get(id)?.[round]));
+    qualityShuffle(library).forEach(add);
+    const previous = library.find((item) => item.id === previousPhotoId);
+    if (previous) result.push(previous);
+    return result;
+  }
+
+  function refreshDiscovery({ initial = false } = {}) {
+    const lastDiscovery = readLocalJson(discoveryStateKey, {});
+    refreshIdeas({ initial: true });
+    const idea = currentIdeas.find((item) => item.key !== lastDiscovery.ideaKey) || currentIdeas[0];
+    if (!idea) return;
+
+    selectIdea(idea.key, { scroll: false, revealDevelopment: false, announce: false });
+    mediaOrder = freshCoverMediaOrder(lastDiscovery.photoId || selectedPhoto?.id || "");
+    mediaRandomized = true;
+    selectedPhoto = mediaOrder[0] || library[0] || null;
+    mediaScope = "all";
+    mediaLimit = 40;
+    ui.mediaSearch.value = "";
+    ui.mediaFolder.value = "all";
+    renderMedia();
+    renderCover();
+    renderSlides();
+    writeLocalJson(discoveryStateKey, { ideaKey: idea.key, photoId: selectedPhoto?.id || "", updatedAt: Date.now() });
+    setStatus(initial
+      ? `Новая загрузка: идея «${idea.topic.label}» и фотография для обложки обновлены.`
+      : `Обновили идею, обложку и фотоподборку. Сейчас — «${idea.topic.label}».`);
   }
 
   function currentMediaPool() {
@@ -304,8 +364,8 @@
     const visible = mediaPool.slice(0, mediaLimit);
     if (!selectedPhoto) selectedPhoto = visible[0] || library[0] || null;
     ui.mediaCount.textContent = mediaScope === "relevant"
-      ? `${mediaPool.length} ${plural(mediaPool.length, "фото по теме", "фото по теме", "фото по теме")}`
-      : `${mediaPool.length} ${plural(mediaPool.length, "фото в каталоге", "фото в каталоге", "фото в каталоге")}`;
+      ? `${mediaPool.length} ${plural(mediaPool.length, "фото по теме", "фото по теме", "фото по теме")} · свежая подборка`
+      : `${mediaPool.length} ${plural(mediaPool.length, "фото в каталоге", "фото в каталоге", "фото в каталоге")} · свежая подборка`;
     ui.mediaGrid.innerHTML = visible.length
       ? visible.map((item) => `<button type="button" class="builder-media${item.id === selectedPhoto?.id ? " is-selected" : ""}" data-builder-media="${escapeHtml(item.id)}" data-name="${escapeHtml(item.fileName)}" aria-label="Выбрать ${escapeHtml(item.fileName)}"><img src="${escapeHtml(item.thumb)}" alt="" loading="lazy"></button>`).join("")
       : `<div class="builder-media-empty"><strong>Ничего не найдено</strong><span>Сбросьте поиск или выберите другую коллекцию.</span></div>`;
@@ -880,7 +940,7 @@
   };
   ui.cover.addEventListener("pointerup", finishCoverDrag);
   ui.cover.addEventListener("pointercancel", finishCoverDrag);
-  ui.refreshIdeas.addEventListener("click", () => refreshIdeas());
+  ui.refreshIdeas.addEventListener("click", () => refreshDiscovery());
   ui.closeDevelopment.addEventListener("click", () => {
     ui.development.hidden = true;
     selectedIdeaKey = "";
@@ -1010,16 +1070,9 @@
     setStatus("Открыта полная типографическая примерочная: 294 гарнитуры и 588 кадров обложки.");
   });
 
-  ui.topic.value = activeTopic.id;
-  ui.hook.value = activeTopic.hooks[0];
-  ui.subtitle.value = subtitleForGoal();
-  refreshIdeas({ initial: true });
-  selectedPhoto = currentMediaPool()[0] || library[0] || null;
   refreshTasteFont(false);
   restoreCoverSystem();
   renderTypeSystems();
-  renderMedia();
-  renderCover();
+  refreshDiscovery({ initial: true });
   setPreviewMode(activePreview);
-  renderSlides();
 })();
