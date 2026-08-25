@@ -570,7 +570,9 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .builder-cover-account { position: absolute; z-index: 3; top: 14%; left: 22px; color: #fff; font-size: 8px; font-weight: 800; letter-spacing: .06em; text-shadow: 0 1px 7px rgba(0,0,0,.72); }
 .builder-cover strong { position: absolute; z-index: 2; left: 22px; right: 22px; bottom: 20%; font-size: clamp(32px, 3.05vw, 52px); font-weight: 900; line-height: .9; letter-spacing: -.04em; text-wrap: balance; }
 .builder-cover small { position: absolute; z-index: 2; left: 23px; right: 23px; bottom: 14%; font-size: 8px; font-weight: 780; letter-spacing: .08em; text-transform: uppercase; }
-.builder-cover.is-direct-editing { touch-action: none; }
+.builder-cover.is-direct-editing { cursor: grab; touch-action: none; }
+.builder-cover.is-direct-editing > img { pointer-events: none; user-select: none; -webkit-user-drag: none; }
+.builder-cover.is-direct-editing.is-dragging-photo { cursor: grabbing; }
 .builder-cover.is-direct-editing .builder-direct-layer { cursor: grab; user-select: none; touch-action: none; transform: translate(var(--builder-layer-x, 0), var(--builder-layer-y, 0)); }
 .builder-cover.is-direct-editing .builder-direct-layer:active { cursor: grabbing; }
 .builder-cover.is-direct-editing .builder-direct-layer:hover { outline: 1px dashed rgba(255,255,255,.78); outline-offset: 5px; }

@@ -196,10 +196,20 @@
     if (["tempo", "grotesk", "editorial", "taste"].includes(saved.font) && (saved.font !== "taste" || tasteFont)) activeFont = saved.font;
     if (accentColors[saved.accent]) activeAccent = saved.accent;
     if (["auto", "ink", "white", "accent"].includes(saved.textColor)) activeTextColor = saved.textColor;
+    if (Number.isFinite(Number(saved.focusX))) ui.focusX.value = Math.max(0, Math.min(100, Number(saved.focusX)));
+    if (Number.isFinite(Number(saved.focusY))) ui.focusY.value = Math.max(0, Math.min(100, Number(saved.focusY)));
   }
 
   function saveCoverSystem() {
-    localStorage.setItem(coverSystemKey, JSON.stringify({ style: activeStyle, placement: activePlacement, font: activeFont, accent: activeAccent, textColor: activeTextColor }));
+    writeLocalJson(coverSystemKey, {
+      style: activeStyle,
+      placement: activePlacement,
+      font: activeFont,
+      accent: activeAccent,
+      textColor: activeTextColor,
+      focusX: Number(ui.focusX.value),
+      focusY: Number(ui.focusY.value),
+    });
   }
 
   function selectedTasteFont() {
@@ -460,7 +470,7 @@
   }
 
   function renderCover() {
-    ui.cover.className = `builder-cover builder-cover-${activeStyle}`;
+    ui.cover.className = `builder-cover builder-cover-${activeStyle} is-direct-editing`;
     ui.cover.dataset.placement = activePlacement;
     ui.cover.dataset.font = activeFont;
     ui.cover.dataset.accent = activeAccent;
@@ -909,13 +919,33 @@
   });
   let coverDrag = null;
   ui.cover.addEventListener("pointerdown", (event) => {
+    if (event.isPrimary === false || event.button > 0) return;
     const element = event.target.closest("[data-builder-layer]");
-    if (!element || !ui.cover.contains(element)) return;
+    if (!element || !ui.cover.contains(element)) {
+      if (!selectedPhoto) return;
+      const rect = ui.cover.getBoundingClientRect();
+      coverDrag = {
+        kind: "photo",
+        id: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        focusX: Number(ui.focusX.value),
+        focusY: Number(ui.focusY.value),
+        width: rect.width,
+        height: rect.height,
+        moved: false,
+      };
+      event.preventDefault();
+      ui.cover.classList.add("is-dragging-photo");
+      ui.cover.setPointerCapture(event.pointerId);
+      setStatus("Фотография выбрана · тяните мышью, чтобы изменить кадрирование.");
+      return;
+    }
     const key = element.dataset.builderLayer;
     activeCoverLayer = key;
     const layer = coverLayers[key];
     const rect = ui.cover.getBoundingClientRect();
-    coverDrag = { id: event.pointerId, key, startX: event.clientX, startY: event.clientY, x: layer.x, y: layer.y, width: rect.width, height: rect.height, moved: false };
+    coverDrag = { kind: "layer", id: event.pointerId, key, startX: event.clientX, startY: event.clientY, x: layer.x, y: layer.y, width: rect.width, height: rect.height, moved: false };
     event.preventDefault();
     element.setPointerCapture(event.pointerId);
     syncLayerInspector();
@@ -923,6 +953,18 @@
   });
   ui.cover.addEventListener("pointermove", (event) => {
     if (!coverDrag || coverDrag.id !== event.pointerId) return;
+    if (coverDrag.kind === "photo") {
+      const deltaX = (event.clientX - coverDrag.startX) / coverDrag.width * 100;
+      const deltaY = (event.clientY - coverDrag.startY) / coverDrag.height * 100;
+      const focusX = Math.max(0, Math.min(100, coverDrag.focusX - deltaX));
+      const focusY = Math.max(0, Math.min(100, coverDrag.focusY - deltaY));
+      ui.focusX.value = String(Math.round(focusX));
+      ui.focusY.value = String(Math.round(focusY));
+      ui.cover.style.setProperty("--focus-x", `${ui.focusX.value}%`);
+      ui.cover.style.setProperty("--focus-y", `${ui.focusY.value}%`);
+      coverDrag.moved ||= Math.abs(event.clientX - coverDrag.startX) + Math.abs(event.clientY - coverDrag.startY) > 2;
+      return;
+    }
     const layer = coverLayers[coverDrag.key];
     layer.x = Math.max(-35, Math.min(35, Math.round((coverDrag.x + (event.clientX - coverDrag.startX) / coverDrag.width * 100) * 2) / 2));
     layer.y = Math.max(-35, Math.min(35, Math.round((coverDrag.y + (event.clientY - coverDrag.startY) / coverDrag.height * 100) * 2) / 2));
@@ -933,10 +975,14 @@
   const finishCoverDrag = (event) => {
     if (!coverDrag || coverDrag.id !== event.pointerId) return;
     const moved = coverDrag.moved;
-    const label = coverLayers[coverDrag.key].label;
+    const kind = coverDrag.kind;
+    const label = kind === "layer" ? coverLayers[coverDrag.key].label : "фотография";
     coverDrag = null;
-    renderGridFitting();
-    setStatus(moved ? `${label} перемещён мышкой.` : `${label} выбран.`);
+    ui.cover.classList.remove("is-dragging-photo");
+    renderCover();
+    setStatus(kind === "photo"
+      ? moved ? "Кадрирование фотографии изменено и сохранено." : "Фотография выбрана; потяните её за свободное место."
+      : moved ? `${label} перемещён мышкой.` : `${label} выбран.`);
   };
   ui.cover.addEventListener("pointerup", finishCoverDrag);
   ui.cover.addEventListener("pointercancel", finishCoverDrag);
