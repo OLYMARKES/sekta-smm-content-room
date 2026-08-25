@@ -8,7 +8,7 @@
   const libraryPayload = window.SEKTA_LIBRARY || { items: [], uniqueCount: 0, duplicateCount: 0, sourceCount: 0 };
   const library = libraryPayload.items || [];
   const publicStats = window.SEKTA_PUBLIC_STATS || { checkedAt: "", note: "", channels: [] };
-  const viewLabels = { overview: "Рабочий обзор", growth: "Банк идей", builder: "Идеи и обложки", postbuilder: "Конструктор поста", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
+  const viewLabels = { overview: "Рабочий обзор", growth: "Банк идей", coach: "Коуч роста", builder: "Идеи и обложки", postbuilder: "Конструктор поста", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
   const statusClass = (status) => status === "Готово" ? "status-ready" : status === "На ревью" || status === "Текст готов" ? "status-review" : "status-shoot";
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
 

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260825-6">
+  <link rel="stylesheet" href="styles.css?v=20260825-7">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -29,6 +29,7 @@
         <button class="nav-item" data-view="builder"><span>▤</span>Идеи и обложки</button>
         <button class="nav-item" data-view="postbuilder"><span>▥</span>Конструктор поста</button>
         <button class="nav-item" data-view="growth"><span>↗</span>Банк идей</button>
+        <button class="nav-item" data-view="coach"><span class="nav-type-mark">К</span>Коуч роста</button>
         <button class="nav-item" data-view="current"><span>▦</span>Текущая сетка</button>
         <button class="nav-item" data-view="library"><span>▧</span>Медиатека <em id="navLibraryCount">1059</em></button>
         <button class="nav-item" data-view="planner"><span>↗</span>План недели <em id="navPlanCount">7</em></button>
@@ -60,6 +61,7 @@
             <button class="daily-action daily-action-primary" data-jump="builder"><span>Главное действие</span><strong>Собрать следующую обложку</strong><small>Идея → фото → композиция → PNG</small><b>→</b></button>
             <button class="daily-action" data-jump="postbuilder"><span>Нужен готовый пост</span><strong>Собрать карусель целиком</strong><small>Идея → лонгрид → слайды → PNG</small><b>→</b></button>
             <button class="daily-action" data-jump="growth"><span>Нужна тема</span><strong>Обновить банк идей</strong><small>Посты, Reels и повторяемые серии</small><b>→</b></button>
+            <button class="daily-action" data-jump="coach"><span>После публикации</span><strong>Разобрать результат</strong><small>Статистика → вывод → следующий тест</small><b>→</b></button>
             <button class="daily-action" data-jump="current"><span>Перед публикацией</span><strong>Проверить текущую сетку</strong><small>Снимок Instagram и следующие улучшения</small><b>→</b></button>
           </div>
 
@@ -96,6 +98,62 @@
             </section>
           </div>
 
+        </section>
+
+        <section class="view" data-view-panel="coach">
+          <div class="page-heading compact coach-heading">
+            <div><p class="eyebrow">Контур роста</p><h1>Коуч роста Instagram</h1><p>Связывает публикацию с результатом: что сработало, почему, какой один элемент повторить и что проверить следующим постом.</p></div>
+            <div class="coach-heading-actions">
+              <span class="coach-data-state" id="coachDataState"><i></i><strong>Демо-режим</strong><small>не статистика #Sekta</small></span>
+              <label class="button button-secondary coach-import-button" for="coachImportInput">Загрузить CSV</label>
+              <input id="coachImportInput" type="file" accept=".csv,text/csv" hidden>
+            </div>
+          </div>
+
+          <section class="coach-data-bar" aria-label="Состояние данных">
+            <div class="coach-data-message" role="status" aria-live="polite"><strong id="coachDataTitle">Сейчас показан безопасный демонстрационный сценарий</strong><span id="coachDataNote">Все цифры синтетические. Загрузите экспорт Instagram Insights — расчёты обновятся в этом браузере.</span></div>
+            <div class="coach-data-actions">
+              <label><span>Период анализа</span><select id="coachPeriod"><option value="7">7 дней</option><option value="14" selected>14 дней</option><option value="30">30 дней</option></select></label>
+              <span class="coach-source-range" id="coachSourceRange">Источник: считаем диапазон</span>
+              <button class="text-button" id="coachDownloadTemplate" type="button">Скачать шаблон CSV</button>
+              <button class="text-button coach-clear-data" id="coachClearData" type="button">Вернуть демо</button>
+            </div>
+          </section>
+
+          <div class="coach-kpis" id="coachKpis" aria-label="Ключевые показатели"></div>
+          <section class="coach-mobile-signal" id="coachMobileSignal" aria-label="Главный сигнал и следующий тест"></section>
+
+          <div class="coach-main-grid">
+            <section class="panel coach-performance-panel">
+              <div class="section-head"><div><h2>Какие публикации дали результат</h2><p id="coachChartCaption">Сравниваем глубину реакции с медианой выбранного периода</p></div><label class="coach-metric-select"><span>Показатель</span><select id="coachMetric"><option value="reach">Охват</option><option value="engagement">Вовлечение от охвата</option><option value="saves">Сохранения от охвата</option><option value="shares">Репосты от охвата</option><option value="follows">Подписки от охвата</option></select></label></div>
+              <div class="coach-chart-legend"><span><i class="is-strong"></i>выше медианы</span><span><i></i>ниже медианы</span></div>
+              <div class="coach-bar-chart" id="coachChart" role="list" aria-label="Рейтинг публикаций"></div>
+            </section>
+
+            <aside class="panel coach-next-panel" id="coachNext"></aside>
+          </div>
+
+          <section class="coach-insights-section">
+            <div class="section-head"><div><h2>Разбор: повторить, изменить, проверить</h2><p>У каждого вывода есть публикация-основание, показатель и конкретное следующее действие.</p></div><span id="coachUpdatedAt">пересчитано сейчас</span></div>
+            <div class="coach-insight-grid" id="coachInsights"></div>
+          </section>
+
+          <div class="coach-bottom-grid">
+            <section class="panel coach-formats-panel">
+              <div class="section-head"><div><h2>Форматы и механики</h2><p>Не общий средний ER, а сравнение конкретных способов захода.</p></div></div>
+              <div class="coach-segment-table" id="coachSegments"></div>
+            </section>
+
+            <section class="panel coach-loop-panel">
+              <div class="section-head"><div><h2>Цикл экспериментов</h2><p>Меняем одну переменную, заранее выбираем метрику успеха и после выхода фиксируем решение.</p></div><span id="coachExperimentCount">0 активных</span></div>
+              <div class="coach-experiment-list" id="coachExperiments"></div>
+            </section>
+          </div>
+
+          <section class="coach-privacy-note">
+            <strong>Как работает постоянный анализ</strong>
+            <p>После каждой новой CSV-выгрузки коуч пересчитывает показатели, сравнивает периоды и сохраняет принятые эксперименты в этом браузере. Автоматическая синхронизация без выгрузок потребует отдельного подключения Meta API и серверной части.</p>
+          </section>
         </section>
 
         <section class="view" data-view-panel="ideal">
@@ -815,9 +873,11 @@
   <script src="data/library-data.js"></script>
   <script src="data/carousel-builder-data.js"></script>
   <script src="data/idea-radar.js"></script>
+  <script src="data/growth-coach-demo.js"></script>
   <script src="data/public-stats.js"></script>
   <script src="type-studio/font-data.js"></script>
-  <script src="app.js?v=20260825-1"></script>
+  <script src="app.js?v=20260825-2"></script>
+  <script src="growth-coach.js?v=20260825-2"></script>
   <script src="carousel-builder.js?v=20260825-1"></script>
   <script src="carousel-studio.js?v=20260825-4"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
