@@ -6,7 +6,7 @@
   const DRAFT_KEY = "sekta-carousel-studio-draft-v2";
   const SAVED_KEY = "sekta-carousel-studio-series-v1";
   const IMPORT_KEY = "sekta-carousel-studio-taste-import-v1";
-  const MONTAGE_VERSION = 3;
+  const MONTAGE_VERSION = 4;
   const DEFAULT_LONGREAD = document.querySelector("#carouselLongreadText")?.value || "";
   const palettes = {
     ink: { name: "Контрастная", background: "#17221f", foreground: "#ffffff", accent: "#f7f7f2", ink: "#17221f" },
@@ -52,7 +52,7 @@
   };
   const roleLabels = { cover: "Обложка", longread: "Лонгрид", quote: "Цитата", proof: "Фото-доказательство", pause: "Фотопауза", cta: "Финал / CTA" };
   const templateDefinitions = {
-    "cover-plaque": { name: "Фото + нижняя плашка", scene: "plate", placement: "bottom", usesPhoto: true },
+    "cover-plaque": { name: "Фото + нижняя плашка", scene: "photo-clean", placement: "bottom", usesPhoto: true, plaque: true },
     "light-column": { name: "Колонка + боковая полоса", scene: "paper", placement: "middle", usesPhoto: false },
     "photo-field": { name: "Фото сверху + поле снизу", scene: "window", placement: "bottom", usesPhoto: true },
     "side-plaque": { name: "Фото + боковая плашка", scene: "split", placement: "middle", usesPhoto: true },
@@ -67,7 +67,7 @@
     paper: "light-column", dark: "color-final", "photo-dim": "photo-scrim", "photo-clean": "text-photo", plate: "cover-plaque", split: "side-plaque", window: "photo-window", field: "accent-thought", quote: "light-column",
   };
   const montageTemplates = {
-    cover: { template: "cover-plaque", role: "cover", scene: "plate", palette: "sekta-sky", placement: "bottom", size: 76, bodySize: 24, titleBoxWidth: 72, titleBoxHeight: 30, bodyBoxWidth: 68, bodyBoxHeight: 14, showCounter: false },
+    cover: { template: "text-photo", role: "cover", scene: "photo-clean", palette: "sekta-sky", placement: "bottom", size: 76, bodySize: 24, titleBoxWidth: 72, titleBoxHeight: 30, bodyBoxWidth: 68, bodyBoxHeight: 14, showSeriesLabel: false, showBody: false, showCounter: false, plaqueEnabled: false },
     body: [
       { template: "light-column", scene: "paper", palette: "sekta-cream", placement: "middle", size: 68, bodySize: 28, titleBoxWidth: 72, bodyBoxWidth: 72 },
       { template: "photo-field", scene: "window", palette: "sekta-mint", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 78 },
@@ -108,6 +108,13 @@
     coverShadowOpacityValue: document.querySelector("#carouselCoverShadowOpacityValue"),
     coverShadowColor: document.querySelector("#carouselCoverShadowColor"),
     coverShadowReset: document.querySelector("#carouselCoverShadowReset"),
+    coverPlaqueEnabled: document.querySelector("#carouselCoverPlaqueEnabled"),
+    coverPlaqueSettings: document.querySelector("#carouselCoverPlaqueSettings"),
+    coverPlaqueColor: document.querySelector("#carouselCoverPlaqueColor"),
+    coverPlaqueColorValue: document.querySelector("#carouselCoverPlaqueColorValue"),
+    coverPlaqueColorReset: document.querySelector("#carouselCoverPlaqueColorReset"),
+    coverPlaqueOpacity: document.querySelector("#carouselCoverPlaqueOpacity"),
+    coverPlaqueOpacityValue: document.querySelector("#carouselCoverPlaqueOpacityValue"),
     coverOutlineWidth: document.querySelector("#carouselCoverOutlineWidth"),
     coverOutlineWidthValue: document.querySelector("#carouselCoverOutlineWidthValue"),
     coverOutlineColor: document.querySelector("#carouselCoverOutlineColor"),
@@ -434,6 +441,9 @@
       labelColor: "",
       counterColor: "",
       layerEffects: {},
+      plaqueEnabled: false,
+      plaqueColor: "",
+      plaqueOpacity: 1,
       titleFontFamily: "",
       titleWeight: 800,
       titleLineHeight: .96,
@@ -481,7 +491,7 @@
       updatedAt: new Date().toISOString(),
       montageVersion: MONTAGE_VERSION,
       slides: [
-        makeSlide({ ...montageTemplates.cover, title: "Пропустили пять дней? Ничего не сломалось", body: "10 слайдов · сохрани", labelText: "@sektaschool", labelSize: 22, titleWeight: 700, titleLineHeight: .86, titleTracking: -.012, caseKind: "upper", photoId: firstPhoto?.id || null }),
+        makeSlide({ ...montageTemplates.cover, title: "Пропустили пять дней? Ничего не сломалось", body: "", labelText: "", labelSize: 22, titleWeight: 700, titleLineHeight: .86, titleTracking: -.012, caseKind: "upper", photoId: firstPhoto?.id || null }),
         makeSlide({ ...montageTemplates.final, title: "Возвращение не требует наказания", body: "Сохраните, чтобы вернуться к этой мысли в нужный день." }),
       ],
     };
@@ -521,6 +531,9 @@
         labelColor: slide.labelColor || "",
         counterColor: slide.counterColor || "",
         layerEffects: slide.layerEffects && typeof slide.layerEffects === "object" ? deepClone(slide.layerEffects) : {},
+        plaqueEnabled: slide.plaqueEnabled === true,
+        plaqueColor: slide.plaqueColor || "",
+        plaqueOpacity: Math.max(0, Math.min(1, numberOr(slide.plaqueOpacity, 1))),
         titleFontFamily: slide.titleFontFamily || "",
         titleWeight: numberOr(slide.titleWeight, 800),
         titleLineHeight: numberOr(slide.titleLineHeight, .96),
@@ -935,7 +948,7 @@
     const autoShadow = raw.shadowOpacity === undefined || raw.shadowOpacity === null;
     return {
       shadowAuto: autoShadow,
-      shadowOpacity: autoShadow ? (slide.scene === "photo-clean" ? .7 : 0) : Math.max(0, Math.min(1, numberOr(raw.shadowOpacity, 0))),
+      shadowOpacity: autoShadow ? 0 : Math.max(0, Math.min(1, numberOr(raw.shadowOpacity, 0))),
       shadowColor: raw.shadowColor || "#000000",
       outlineWidth: Math.max(0, Math.min(12, numberOr(raw.outlineWidth, 0))),
       outlineColor: raw.outlineColor || "#000000",
@@ -1146,7 +1159,7 @@
     const effects = layerEffects(slide, target);
     const shadowPercent = Math.round(effects.shadowOpacity * 100);
     controls.shadow.value = shadowPercent;
-    controls.shadowValue.textContent = effects.shadowAuto ? (shadowPercent ? `${shadowPercent}% · из сцены` : "нет · из сцены") : shadowPercent ? `${shadowPercent}%` : "нет";
+    controls.shadowValue.textContent = shadowPercent ? `${shadowPercent}%` : "нет";
     controls.shadowColor.value = effects.shadowColor;
     controls.outline.value = effects.outlineWidth;
     controls.outlineValue.textContent = effects.outlineWidth ? `${effects.outlineWidth} px` : "нет";
@@ -1269,12 +1282,16 @@
     element.dataset.align = slide.align || "left";
     element.dataset.role = slide.role;
     element.dataset.texture = slide.texture || "none";
+    element.dataset.plaque = slide.plaqueEnabled ? "on" : "off";
     element.style.setProperty("--carousel-head-font", `"${slideFont.family}"`);
     element.style.setProperty("--carousel-body-font", `"${slideFont.body || companionFor(slideFont.family)}"`);
     element.style.setProperty("--carousel-bg", slide.backgroundColor || palette.background);
     element.style.setProperty("--carousel-fg", slideForeground(slide));
     element.style.setProperty("--carousel-accent", palette.accent);
     element.style.setProperty("--carousel-ink", palette.ink);
+    element.style.setProperty("--carousel-plaque-color", slide.plaqueColor || palette.background);
+    element.style.setProperty("--carousel-plaque-opacity", String(Math.max(0, Math.min(1, numberOr(slide.plaqueOpacity, 1)))));
+    element.style.setProperty("--carousel-plaque-fill", colorWithAlpha(slide.plaqueColor || palette.background, slide.plaqueOpacity));
     element.style.setProperty("--carousel-title-size", `${Math.max(24, Math.round((slide.size || 46) * .48))}px`);
     element.style.setProperty("--carousel-body-size", `${Math.max(12, Math.min(31, Math.round((slide.bodySize || 34) * .48)))}px`);
     applyLayerVariables(element, slide);
@@ -1450,6 +1467,7 @@
     ui.coverAlign.value = slide.align || "left";
     ui.coverCase.value = slide.caseKind || "original";
     ui.coverShowLabel.checked = slide.showSeriesLabel !== false;
+    syncCoverPlaqueControls(slide);
     syncCoverOffsets();
     syncTypographyControls("cover");
     syncLayerContentControls("cover");
@@ -1459,6 +1477,18 @@
     const photo = photoById(slide.photoId);
     ui.coverPhotoName.textContent = photo?.fileName || "без фотографии";
     renderMediaStrip(ui.coverMedia, slide.photoId, ui.coverMediaSearch.value);
+  }
+
+  function syncCoverPlaqueControls(slide = coverSlide()) {
+    const palette = paletteFor(slide.palette);
+    const enabled = slide.plaqueEnabled === true;
+    ui.coverPlaqueEnabled.checked = enabled;
+    ui.coverPlaqueColor.value = slide.plaqueColor || palette.background;
+    ui.coverPlaqueColorValue.textContent = slide.plaqueColor || "из палитры";
+    ui.coverPlaqueOpacity.value = Math.round(Math.max(0, Math.min(1, numberOr(slide.plaqueOpacity, 1))) * 100);
+    ui.coverPlaqueOpacityValue.textContent = `${ui.coverPlaqueOpacity.value}%`;
+    ui.coverPlaqueSettings.classList.toggle("is-disabled", !enabled);
+    [ui.coverPlaqueColor, ui.coverPlaqueColorReset, ui.coverPlaqueOpacity].forEach((control) => { control.disabled = !enabled; });
   }
 
   function renderCover() {
@@ -1486,7 +1516,7 @@
     const photo = photoById(slide.photoId);
     const image = photo && !["paper", "field", "dark", "quote"].includes(slide.scene) ? `<img src="${escapeHtml(photo.thumb)}" alt="">` : "";
     const label = slide.title || slide.body || roleLabels[slide.role];
-    return `<button type="button" class="carousel-mini-slide${index === series.activeSlide ? " is-active" : ""}${slide.savedAt ? " is-saved" : ""}" data-carousel-slide-index="${index}" data-scene="${escapeHtml(slide.scene)}" data-template="${escapeHtml(slide.template || "")}" style="--mini-bg:${slide.backgroundColor || palette.background};--mini-fg:${slideForeground(slide)};--mini-font:'${escapeHtml(slideFont.family)}'"><span>${String(index + 1).padStart(2, "0")}</span><div>${image}<strong>${escapeHtml(label)}</strong></div><small>${escapeHtml(roleLabels[slide.role] || slide.role)}</small></button>`;
+    return `<button type="button" class="carousel-mini-slide${index === series.activeSlide ? " is-active" : ""}${slide.savedAt ? " is-saved" : ""}" data-carousel-slide-index="${index}" data-scene="${escapeHtml(slide.scene)}" data-template="${escapeHtml(slide.template || "")}" data-plaque="${slide.plaqueEnabled ? "on" : "off"}" style="--mini-bg:${slide.backgroundColor || palette.background};--mini-fg:${slideForeground(slide)};--mini-font:'${escapeHtml(slideFont.family)}';--mini-plaque:${colorWithAlpha(slide.plaqueColor || palette.background, slide.plaqueOpacity)}"><span>${String(index + 1).padStart(2, "0")}</span><div>${image}<strong>${escapeHtml(label)}</strong></div><small>${escapeHtml(roleLabels[slide.role] || slide.role)}</small></button>`;
   }
 
   function renderRail() {
@@ -1602,6 +1632,9 @@
     slide.align = ui.coverAlign.value;
     slide.caseKind = ui.coverCase.value;
     slide.showSeriesLabel = ui.coverShowLabel.checked;
+    slide.plaqueEnabled = ui.coverPlaqueEnabled.checked;
+    slide.plaqueColor = ui.coverPlaqueColorValue.textContent === "из палитры" ? "" : ui.coverPlaqueColor.value;
+    slide.plaqueOpacity = Math.max(0, Math.min(1, Number(ui.coverPlaqueOpacity.value) / 100));
     setLayerOffsets(slide, coverMoveTarget, Number(ui.coverOffsetX.value), Number(ui.coverOffsetY.value));
     setLayerBox(slide, coverMoveTarget, Number(ui.coverBoxWidth.value), Number(ui.coverBoxHeight.value));
     setLayerTypography(slide, coverMoveTarget, {
@@ -1613,6 +1646,7 @@
     });
     ensureFontFamily(layerTypography(slide, coverMoveTarget).resolvedFamily);
     slide.savedAt = null;
+    syncCoverPlaqueControls(slide);
     syncCoverOffsets();
     syncTypographyControls("cover");
     syncLayerContentControls("cover");
@@ -1628,6 +1662,7 @@
     slide.role = ui.slideRole.value;
     slide.template = ui.slideTemplate.value;
     slide.scene = ui.slideScene.value;
+    slide.plaqueEnabled = templateDefinitions[slide.template]?.plaque === true;
     slide.palette = ui.slidePalette.value;
     if (!slide.backgroundColor) {
       ui.slideBackgroundColor.value = paletteFor(slide.palette).background;
@@ -2162,7 +2197,7 @@
       else if (slide.scene === "window" && slide.template === "photo-field") cropImage(context, image, 0, 0, 1080, 720, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
       else if (slide.scene === "window") cropImage(context, image, 90, 90, 900, 520, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
       else cropImage(context, image, 0, 0, 1080, 1350, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
-      if (slide.scene === "photo-dim" || slide.template === "cover-plaque") {
+      if (slide.scene === "photo-dim") {
         const gradient = context.createLinearGradient(0, 250, 0, 1350);
         gradient.addColorStop(0, "rgba(10,16,14,.08)");
         gradient.addColorStop(1, "rgba(10,16,14,.88)");
@@ -2229,12 +2264,22 @@
     else if (slide.template === "photo-window") startY = 785;
     else if (slide.template === "side-plaque") startY = Math.max(310, (1350 - blockHeight) / 2);
     else if (slide.template === "top-plaque") startY = Math.max(120, (540 - blockHeight) / 2);
-    if (slide.template === "cover-plaque") {
-      context.fillStyle = surfaceColor;
+    if (slide.plaqueEnabled) {
+      const plaquePaddingX = 22;
+      const plaquePaddingY = 18;
+      const plaqueX = slide.align === "center"
+        ? titleX - titleMaxWidth / 2 - plaquePaddingX
+        : slide.align === "right"
+          ? titleX - titleMaxWidth - plaquePaddingX
+          : titleX - plaquePaddingX;
+      const plaqueY = startY + titleYShift - titleSize * .16 - plaquePaddingY;
+      context.save();
+      context.globalAlpha = Math.max(0, Math.min(1, numberOr(slide.plaqueOpacity, 1)));
+      context.fillStyle = slide.plaqueColor || surfaceColor;
       context.beginPath();
-      context.roundRect(65, startY - titleSize, 950, blockHeight + 100, 18);
+      context.roundRect(plaqueX, plaqueY, titleMaxWidth + plaquePaddingX * 2, titleHeight + plaquePaddingY * 2, 18);
       context.fill();
-      context.fillStyle = palette.foreground;
+      context.restore();
     }
     context.font = `${titleType.weight} ${titleSize}px ${fontFamily}`;
     setCanvasTracking(context, titleType.tracking, titleSize);
@@ -2394,7 +2439,7 @@
     if (cover || series.activeSlide === 0) renderGridPreview();
     if (!cover) renderRail();
     markChanged();
-    setStatus(`${layerLabel(slide, target)} · тень снова определяется выбранной сценой.`);
+    setStatus(`${layerLabel(slide, target)} · тень выключена.`);
   }
 
   function bindFontBrowser(select, previous, next, eventName) {
@@ -2495,7 +2540,16 @@
     updateSelectedLayerContent("cover");
     setStatus(ui.coverLayerVisible.checked ? "Элемент возвращён на обложку." : "Элемент удалён с обложки.");
   });
-  [ui.seriesName, ui.coverTitle, ui.coverSubtitle, ui.coverTypeFont, ui.coverTypeWeight, ui.coverTypeSize, ui.coverBoxWidth, ui.coverBoxHeight, ui.coverTypeLineHeight, ui.coverTypeTracking, ui.coverPlacement, ui.coverAlign, ui.coverCase, ui.coverShowLabel, ui.coverOffsetX, ui.coverOffsetY].forEach((control) => control.addEventListener("input", updateCoverFromForm));
+  [ui.seriesName, ui.coverTitle, ui.coverSubtitle, ui.coverTypeFont, ui.coverTypeWeight, ui.coverTypeSize, ui.coverBoxWidth, ui.coverBoxHeight, ui.coverTypeLineHeight, ui.coverTypeTracking, ui.coverPlacement, ui.coverAlign, ui.coverCase, ui.coverShowLabel, ui.coverPlaqueEnabled, ui.coverPlaqueOpacity, ui.coverOffsetX, ui.coverOffsetY].forEach((control) => control.addEventListener("input", updateCoverFromForm));
+  ui.coverPlaqueColor.addEventListener("input", () => {
+    ui.coverPlaqueColorValue.textContent = ui.coverPlaqueColor.value.toUpperCase();
+    updateCoverFromForm();
+  });
+  ui.coverPlaqueColorReset.addEventListener("click", () => {
+    ui.coverPlaqueColorValue.textContent = "из палитры";
+    ui.coverPlaqueColor.value = paletteFor(coverSlide().palette).background;
+    updateCoverFromForm();
+  });
   ui.coverLayerColor.addEventListener("input", () => updateLayerColor("cover", ui.coverLayerColor.value));
   ui.coverLayerColorReset.addEventListener("click", () => updateLayerColor("cover", ""));
   [ui.coverShadowOpacity, ui.coverShadowColor, ui.coverOutlineWidth, ui.coverOutlineColor].forEach((control) => control.addEventListener("input", () => updateLayerEffects("cover")));
