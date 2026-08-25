@@ -127,6 +127,8 @@
   const accentLabels = { sky: "голубой", green: "зелёный", yellow: "жёлтый", pink: "розовый" };
   const textColors = { white: "#ffffff", ink: "#17221f" };
   const coverTextDragSensitivity = 0.5;
+  const coverTextDragAccelerationDistance = 200;
+  const coverLayerOffsetLimit = 90;
   const seriesSystems = [
     { id: "tempo", label: "Tempo", family: "PT Sans Narrow", body: "Manrope", caseKind: "upper", note: "узкий капс × спокойный текст" },
     { id: "soft", label: "Мягкая", family: "Manrope", body: "Golos Text", caseKind: "upper", note: "широкий капс × нейтральный текст" },
@@ -951,9 +953,12 @@
       return;
     }
     const layer = coverLayers[coverDrag.key];
-    const precision = event.shiftKey ? 0.2 : coverTextDragSensitivity;
-    layer.x = Math.max(-35, Math.min(35, Math.round((coverDrag.x + (event.clientX - coverDrag.startX) / coverDrag.width * 100 * precision) * 2) / 2));
-    layer.y = Math.max(-35, Math.min(35, Math.round((coverDrag.y + (event.clientY - coverDrag.startY) / coverDrag.height * 100 * precision) * 2) / 2));
+    const pointerDistance = Math.hypot(event.clientX - coverDrag.startX, event.clientY - coverDrag.startY);
+    const precision = event.shiftKey
+      ? 0.2
+      : Math.min(1, coverTextDragSensitivity + pointerDistance / coverTextDragAccelerationDistance * (1 - coverTextDragSensitivity));
+    layer.x = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, Math.round((coverDrag.x + (event.clientX - coverDrag.startX) / coverDrag.width * 100 * precision) * 2) / 2));
+    layer.y = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, Math.round((coverDrag.y + (event.clientY - coverDrag.startY) / coverDrag.height * 100 * precision) * 2) / 2));
     coverDrag.moved ||= Math.abs(event.clientX - coverDrag.startX) + Math.abs(event.clientY - coverDrag.startY) > 2;
     applyCoverLayers();
     syncLayerInspector();
