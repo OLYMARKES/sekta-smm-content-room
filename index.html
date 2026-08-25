@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260825-7">
+  <link rel="stylesheet" href="styles.css?v=20260825-10">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -29,6 +29,7 @@
         <button class="nav-item" data-view="builder"><span>▤</span>Идеи и обложки</button>
         <button class="nav-item" data-view="postbuilder"><span>▥</span>Конструктор поста</button>
         <button class="nav-item" data-view="growth"><span>↗</span>Банк идей</button>
+        <button class="nav-item" data-view="production"><span class="nav-type-mark">М</span>Материалы <em id="navProductionCount">5</em></button>
         <button class="nav-item" data-view="coach"><span class="nav-type-mark">К</span>Коуч роста</button>
         <button class="nav-item" data-view="current"><span>▦</span>Текущая сетка</button>
         <button class="nav-item" data-view="library"><span>▧</span>Медиатека <em id="navLibraryCount">1059</em></button>
@@ -58,16 +59,16 @@
           </div>
 
           <div class="daily-actions" aria-label="Главные действия">
-            <button class="daily-action daily-action-primary" data-jump="builder"><span>Главное действие</span><strong>Собрать следующую обложку</strong><small>Идея → фото → композиция → PNG</small><b>→</b></button>
-            <button class="daily-action" data-jump="postbuilder"><span>Нужен готовый пост</span><strong>Собрать карусель целиком</strong><small>Идея → лонгрид → слайды → PNG</small><b>→</b></button>
+            <button class="daily-action daily-action-primary" data-jump="production"><span>Главное действие</span><strong>Продолжить материал</strong><small>Статус → следующий шаг → публикация</small><b>→</b></button>
+            <button class="daily-action" data-jump="builder"><span>Нужна обложка</span><strong>Собрать следующую обложку</strong><small>Идея → фото → композиция → PNG</small><b>→</b></button>
             <button class="daily-action" data-jump="growth"><span>Нужна тема</span><strong>Обновить банк идей</strong><small>Посты, Reels и повторяемые серии</small><b>→</b></button>
             <button class="daily-action" data-jump="coach"><span>После публикации</span><strong>Разобрать результат</strong><small>Статистика → вывод → следующий тест</small><b>→</b></button>
-            <button class="daily-action" data-jump="current"><span>Перед публикацией</span><strong>Проверить текущую сетку</strong><small>Снимок Instagram и следующие улучшения</small><b>→</b></button>
+            <button class="daily-action" data-jump="postbuilder"><span>Нужен готовый пост</span><strong>Собрать карусель целиком</strong><small>Лонгрид → слайды → PNG</small><b>→</b></button>
           </div>
 
           <div class="overview-status-line">
             <button data-jump="library"><strong id="metricUnique">1059</strong><span>фото в медиатеке</span></button>
-            <button data-jump="planner"><strong id="overviewPlanCount">7</strong><span>материалов в плане</span></button>
+            <button data-jump="production"><strong id="overviewProductionCount">5</strong><span>материалов в работе</span></button>
             <button data-jump="current"><strong id="overviewSnapshotDate">20.08</strong><span>последний снимок сетки</span></button>
             <button id="overviewSnapshotCountButton" type="button"><strong id="overviewSnapshotCount">1</strong><span>снимок в истории</span></button>
           </div>
@@ -100,6 +101,42 @@
 
         </section>
 
+        <section class="view" data-view-panel="production">
+          <div class="page-heading compact production-heading">
+            <div><h1>Материалы</h1><p>Одна карточка ведёт идею через текст, дизайн, ревью, публикацию и разбор результата. Сверху всегда видно, что делать следующим.</p></div>
+            <div class="production-heading-actions">
+              <button class="button button-primary" id="productionNew" type="button">Новый материал</button>
+              <button class="button button-secondary" id="productionExport" type="button">Скачать JSON</button>
+              <label class="button button-secondary" for="productionImport">Восстановить</label>
+              <input id="productionImport" type="file" accept="application/json,.json" hidden>
+            </div>
+          </div>
+
+          <section class="production-data-bar" aria-label="Хранение данных">
+            <div><strong>Рабочая версия хранится в этом браузере</strong><span>Автосохранение и история защищают от случайной правки; JSON переносит материалы на другой компьютер.</span></div>
+            <span id="productionDataState">Локально · загружаем материалы</span>
+          </section>
+
+          <div class="production-kpis" id="productionKpis" aria-label="Состояние производства"></div>
+          <section class="production-mobile-next" id="productionMobileNext" aria-live="polite"></section>
+
+          <section class="production-toolbar" aria-label="Фильтры материалов">
+            <label><span>Поиск</span><input id="productionSearch" type="search" placeholder="Название, формат или задача"></label>
+            <label><span>Этап</span><select id="productionStatusFilter"><option value="all">Все этапы</option><option value="idea">Идея</option><option value="assets">Исходники</option><option value="text">Текст</option><option value="design">Дизайн</option><option value="review">Ревью</option><option value="approved">Согласовано</option><option value="scheduled">Запланировано</option><option value="published">Опубликовано</option></select></label>
+            <span id="productionResultCount">0 материалов</span>
+          </section>
+
+          <div class="production-workspace">
+            <section class="production-queue" aria-label="Очередь материалов">
+              <div class="production-queue-head"><div><h2>Что требует действия</h2><p>Сначала незавершённое, затем опубликованное.</p></div><span>без владельцев</span></div>
+              <div class="production-list" id="productionList"></div>
+              <div class="production-empty" id="productionEmpty" hidden><strong>Ничего не найдено</strong><span>Сбросьте фильтр или создайте новый материал.</span></div>
+            </section>
+            <aside class="production-detail" id="productionDetail" aria-live="polite"></aside>
+          </div>
+          <div class="production-live" id="productionLive" role="status" aria-live="polite">Материалы готовы к работе.</div>
+        </section>
+
         <section class="view" data-view-panel="coach">
           <div class="page-heading compact coach-heading">
             <div><p class="eyebrow">Контур роста</p><h1>Коуч роста Instagram</h1><p>Связывает публикацию с результатом: что сработало, почему, какой один элемент повторить и что проверить следующим постом.</p></div>
@@ -118,6 +155,7 @@
               <button class="text-button" id="coachDownloadTemplate" type="button">Скачать шаблон CSV</button>
               <button class="text-button coach-clear-data" id="coachClearData" type="button">Вернуть демо</button>
             </div>
+            <div class="coach-material-context" id="coachMaterialContext" hidden></div>
           </section>
 
           <div class="coach-kpis" id="coachKpis" aria-label="Ключевые показатели"></div>
@@ -792,7 +830,9 @@
         </section>
 
         <section class="view" data-view-panel="library">
-          <div class="page-heading compact"><div><p class="eyebrow">Полный каталог из <span id="libraryCollectionCount">16 коллекций</span> · оригиналы не изменены</p><h1>Медиатека</h1><p><span id="librarySummary">1059 уникальных фото</span> · <span id="libraryDuplicateSummary">21 дубль скрыт</span>.</p></div></div>
+          <div class="page-heading compact">
+            <div><p class="eyebrow">Полный каталог из <span id="libraryCollectionCount">16 коллекций</span> · оригиналы не изменены</p><h1>Медиатека</h1><p><span id="librarySummary">1059 уникальных фото</span> · <span id="libraryDuplicateSummary">21 дубль скрыт</span>.</p></div>
+          </div>
           <section class="library-upload" id="libraryUploadZone" aria-labelledby="libraryUploadTitle">
             <div class="library-upload-copy">
               <strong id="libraryUploadTitle">Быстро добавить фото</strong>
@@ -874,10 +914,12 @@
   <script src="data/carousel-builder-data.js"></script>
   <script src="data/idea-radar.js"></script>
   <script src="data/growth-coach-demo.js"></script>
+  <script src="data/production-projects.js"></script>
   <script src="data/public-stats.js"></script>
   <script src="type-studio/font-data.js"></script>
-  <script src="app.js?v=20260825-2"></script>
-  <script src="growth-coach.js?v=20260825-2"></script>
+  <script src="app.js?v=20260825-3"></script>
+  <script src="growth-coach.js?v=20260825-3"></script>
+  <script src="production-room.js?v=20260825-2"></script>
   <script src="carousel-builder.js?v=20260825-1"></script>
   <script src="carousel-studio.js?v=20260825-4"></script>
   <script src="grid-studio.js?v=20260819-1"></script>

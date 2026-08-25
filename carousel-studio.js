@@ -2159,6 +2159,7 @@
     renderSaved();
     renderRail();
     setStatus(`Серия «${series.name}» сохранена: ${series.slides.length} слайдов.`);
+    window.dispatchEvent(new CustomEvent("sekta:series-saved", { detail: { id: series.id, sourceId: series.sourceId || "", title: series.name, slideCount: series.slides.length } }));
   }
 
   function performSplit() {

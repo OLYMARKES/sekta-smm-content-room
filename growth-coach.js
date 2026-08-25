@@ -26,6 +26,7 @@
     updatedAt: document.querySelector("#coachUpdatedAt"),
     experiments: document.querySelector("#coachExperiments"),
     experimentCount: document.querySelector("#coachExperimentCount"),
+    materialContext: document.querySelector("#coachMaterialContext"),
   };
   if (!ui.kpis) return;
 
@@ -42,6 +43,7 @@
   let posts = Array.isArray(savedPayload?.posts) && savedPayload.posts.length ? savedPayload.posts : demo.posts;
   let isDemo = !savedPayload?.posts?.length;
   let experiments = loadJson(experimentKey, []);
+  let materialContext = loadJson("sekta-growth-coach-material-v1", null);
   let currentAnalysis = null;
 
   const sum = (items, key) => items.reduce((total, item) => total + (Number(item[key]) || 0), 0);
@@ -160,6 +162,14 @@
       ? `Источник: ${sourceDate(currentAnalysis.currentStart)}—${sourceDate(currentAnalysis.latest)} · ${currentAnalysis.current.length} публикаций`
       : "Источник: в периоде нет публикаций";
     ui.clearData.hidden = isDemo;
+    renderMaterialContext();
+  }
+
+  function renderMaterialContext() {
+    if (!ui.materialContext) return;
+    ui.materialContext.hidden = !materialContext?.id;
+    if (!materialContext?.id) return;
+    ui.materialContext.innerHTML = `<div><strong>Разбираем материал: ${escapeHtml(materialContext.title)}</strong><span>${escapeHtml(materialContext.format || "Публикация")} · ${escapeHtml(materialContext.account || "@sektaschool")} · ${escapeHtml(materialContext.publicationDate || "дата не указана")}</span></div><a href="${escapeHtml(materialContext.publicationUrl)}" target="_blank" rel="noreferrer">Открыть публикацию ↗</a>`;
   }
 
   function renderKpis(analysis) {
@@ -374,6 +384,11 @@
       localStorage.setItem(experimentKey, JSON.stringify(experiments));
       renderExperiments();
     }
+  });
+
+  window.addEventListener("sekta:growth-coach-material", (event) => {
+    materialContext = event.detail || null;
+    renderMaterialContext();
   });
 
   render();
