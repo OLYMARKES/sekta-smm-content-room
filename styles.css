@@ -1549,6 +1549,9 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .carousel-quick-inspector .carousel-font-sample { flex-basis: 136px; min-height: 72px; padding: 8px; }
 .carousel-quick-inspector .carousel-font-sample span { font-size: 15px; -webkit-line-clamp: 2; }
 .carousel-quick-inspector .carousel-slide-plaque-control { margin: 10px 0 0; background: #fff; }
+.carousel-quick-plaque-row { display: grid; grid-template-columns: 128px minmax(0, 1fr); align-items: end; gap: 10px; }
+.carousel-quick-plaque-row > .carousel-check { align-self: center; margin: 0; }
+.carousel-quick-plaque-row > .carousel-plaque-settings { margin-top: 0; }
 .carousel-quick-presets { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 12px; margin-top: 11px; padding-top: 11px; border-top: 1px solid #d3dfd9; }
 .carousel-quick-preset-group { min-width: 0; }
 .carousel-quick-preset-label { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
@@ -1748,6 +1751,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
   .carousel-slide-canvas { width: 230px; max-width: 230px; }
   .carousel-control-grid { grid-template-columns: 1fr; }
   .carousel-quick-grid { grid-template-columns: 1fr; }
+  .carousel-quick-plaque-row { grid-template-columns: 1fr; }
   .carousel-quick-inspector-head { align-items: stretch; flex-direction: column; }
   .carousel-quick-inspector-head .button { width: 100%; }
   .carousel-plaque-settings { grid-template-columns: 1fr; }
