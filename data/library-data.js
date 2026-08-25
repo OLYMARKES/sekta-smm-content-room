@@ -1,25 +1,42 @@
 window.SEKTA_LIBRARY = {
-  "generatedAt": "2026-08-20T10:18:58.971Z",
-  "sourceCount": 1396,
-  "uniqueCount": 1281,
+  "generatedAt": "2026-08-25T09:32:17.498Z",
+  "sourceCount": 1764,
+  "uniqueCount": 1649,
   "duplicateCount": 115,
-  "personalSourceCount": 1396,
-  "personalUniqueCount": 1281,
-  "newTodayUniqueCount": 448,
+  "personalSourceCount": 1764,
+  "personalUniqueCount": 1649,
+  "newTodayUniqueCount": 459,
   "byFolder": {
-    "intake": 448,
-    "archive": 527,
+    "intake": 459,
+    "archive": 529,
     "bali": 131,
     "carousel": 143,
     "snaps": 24,
-    "fitter": 8
+    "fitter": 8,
+    "camp": 355
+  },
+  "collectionLabels": {
+    "neuro": "Нейрофотосеты",
+    "camp": "Секта лагерь",
+    "maternity": "Материнство / беременность",
+    "body": "Тело / тренировки",
+    "olya": "Оля портреты"
+  },
+  "byCollection": {
+    "neuro": 56,
+    "camp": 355,
+    "maternity": 161,
+    "body": 715,
+    "olya": 200
   },
   "sourceFolders": {
-    "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА": 287,
+    "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА": 298,
+    "_МОИ_ИЗБРАННЫЕ_ДЛЯ_АГЕНТА": 2,
     "designer-snaps": 24,
     "fitting-room": 8,
     "new-exports": 0,
     "pregnancy-photos": 161,
+    "sekta-camp-2024": 355,
     "бали фото карусель": 131,
     "дед": 4,
     "для карусели (шеред дима)": 31,
@@ -35,6 +52,72 @@ window.SEKTA_LIBRARY = {
     "фото для карусели": 143
   },
   "items": [
+    {
+      "id": "b312ca9fb86cd0",
+      "folder": "archive",
+      "folderLabel": "Личная медиатека · архив",
+      "sourceCategory": "_AI-медиатека/_МОИ_ИЗБРАННЫЕ_ДЛЯ_АГЕНТА/Оля Ро — обложки курсов и промо v1/GLP-1",
+      "sourceFolder": "_МОИ_ИЗБРАННЫЕ_ДЛЯ_АГЕНТА",
+      "fileName": "olya-glp1-horizontal-dark-v1.png",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b312ca9fb86cd0-v2.jpg",
+      "exportImage": "assets/library/lib-b312ca9fb86cd0-hq-v2.jpg",
+      "width": 1672,
+      "height": 941,
+      "orientation": "landscape",
+      "exportQuality": "source-limited",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-21T11:32:11.385Z",
+      "agentScore": 0.99,
+      "contentThemes": [
+        "курс GLP-1",
+        "обложка курса",
+        "спорт и движение"
+      ],
+      "carouselRoles": [
+        "обложка_курса",
+        "фон_под_текст"
+      ],
+      "collections": [
+        "olya"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "a53084b7a0f183",
+      "folder": "archive",
+      "folderLabel": "Личная медиатека · архив",
+      "sourceCategory": "_AI-медиатека/_МОИ_ИЗБРАННЫЕ_ДЛЯ_АГЕНТА/Оля Ро — обложки курсов и промо v1/BASIC",
+      "sourceFolder": "_МОИ_ИЗБРАННЫЕ_ДЛЯ_АГЕНТА",
+      "fileName": "olya-basic-horizontal-blue-v1.png",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-a53084b7a0f183-v2.jpg",
+      "exportImage": "assets/library/lib-a53084b7a0f183-hq-v2.jpg",
+      "width": 1672,
+      "height": 940,
+      "orientation": "landscape",
+      "exportQuality": "source-limited",
+      "sizeMb": 1.6,
+      "modifiedAt": "2026-08-21T11:32:11.382Z",
+      "agentScore": 0.99,
+      "contentThemes": [
+        "курс BASIC",
+        "обложка курса",
+        "спорт и движение"
+      ],
+      "carouselRoles": [
+        "обложка_курса",
+        "фон_под_текст"
+      ],
+      "collections": [
+        "olya"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
     {
       "id": "dda8e1c1531357",
       "folder": "bali",
@@ -59,6 +142,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -87,6 +173,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -120,6 +209,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -156,6 +248,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -181,6 +276,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -210,6 +306,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -237,6 +336,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -260,6 +360,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.8448,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": [
         {
@@ -300,6 +401,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -325,6 +429,9 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -358,6 +465,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -381,6 +489,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.8265,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": [
         {
@@ -415,6 +524,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -444,6 +556,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -467,6 +582,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.8168,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -495,6 +611,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -524,6 +641,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -552,6 +672,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -579,6 +702,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -606,6 +730,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -635,6 +762,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -662,6 +792,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -697,6 +830,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -728,6 +864,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -757,6 +896,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -784,6 +926,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -813,6 +958,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -840,6 +986,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -866,6 +1013,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -901,6 +1051,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -929,6 +1080,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -959,6 +1111,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -985,6 +1140,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -1021,6 +1179,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -1049,6 +1210,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -1072,6 +1236,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.7814,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1099,6 +1264,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1126,6 +1292,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1151,6 +1318,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1178,6 +1346,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1204,6 +1373,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1232,6 +1402,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -1262,6 +1435,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -1289,6 +1465,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1316,6 +1493,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -1351,6 +1531,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1378,6 +1559,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1405,6 +1587,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1433,6 +1616,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -1460,6 +1646,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1487,6 +1674,45 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e16f4a3857a7e4",
+      "folder": "intake",
+      "folderLabel": "Новые сегодня",
+      "sourceCategory": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА/09_AI_нейромодели_и_генерации/olya-ro_course-cover_promo_fitness_workshop_v1",
+      "sourceFolder": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА",
+      "fileName": "07-wide-moon-black-cover-4k.jpg",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e16f4a3857a7e4-v2.jpg",
+      "exportImage": "assets/library/lib-e16f4a3857a7e4-hq-v2.jpg",
+      "width": 3840,
+      "height": 2160,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 0.5,
+      "modifiedAt": "2026-08-21T07:51:58.563Z",
+      "agentScore": 0.7646,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "04_красота_сексуальность_самообраз",
+        "06_классы_комьюнити_продажа"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "03_комьюнити_и_социальное_доказательство",
+        "07_продажа_класса_или_события"
+      ],
+      "collections": [
+        "neuro",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -1516,6 +1742,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1543,6 +1770,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1569,6 +1797,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -1604,6 +1835,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -1632,6 +1866,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -1659,6 +1896,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1689,6 +1927,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -1714,6 +1955,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1743,6 +1985,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -1770,6 +2015,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1798,6 +2044,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1825,6 +2072,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1853,6 +2101,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -1880,6 +2131,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1911,6 +2163,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -1939,6 +2194,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -1966,6 +2224,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -1994,6 +2253,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2019,6 +2279,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2046,6 +2307,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2076,6 +2338,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -2102,6 +2367,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -2130,6 +2398,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2155,6 +2424,9 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -2188,6 +2460,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2215,6 +2488,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2238,6 +2512,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.7483,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2266,6 +2541,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2293,6 +2569,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -2323,6 +2602,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -2352,6 +2634,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -2377,6 +2662,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2403,6 +2689,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -2437,6 +2726,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2465,6 +2755,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -2492,6 +2785,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2519,6 +2813,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2551,6 +2846,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -2578,6 +2876,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2605,6 +2904,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2634,6 +2934,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -2661,6 +2964,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2688,6 +2992,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2717,6 +3022,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -2745,6 +3053,10 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -2779,6 +3091,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2806,6 +3119,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2833,6 +3147,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2860,6 +3175,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2889,6 +3205,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2917,6 +3234,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2944,6 +3262,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2967,6 +3286,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.7372,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -2997,6 +3317,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -3022,6 +3345,7 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3047,6 +3371,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3072,6 +3397,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3100,6 +3426,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -3127,6 +3456,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3150,6 +3480,43 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.7349,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ec342514ce47c4",
+      "folder": "intake",
+      "folderLabel": "Новые сегодня",
+      "sourceCategory": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА/09_AI_нейромодели_и_генерации/olya-ro_course-cover_promo_fitness_workshop_v1",
+      "sourceFolder": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА",
+      "fileName": "04-vertical-standing-green-floral.png",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ec342514ce47c4-v2.jpg",
+      "exportImage": "assets/library/lib-ec342514ce47c4-hq-v2.jpg",
+      "width": 1122,
+      "height": 1402,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.5,
+      "modifiedAt": "2026-08-21T07:51:58.555Z",
+      "agentScore": 0.7348,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "04_красота_сексуальность_самообраз",
+        "06_классы_комьюнити_продажа"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "03_комьюнити_и_социальное_доказательство",
+        "07_продажа_класса_или_события"
+      ],
+      "collections": [
+        "neuro",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -3176,6 +3543,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3203,6 +3571,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -3234,6 +3605,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -3260,6 +3634,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3285,6 +3660,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3313,6 +3689,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -3343,6 +3722,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3371,6 +3751,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3398,6 +3779,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -3427,6 +3811,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -3454,6 +3841,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3482,6 +3870,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3510,6 +3899,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -3535,6 +3927,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3560,6 +3953,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3587,6 +3981,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3615,6 +4010,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3642,6 +4038,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3673,6 +4070,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -3702,6 +4102,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -3729,6 +4132,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3755,6 +4159,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -3794,6 +4201,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -3821,6 +4231,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3850,6 +4261,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -3873,6 +4287,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.7285,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -3900,6 +4317,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -3925,6 +4343,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -3948,6 +4369,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.7275,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -3984,6 +4408,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -4011,6 +4438,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4039,6 +4467,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4066,6 +4495,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4092,6 +4522,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4121,6 +4552,10 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -4154,6 +4589,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -4189,6 +4627,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4212,6 +4651,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.7246,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -4247,6 +4689,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -4274,6 +4719,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4301,6 +4747,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4330,6 +4777,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4359,6 +4807,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -4387,6 +4838,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -4412,6 +4866,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4437,6 +4892,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -4464,6 +4922,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4493,6 +4952,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -4520,6 +4982,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4548,6 +5011,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -4575,6 +5041,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4603,6 +5070,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4631,6 +5099,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4660,6 +5129,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4689,6 +5159,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -4717,6 +5190,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -4744,6 +5220,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4771,6 +5248,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4798,6 +5276,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -4825,6 +5306,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4850,6 +5332,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4876,6 +5359,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -4906,6 +5392,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.7164,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -4944,6 +5433,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -4971,6 +5463,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -4998,6 +5491,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5021,6 +5515,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.7154,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5048,6 +5543,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5073,6 +5569,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5100,6 +5597,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5129,6 +5627,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5154,6 +5653,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5182,6 +5682,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5208,6 +5709,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -5242,6 +5746,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5269,6 +5774,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5292,6 +5798,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.7098,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5319,6 +5826,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -5353,6 +5863,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5380,6 +5891,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -5407,6 +5921,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5434,6 +5949,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5461,6 +5977,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -5491,6 +6010,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -5518,6 +6040,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5545,6 +6068,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5572,6 +6096,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5597,6 +6122,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5622,6 +6148,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5649,6 +6176,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -5683,6 +6213,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5710,6 +6241,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5737,6 +6269,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -5766,6 +6301,10 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -5798,6 +6337,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5825,6 +6365,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5854,6 +6395,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -5880,6 +6424,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5908,6 +6453,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -5935,6 +6481,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -5965,6 +6514,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -5994,6 +6546,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6021,6 +6574,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6050,6 +6604,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6075,6 +6630,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6101,6 +6657,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -6136,6 +6695,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6162,6 +6722,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -6197,6 +6760,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6226,6 +6790,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -6253,6 +6820,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -6288,6 +6858,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -6315,6 +6888,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6340,6 +6914,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6368,6 +6943,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -6398,6 +6976,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6426,6 +7005,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -6453,6 +7035,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6480,6 +7063,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6508,6 +7092,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6531,6 +7116,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6928,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6558,6 +7144,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -6590,6 +7179,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -6617,6 +7209,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -6654,6 +7249,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -6683,6 +7281,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -6710,6 +7311,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -6743,6 +7347,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6770,6 +7375,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6798,6 +7404,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6826,6 +7433,43 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "3cd306b16808ef",
+      "folder": "intake",
+      "folderLabel": "Новые сегодня",
+      "sourceCategory": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА/09_AI_нейромодели_и_генерации/olya-ro_course-cover_promo_fitness_workshop_v1",
+      "sourceFolder": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА",
+      "fileName": "09-vertical-dynamic-arm-stretch.png",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-3cd306b16808ef-v2.jpg",
+      "exportImage": "assets/library/lib-3cd306b16808ef-hq-v2.jpg",
+      "width": 1092,
+      "height": 1440,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.5,
+      "modifiedAt": "2026-08-21T07:51:58.569Z",
+      "agentScore": 0.6899,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "04_красота_сексуальность_самообраз",
+        "06_классы_комьюнити_продажа"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "03_комьюнити_и_социальное_доказательство",
+        "07_продажа_класса_или_события"
+      ],
+      "collections": [
+        "neuro",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -6853,6 +7497,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -6885,6 +7532,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -6914,6 +7564,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -6941,6 +7594,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -6967,6 +7621,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -6999,6 +7656,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7026,6 +7684,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7055,6 +7714,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -7081,6 +7743,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7108,6 +7771,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -7137,6 +7803,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7164,6 +7831,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7192,6 +7860,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7219,6 +7888,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -7248,6 +7920,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -7275,6 +7950,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7303,6 +7979,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7330,6 +8007,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -7360,6 +8040,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7391,6 +8072,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -7421,6 +8105,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -7449,6 +8136,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7477,6 +8165,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7504,6 +8193,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7532,6 +8222,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7558,6 +8249,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -7593,6 +8287,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7621,6 +8316,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7648,6 +8344,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7671,6 +8368,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6803,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -7706,6 +8406,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -7733,6 +8436,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7760,6 +8464,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7789,6 +8494,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -7817,6 +8525,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7847,6 +8556,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -7870,6 +8582,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6772,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7901,6 +8614,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7927,6 +8641,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -7961,6 +8678,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -7992,6 +8710,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -8018,6 +8739,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8047,6 +8769,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -8075,6 +8800,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8100,6 +8826,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8131,6 +8858,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -8157,6 +8887,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -8190,6 +8923,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8219,6 +8953,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -8246,6 +8983,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8274,6 +9012,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8301,6 +9040,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -8332,6 +9074,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -8360,6 +9105,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -8391,6 +9139,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -8419,6 +9170,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8447,6 +9199,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8470,6 +9223,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6711,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -8496,6 +9252,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8523,6 +9280,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8551,6 +9309,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8580,6 +9339,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8605,6 +9365,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8634,6 +9395,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -8660,6 +9424,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8688,6 +9453,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -8715,6 +9483,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8746,6 +9515,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -8774,6 +9547,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -8799,6 +9575,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8828,6 +9605,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8857,6 +9635,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8885,6 +9664,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8913,6 +9693,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -8944,6 +9727,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -8967,6 +9753,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6655,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -8995,6 +9782,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -9022,6 +9812,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9051,6 +9842,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9077,6 +9869,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -9112,6 +9907,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9140,6 +9936,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9167,6 +9964,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9196,6 +9994,10 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -9232,6 +10034,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -9267,6 +10073,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9295,6 +10102,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9322,6 +10130,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9349,6 +10158,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9378,6 +10188,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -9401,6 +10214,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6611,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": [
         {
@@ -9435,6 +10249,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9463,6 +10278,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9489,6 +10305,43 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "4c012150c1b7df",
+      "folder": "intake",
+      "folderLabel": "Новые сегодня",
+      "sourceCategory": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА/09_AI_нейромодели_и_генерации/olya-ro_course-cover_promo_fitness_workshop_v1",
+      "sourceFolder": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА",
+      "fileName": "02-vertical-crosslegged-loose-hair.png",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-4c012150c1b7df-v2.jpg",
+      "exportImage": "assets/library/lib-4c012150c1b7df-hq-v2.jpg",
+      "width": 1086,
+      "height": 1448,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-21T07:51:58.550Z",
+      "agentScore": 0.6605,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "04_красота_сексуальность_самообраз",
+        "06_классы_комьюнити_продажа"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "03_комьюнити_и_социальное_доказательство",
+        "07_продажа_класса_или_события"
+      ],
+      "collections": [
+        "neuro",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -9518,6 +10371,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9546,6 +10400,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9577,6 +10432,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -9605,6 +10463,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -9638,6 +10499,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -9665,6 +10529,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9691,6 +10556,43 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "84f77b9d3a267e",
+      "folder": "intake",
+      "folderLabel": "Новые сегодня",
+      "sourceCategory": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА/09_AI_нейромодели_и_генерации/olya-ro_course-cover_promo_fitness_workshop_v1",
+      "sourceFolder": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА",
+      "fileName": "05-vertical-standing-blue.png",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-84f77b9d3a267e-v2.jpg",
+      "exportImage": "assets/library/lib-84f77b9d3a267e-hq-v2.jpg",
+      "width": 1086,
+      "height": 1448,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.6,
+      "modifiedAt": "2026-08-21T07:51:58.559Z",
+      "agentScore": 0.6585,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "04_красота_сексуальность_самообраз",
+        "06_классы_комьюнити_продажа"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "03_комьюнити_и_социальное_доказательство",
+        "07_продажа_класса_или_события"
+      ],
+      "collections": [
+        "neuro",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -9718,6 +10620,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9746,6 +10649,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9775,6 +10679,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9804,6 +10709,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -9827,6 +10735,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6551,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -9862,6 +10773,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -9889,6 +10803,44 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
+      ],
+      "collections": [],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "da91ea3ef34d2d",
+      "folder": "intake",
+      "folderLabel": "Новые сегодня",
+      "sourceCategory": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА/09_AI_нейромодели_и_генерации/olya-ro_course-cover_promo_fitness_workshop_v1",
+      "sourceFolder": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА",
+      "fileName": "11-vertical-standing-phone-creator.png",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-da91ea3ef34d2d-v2.jpg",
+      "exportImage": "assets/library/lib-da91ea3ef34d2d-hq-v2.jpg",
+      "width": 1122,
+      "height": 1402,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.4,
+      "modifiedAt": "2026-08-21T07:51:58.573Z",
+      "agentScore": 0.6541,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "04_красота_сексуальность_самообраз",
+        "06_классы_комьюнити_продажа"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "03_комьюнити_и_социальное_доказательство",
+        "06_фон_под_текст",
+        "07_продажа_класса_или_события"
+      ],
+      "collections": [
+        "neuro",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -9918,6 +10870,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -9951,6 +10904,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -9978,6 +10934,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10008,6 +10965,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10035,6 +10993,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10064,6 +11023,10 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -10097,6 +11060,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10124,6 +11088,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10153,6 +11118,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10176,6 +11142,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6501,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -10205,6 +11174,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6498,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -10232,6 +11204,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10261,6 +11234,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -10289,6 +11265,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10317,6 +11294,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -10347,6 +11327,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -10376,6 +11359,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10405,6 +11389,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10433,6 +11418,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -10463,6 +11451,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -10489,6 +11480,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10516,6 +11508,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10539,6 +11532,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.645,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -10573,6 +11569,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10601,6 +11598,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10632,6 +11630,81 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "a65b5ee5bf3f4f",
+      "folder": "intake",
+      "folderLabel": "Новые сегодня",
+      "sourceCategory": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА/10_фотосессии_сериями/olya-ro_course-cover_promo_fitness_workshop_v1_real",
+      "sourceFolder": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА",
+      "fileName": "06-vertical-kneeling-profile-real-5k.jpg",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-a65b5ee5bf3f4f-v2.jpg",
+      "exportImage": "assets/library/lib-a65b5ee5bf3f4f-hq-v2.jpg",
+      "width": 3412,
+      "height": 5120,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-21T07:51:58.561Z",
+      "agentScore": 0.6435,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "03_комьюнити_и_социальное_доказательство",
+        "06_фон_под_текст",
+        "07_продажа_класса_или_события"
+      ],
+      "collections": [
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "a42bf6c45ec76b",
+      "folder": "intake",
+      "folderLabel": "Новые сегодня",
+      "sourceCategory": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА/09_AI_нейромодели_и_генерации/olya-ro_course-cover_promo_fitness_workshop_v1",
+      "sourceFolder": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА",
+      "fileName": "08-vertical-kneeling-backbend-basics.png",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-a42bf6c45ec76b-v2.jpg",
+      "exportImage": "assets/library/lib-a42bf6c45ec76b-hq-v2.jpg",
+      "width": 1023,
+      "height": 1537,
+      "orientation": "portrait",
+      "exportQuality": "source-limited",
+      "sizeMb": 1.3,
+      "modifiedAt": "2026-08-21T07:51:58.566Z",
+      "agentScore": 0.6433,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "04_красота_сексуальность_самообраз",
+        "06_классы_комьюнити_продажа"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "03_комьюнити_и_социальное_доказательство",
+        "06_фон_под_текст",
+        "07_продажа_класса_или_события"
+      ],
+      "collections": [
+        "neuro",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -10659,6 +11732,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -10688,6 +11764,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10716,6 +11793,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -10746,6 +11826,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10769,6 +11850,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6419,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10794,6 +11876,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10821,6 +11904,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10848,6 +11932,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10873,6 +11958,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10902,6 +11988,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10929,6 +12016,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -10959,6 +12047,43 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "5139e65bc65224",
+      "folder": "intake",
+      "folderLabel": "Новые сегодня",
+      "sourceCategory": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА/09_AI_нейромодели_и_генерации/olya-ro_course-cover_promo_fitness_workshop_v1",
+      "sourceFolder": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА",
+      "fileName": "01-vertical-seated-phone-soft-white.png",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-5139e65bc65224-v2.jpg",
+      "exportImage": "assets/library/lib-5139e65bc65224-hq-v2.jpg",
+      "width": 1122,
+      "height": 1402,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-21T07:51:58.547Z",
+      "agentScore": 0.6401,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "04_красота_сексуальность_самообраз",
+        "06_классы_комьюнити_продажа"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "03_комьюнити_и_социальное_доказательство",
+        "07_продажа_класса_или_события"
+      ],
+      "collections": [
+        "neuro",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -10986,6 +12111,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11013,6 +12139,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11044,6 +12171,10 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -11072,6 +12203,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -11095,6 +12229,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6388,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11122,6 +12257,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11149,6 +12285,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11179,6 +12316,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -11205,6 +12345,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11232,6 +12373,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11260,6 +12402,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11287,6 +12430,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -11322,6 +12468,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11349,6 +12496,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11376,6 +12524,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -11405,6 +12556,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11432,6 +12584,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -11466,6 +12621,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -11495,6 +12653,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11521,6 +12680,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11549,6 +12709,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11577,6 +12738,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11606,6 +12768,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11635,6 +12798,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -11660,6 +12826,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11690,6 +12857,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -11717,6 +12887,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11745,6 +12916,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11776,6 +12948,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -11802,6 +12977,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11825,6 +13001,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6302,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -11860,6 +13039,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -11891,6 +13073,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -11916,6 +13101,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11945,6 +13131,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -11973,6 +13160,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12003,6 +13191,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -12031,6 +13222,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12056,6 +13248,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12082,6 +13275,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12110,6 +13304,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12136,6 +13331,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12163,6 +13359,10 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -12196,6 +13396,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12225,6 +13426,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12252,6 +13454,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12282,6 +13485,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -12310,6 +13516,10 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -12345,6 +13555,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12371,6 +13582,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12401,6 +13613,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12428,6 +13641,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12455,6 +13669,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12482,6 +13697,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12505,6 +13721,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6241,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -12540,6 +13759,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -12565,6 +13787,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12592,6 +13815,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12619,6 +13843,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12646,6 +13871,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": [
         {
@@ -12682,6 +13908,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -12710,6 +13939,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -12741,6 +13973,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12766,6 +13999,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12799,6 +14033,9 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -12829,6 +14066,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12852,6 +14090,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6187,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -12881,6 +14120,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -12906,6 +14148,9 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -12942,6 +14187,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -12971,6 +14219,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -12994,6 +14245,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6172,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13021,6 +14273,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13051,6 +14304,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -13078,6 +14334,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -13108,6 +14367,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -13136,6 +14398,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13161,6 +14424,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13190,6 +14454,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13217,6 +14482,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13242,6 +14508,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13272,6 +14539,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -13297,6 +14567,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13326,6 +14597,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13354,6 +14626,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -13385,6 +14660,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13408,6 +14684,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.6141,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13437,6 +14714,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -13462,6 +14742,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13492,6 +14773,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13520,6 +14802,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13548,6 +14831,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13574,6 +14858,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13603,6 +14888,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13632,6 +14918,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": [
         {
@@ -13668,6 +14955,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13696,6 +14984,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13723,6 +15012,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -13749,6 +15041,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13778,6 +15071,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13805,6 +15099,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -13835,6 +15132,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13863,6 +15161,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13890,6 +15189,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13915,6 +15215,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13943,6 +15244,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13968,6 +15270,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -13993,6 +15296,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14020,6 +15324,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14048,6 +15353,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14073,6 +15379,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14101,6 +15408,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14130,6 +15438,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14160,6 +15469,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14187,6 +15497,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "01_обложка_личное_присутствие"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -14223,6 +15536,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -14250,6 +15566,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14280,6 +15597,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -14308,6 +15628,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14335,6 +15656,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14364,6 +15686,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -14395,6 +15720,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14423,6 +15749,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -14453,6 +15782,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -14480,6 +15812,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14509,6 +15842,9 @@ window.SEKTA_LIBRARY = {
         "04_деталь_пауза_метафора",
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -14540,6 +15876,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -14567,6 +15906,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14593,6 +15933,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -14624,6 +15967,10 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -14654,6 +16001,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -14680,6 +16030,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -14707,6 +16060,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14737,6 +16091,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14765,6 +16120,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -14796,6 +16154,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -14824,6 +16185,43 @@ window.SEKTA_LIBRARY = {
         "04_деталь_пауза_метафора",
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
+      ],
+      "collections": [],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ee17119fe931d6",
+      "folder": "intake",
+      "folderLabel": "Новые сегодня",
+      "sourceCategory": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА/09_AI_нейромодели_и_генерации/olya-ro_course-cover_promo_fitness_workshop_v1",
+      "sourceFolder": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА",
+      "fileName": "10-wide-mountain-climber.png",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ee17119fe931d6-v2.jpg",
+      "exportImage": "assets/library/lib-ee17119fe931d6-hq-v2.jpg",
+      "width": 1537,
+      "height": 1023,
+      "orientation": "landscape",
+      "exportQuality": "source-limited",
+      "sizeMb": 1.3,
+      "modifiedAt": "2026-08-21T07:51:58.571Z",
+      "agentScore": 0.6019,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "04_красота_сексуальность_самообраз",
+        "06_классы_комьюнити_продажа"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "03_комьюнити_и_социальное_доказательство",
+        "07_продажа_класса_или_события"
+      ],
+      "collections": [
+        "neuro",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -14855,6 +16253,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -14884,6 +16285,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14912,6 +16314,7 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14942,6 +16345,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14970,6 +16374,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -14998,6 +16403,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -15023,6 +16431,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15052,6 +16461,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15080,6 +16490,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15110,6 +16521,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -15135,6 +16549,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15161,6 +16576,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15186,6 +16602,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15216,6 +16633,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15244,6 +16662,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -15269,6 +16690,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15297,6 +16719,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -15324,6 +16749,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15353,6 +16779,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15376,6 +16803,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5968,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15402,6 +16830,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15431,6 +16860,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15459,6 +16889,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15484,6 +16915,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15507,6 +16939,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5956,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15533,6 +16966,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15563,6 +16997,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15592,6 +17027,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15620,6 +17056,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15645,6 +17082,9 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -15673,6 +17113,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15702,6 +17143,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15731,6 +17173,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15754,6 +17197,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5919,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15783,6 +17227,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15808,6 +17253,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15837,6 +17283,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15867,6 +17314,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -15896,6 +17346,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15923,6 +17374,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15950,6 +17402,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -15978,6 +17431,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -16003,6 +17459,7 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16033,6 +17490,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16059,6 +17517,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16089,6 +17548,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16118,6 +17578,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16148,6 +17609,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16176,6 +17638,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16205,6 +17668,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -16232,6 +17698,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16261,6 +17728,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -16292,6 +17762,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -16317,6 +17790,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -16343,6 +17819,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16368,6 +17845,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16398,6 +17876,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -16425,6 +17906,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16452,6 +17934,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16477,6 +17960,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16504,6 +17988,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16533,6 +18018,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16561,6 +18047,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16586,6 +18073,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16614,6 +18102,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -16640,6 +18131,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16670,6 +18162,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16699,6 +18192,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16724,6 +18218,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -16752,6 +18249,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16781,6 +18279,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16810,6 +18309,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16839,6 +18339,9 @@ window.SEKTA_LIBRARY = {
         "04_деталь_пауза_метафора",
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -16871,6 +18374,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -16898,6 +18404,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -16929,6 +18438,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -16958,6 +18470,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -16984,6 +18497,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17009,6 +18523,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17038,6 +18553,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17065,6 +18581,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17094,6 +18611,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17122,6 +18640,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17152,6 +18671,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -17178,6 +18700,43 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "eade05697177e6",
+      "folder": "intake",
+      "folderLabel": "Новые сегодня",
+      "sourceCategory": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА/09_AI_нейромодели_и_генерации/olya-ro_course-cover_promo_fitness_workshop_v1",
+      "sourceFolder": "_ДОБАВИТЬ_НОВЫЕ_ФОТО_СЮДА",
+      "fileName": "03-wide-dynamic-soft-white.png",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-eade05697177e6-v2.jpg",
+      "exportImage": "assets/library/lib-eade05697177e6-hq-v2.jpg",
+      "width": 1537,
+      "height": 1023,
+      "orientation": "landscape",
+      "exportQuality": "source-limited",
+      "sizeMb": 1.4,
+      "modifiedAt": "2026-08-21T07:51:58.553Z",
+      "agentScore": 0.58,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "04_красота_сексуальность_самообраз",
+        "06_классы_комьюнити_продажа"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "03_комьюнити_и_социальное_доказательство",
+        "07_продажа_класса_или_события"
+      ],
+      "collections": [
+        "neuro",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -17207,6 +18766,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17232,6 +18792,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17262,6 +18823,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -17287,6 +18851,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -17312,6 +18879,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17335,6 +18903,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5783,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17358,6 +18927,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5782,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17383,6 +18953,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -17409,6 +18982,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -17439,6 +19015,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -17465,6 +19044,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17490,6 +19070,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17515,6 +19096,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17540,6 +19122,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -17563,6 +19148,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5763,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17588,6 +19174,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -17617,6 +19206,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17646,6 +19236,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -17674,6 +19267,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17697,6 +19291,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5751,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17723,6 +19318,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -17748,6 +19346,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17777,6 +19376,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17806,6 +19406,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17829,6 +19430,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5738,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17854,6 +19456,7 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17881,6 +19484,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17909,6 +19513,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -17939,6 +19546,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17964,6 +19572,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -17991,6 +19600,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18020,6 +19630,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18049,6 +19660,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18078,6 +19690,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18108,6 +19721,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18134,6 +19748,10 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -18164,6 +19782,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5715,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18187,6 +19806,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5713,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18214,6 +19834,10 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -18248,6 +19872,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18278,6 +19903,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18305,6 +19931,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18334,6 +19961,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18361,6 +19989,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18388,6 +20017,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18417,6 +20047,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18445,6 +20076,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -18470,6 +20104,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18496,6 +20131,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18526,6 +20162,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18552,6 +20189,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18579,6 +20217,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18604,6 +20243,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18630,6 +20270,9 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -18653,6 +20296,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5672,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -18688,6 +20334,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18718,6 +20365,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -18745,6 +20395,10 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -18781,6 +20435,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18804,6 +20459,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5664,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18833,6 +20489,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18862,6 +20519,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18891,6 +20549,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18916,6 +20575,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -18939,6 +20599,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5646,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -18974,6 +20637,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -19002,6 +20668,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -19033,6 +20702,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19062,6 +20732,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19089,6 +20760,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19118,6 +20790,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19147,6 +20820,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19177,6 +20851,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -19205,6 +20882,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19228,6 +20906,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5627,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19253,6 +20932,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19282,6 +20962,9 @@ window.SEKTA_LIBRARY = {
         "04_деталь_пауза_метафора",
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -19317,6 +21000,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19345,6 +21029,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19371,6 +21056,10 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -19402,6 +21091,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19429,6 +21119,10 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -19458,6 +21152,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5605,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19483,6 +21178,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19512,6 +21208,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19541,6 +21238,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19567,6 +21265,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -19607,6 +21308,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -19633,6 +21337,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19662,6 +21367,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19691,6 +21397,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19719,6 +21426,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19744,6 +21452,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19767,6 +21476,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5573,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19793,6 +21503,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19821,6 +21532,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19850,6 +21562,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19880,6 +21593,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -19906,6 +21622,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19935,6 +21652,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19964,6 +21682,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -19990,6 +21709,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20017,6 +21737,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20045,6 +21766,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -20075,6 +21799,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20103,6 +21828,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20126,6 +21852,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5546,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20152,6 +21879,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20180,6 +21908,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -20205,6 +21936,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20232,6 +21964,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20255,6 +21988,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5536,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20278,6 +22012,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5536,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20307,6 +22042,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20332,6 +22068,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20361,6 +22098,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20387,6 +22125,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": true,
       "duplicates": []
@@ -20417,6 +22158,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20446,6 +22188,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20475,6 +22218,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20502,6 +22246,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20531,6 +22276,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20554,6 +22300,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5511,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -20589,6 +22338,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20615,6 +22365,10 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -20649,6 +22403,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20672,6 +22427,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5498,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -20695,6 +22453,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5491,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20723,6 +22482,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20753,6 +22513,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -20782,6 +22545,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20811,6 +22575,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -20836,6 +22603,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20863,6 +22631,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20889,6 +22658,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20915,6 +22685,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20944,6 +22715,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20973,6 +22745,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -20996,6 +22769,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5473,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21024,6 +22798,10 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -21059,6 +22837,10 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -21090,6 +22872,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21120,6 +22903,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -21147,6 +22933,10 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -21183,6 +22973,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21211,6 +23002,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -21236,6 +23030,7 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21265,6 +23060,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21295,6 +23091,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -21320,6 +23119,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21347,6 +23147,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -21376,6 +23179,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21406,6 +23210,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21434,6 +23239,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21464,6 +23270,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -21493,6 +23302,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21518,6 +23328,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21544,6 +23355,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -21578,6 +23392,10 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -21614,6 +23432,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21641,6 +23460,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21666,6 +23486,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21695,6 +23516,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21721,6 +23543,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21752,6 +23575,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -21781,6 +23608,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21811,6 +23639,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -21840,6 +23671,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21869,6 +23701,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21897,6 +23730,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -21924,6 +23758,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -21954,6 +23791,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -21977,6 +23818,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5403,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22007,6 +23849,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -22034,6 +23879,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22061,6 +23907,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22090,6 +23937,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22119,6 +23967,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22142,6 +23991,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5385,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22171,6 +24021,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22200,6 +24051,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22225,6 +24077,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -22254,6 +24109,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22284,6 +24140,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -22311,6 +24170,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22336,6 +24196,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22365,6 +24226,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -22393,6 +24257,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -22416,6 +24283,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5361,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22445,6 +24313,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22474,6 +24343,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22503,6 +24373,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22526,6 +24397,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5356,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22556,6 +24428,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -22581,6 +24456,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22608,6 +24484,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22633,6 +24510,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -22658,6 +24538,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22687,6 +24568,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22712,6 +24594,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22737,6 +24620,7 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22766,6 +24650,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22796,6 +24681,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -22822,6 +24710,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -22852,6 +24743,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22877,6 +24769,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22902,6 +24795,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22928,6 +24822,10 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -22964,6 +24862,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -22993,6 +24892,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23022,6 +24922,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23047,6 +24948,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -23076,6 +24980,9 @@ window.SEKTA_LIBRARY = {
         "04_деталь_пауза_метафора",
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -23107,6 +25014,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23136,6 +25044,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -23161,6 +25072,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23184,6 +25096,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.53,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23213,6 +25126,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23242,6 +25156,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23267,6 +25182,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23295,6 +25211,10 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -23325,6 +25245,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23354,6 +25275,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23383,6 +25305,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23413,6 +25336,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -23441,6 +25367,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23470,6 +25397,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23499,6 +25427,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -23522,6 +25453,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5267,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23547,6 +25479,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23573,6 +25506,9 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -23598,6 +25534,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23627,6 +25564,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23654,6 +25592,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23680,6 +25619,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": [
@@ -23717,6 +25659,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -23750,6 +25695,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -23779,6 +25727,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23807,6 +25756,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23832,6 +25782,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23857,6 +25808,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23887,6 +25839,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -23916,6 +25871,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23945,6 +25901,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23970,6 +25927,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -23997,6 +25955,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -24032,6 +25993,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -24061,6 +26025,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -24086,6 +26053,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24116,6 +26084,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24146,6 +26115,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24175,6 +26145,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24204,6 +26175,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24227,6 +26199,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5214,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -24252,6 +26227,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24275,6 +26251,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5211,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -24300,6 +26279,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24329,6 +26309,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24358,6 +26339,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -24381,6 +26366,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5198,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24404,6 +26390,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5197,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24427,6 +26414,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5196,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24456,6 +26444,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24479,6 +26468,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5183,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -24509,6 +26501,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -24536,6 +26531,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24565,6 +26561,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24590,6 +26587,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24620,6 +26618,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -24646,6 +26647,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -24677,6 +26681,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24702,6 +26707,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24728,6 +26734,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -24759,6 +26768,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24788,6 +26798,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24817,6 +26828,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24846,6 +26858,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24871,6 +26884,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24894,6 +26908,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5153,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24923,6 +26938,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24946,6 +26962,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5139,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -24973,6 +26990,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25002,6 +27020,9 @@ window.SEKTA_LIBRARY = {
         "04_деталь_пауза_метафора",
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -25034,6 +27055,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -25060,6 +27084,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -25090,6 +27117,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -25115,6 +27145,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -25143,6 +27174,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -25168,6 +27202,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25191,6 +27226,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5108,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25218,6 +27254,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25243,6 +27280,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25273,6 +27311,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -25300,6 +27341,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25325,6 +27367,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25351,6 +27394,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25380,6 +27424,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25407,6 +27452,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -25430,6 +27478,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5088,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -25457,6 +27508,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25484,6 +27536,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -25514,6 +27569,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25543,6 +27599,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25573,6 +27630,9 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -25602,6 +27662,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25625,6 +27686,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.5067,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25650,6 +27712,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25675,6 +27738,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": [
         {
@@ -25710,6 +27774,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25733,6 +27798,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.505,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25758,6 +27824,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25787,6 +27854,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25816,6 +27884,9 @@ window.SEKTA_LIBRARY = {
         "04_деталь_пауза_метафора",
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -25848,6 +27919,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25873,6 +27945,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25902,6 +27975,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25927,6 +28001,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25956,6 +28031,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -25984,6 +28060,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26015,6 +28092,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26044,6 +28122,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26073,6 +28152,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26102,6 +28182,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26127,6 +28208,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26150,6 +28232,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.4959,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26179,6 +28262,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26202,6 +28286,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.4946,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": [
         {
@@ -26237,6 +28322,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26266,6 +28352,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26295,6 +28382,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26324,6 +28412,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26354,6 +28443,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26381,6 +28471,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26408,6 +28499,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -26434,6 +28528,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -26461,6 +28558,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26491,6 +28589,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26517,6 +28616,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -26545,6 +28647,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26568,6 +28671,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.4862,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -26603,6 +28709,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26626,6 +28733,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.4855,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26651,6 +28759,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": [
         {
@@ -26680,6 +28789,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.4851,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26707,6 +28817,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -26736,6 +28849,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "07_продажа_класса_или_события"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26765,6 +28879,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26794,6 +28909,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26821,6 +28937,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "02_действие_и_доказательство"
+      ],
+      "collections": [
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -26851,6 +28970,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26876,6 +28996,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": [
         {
@@ -26907,6 +29028,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": [
         {
@@ -26939,6 +29061,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26964,6 +29087,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -26992,6 +29116,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27018,6 +29143,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -27048,6 +29176,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27076,6 +29205,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27105,6 +29235,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27130,6 +29261,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27156,6 +29288,7 @@ window.SEKTA_LIBRARY = {
         "03_комьюнити_и_социальное_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27179,6 +29312,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.4687,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -27215,6 +29351,9 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -27245,6 +29384,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27270,6 +29410,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27299,6 +29440,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27324,6 +29466,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27353,6 +29496,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -27379,6 +29523,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -27407,6 +29554,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -27430,6 +29578,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.4576,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27459,6 +29608,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27488,6 +29638,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27513,6 +29664,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27541,6 +29693,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -27566,6 +29721,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27591,6 +29747,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27614,6 +29771,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.4465,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -27637,6 +29795,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.4462,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27668,6 +29827,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27697,6 +29857,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27722,6 +29883,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27751,6 +29913,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27781,6 +29944,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27807,6 +29971,9 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -27830,6 +29997,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.4309,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -27860,6 +30028,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27889,6 +30058,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27918,6 +30088,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -27947,6 +30118,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -27975,6 +30147,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28004,6 +30177,7 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28032,6 +30206,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "05_атмосфера_и_переход"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28057,6 +30232,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -28080,6 +30256,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.418,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -28105,6 +30282,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28130,6 +30308,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28153,6 +30332,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.4087,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -28178,6 +30360,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -28203,6 +30386,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -28228,6 +30412,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28253,6 +30438,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28281,6 +30467,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -28306,6 +30495,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28331,6 +30521,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -28354,6 +30545,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.3874,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28379,6 +30571,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28404,6 +30597,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": true,
       "duplicates": []
     },
@@ -28427,6 +30623,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.3848,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28452,6 +30649,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28477,6 +30675,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -28501,6 +30700,9 @@ window.SEKTA_LIBRARY = {
       "contentThemes": [],
       "carouselRoles": [
         "04_деталь_пауза_метафора"
+      ],
+      "collections": [
+        "neuro"
       ],
       "isUtility": true,
       "duplicates": []
@@ -28529,6 +30731,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -28554,6 +30757,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28579,6 +30783,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28605,6 +30810,9 @@ window.SEKTA_LIBRARY = {
       ],
       "carouselRoles": [
         "04_деталь_пауза_метафора"
+      ],
+      "collections": [
+        "olya"
       ],
       "isUtility": true,
       "duplicates": []
@@ -28633,6 +30841,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28658,6 +30867,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28681,6 +30891,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.3694,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -28705,6 +30916,9 @@ window.SEKTA_LIBRARY = {
       "contentThemes": [],
       "carouselRoles": [
         "04_деталь_пауза_метафора"
+      ],
+      "collections": [
+        "neuro"
       ],
       "isUtility": true,
       "duplicates": []
@@ -28731,6 +30945,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28756,6 +30971,7 @@ window.SEKTA_LIBRARY = {
         "05_музыка_сцена_творчество"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -28783,6 +30999,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -28808,6 +31025,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28833,6 +31051,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28858,6 +31077,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28883,6 +31103,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28908,6 +31129,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28935,6 +31157,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -28960,6 +31183,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -28985,6 +31209,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29010,6 +31235,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29035,6 +31261,7 @@ window.SEKTA_LIBRARY = {
         "01_дети_воспитание_родительство"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -29060,6 +31287,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29085,6 +31313,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29110,6 +31339,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29135,6 +31365,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29160,6 +31391,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29185,6 +31417,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29210,6 +31443,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29233,6 +31467,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.3431,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": true,
       "duplicates": []
     },
@@ -29258,6 +31495,7 @@ window.SEKTA_LIBRARY = {
         "04_красота_сексуальность_самообраз"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29283,6 +31521,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29306,6 +31545,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.332,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": true,
       "duplicates": []
     },
@@ -29331,6 +31573,9 @@ window.SEKTA_LIBRARY = {
         "08_путешествия_и_многообразие_жизни"
       ],
       "carouselRoles": [],
+      "collections": [
+        "olya"
+      ],
       "isUtility": true,
       "duplicates": []
     },
@@ -29354,6 +31599,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.3284,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -29381,6 +31627,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -29404,6 +31651,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.3259,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29429,6 +31677,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -29454,6 +31703,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29477,6 +31727,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.3235,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29500,6 +31751,9 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.3199,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": true,
       "duplicates": []
     },
@@ -29525,6 +31779,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29550,6 +31805,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29575,6 +31831,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29600,6 +31857,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29628,6 +31886,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [
+        "body"
+      ],
       "isUtility": true,
       "duplicates": []
     },
@@ -29653,6 +31914,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29676,6 +31938,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.3116,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -29701,6 +31964,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -29724,6 +31988,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.3093,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29748,6 +32013,9 @@ window.SEKTA_LIBRARY = {
       "contentThemes": [],
       "carouselRoles": [
         "04_деталь_пауза_метафора"
+      ],
+      "collections": [
+        "neuro"
       ],
       "isUtility": true,
       "duplicates": []
@@ -29774,6 +32042,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29801,6 +32070,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "03_комьюнити_и_социальное_доказательство"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -29826,6 +32096,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29853,6 +32124,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": true,
       "duplicates": []
     },
@@ -29878,6 +32152,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -29905,6 +32180,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": true,
       "duplicates": []
     },
@@ -29931,6 +32209,7 @@ window.SEKTA_LIBRARY = {
         "02_семья_близость_отношения"
       ],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -29958,6 +32237,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": true,
       "duplicates": []
     },
@@ -29983,6 +32265,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -30010,6 +32293,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": true,
       "duplicates": []
     },
@@ -30035,6 +32321,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -30062,6 +32349,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": true,
       "duplicates": []
     },
@@ -30085,6 +32375,7 @@ window.SEKTA_LIBRARY = {
       "agentScore": 0.187,
       "contentThemes": [],
       "carouselRoles": [],
+      "collections": [],
       "isUtility": false,
       "duplicates": []
     },
@@ -30112,6 +32403,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [
+        "olya"
+      ],
       "isUtility": true,
       "duplicates": []
     },
@@ -30137,6 +32431,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -30162,6 +32457,7 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "04_деталь_пауза_метафора"
       ],
+      "collections": [],
       "isUtility": true,
       "duplicates": []
     },
@@ -30191,6 +32487,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "neuro",
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -30228,6 +32528,10 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "neuro",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -30263,6 +32567,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "neuro",
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -30300,6 +32608,10 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "neuro",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -30335,6 +32647,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "neuro",
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -30372,6 +32688,10 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "neuro",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -30407,6 +32727,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "neuro",
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -30444,6 +32768,10 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "neuro",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -30480,6 +32808,10 @@ window.SEKTA_LIBRARY = {
         "05_атмосфера_и_переход",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "neuro",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -30514,6 +32846,10 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "neuro",
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -30550,6 +32886,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "neuro",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -30584,6 +32924,10 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "neuro",
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -30620,6 +32964,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "neuro",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -30654,6 +33002,10 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "02_действие_и_доказательство",
         "06_фон_под_текст"
+      ],
+      "collections": [
+        "neuro",
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -30690,6 +33042,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "06_фон_под_текст"
       ],
+      "collections": [
+        "neuro",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -30723,6 +33079,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "neuro"
       ],
       "isUtility": false,
       "duplicates": [
@@ -30758,6 +33117,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -30791,6 +33153,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "neuro"
       ],
       "isUtility": false,
       "duplicates": [
@@ -30826,6 +33191,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -30859,6 +33227,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "neuro"
       ],
       "isUtility": false,
       "duplicates": [
@@ -30894,6 +33265,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -30927,6 +33301,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "neuro"
       ],
       "isUtility": false,
       "duplicates": [
@@ -30962,6 +33339,9 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "neuro"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -30995,6 +33375,9 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "neuro"
       ],
       "isUtility": false,
       "duplicates": [
@@ -31033,6 +33416,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31063,6 +33450,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -31095,6 +33486,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31125,6 +33520,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -31157,6 +33556,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31187,6 +33590,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "body",
+        "olya"
       ],
       "isUtility": false,
       "duplicates": []
@@ -31219,6 +33626,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31250,6 +33661,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "body",
+        "olya"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31279,6 +33694,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -31310,6 +33729,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31339,6 +33762,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -31370,6 +33797,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31399,6 +33830,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -31430,6 +33865,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31459,6 +33898,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -31490,6 +33933,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31519,6 +33966,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -31550,6 +34001,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31579,6 +34034,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -31616,6 +34075,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31645,6 +34108,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -31676,6 +34143,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31705,6 +34176,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -31736,6 +34211,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31765,6 +34244,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -31796,6 +34279,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31826,6 +34313,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31855,6 +34346,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -31892,6 +34387,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31921,6 +34420,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -31952,6 +34455,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -31981,6 +34488,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32012,6 +34523,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32042,6 +34557,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32071,6 +34590,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -32108,6 +34631,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -32144,6 +34671,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32173,6 +34704,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32204,6 +34739,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32233,6 +34772,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32264,6 +34807,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32293,6 +34840,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32324,6 +34875,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32353,6 +34908,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32384,6 +34943,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32413,6 +34976,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32444,6 +35011,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32473,6 +35044,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32504,6 +35079,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32533,6 +35112,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32564,6 +35147,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32593,6 +35180,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32624,6 +35215,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32653,6 +35248,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32684,6 +35283,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32713,6 +35316,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32744,6 +35351,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32773,6 +35384,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32804,6 +35419,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32833,6 +35452,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32864,6 +35487,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32893,6 +35520,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32924,6 +35555,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -32953,6 +35588,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -32984,6 +35623,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33014,6 +35657,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33043,6 +35690,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -33080,6 +35731,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33109,6 +35764,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -33140,6 +35799,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33169,6 +35832,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -33200,6 +35867,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33229,6 +35900,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -33276,6 +35951,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": [
         {
@@ -33312,6 +35991,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33341,6 +36024,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -33378,6 +36065,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33407,6 +36098,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -33438,6 +36133,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33467,6 +36166,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -33498,6 +36201,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33527,6 +36234,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -33558,6 +36269,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33587,6 +36302,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -33618,6 +36337,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33647,6 +36370,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -33678,6 +36405,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33707,6 +36438,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -33738,6 +36473,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33767,6 +36506,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -33798,6 +36541,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33827,6 +36574,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -33858,6 +36609,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33887,6 +36642,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -33918,6 +36677,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -33947,6 +36710,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -33978,6 +36745,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34007,6 +36778,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34038,6 +36813,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34067,6 +36846,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34098,6 +36881,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34127,6 +36914,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34158,6 +36949,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34187,6 +36982,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34218,6 +37017,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34247,6 +37050,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34278,6 +37085,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34307,6 +37118,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34338,6 +37153,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34367,6 +37186,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34398,6 +37221,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34427,6 +37254,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34458,6 +37289,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34487,6 +37322,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34518,6 +37357,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34547,6 +37390,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34578,6 +37425,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34607,6 +37458,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34638,6 +37493,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34667,6 +37526,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34698,6 +37561,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34727,6 +37594,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34758,6 +37629,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34787,6 +37662,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34818,6 +37697,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34847,6 +37730,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -34878,6 +37765,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34908,6 +37799,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -34937,6 +37832,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": [
@@ -34974,6 +37873,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35003,6 +37906,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35034,6 +37941,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35063,6 +37974,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35094,6 +38009,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35123,6 +38042,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35154,6 +38077,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35183,6 +38110,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35214,6 +38145,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35243,6 +38178,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35274,6 +38213,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35303,6 +38246,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35334,6 +38281,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35363,6 +38314,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35394,6 +38349,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35423,6 +38382,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35454,6 +38417,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35483,6 +38450,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35514,6 +38485,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35543,6 +38518,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35574,6 +38553,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35603,6 +38586,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35634,6 +38621,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35663,6 +38654,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35694,6 +38689,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35723,6 +38722,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35754,6 +38757,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35783,6 +38790,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35814,6 +38825,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35843,6 +38858,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35874,6 +38893,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35903,6 +38926,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35934,6 +38961,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -35963,6 +38994,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -35994,6 +39029,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -36023,6 +39062,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -36054,6 +39097,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -36083,6 +39130,10 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -36114,6 +39165,10 @@ window.SEKTA_LIBRARY = {
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
       ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -36143,6 +39198,12790 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство",
         "05_атмосфера_и_переход"
+      ],
+      "collections": [
+        "maternity",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "adff7cb490d04a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0718__059.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-adff7cb490d04a.jpg",
+      "exportImage": "assets/library/lib-adff7cb490d04a-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:32:52.602Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "8e376acbf2b93d",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0749__089A.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-8e376acbf2b93d.jpg",
+      "exportImage": "assets/library/lib-8e376acbf2b93d-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.3,
+      "modifiedAt": "2026-08-25T08:32:21.269Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b8ce0104589c1c",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0750__090A.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b8ce0104589c1c.jpg",
+      "exportImage": "assets/library/lib-b8ce0104589c1c-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.5,
+      "modifiedAt": "2026-08-25T08:32:21.226Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b962f290e9768a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0741__082.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b962f290e9768a.jpg",
+      "exportImage": "assets/library/lib-b962f290e9768a-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:32:21.049Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7637570affb47f",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0740__081.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7637570affb47f.jpg",
+      "exportImage": "assets/library/lib-7637570affb47f-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:32:18.730Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "219f3161a323cf",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0739__080.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-219f3161a323cf.jpg",
+      "exportImage": "assets/library/lib-219f3161a323cf-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:32:18.508Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "0c88987f598ff1",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0719__060.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-0c88987f598ff1.jpg",
+      "exportImage": "assets/library/lib-0c88987f598ff1-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:32:18.207Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "a2290b43b31836",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0720__061.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-a2290b43b31836.jpg",
+      "exportImage": "assets/library/lib-a2290b43b31836-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:32:17.970Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "9799e0fa9abef9",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0715__056.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-9799e0fa9abef9.jpg",
+      "exportImage": "assets/library/lib-9799e0fa9abef9-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:32:16.061Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "1ea55e6489c1c4",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0717__058.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-1ea55e6489c1c4.jpg",
+      "exportImage": "assets/library/lib-1ea55e6489c1c4-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:32:15.634Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "5e8001120e58b6",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0712__053.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-5e8001120e58b6.jpg",
+      "exportImage": "assets/library/lib-5e8001120e58b6-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:32:14.745Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c523df9d58d943",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0710__051.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c523df9d58d943.jpg",
+      "exportImage": "assets/library/lib-c523df9d58d943-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:32:14.387Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "8442b15d03a8f4",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0711__052.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-8442b15d03a8f4.jpg",
+      "exportImage": "assets/library/lib-8442b15d03a8f4-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:32:14.230Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b44eac7cf08f9b",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0634__0112.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b44eac7cf08f9b.jpg",
+      "exportImage": "assets/library/lib-b44eac7cf08f9b-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.5,
+      "modifiedAt": "2026-08-25T08:32:13.340Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "3bc43cce83ae3f",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0709__050.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-3bc43cce83ae3f.jpg",
+      "exportImage": "assets/library/lib-3bc43cce83ae3f-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:32:12.835Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "03d395d1357be9",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0697__038.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-03d395d1357be9.jpg",
+      "exportImage": "assets/library/lib-03d395d1357be9-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:32:11.845Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "54fff7fe643b3c",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0698__039.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-54fff7fe643b3c.jpg",
+      "exportImage": "assets/library/lib-54fff7fe643b3c-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:32:11.223Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c97248ba16f8c8",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0702__043.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c97248ba16f8c8.jpg",
+      "exportImage": "assets/library/lib-c97248ba16f8c8-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:32:11.144Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "52ac1642131c4b",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0694__035.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-52ac1642131c4b.jpg",
+      "exportImage": "assets/library/lib-52ac1642131c4b-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:32:10.945Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ec1558743e3028",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0693__034.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ec1558743e3028.jpg",
+      "exportImage": "assets/library/lib-ec1558743e3028-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:32:09.868Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "46404f49384263",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0691__032.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-46404f49384263.jpg",
+      "exportImage": "assets/library/lib-46404f49384263-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:32:08.683Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ff9a3d5d34515e",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0669__0147.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ff9a3d5d34515e.jpg",
+      "exportImage": "assets/library/lib-ff9a3d5d34515e-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:32:08.013Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b8e63650c67880",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0668__0146.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b8e63650c67880.jpg",
+      "exportImage": "assets/library/lib-b8e63650c67880-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:32:07.858Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ca154e30447b4d",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0671__0149.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ca154e30447b4d.jpg",
+      "exportImage": "assets/library/lib-ca154e30447b4d-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:32:07.758Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "f383641a3d3324",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0667__0145.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-f383641a3d3324.jpg",
+      "exportImage": "assets/library/lib-f383641a3d3324-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:32:06.601Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c770ac435fc3e0",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0658__0136.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c770ac435fc3e0.jpg",
+      "exportImage": "assets/library/lib-c770ac435fc3e0-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:32:05.542Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "f687841c5bafad",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0657__0135.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-f687841c5bafad.jpg",
+      "exportImage": "assets/library/lib-f687841c5bafad-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:32:04.495Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "410882c7532f0f",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0656__0134.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-410882c7532f0f.jpg",
+      "exportImage": "assets/library/lib-410882c7532f0f-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:32:03.848Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "cee8a3e1db3403",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0647__0125.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-cee8a3e1db3403.jpg",
+      "exportImage": "assets/library/lib-cee8a3e1db3403-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:32:02.920Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "bf512f7fcc967b",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0651__0129.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-bf512f7fcc967b.jpg",
+      "exportImage": "assets/library/lib-bf512f7fcc967b-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:32:02.886Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "38f9f49454e7b6",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0655__0133.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-38f9f49454e7b6.jpg",
+      "exportImage": "assets/library/lib-38f9f49454e7b6-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:32:02.647Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "35e4b7b1a52cf3",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0646__0124.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-35e4b7b1a52cf3.jpg",
+      "exportImage": "assets/library/lib-35e4b7b1a52cf3-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:32:02.262Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "0bf0dde52c0431",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0643__0121.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-0bf0dde52c0431.jpg",
+      "exportImage": "assets/library/lib-0bf0dde52c0431-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:32:00.480Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d2c8c8d7dbe624",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0645__0123.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d2c8c8d7dbe624.jpg",
+      "exportImage": "assets/library/lib-d2c8c8d7dbe624-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:32:00.351Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "a873f38625c3fe",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0644__0122.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-a873f38625c3fe.jpg",
+      "exportImage": "assets/library/lib-a873f38625c3fe-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:32:00.311Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b86846f6df2bf4",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0639__0117.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b86846f6df2bf4.jpg",
+      "exportImage": "assets/library/lib-b86846f6df2bf4-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:31:59.543Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "343098f60f042a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0633__0111.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-343098f60f042a.jpg",
+      "exportImage": "assets/library/lib-343098f60f042a-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:31:58.823Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "3171e799c8f9f3",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0632__0110.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-3171e799c8f9f3.jpg",
+      "exportImage": "assets/library/lib-3171e799c8f9f3-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:31:57.482Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "f003e2cf2d02a7",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0631__0109.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-f003e2cf2d02a7.jpg",
+      "exportImage": "assets/library/lib-f003e2cf2d02a7-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:31:56.994Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c456005109d224",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0630__0108.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c456005109d224.jpg",
+      "exportImage": "assets/library/lib-c456005109d224-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.4,
+      "modifiedAt": "2026-08-25T08:31:56.831Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "8b8189bc44c291",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0629__0107.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-8b8189bc44c291.jpg",
+      "exportImage": "assets/library/lib-8b8189bc44c291-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.6,
+      "modifiedAt": "2026-08-25T08:31:56.455Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "81b9305e19f1ae",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0528__06.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-81b9305e19f1ae.jpg",
+      "exportImage": "assets/library/lib-81b9305e19f1ae-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:31:55.771Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "646baa73fda022",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0626__0104.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-646baa73fda022.jpg",
+      "exportImage": "assets/library/lib-646baa73fda022-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:31:54.471Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "65604d8f89c0f6",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0624__0102.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-65604d8f89c0f6.jpg",
+      "exportImage": "assets/library/lib-65604d8f89c0f6-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:31:54.269Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "3e4d5d9ba472a7",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0628__0106.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-3e4d5d9ba472a7.jpg",
+      "exportImage": "assets/library/lib-3e4d5d9ba472a7-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:31:53.614Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "dcec541c943afd",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0625__0103.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-dcec541c943afd.jpg",
+      "exportImage": "assets/library/lib-dcec541c943afd-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:31:53.582Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "8c604eab1e941b",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0627__0105.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-8c604eab1e941b.jpg",
+      "exportImage": "assets/library/lib-8c604eab1e941b-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:31:53.458Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ac2a2a9ab39e03",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0619__097.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ac2a2a9ab39e03.jpg",
+      "exportImage": "assets/library/lib-ac2a2a9ab39e03-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.3,
+      "modifiedAt": "2026-08-25T08:31:50.620Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "087b7ee3ad1e7b",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0623__0101.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-087b7ee3ad1e7b.jpg",
+      "exportImage": "assets/library/lib-087b7ee3ad1e7b-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:31:50.620Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "31d2a4c55bf781",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0606__084.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-31d2a4c55bf781.jpg",
+      "exportImage": "assets/library/lib-31d2a4c55bf781-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:31:50.443Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "f5fc1355aa6c61",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0600__078.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-f5fc1355aa6c61.jpg",
+      "exportImage": "assets/library/lib-f5fc1355aa6c61-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:31:50.078Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e043c8c455d19a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0605__083.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e043c8c455d19a.jpg",
+      "exportImage": "assets/library/lib-e043c8c455d19a-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.6,
+      "modifiedAt": "2026-08-25T08:31:49.559Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "eab59fcc73924b",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0599__077.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-eab59fcc73924b.jpg",
+      "exportImage": "assets/library/lib-eab59fcc73924b-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:31:47.486Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7ba1b0a06478ae",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0594__072.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7ba1b0a06478ae.jpg",
+      "exportImage": "assets/library/lib-7ba1b0a06478ae-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:31:47.337Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "a4e8afc4ba3fe9",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0591__069.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-a4e8afc4ba3fe9.jpg",
+      "exportImage": "assets/library/lib-a4e8afc4ba3fe9-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:31:46.753Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "a8adc004b5a9d2",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0592__070.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-a8adc004b5a9d2.jpg",
+      "exportImage": "assets/library/lib-a8adc004b5a9d2-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:31:46.661Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d27b97a6545073",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0590__068.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d27b97a6545073.jpg",
+      "exportImage": "assets/library/lib-d27b97a6545073-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:31:46.354Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e2560f44a860ab",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0589__067.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e2560f44a860ab.jpg",
+      "exportImage": "assets/library/lib-e2560f44a860ab-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:31:44.930Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "a2745895e75644",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0585__063.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-a2745895e75644.jpg",
+      "exportImage": "assets/library/lib-a2745895e75644-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:31:44.305Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "49e430b79a68ea",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0579__057.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-49e430b79a68ea.jpg",
+      "exportImage": "assets/library/lib-49e430b79a68ea-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:31:43.308Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "754ae22a6e97b1",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0576__054.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-754ae22a6e97b1.jpg",
+      "exportImage": "assets/library/lib-754ae22a6e97b1-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.1,
+      "modifiedAt": "2026-08-25T08:31:42.909Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "a2093396ac5e2a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0577__055.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-a2093396ac5e2a.jpg",
+      "exportImage": "assets/library/lib-a2093396ac5e2a-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.3,
+      "modifiedAt": "2026-08-25T08:31:42.700Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6f7c0b39653677",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0574__052.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6f7c0b39653677.jpg",
+      "exportImage": "assets/library/lib-6f7c0b39653677-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.3,
+      "modifiedAt": "2026-08-25T08:31:41.891Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c011acdb66d76e",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0575__053.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c011acdb66d76e.jpg",
+      "exportImage": "assets/library/lib-c011acdb66d76e-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:31:41.368Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "1f107960d580ea",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0560__038.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-1f107960d580ea.jpg",
+      "exportImage": "assets/library/lib-1f107960d580ea-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:31:38.935Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "4d8a2eb4607d85",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0559__037.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-4d8a2eb4607d85.jpg",
+      "exportImage": "assets/library/lib-4d8a2eb4607d85-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:31:37.036Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7cac182c235464",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0553__031.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7cac182c235464.jpg",
+      "exportImage": "assets/library/lib-7cac182c235464-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:31:36.762Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "0c8d1e2f50c63f",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0540__018.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-0c8d1e2f50c63f.jpg",
+      "exportImage": "assets/library/lib-0c8d1e2f50c63f-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:31:36.758Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d54294925de501",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0554__032.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d54294925de501.jpg",
+      "exportImage": "assets/library/lib-d54294925de501-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:31:36.641Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "3afd06edd87c1d",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0549__027.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-3afd06edd87c1d.jpg",
+      "exportImage": "assets/library/lib-3afd06edd87c1d-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.2,
+      "modifiedAt": "2026-08-25T08:31:34.618Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "17a1530a1d52b9",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0536__014.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-17a1530a1d52b9.jpg",
+      "exportImage": "assets/library/lib-17a1530a1d52b9-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.2,
+      "modifiedAt": "2026-08-25T08:31:30.312Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "fc0f28ba268ec4",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0538__016.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-fc0f28ba268ec4.jpg",
+      "exportImage": "assets/library/lib-fc0f28ba268ec4-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.3,
+      "modifiedAt": "2026-08-25T08:31:28.946Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "3e136b538aaf85",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0533__011.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-3e136b538aaf85.jpg",
+      "exportImage": "assets/library/lib-3e136b538aaf85-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:31:27.850Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "01165215cbbc45",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0535__013.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-01165215cbbc45.jpg",
+      "exportImage": "assets/library/lib-01165215cbbc45-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:31:27.116Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "bba1326925c3f4",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0532__010.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-bba1326925c3f4.jpg",
+      "exportImage": "assets/library/lib-bba1326925c3f4-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:31:26.687Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "1ee0daa6fd1620",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0531__09.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-1ee0daa6fd1620.jpg",
+      "exportImage": "assets/library/lib-1ee0daa6fd1620-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.5,
+      "modifiedAt": "2026-08-25T08:31:24.174Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "74f9c480f30929",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0527__05.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-74f9c480f30929.jpg",
+      "exportImage": "assets/library/lib-74f9c480f30929-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:31:23.999Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "237f8bccff14d6",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0529__07.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-237f8bccff14d6.jpg",
+      "exportImage": "assets/library/lib-237f8bccff14d6-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:31:23.095Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e4246716546f15",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0525__03.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e4246716546f15.jpg",
+      "exportImage": "assets/library/lib-e4246716546f15-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3,
+      "modifiedAt": "2026-08-25T08:31:23.064Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "2ce6fe851cb509",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0530__08.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-2ce6fe851cb509.jpg",
+      "exportImage": "assets/library/lib-2ce6fe851cb509-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:31:22.359Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "90cf4d606e2322",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0526__04.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-90cf4d606e2322.jpg",
+      "exportImage": "assets/library/lib-90cf4d606e2322-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:31:20.414Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6335833d36ac05",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0524__02.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6335833d36ac05.jpg",
+      "exportImage": "assets/library/lib-6335833d36ac05-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3,
+      "modifiedAt": "2026-08-25T08:31:19.821Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e64c25b27708b6",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0523__01.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e64c25b27708b6.jpg",
+      "exportImage": "assets/library/lib-e64c25b27708b6-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:31:19.603Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "94559c430920f5",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0341__039.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-94559c430920f5.jpg",
+      "exportImage": "assets/library/lib-94559c430920f5-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.5,
+      "modifiedAt": "2026-08-25T08:31:17.727Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e5ec6f254fbe85",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0522__FEB2F7DD-5266-4BB1-8122-4A8744A69730.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e5ec6f254fbe85.jpg",
+      "exportImage": "assets/library/lib-e5ec6f254fbe85-hq-v2.jpg",
+      "width": 1290,
+      "height": 2293,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 0.3,
+      "modifiedAt": "2026-08-25T08:31:17.490Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "8d05b38b547b3a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0521__FD307109-60B2-4B32-BE8A-7895FEAAB143.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-8d05b38b547b3a.jpg",
+      "exportImage": "assets/library/lib-8d05b38b547b3a-hq-v2.jpg",
+      "width": 1290,
+      "height": 2293,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 0.4,
+      "modifiedAt": "2026-08-25T08:31:16.410Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "feb0176324eb14",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0517__AA7F8F51-151F-435E-A015-4F8724091A7A.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-feb0176324eb14.jpg",
+      "exportImage": "assets/library/lib-feb0176324eb14-hq-v2.jpg",
+      "width": 1290,
+      "height": 2293,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 0.3,
+      "modifiedAt": "2026-08-25T08:31:15.956Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "2193b59d9be06e",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0520__EEB73FCE-CBF2-4910-AE92-577D591ABAC5.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-2193b59d9be06e.jpg",
+      "exportImage": "assets/library/lib-2193b59d9be06e-hq-v2.jpg",
+      "width": 1290,
+      "height": 2293,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 0.3,
+      "modifiedAt": "2026-08-25T08:31:15.829Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "5a2692803df4b8",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0519__D39717E3-750C-44BB-8AB1-C66CF82E2A12.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-5a2692803df4b8.jpg",
+      "exportImage": "assets/library/lib-5a2692803df4b8-hq-v2.jpg",
+      "width": 1290,
+      "height": 2293,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 0.3,
+      "modifiedAt": "2026-08-25T08:31:15.768Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "445cc5e86879d1",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0516__1028A21C-A9C9-4DBF-AF73-84D6B1E3CCDD.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-445cc5e86879d1.jpg",
+      "exportImage": "assets/library/lib-445cc5e86879d1-hq-v2.jpg",
+      "width": 1290,
+      "height": 2293,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 0.3,
+      "modifiedAt": "2026-08-25T08:31:15.302Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7a183b5953c2b3",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0518__BC354E60-B129-41B8-874B-3CA96909B0B3.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7a183b5953c2b3.jpg",
+      "exportImage": "assets/library/lib-7a183b5953c2b3-hq-v2.jpg",
+      "width": 1290,
+      "height": 2293,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 0.3,
+      "modifiedAt": "2026-08-25T08:31:14.626Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b8b2d4eb371fcb",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0515__726F6C81-89EB-4D20-B4AE-E1578E03A690.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b8b2d4eb371fcb.jpg",
+      "exportImage": "assets/library/lib-b8b2d4eb371fcb-hq-v2.jpg",
+      "width": 1290,
+      "height": 2293,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 0.3,
+      "modifiedAt": "2026-08-25T08:31:14.205Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "a1f9c971fab11c",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0514__9DC95DBC-1F4D-4381-979E-5C89E986668E.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-a1f9c971fab11c.jpg",
+      "exportImage": "assets/library/lib-a1f9c971fab11c-hq-v2.jpg",
+      "width": 1290,
+      "height": 2293,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 0.4,
+      "modifiedAt": "2026-08-25T08:31:14.180Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7ffa1ed66a3d77",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0508__0150.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7ffa1ed66a3d77.jpg",
+      "exportImage": "assets/library/lib-7ffa1ed66a3d77-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:31:13.957Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "f7f8feccc4b32a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0513__9B3D8AD2-1E8E-4A66-B86D-2DB31DEC0568.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-f7f8feccc4b32a.jpg",
+      "exportImage": "assets/library/lib-f7f8feccc4b32a-hq-v2.jpg",
+      "width": 1290,
+      "height": 2293,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 0.3,
+      "modifiedAt": "2026-08-25T08:31:13.905Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "4cdf7c67a71f10",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0507__0149.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-4cdf7c67a71f10.jpg",
+      "exportImage": "assets/library/lib-4cdf7c67a71f10-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:31:13.579Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "602ff4edd905be",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0512__6D259CEE-DADB-4D9A-88C7-B1AFEC3BF204.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-602ff4edd905be.jpg",
+      "exportImage": "assets/library/lib-602ff4edd905be-hq-v2.jpg",
+      "width": 1290,
+      "height": 2293,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 0.3,
+      "modifiedAt": "2026-08-25T08:31:12.955Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c9a33a62e01ef8",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0505__0147.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c9a33a62e01ef8.jpg",
+      "exportImage": "assets/library/lib-c9a33a62e01ef8-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:31:12.586Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "569c5155739484",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0511__5F618BF2-F547-458A-A1B8-3FF7CCB95DC2.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-569c5155739484.jpg",
+      "exportImage": "assets/library/lib-569c5155739484-hq-v2.jpg",
+      "width": 1290,
+      "height": 2293,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 0.4,
+      "modifiedAt": "2026-08-25T08:31:11.655Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e64687cbeece8f",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0496__0138.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e64687cbeece8f.jpg",
+      "exportImage": "assets/library/lib-e64687cbeece8f-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:31:11.512Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "45064f22d32071",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0492__0134.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-45064f22d32071.jpg",
+      "exportImage": "assets/library/lib-45064f22d32071-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:31:09.959Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "0eb3ef19e0fffe",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0495__0137.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-0eb3ef19e0fffe.jpg",
+      "exportImage": "assets/library/lib-0eb3ef19e0fffe-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:31:09.779Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "0dcbcbb617a057",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0490__0132.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-0dcbcbb617a057.jpg",
+      "exportImage": "assets/library/lib-0dcbcbb617a057-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:31:09.250Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "56bf533e727e6e",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0489__0131.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-56bf533e727e6e.jpg",
+      "exportImage": "assets/library/lib-56bf533e727e6e-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:31:08.785Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "5a3992370118e1",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0488__0130.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-5a3992370118e1.jpg",
+      "exportImage": "assets/library/lib-5a3992370118e1-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:31:08.038Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "94e220515445ba",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0477__0119.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-94e220515445ba.jpg",
+      "exportImage": "assets/library/lib-94e220515445ba-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:31:06.926Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "134541bc0e0c4e",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0475__0117.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-134541bc0e0c4e.jpg",
+      "exportImage": "assets/library/lib-134541bc0e0c4e-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:31:06.272Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "50f221721bdfd1",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0472__0114.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-50f221721bdfd1.jpg",
+      "exportImage": "assets/library/lib-50f221721bdfd1-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:31:06.033Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ef4dea6e255fca",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0476__0118.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ef4dea6e255fca.jpg",
+      "exportImage": "assets/library/lib-ef4dea6e255fca-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:31:05.829Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6e8517090b0419",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0470__0112.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6e8517090b0419.jpg",
+      "exportImage": "assets/library/lib-6e8517090b0419-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:31:05.282Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "bdd3412d136dce",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0468__0110.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-bdd3412d136dce.jpg",
+      "exportImage": "assets/library/lib-bdd3412d136dce-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:31:03.078Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "8d90e0ddcc8a66",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0469__0111.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-8d90e0ddcc8a66.jpg",
+      "exportImage": "assets/library/lib-8d90e0ddcc8a66-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:31:03.006Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e75d259bdcfdb9",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0467__0109.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e75d259bdcfdb9.jpg",
+      "exportImage": "assets/library/lib-e75d259bdcfdb9-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:31:02.898Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "38618d4f6bfc90",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0463__0105.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-38618d4f6bfc90.jpg",
+      "exportImage": "assets/library/lib-38618d4f6bfc90-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:31:02.639Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6253bd2943b4fd",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0464__0106.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6253bd2943b4fd.jpg",
+      "exportImage": "assets/library/lib-6253bd2943b4fd-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.6,
+      "modifiedAt": "2026-08-25T08:31:02.034Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7aa73e95e796e8",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0447__089.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7aa73e95e796e8.jpg",
+      "exportImage": "assets/library/lib-7aa73e95e796e8-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:31:00.287Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "78d05135f745c9",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0419__061.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-78d05135f745c9.jpg",
+      "exportImage": "assets/library/lib-78d05135f745c9-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:30:59.803Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "54c6cf5a718aad",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0420__062.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-54c6cf5a718aad.jpg",
+      "exportImage": "assets/library/lib-54c6cf5a718aad-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:30:59.569Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "9fca65420b52f5",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0446__088.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-9fca65420b52f5.jpg",
+      "exportImage": "assets/library/lib-9fca65420b52f5-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:30:59.322Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "12e8a2c93d134b",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0418__060.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-12e8a2c93d134b.jpg",
+      "exportImage": "assets/library/lib-12e8a2c93d134b-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:30:58.623Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "84b38d4913c1c0",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0417__059.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-84b38d4913c1c0.jpg",
+      "exportImage": "assets/library/lib-84b38d4913c1c0-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.4,
+      "modifiedAt": "2026-08-25T08:30:57.088Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d51fc0eddbf5c1",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0416__058.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d51fc0eddbf5c1.jpg",
+      "exportImage": "assets/library/lib-d51fc0eddbf5c1-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.6,
+      "modifiedAt": "2026-08-25T08:30:56.592Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6acd99dc4daa85",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0414__056.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6acd99dc4daa85.jpg",
+      "exportImage": "assets/library/lib-6acd99dc4daa85-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:30:56.318Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b1a63cad7d2940",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0415__057.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b1a63cad7d2940.jpg",
+      "exportImage": "assets/library/lib-b1a63cad7d2940-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.6,
+      "modifiedAt": "2026-08-25T08:30:56.111Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e9beee863c7b3a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0412__054.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e9beee863c7b3a.jpg",
+      "exportImage": "assets/library/lib-e9beee863c7b3a-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.6,
+      "modifiedAt": "2026-08-25T08:30:55.030Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "f0006df4c928de",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0411__053.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-f0006df4c928de.jpg",
+      "exportImage": "assets/library/lib-f0006df4c928de-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:30:54.425Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "526cd458979670",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0410__052.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-526cd458979670.jpg",
+      "exportImage": "assets/library/lib-526cd458979670-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:30:53.353Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7b0066106d5d40",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0408__050.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7b0066106d5d40.jpg",
+      "exportImage": "assets/library/lib-7b0066106d5d40-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:30:52.653Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "5bdab6f965990b",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0409__051.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-5bdab6f965990b.jpg",
+      "exportImage": "assets/library/lib-5bdab6f965990b-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:30:52.419Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "2d7a28a6dd7916",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0406__048.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-2d7a28a6dd7916.jpg",
+      "exportImage": "assets/library/lib-2d7a28a6dd7916-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:30:51.863Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "1adf1e360274a9",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0405__047.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-1adf1e360274a9.jpg",
+      "exportImage": "assets/library/lib-1adf1e360274a9-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:30:51.521Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "9b368f9bdc3ba1",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0404__046.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-9b368f9bdc3ba1.jpg",
+      "exportImage": "assets/library/lib-9b368f9bdc3ba1-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:30:50.379Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "8c0983112b9177",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0366__09.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-8c0983112b9177.jpg",
+      "exportImage": "assets/library/lib-8c0983112b9177-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:30:48.769Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "5bf4750cba8e23",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0365__08.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-5bf4750cba8e23.jpg",
+      "exportImage": "assets/library/lib-5bf4750cba8e23-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:30:48.673Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "9bc77f85e148fe",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0363__06.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-9bc77f85e148fe.jpg",
+      "exportImage": "assets/library/lib-9bc77f85e148fe-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:30:48.269Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c2ae3ff39f0034",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0403__045.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c2ae3ff39f0034.jpg",
+      "exportImage": "assets/library/lib-c2ae3ff39f0034-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:30:48.208Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d45ad667c0dea3",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0364__07.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d45ad667c0dea3.jpg",
+      "exportImage": "assets/library/lib-d45ad667c0dea3-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:30:47.004Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "8c4ec90fbfca5d",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0362__05.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-8c4ec90fbfca5d.jpg",
+      "exportImage": "assets/library/lib-8c4ec90fbfca5d-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:30:45.554Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "28c84b0d22e066",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0356__054.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-28c84b0d22e066.jpg",
+      "exportImage": "assets/library/lib-28c84b0d22e066-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.9,
+      "modifiedAt": "2026-08-25T08:30:44.992Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e0dd8d5d5d45b0",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0360__03.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e0dd8d5d5d45b0.jpg",
+      "exportImage": "assets/library/lib-e0dd8d5d5d45b0-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:30:44.798Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "0813f64ebd05c8",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0361__04.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-0813f64ebd05c8.jpg",
+      "exportImage": "assets/library/lib-0813f64ebd05c8-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:30:44.041Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "0993ddc3184925",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0358__01.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-0993ddc3184925.jpg",
+      "exportImage": "assets/library/lib-0993ddc3184925-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:30:43.849Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "fe07bf860aecd7",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0359__02.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-fe07bf860aecd7.jpg",
+      "exportImage": "assets/library/lib-fe07bf860aecd7-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:30:43.513Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "59bd55bb1f2d57",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0355__053.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-59bd55bb1f2d57.jpg",
+      "exportImage": "assets/library/lib-59bd55bb1f2d57-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.8,
+      "modifiedAt": "2026-08-25T08:30:40.961Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "65de6b3b580425",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0342__040.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-65de6b3b580425.jpg",
+      "exportImage": "assets/library/lib-65de6b3b580425-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.8,
+      "modifiedAt": "2026-08-25T08:30:40.831Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "0d51bae7e68167",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0354__052.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-0d51bae7e68167.jpg",
+      "exportImage": "assets/library/lib-0d51bae7e68167-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.6,
+      "modifiedAt": "2026-08-25T08:30:40.517Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "576fc1fda4f388",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0352__050.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-576fc1fda4f388.jpg",
+      "exportImage": "assets/library/lib-576fc1fda4f388-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.4,
+      "modifiedAt": "2026-08-25T08:30:40.319Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "38b1292856a438",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0353__051.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-38b1292856a438.jpg",
+      "exportImage": "assets/library/lib-38b1292856a438-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:30:39.932Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "72eb7859b9d64d",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0350__048.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-72eb7859b9d64d.jpg",
+      "exportImage": "assets/library/lib-72eb7859b9d64d-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.8,
+      "modifiedAt": "2026-08-25T08:30:37.991Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "f7610d7809bfde",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0340__038.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-f7610d7809bfde.jpg",
+      "exportImage": "assets/library/lib-f7610d7809bfde-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.5,
+      "modifiedAt": "2026-08-25T08:30:36.917Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ee796441059b5b",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0338__036.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ee796441059b5b.jpg",
+      "exportImage": "assets/library/lib-ee796441059b5b-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:30:35.915Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "a073d5ff673ff3",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0326__024.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-a073d5ff673ff3.jpg",
+      "exportImage": "assets/library/lib-a073d5ff673ff3-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.5,
+      "modifiedAt": "2026-08-25T08:30:35.030Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "32d1b9da68b237",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0337__035.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-32d1b9da68b237.jpg",
+      "exportImage": "assets/library/lib-32d1b9da68b237-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:30:34.377Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "5c709ca520bb93",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0324__022.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-5c709ca520bb93.jpg",
+      "exportImage": "assets/library/lib-5c709ca520bb93-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:30:33.658Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "028c366da54bbd",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0231__026.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-028c366da54bbd.jpg",
+      "exportImage": "assets/library/lib-028c366da54bbd-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:30:33.454Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ed1af2cfaed4c8",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0325__023.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ed1af2cfaed4c8.jpg",
+      "exportImage": "assets/library/lib-ed1af2cfaed4c8-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.6,
+      "modifiedAt": "2026-08-25T08:30:33.439Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "05e756eeca8e60",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0321__019.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-05e756eeca8e60.jpg",
+      "exportImage": "assets/library/lib-05e756eeca8e60-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.1,
+      "modifiedAt": "2026-08-25T08:30:32.498Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d246fabf48b473",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0319__017.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d246fabf48b473.jpg",
+      "exportImage": "assets/library/lib-d246fabf48b473-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3,
+      "modifiedAt": "2026-08-25T08:30:31.281Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "8dd82f799615cd",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0315__013.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-8dd82f799615cd.jpg",
+      "exportImage": "assets/library/lib-8dd82f799615cd-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.4,
+      "modifiedAt": "2026-08-25T08:30:30.759Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "4d8b94517460b1",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0320__018.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-4d8b94517460b1.jpg",
+      "exportImage": "assets/library/lib-4d8b94517460b1-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:30:30.433Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "23dbd341f02a80",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0309__07.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-23dbd341f02a80.jpg",
+      "exportImage": "assets/library/lib-23dbd341f02a80-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:30:29.064Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7366dbfacb4f1a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0308__06.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7366dbfacb4f1a.jpg",
+      "exportImage": "assets/library/lib-7366dbfacb4f1a-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.6,
+      "modifiedAt": "2026-08-25T08:30:28.626Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "193927554246fa",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0304__02.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-193927554246fa.jpg",
+      "exportImage": "assets/library/lib-193927554246fa-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:30:27.463Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c4a9355068dbd6",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0305__03.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c4a9355068dbd6.jpg",
+      "exportImage": "assets/library/lib-c4a9355068dbd6-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:30:27.390Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b70fec5b731273",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0303__01.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b70fec5b731273.jpg",
+      "exportImage": "assets/library/lib-b70fec5b731273-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:30:26.325Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "9413482ab90018",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0299__094.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-9413482ab90018.jpg",
+      "exportImage": "assets/library/lib-9413482ab90018-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:30:25.840Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "fbd722ef67b0c0",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0298__093.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-fbd722ef67b0c0.jpg",
+      "exportImage": "assets/library/lib-fbd722ef67b0c0-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:30:24.922Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "08ef948328357f",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0297__092.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-08ef948328357f.jpg",
+      "exportImage": "assets/library/lib-08ef948328357f-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:30:23.988Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "09d2c5396256fa",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0293__088.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-09d2c5396256fa.jpg",
+      "exportImage": "assets/library/lib-09d2c5396256fa-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.6,
+      "modifiedAt": "2026-08-25T08:30:23.757Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "10d82b6698a278",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0292__087.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-10d82b6698a278.jpg",
+      "exportImage": "assets/library/lib-10d82b6698a278-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:30:22.762Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "8f6ecd47b561a9",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0291__086.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-8f6ecd47b561a9.jpg",
+      "exportImage": "assets/library/lib-8f6ecd47b561a9-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.1,
+      "modifiedAt": "2026-08-25T08:30:22.644Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "42212e52c9484a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0287__082.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-42212e52c9484a.jpg",
+      "exportImage": "assets/library/lib-42212e52c9484a-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:30:21.652Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "224fbfe959cb26",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0286__081.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-224fbfe959cb26.jpg",
+      "exportImage": "assets/library/lib-224fbfe959cb26-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:30:20.557Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e935acad2554e6",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0285__080.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e935acad2554e6.jpg",
+      "exportImage": "assets/library/lib-e935acad2554e6-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:30:20.531Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "1ac61dc10e3106",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0284__079.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-1ac61dc10e3106.jpg",
+      "exportImage": "assets/library/lib-1ac61dc10e3106-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:30:19.490Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "9bd3784a4f0995",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0283__078.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-9bd3784a4f0995.jpg",
+      "exportImage": "assets/library/lib-9bd3784a4f0995-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:30:18.735Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "fbd34cdff7e962",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0276__071.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-fbd34cdff7e962.jpg",
+      "exportImage": "assets/library/lib-fbd34cdff7e962-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:30:17.934Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "2de0b5b65949b3",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0281__076.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-2de0b5b65949b3.jpg",
+      "exportImage": "assets/library/lib-2de0b5b65949b3-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:30:17.612Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "9ec8cfe62950b8",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0277__072.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-9ec8cfe62950b8.jpg",
+      "exportImage": "assets/library/lib-9ec8cfe62950b8-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:30:17.519Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c7f83d6f30b138",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0275__070.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c7f83d6f30b138.jpg",
+      "exportImage": "assets/library/lib-c7f83d6f30b138-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:30:17.279Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "4006c386e94963",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0273__068.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-4006c386e94963.jpg",
+      "exportImage": "assets/library/lib-4006c386e94963-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:30:15.887Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e995c8c26ab455",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0272__067.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e995c8c26ab455.jpg",
+      "exportImage": "assets/library/lib-e995c8c26ab455-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:30:14.754Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c44c13ad4e0043",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0271__066.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c44c13ad4e0043.jpg",
+      "exportImage": "assets/library/lib-c44c13ad4e0043-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:30:13.838Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "848e7a771a42d4",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0269__064.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-848e7a771a42d4.jpg",
+      "exportImage": "assets/library/lib-848e7a771a42d4-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:30:13.800Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b144ed693a816f",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0267__062.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b144ed693a816f.jpg",
+      "exportImage": "assets/library/lib-b144ed693a816f-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:30:13.464Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "108cb5036a6ce2",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0268__063.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-108cb5036a6ce2.jpg",
+      "exportImage": "assets/library/lib-108cb5036a6ce2-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:30:12.994Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "1402ccd1ded9ca",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0264__059.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-1402ccd1ded9ca.jpg",
+      "exportImage": "assets/library/lib-1402ccd1ded9ca-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:30:11.899Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "0231f8965b23ba",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0262__057.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-0231f8965b23ba.jpg",
+      "exportImage": "assets/library/lib-0231f8965b23ba-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:30:11.355Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "f00011ea02be30",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0263__058.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-f00011ea02be30.jpg",
+      "exportImage": "assets/library/lib-f00011ea02be30-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:30:10.722Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "563afdf7b8b9e8",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0261__056.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-563afdf7b8b9e8.jpg",
+      "exportImage": "assets/library/lib-563afdf7b8b9e8-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:30:10.020Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e380108484534c",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0257__052.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e380108484534c.jpg",
+      "exportImage": "assets/library/lib-e380108484534c-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:30:08.712Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "2e85865b23581e",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0259__054.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-2e85865b23581e.jpg",
+      "exportImage": "assets/library/lib-2e85865b23581e-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:30:08.629Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "f0a2ccc330a734",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0258__053.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-f0a2ccc330a734.jpg",
+      "exportImage": "assets/library/lib-f0a2ccc330a734-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:30:08.246Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "131cc8cf5ba1f0",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0260__055.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-131cc8cf5ba1f0.jpg",
+      "exportImage": "assets/library/lib-131cc8cf5ba1f0-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:30:08.219Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "85eeb06f87aeb5",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0256__051.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-85eeb06f87aeb5.jpg",
+      "exportImage": "assets/library/lib-85eeb06f87aeb5-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:30:07.183Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "23acb59bed3254",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0255__050.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-23acb59bed3254.jpg",
+      "exportImage": "assets/library/lib-23acb59bed3254-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:30:06.017Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d6a0c2a0c9089a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0254__049.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d6a0c2a0c9089a.jpg",
+      "exportImage": "assets/library/lib-d6a0c2a0c9089a-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:30:05.471Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "44716caeb0e85a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0253__048.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-44716caeb0e85a.jpg",
+      "exportImage": "assets/library/lib-44716caeb0e85a-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:30:04.860Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "5db34fce942e22",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0248__043.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-5db34fce942e22.jpg",
+      "exportImage": "assets/library/lib-5db34fce942e22-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:30:04.743Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "2f89fdc1c84c86",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0247__042.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-2f89fdc1c84c86.jpg",
+      "exportImage": "assets/library/lib-2f89fdc1c84c86-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:30:04.051Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d5e4a9b0109524",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0245__040.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d5e4a9b0109524.jpg",
+      "exportImage": "assets/library/lib-d5e4a9b0109524-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:30:03.251Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "f37a07058f2e1b",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0244__039.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-f37a07058f2e1b.jpg",
+      "exportImage": "assets/library/lib-f37a07058f2e1b-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:30:02.732Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e587a356ef131a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0233__028.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e587a356ef131a.jpg",
+      "exportImage": "assets/library/lib-e587a356ef131a-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:30:01.531Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "fa2cfcad1a4ae0",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0232__027.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-fa2cfcad1a4ae0.jpg",
+      "exportImage": "assets/library/lib-fa2cfcad1a4ae0-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:30:01.481Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b285e99b3c9ca0",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0235__030.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b285e99b3c9ca0.jpg",
+      "exportImage": "assets/library/lib-b285e99b3c9ca0-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.3,
+      "modifiedAt": "2026-08-25T08:30:01.049Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "265301d8a00fea",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0230__025.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-265301d8a00fea.jpg",
+      "exportImage": "assets/library/lib-265301d8a00fea-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.5,
+      "modifiedAt": "2026-08-25T08:29:59.818Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ace91b0571dfd2",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0234__029.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ace91b0571dfd2.jpg",
+      "exportImage": "assets/library/lib-ace91b0571dfd2-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:29:59.685Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "47cfe5a7fcbe4b",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0228__023.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-47cfe5a7fcbe4b.jpg",
+      "exportImage": "assets/library/lib-47cfe5a7fcbe4b-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:29:58.008Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ad24c8ce8d268e",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0225__020.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ad24c8ce8d268e.jpg",
+      "exportImage": "assets/library/lib-ad24c8ce8d268e-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:29:57.261Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "9e5ff099b3c0e2",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0227__022.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-9e5ff099b3c0e2.jpg",
+      "exportImage": "assets/library/lib-9e5ff099b3c0e2-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.5,
+      "modifiedAt": "2026-08-25T08:29:57.165Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "8a056fcd08c8c7",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0223__018.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-8a056fcd08c8c7.jpg",
+      "exportImage": "assets/library/lib-8a056fcd08c8c7-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:29:56.585Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7685b464c73df1",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0160__067.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7685b464c73df1.jpg",
+      "exportImage": "assets/library/lib-7685b464c73df1-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3,
+      "modifiedAt": "2026-08-25T08:29:55.753Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c35a5c91798f95",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0213__08.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c35a5c91798f95.jpg",
+      "exportImage": "assets/library/lib-c35a5c91798f95-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:29:54.754Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7345e3bd93eb4d",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0219__014.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7345e3bd93eb4d.jpg",
+      "exportImage": "assets/library/lib-7345e3bd93eb4d-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.2,
+      "modifiedAt": "2026-08-25T08:29:54.590Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6ff239813c85ea",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0218__013.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6ff239813c85ea.jpg",
+      "exportImage": "assets/library/lib-6ff239813c85ea-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:29:54.243Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "41fb1e46ee2257",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0217__012.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-41fb1e46ee2257.jpg",
+      "exportImage": "assets/library/lib-41fb1e46ee2257-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:29:53.587Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "cc58bb5b511787",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0212__07.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-cc58bb5b511787.jpg",
+      "exportImage": "assets/library/lib-cc58bb5b511787-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:29:53.487Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "acb032fd2f20ed",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0211__06.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-acb032fd2f20ed.jpg",
+      "exportImage": "assets/library/lib-acb032fd2f20ed-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.5,
+      "modifiedAt": "2026-08-25T08:29:51.029Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "bbbca615c12194",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0209__04.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-bbbca615c12194.jpg",
+      "exportImage": "assets/library/lib-bbbca615c12194-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.6,
+      "modifiedAt": "2026-08-25T08:29:50.459Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "18f8d6cc07b85d",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0210__05.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-18f8d6cc07b85d.jpg",
+      "exportImage": "assets/library/lib-18f8d6cc07b85d-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:29:50.152Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "942883c250a0d9",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0208__03.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-942883c250a0d9.jpg",
+      "exportImage": "assets/library/lib-942883c250a0d9-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:29:49.683Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6ed5818e7167f6",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0207__02.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6ed5818e7167f6.jpg",
+      "exportImage": "assets/library/lib-6ed5818e7167f6-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:29:49.674Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "903ab32b704e37",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0206__01.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-903ab32b704e37.jpg",
+      "exportImage": "assets/library/lib-903ab32b704e37-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:29:48.171Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d088e0136cf2ea",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0205__024.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d088e0136cf2ea.jpg",
+      "exportImage": "assets/library/lib-d088e0136cf2ea-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:29:47.105Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "2cf35aab2d9a56",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0203__022.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-2cf35aab2d9a56.jpg",
+      "exportImage": "assets/library/lib-2cf35aab2d9a56-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:29:47.063Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ecacf2cfb27d18",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0204__023.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ecacf2cfb27d18.jpg",
+      "exportImage": "assets/library/lib-ecacf2cfb27d18-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:29:46.786Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b9c990339c5b84",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0202__021.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b9c990339c5b84.jpg",
+      "exportImage": "assets/library/lib-b9c990339c5b84-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:29:46.064Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b2285ce3c14801",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0201__020.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b2285ce3c14801.jpg",
+      "exportImage": "assets/library/lib-b2285ce3c14801-hq-v2.jpg",
+      "width": 4958,
+      "height": 3305,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.6,
+      "modifiedAt": "2026-08-25T08:29:45.071Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "5a868fa853dd24",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0200__019.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-5a868fa853dd24.jpg",
+      "exportImage": "assets/library/lib-5a868fa853dd24-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:29:44.171Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "75b2a8d1ea96dd",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0199__018.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-75b2a8d1ea96dd.jpg",
+      "exportImage": "assets/library/lib-75b2a8d1ea96dd-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:29:43.359Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "5be80f8c035ba7",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0198__017.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-5be80f8c035ba7.jpg",
+      "exportImage": "assets/library/lib-5be80f8c035ba7-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:29:43.074Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b25521775388b9",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0197__016.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b25521775388b9.jpg",
+      "exportImage": "assets/library/lib-b25521775388b9-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:29:42.574Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "9568a343d3990a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0196__015.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-9568a343d3990a.jpg",
+      "exportImage": "assets/library/lib-9568a343d3990a-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:29:42.181Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6113cba72d56bf",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0195__014.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6113cba72d56bf.jpg",
+      "exportImage": "assets/library/lib-6113cba72d56bf-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:29:41.102Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d9ac1534bfddf4",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0194__013.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d9ac1534bfddf4.jpg",
+      "exportImage": "assets/library/lib-d9ac1534bfddf4-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:29:40.714Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "5982044aa6eca0",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0193__012.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-5982044aa6eca0.jpg",
+      "exportImage": "assets/library/lib-5982044aa6eca0-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.6,
+      "modifiedAt": "2026-08-25T08:29:39.848Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "72df5bccd19597",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0192__011.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-72df5bccd19597.jpg",
+      "exportImage": "assets/library/lib-72df5bccd19597-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.6,
+      "modifiedAt": "2026-08-25T08:29:39.329Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "19bf0446088af2",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0190__09.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-19bf0446088af2.jpg",
+      "exportImage": "assets/library/lib-19bf0446088af2-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:29:38.855Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e6d602ff15f6e8",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0189__08.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e6d602ff15f6e8.jpg",
+      "exportImage": "assets/library/lib-e6d602ff15f6e8-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3,
+      "modifiedAt": "2026-08-25T08:29:37.879Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "4fc77310083692",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0188__07.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-4fc77310083692.jpg",
+      "exportImage": "assets/library/lib-4fc77310083692-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:29:37.444Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "228eef30172de7",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0185__04.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-228eef30172de7.jpg",
+      "exportImage": "assets/library/lib-228eef30172de7-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:29:36.280Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "8af3c19b506c3a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0186__5.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-8af3c19b506c3a.jpg",
+      "exportImage": "assets/library/lib-8af3c19b506c3a-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:29:35.984Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e7d70213d32077",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0184__03.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e7d70213d32077.jpg",
+      "exportImage": "assets/library/lib-e7d70213d32077-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:29:35.212Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "07a8fe2b9c877f",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0182__01.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-07a8fe2b9c877f.jpg",
+      "exportImage": "assets/library/lib-07a8fe2b9c877f-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.6,
+      "modifiedAt": "2026-08-25T08:29:34.095Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "cd00c33f056052",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0183__02.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-cd00c33f056052.jpg",
+      "exportImage": "assets/library/lib-cd00c33f056052-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:29:34.095Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "9d753b5fef2016",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0175__082.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-9d753b5fef2016.jpg",
+      "exportImage": "assets/library/lib-9d753b5fef2016-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3,
+      "modifiedAt": "2026-08-25T08:29:32.403Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "2475441df7005a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0181__088.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-2475441df7005a.jpg",
+      "exportImage": "assets/library/lib-2475441df7005a-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:29:32.276Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d6331be4617f42",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0174__081.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d6331be4617f42.jpg",
+      "exportImage": "assets/library/lib-d6331be4617f42-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.6,
+      "modifiedAt": "2026-08-25T08:29:31.705Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6707492255fbed",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0173__080.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6707492255fbed.jpg",
+      "exportImage": "assets/library/lib-6707492255fbed-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3,
+      "modifiedAt": "2026-08-25T08:29:31.171Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "339119f6c523a0",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0172__079.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-339119f6c523a0.jpg",
+      "exportImage": "assets/library/lib-339119f6c523a0-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.1,
+      "modifiedAt": "2026-08-25T08:29:31.139Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d3718024405a16",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0166__073.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d3718024405a16.jpg",
+      "exportImage": "assets/library/lib-d3718024405a16-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.2,
+      "modifiedAt": "2026-08-25T08:29:28.621Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "602816e33f0a75",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0168__075.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-602816e33f0a75.jpg",
+      "exportImage": "assets/library/lib-602816e33f0a75-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3,
+      "modifiedAt": "2026-08-25T08:29:28.516Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6fd9a1d10bd45f",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0167__074.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6fd9a1d10bd45f.jpg",
+      "exportImage": "assets/library/lib-6fd9a1d10bd45f-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.4,
+      "modifiedAt": "2026-08-25T08:29:28.392Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b4bcee3b17dfb5",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0170__077.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b4bcee3b17dfb5.jpg",
+      "exportImage": "assets/library/lib-b4bcee3b17dfb5-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:29:28.364Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "624ae9a9cedc27",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0165__072.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-624ae9a9cedc27.jpg",
+      "exportImage": "assets/library/lib-624ae9a9cedc27-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3,
+      "modifiedAt": "2026-08-25T08:29:27.640Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c905f0da00ef83",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0164__071.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c905f0da00ef83.jpg",
+      "exportImage": "assets/library/lib-c905f0da00ef83-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:29:25.241Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e7c9a7ce145e15",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0162__069.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e7c9a7ce145e15.jpg",
+      "exportImage": "assets/library/lib-e7c9a7ce145e15-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.6,
+      "modifiedAt": "2026-08-25T08:29:24.861Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "255f2c75a1c725",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0163__070.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-255f2c75a1c725.jpg",
+      "exportImage": "assets/library/lib-255f2c75a1c725-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:29:24.861Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7e5220e4f60c28",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0159__066.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7e5220e4f60c28.jpg",
+      "exportImage": "assets/library/lib-7e5220e4f60c28-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:29:24.505Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b5778d9ed87ed5",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0161__068.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b5778d9ed87ed5.jpg",
+      "exportImage": "assets/library/lib-b5778d9ed87ed5-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:29:24.329Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d19f29aeff018f",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0158__065.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d19f29aeff018f.jpg",
+      "exportImage": "assets/library/lib-d19f29aeff018f-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:29:21.917Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7c9d59990818c4",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0157__064.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7c9d59990818c4.jpg",
+      "exportImage": "assets/library/lib-7c9d59990818c4-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:29:20.975Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "02ef443da0acc9",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0155__062.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-02ef443da0acc9.jpg",
+      "exportImage": "assets/library/lib-02ef443da0acc9-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3,
+      "modifiedAt": "2026-08-25T08:29:20.842Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "37d861bcae3496",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0156__063.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-37d861bcae3496.jpg",
+      "exportImage": "assets/library/lib-37d861bcae3496-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:29:20.603Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "2fa97a954e390b",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0080__081.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-2fa97a954e390b.jpg",
+      "exportImage": "assets/library/lib-2fa97a954e390b-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:29:20.152Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "50dd5ed0a7f014",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0154__061.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-50dd5ed0a7f014.jpg",
+      "exportImage": "assets/library/lib-50dd5ed0a7f014-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:29:20.100Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "0e70a496f6e5b8",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0153__060.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-0e70a496f6e5b8.jpg",
+      "exportImage": "assets/library/lib-0e70a496f6e5b8-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:29:18.369Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "9f02d0e3776fe3",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0152__059.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-9f02d0e3776fe3.jpg",
+      "exportImage": "assets/library/lib-9f02d0e3776fe3-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:29:18.129Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d46045397b9883",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0151__058.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d46045397b9883.jpg",
+      "exportImage": "assets/library/lib-d46045397b9883-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:29:17.531Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d7b47a3d08584a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0150__057.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d7b47a3d08584a.jpg",
+      "exportImage": "assets/library/lib-d7b47a3d08584a-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:29:16.911Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "587953a937976d",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0149__056.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-587953a937976d.jpg",
+      "exportImage": "assets/library/lib-587953a937976d-hq-v2.jpg",
+      "width": 3334,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:29:16.479Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d369555ebeb823",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0148__055.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d369555ebeb823.jpg",
+      "exportImage": "assets/library/lib-d369555ebeb823-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:29:15.440Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6a0f3ddb1b3990",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0147__054.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6a0f3ddb1b3990.jpg",
+      "exportImage": "assets/library/lib-6a0f3ddb1b3990-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.3,
+      "modifiedAt": "2026-08-25T08:29:14.735Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "850dbde6c72a3a",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0146__053.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-850dbde6c72a3a.jpg",
+      "exportImage": "assets/library/lib-850dbde6c72a3a-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:29:14.217Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "5dc9c84a897019",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0143__050.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-5dc9c84a897019.jpg",
+      "exportImage": "assets/library/lib-5dc9c84a897019-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:29:13.574Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "1f6cebc1f3e178",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0144__051.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-1f6cebc1f3e178.jpg",
+      "exportImage": "assets/library/lib-1f6cebc1f3e178-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:29:12.783Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "fc0bbefd476918",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0145__052.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-fc0bbefd476918.jpg",
+      "exportImage": "assets/library/lib-fc0bbefd476918-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:29:12.763Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "5d4188c1caa272",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0134__037.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-5d4188c1caa272.jpg",
+      "exportImage": "assets/library/lib-5d4188c1caa272-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:29:11.803Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "9130c53bb613fe",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0133__036.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-9130c53bb613fe.jpg",
+      "exportImage": "assets/library/lib-9130c53bb613fe-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:29:11.242Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d9247ee5346d21",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0132__035.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d9247ee5346d21.jpg",
+      "exportImage": "assets/library/lib-d9247ee5346d21-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:29:10.825Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "4024a2ec08301b",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0131__034.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-4024a2ec08301b.jpg",
+      "exportImage": "assets/library/lib-4024a2ec08301b-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:29:10.338Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "401b5ce8ed06e8",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0129__032.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-401b5ce8ed06e8.jpg",
+      "exportImage": "assets/library/lib-401b5ce8ed06e8-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:29:09.798Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "bf2772b0f1cedc",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0127__030.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-bf2772b0f1cedc.jpg",
+      "exportImage": "assets/library/lib-bf2772b0f1cedc-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:29:08.699Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7bd9a374b2b197",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0126__029.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7bd9a374b2b197.jpg",
+      "exportImage": "assets/library/lib-7bd9a374b2b197-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:29:08.227Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e4cc01bfb14ca3",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0128__031.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e4cc01bfb14ca3.jpg",
+      "exportImage": "assets/library/lib-e4cc01bfb14ca3-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:29:07.602Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b715e6f93113ce",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0124__027.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b715e6f93113ce.jpg",
+      "exportImage": "assets/library/lib-b715e6f93113ce-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:29:06.748Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "8957991172a246",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0123__026.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-8957991172a246.jpg",
+      "exportImage": "assets/library/lib-8957991172a246-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:29:06.269Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "a76d9e73ac7718",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0121__024.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-a76d9e73ac7718.jpg",
+      "exportImage": "assets/library/lib-a76d9e73ac7718-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.6,
+      "modifiedAt": "2026-08-25T08:29:05.433Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d6bbbc90952878",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0122__025.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d6bbbc90952878.jpg",
+      "exportImage": "assets/library/lib-d6bbbc90952878-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.1,
+      "modifiedAt": "2026-08-25T08:29:05.416Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "9774513d266a07",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0120__023.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-9774513d266a07.jpg",
+      "exportImage": "assets/library/lib-9774513d266a07-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:29:04.997Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "88609de12e19cf",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0119__022.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-88609de12e19cf.jpg",
+      "exportImage": "assets/library/lib-88609de12e19cf-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:29:03.504Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "dd21e4cc88d858",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0117__020.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-dd21e4cc88d858.jpg",
+      "exportImage": "assets/library/lib-dd21e4cc88d858-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.6,
+      "modifiedAt": "2026-08-25T08:29:03.478Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "3bce9f262a6872",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0118__021.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-3bce9f262a6872.jpg",
+      "exportImage": "assets/library/lib-3bce9f262a6872-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 3.4,
+      "modifiedAt": "2026-08-25T08:29:03.117Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "5c951d252cb138",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0116__019.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-5c951d252cb138.jpg",
+      "exportImage": "assets/library/lib-5c951d252cb138-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:29:02.015Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "68decd021990b8",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0115__018.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-68decd021990b8.jpg",
+      "exportImage": "assets/library/lib-68decd021990b8-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:29:01.726Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b32aa4ec7e2530",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0111__014.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b32aa4ec7e2530.jpg",
+      "exportImage": "assets/library/lib-b32aa4ec7e2530-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:28:59.889Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "be41cd713d8aff",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0112__015.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-be41cd713d8aff.jpg",
+      "exportImage": "assets/library/lib-be41cd713d8aff-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:28:59.526Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "600ef49fb650f3",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0088__089.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-600ef49fb650f3.jpg",
+      "exportImage": "assets/library/lib-600ef49fb650f3-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:28:58.922Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "2a0d44f0a4835f",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0087__088.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-2a0d44f0a4835f.jpg",
+      "exportImage": "assets/library/lib-2a0d44f0a4835f-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:28:58.037Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "3330482adc2203",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0085__086.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-3330482adc2203.jpg",
+      "exportImage": "assets/library/lib-3330482adc2203-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:28:57.916Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "11ecc6b3b57db7",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0081__082.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-11ecc6b3b57db7.jpg",
+      "exportImage": "assets/library/lib-11ecc6b3b57db7-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:28:56.099Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "3b8464623e7751",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0079__079.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-3b8464623e7751.jpg",
+      "exportImage": "assets/library/lib-3b8464623e7751-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:28:56.036Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "93569f5002fddc",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0077__077.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-93569f5002fddc.jpg",
+      "exportImage": "assets/library/lib-93569f5002fddc-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:28:54.495Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "a3a61ca1d0225e",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0076__076.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-a3a61ca1d0225e.jpg",
+      "exportImage": "assets/library/lib-a3a61ca1d0225e-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:28:54.479Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ab31952fb937a4",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0078__078.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ab31952fb937a4.jpg",
+      "exportImage": "assets/library/lib-ab31952fb937a4-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:28:54.352Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "44113e7267a054",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0074__074.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-44113e7267a054.jpg",
+      "exportImage": "assets/library/lib-44113e7267a054-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:28:53.074Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6d6802a2b730d6",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0012__012.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6d6802a2b730d6.jpg",
+      "exportImage": "assets/library/lib-6d6802a2b730d6-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.6,
+      "modifiedAt": "2026-08-25T08:28:52.460Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6a15c5b888b511",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0075__075.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6a15c5b888b511.jpg",
+      "exportImage": "assets/library/lib-6a15c5b888b511-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.5,
+      "modifiedAt": "2026-08-25T08:28:52.181Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d460942584d508",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0073__073.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d460942584d508.jpg",
+      "exportImage": "assets/library/lib-d460942584d508-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.6,
+      "modifiedAt": "2026-08-25T08:28:51.365Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "efbc29a1196566",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0070__070.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-efbc29a1196566.jpg",
+      "exportImage": "assets/library/lib-efbc29a1196566-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:28:51.065Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "0a4cacde743ed1",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0068__068.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-0a4cacde743ed1.jpg",
+      "exportImage": "assets/library/lib-0a4cacde743ed1-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:28:50.938Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e0d4b1fafab2d4",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0065__065.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e0d4b1fafab2d4.jpg",
+      "exportImage": "assets/library/lib-e0d4b1fafab2d4-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:28:49.404Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "4bdc894eef80db",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0067__067.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-4bdc894eef80db.jpg",
+      "exportImage": "assets/library/lib-4bdc894eef80db-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.3,
+      "modifiedAt": "2026-08-25T08:28:49.131Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "27321a6fbe2e1d",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0066__066.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-27321a6fbe2e1d.jpg",
+      "exportImage": "assets/library/lib-27321a6fbe2e1d-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:28:49.010Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7509030262416d",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0059__059.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7509030262416d.jpg",
+      "exportImage": "assets/library/lib-7509030262416d-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:28:47.712Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "9aea65ae8d7095",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0060__060.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-9aea65ae8d7095.jpg",
+      "exportImage": "assets/library/lib-9aea65ae8d7095-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:28:47.331Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "e4bc199c7cb73d",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0058__058.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-e4bc199c7cb73d.jpg",
+      "exportImage": "assets/library/lib-e4bc199c7cb73d-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.6,
+      "modifiedAt": "2026-08-25T08:28:47.016Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "435b6e22cf4e7c",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0064__064.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-435b6e22cf4e7c.jpg",
+      "exportImage": "assets/library/lib-435b6e22cf4e7c-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:28:46.846Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ddfbe5b6091fc1",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0055__055.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ddfbe5b6091fc1.jpg",
+      "exportImage": "assets/library/lib-ddfbe5b6091fc1-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:28:45.391Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6770a33c810451",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0057__057.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6770a33c810451.jpg",
+      "exportImage": "assets/library/lib-6770a33c810451-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:28:44.976Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "faf456c17ca95c",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0054__054.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-faf456c17ca95c.jpg",
+      "exportImage": "assets/library/lib-faf456c17ca95c-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:28:44.475Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "068ef713ee9767",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0053__053.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-068ef713ee9767.jpg",
+      "exportImage": "assets/library/lib-068ef713ee9767-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:28:44.411Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b9391d7ee34615",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0056__056.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b9391d7ee34615.jpg",
+      "exportImage": "assets/library/lib-b9391d7ee34615-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:28:44.067Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "577c01b0f56b1f",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0052__052.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-577c01b0f56b1f.jpg",
+      "exportImage": "assets/library/lib-577c01b0f56b1f-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:28:41.839Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "0d27f2b9843536",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0049__049.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-0d27f2b9843536.jpg",
+      "exportImage": "assets/library/lib-0d27f2b9843536-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:28:41.419Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "8456bd4fc009bb",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0048__048.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-8456bd4fc009bb.jpg",
+      "exportImage": "assets/library/lib-8456bd4fc009bb-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:28:41.335Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b66da940b3739b",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0051__051.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b66da940b3739b.jpg",
+      "exportImage": "assets/library/lib-b66da940b3739b-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:28:41.273Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "11ffe287cbe405",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0050__050.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-11ffe287cbe405.jpg",
+      "exportImage": "assets/library/lib-11ffe287cbe405-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:28:40.943Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "05d84de979b6c4",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0047__047.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-05d84de979b6c4.jpg",
+      "exportImage": "assets/library/lib-05d84de979b6c4-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:28:38.695Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "1b57838607a3ba",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0044__044.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-1b57838607a3ba.jpg",
+      "exportImage": "assets/library/lib-1b57838607a3ba-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:28:38.625Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7d9fd7f8ccda48",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0036__036.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7d9fd7f8ccda48.jpg",
+      "exportImage": "assets/library/lib-7d9fd7f8ccda48-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:28:38.362Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c42fd6df33c49c",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0037__037.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c42fd6df33c49c.jpg",
+      "exportImage": "assets/library/lib-c42fd6df33c49c-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:28:38.148Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "451555559a83ea",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0046__046.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-451555559a83ea.jpg",
+      "exportImage": "assets/library/lib-451555559a83ea-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.8,
+      "modifiedAt": "2026-08-25T08:28:38.068Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "cb38b712475b8e",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0035__035.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-cb38b712475b8e.jpg",
+      "exportImage": "assets/library/lib-cb38b712475b8e-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:28:36.099Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "316f5b1ab58fe4",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0032__032.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-316f5b1ab58fe4.jpg",
+      "exportImage": "assets/library/lib-316f5b1ab58fe4-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:28:35.596Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c170ac641bd475",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0030__030.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c170ac641bd475.jpg",
+      "exportImage": "assets/library/lib-c170ac641bd475-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:28:35.558Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "14a3cefbe9dee9",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0033__033.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-14a3cefbe9dee9.jpg",
+      "exportImage": "assets/library/lib-14a3cefbe9dee9-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:28:35.299Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "64f0c0a42463a4",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0034__034.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-64f0c0a42463a4.jpg",
+      "exportImage": "assets/library/lib-64f0c0a42463a4-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:28:35.062Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d307b6de79f5f4",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0029__029.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d307b6de79f5f4.jpg",
+      "exportImage": "assets/library/lib-d307b6de79f5f4-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.8,
+      "modifiedAt": "2026-08-25T08:28:33.155Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "d0358ec5de486f",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0028__028.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-d0358ec5de486f.jpg",
+      "exportImage": "assets/library/lib-d0358ec5de486f-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.9,
+      "modifiedAt": "2026-08-25T08:28:33.044Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "66fd30c43dc129",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0027__027.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-66fd30c43dc129.jpg",
+      "exportImage": "assets/library/lib-66fd30c43dc129-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:28:32.791Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "1fc69c9fe93ace",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0026__026.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-1fc69c9fe93ace.jpg",
+      "exportImage": "assets/library/lib-1fc69c9fe93ace-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:28:32.355Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "08e6217e141647",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0025__025.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-08e6217e141647.jpg",
+      "exportImage": "assets/library/lib-08e6217e141647-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.5,
+      "modifiedAt": "2026-08-25T08:28:31.580Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ac2697ba999d09",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0024__024.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ac2697ba999d09.jpg",
+      "exportImage": "assets/library/lib-ac2697ba999d09-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:28:31.105Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "62a3866d91bfbb",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0021__021.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-62a3866d91bfbb.jpg",
+      "exportImage": "assets/library/lib-62a3866d91bfbb-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:28:29.975Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "3e472036be9e13",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0023__023.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-3e472036be9e13.jpg",
+      "exportImage": "assets/library/lib-3e472036be9e13-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:28:29.850Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "391c011a97ec47",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0022__022.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-391c011a97ec47.jpg",
+      "exportImage": "assets/library/lib-391c011a97ec47-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.2,
+      "modifiedAt": "2026-08-25T08:28:29.053Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "40171a7b81cddd",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0015__015.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-40171a7b81cddd.jpg",
+      "exportImage": "assets/library/lib-40171a7b81cddd-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.4,
+      "modifiedAt": "2026-08-25T08:28:28.366Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "7fe1b8ce043754",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0014__014.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-7fe1b8ce043754.jpg",
+      "exportImage": "assets/library/lib-7fe1b8ce043754-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2,
+      "modifiedAt": "2026-08-25T08:28:28.181Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "ff025451fc5524",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0013__013.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-ff025451fc5524.jpg",
+      "exportImage": "assets/library/lib-ff025451fc5524-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:28:28.113Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "b98218667daaaf",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0003__03.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-b98218667daaaf.jpg",
+      "exportImage": "assets/library/lib-b98218667daaaf-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.7,
+      "modifiedAt": "2026-08-25T08:28:26.865Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "c9d5d45a0ad53c",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0006__06.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-c9d5d45a0ad53c.jpg",
+      "exportImage": "assets/library/lib-c9d5d45a0ad53c-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:28:26.360Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "f375a7d41d6b5f",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0005__05.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-f375a7d41d6b5f.jpg",
+      "exportImage": "assets/library/lib-f375a7d41d6b5f-hq-v2.jpg",
+      "width": 5000,
+      "height": 3333,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 2.1,
+      "modifiedAt": "2026-08-25T08:28:26.230Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "6ba50efa3f5756",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0011__011.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-6ba50efa3f5756.jpg",
+      "exportImage": "assets/library/lib-6ba50efa3f5756-hq-v2.jpg",
+      "width": 5000,
+      "height": 3334,
+      "orientation": "landscape",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.9,
+      "modifiedAt": "2026-08-25T08:28:26.063Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
+      ],
+      "isUtility": false,
+      "duplicates": []
+    },
+    {
+      "id": "4185d97b5e0ee2",
+      "folder": "camp",
+      "folderLabel": "Sekta Camp 2024",
+      "sourceCategory": "Отбор",
+      "sourceFolder": "sekta-camp-2024",
+      "fileName": "0004__04.JPG",
+      "originalPath": "Локальный оригинал скрыт в публичной версии",
+      "originalUrl": "",
+      "thumb": "assets/library/lib-4185d97b5e0ee2.jpg",
+      "exportImage": "assets/library/lib-4185d97b5e0ee2-hq-v2.jpg",
+      "width": 3333,
+      "height": 5000,
+      "orientation": "portrait",
+      "exportQuality": "instagram-ready",
+      "sizeMb": 1.7,
+      "modifiedAt": "2026-08-25T08:28:25.803Z",
+      "agentScore": -1,
+      "contentThemes": [
+        "03_тело_спорт_сила_изменения",
+        "06_классы_комьюнити_продажа",
+        "08_путешествия_и_многообразие_жизни"
+      ],
+      "carouselRoles": [
+        "01_обложка_личное_присутствие",
+        "02_действие_и_доказательство",
+        "05_атмосфера_и_переход",
+        "06_фон_под_текст"
+      ],
+      "collections": [
+        "camp",
+        "body"
       ],
       "isUtility": false,
       "duplicates": []

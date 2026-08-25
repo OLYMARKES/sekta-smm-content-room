@@ -151,6 +151,7 @@
     gridCells: document.querySelector("#carouselGridCells"),
     coverMedia: document.querySelector("#carouselCoverMedia"),
     coverMediaSearch: document.querySelector("#carouselCoverMediaSearch"),
+    coverCollection: document.querySelector("#carouselCoverCollection"),
     coverPhotoName: document.querySelector("#carouselCoverPhotoName"),
     saveCover: document.querySelector("#carouselSaveCover"),
     downloadCover: document.querySelector("#carouselDownloadSlide"),
@@ -243,6 +244,7 @@
     slideOffsetYValue: document.querySelector("#carouselSlideOffsetYValue"),
     slideMedia: document.querySelector("#carouselSlideMedia"),
     slideMediaSearch: document.querySelector("#carouselSlideMediaSearch"),
+    slideCollection: document.querySelector("#carouselSlideCollection"),
     shuffleSlideMedia: document.querySelector("#carouselShuffleSlideMedia"),
     slidePhotoName: document.querySelector("#carouselSlidePhotoName"),
     removePhoto: document.querySelector("#carouselRemovePhoto"),
@@ -1413,14 +1415,16 @@
     choices.forEach(ensureFont);
   }
 
-  function mediaPool(query = "", order = library) {
+  function mediaPool(query = "", order = library, collection = "all") {
     const normalized = query.trim().toLocaleLowerCase("ru");
-    const pool = normalized ? order.filter((item) => [item.fileName, item.folderLabel, ...(item.contentThemes || []), ...(item.carouselRoles || [])].join(" ").toLocaleLowerCase("ru").includes(normalized)) : order;
+    const section = collection === "all" ? order : order.filter((item) => (item.collections || []).includes(collection));
+    const pool = normalized ? section.filter((item) => [item.fileName, item.folderLabel, item.sourceCategory, ...(item.collections || []), ...(item.contentThemes || []), ...(item.carouselRoles || [])].join(" ").toLocaleLowerCase("ru").includes(normalized)) : section;
     return order === library ? [...pool].sort((a, b) => Number(b.orientation === "portrait") - Number(a.orientation === "portrait")) : [...pool];
   }
 
   function renderMediaStrip(element, selectedId, query = "", order = library) {
-    const pool = mediaPool(query, order);
+    const collection = element === ui.coverMedia ? ui.coverCollection?.value || "all" : ui.slideCollection?.value || "all";
+    const pool = mediaPool(query, order, collection);
     const limit = element === ui.coverMedia ? coverMediaLimit : slideMediaLimit;
     const visible = pool.slice(0, limit);
     element.dataset.mediaTotal = pool.length;
@@ -2763,6 +2767,11 @@
     renderMediaStrip(ui.coverMedia, coverSlide().photoId, ui.coverMediaSearch.value);
     ui.coverMedia.scrollTop = 0;
   });
+  ui.coverCollection?.addEventListener("change", () => {
+    coverMediaLimit = 48;
+    renderMediaStrip(ui.coverMedia, coverSlide().photoId, ui.coverMediaSearch.value);
+    ui.coverMedia.scrollTop = 0;
+  });
   ui.saveCover.addEventListener("click", () => saveCurrentSlide(0));
   ui.downloadCover.addEventListener("click", () => downloadSlide(coverSlide(), 0));
 
@@ -2929,6 +2938,11 @@
     if (button) selectActiveSlidePhoto(button.dataset.carouselPhoto);
   });
   ui.slideMediaSearch.addEventListener("input", () => {
+    slideMediaLimit = 48;
+    renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);
+    ui.slideMedia.scrollTop = 0;
+  });
+  ui.slideCollection?.addEventListener("change", () => {
     slideMediaLimit = 48;
     renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);
     ui.slideMedia.scrollTop = 0;

@@ -77,7 +77,7 @@
     toast: document.querySelector("#toast"),
   };
 
-  let folderFilter = "all";
+  let collectionFilter = "all";
   let visibleMedia = 42;
   let libraryOrder = [...library];
   let localUploads = [];
@@ -442,12 +442,12 @@
     const orientation = ui.orientationFilter.value;
     const theme = ui.themeFilter.value;
     return libraryOrder.filter((item) => {
-      const inFolder = folderFilter === "all" || item.folder === folderFilter;
+      const inCollection = collectionFilter === "all" || (item.collections || []).includes(collectionFilter);
       const hasOrientation = orientation === "all" || item.orientation === orientation;
       const hasTheme = theme === "all" || item.contentThemes.includes(theme);
-      const searchText = [item.fileName, item.folderLabel, item.sourceCategory, ...(item.contentThemes || []), ...(item.carouselRoles || [])].join(" ").toLocaleLowerCase("ru");
+      const searchText = [item.fileName, item.folderLabel, item.sourceCategory, ...(item.collections || []), ...(item.contentThemes || []), ...(item.carouselRoles || [])].join(" ").toLocaleLowerCase("ru");
       const matchesSearch = !query || searchText.includes(query);
-      return inFolder && hasOrientation && hasTheme && matchesSearch;
+      return inCollection && hasOrientation && hasTheme && matchesSearch;
     });
   }
 
@@ -497,6 +497,7 @@
           modifiedAt: new Date(file.lastModified || Date.now()).toISOString(),
           contentThemes: [],
           carouselRoles: [],
+          collections: [],
           duplicates: [],
           isLocalUpload: true,
         });
@@ -581,7 +582,7 @@
     const copyAction = localPathAvailable ? `<button class="button button-secondary" data-copy-path="${escapeHtml(item.originalPath)}">Скопировать путь</button>` : "";
     const sourceNote = localPathAvailable
       ? `<div class="path-box" title="${escapeHtml(item.originalPath)}">${escapeHtml(item.originalPath)}</div>`
-      : `<div class="path-box">Оригинал — в личной медиатеке; для передачи используйте имя файла выше.</div>`;
+      : `<div class="path-box">Оригинал доступен во внутренней медиатеке.</div>`;
     const qualityLabel = item.exportQuality === "source-limited" ? "исходник меньше формата Instagram" : "готово для 1080 × 1350";
     ui.dialogContent.innerHTML = `<div class="detail-layout"><div class="detail-image"><img src="${escapeHtml(item.thumb)}" alt="${escapeHtml(item.fileName)}"></div><div class="detail-copy"><p class="eyebrow">${escapeHtml(item.folderLabel)}${category}</p><h2>${escapeHtml(item.fileName)}</h2><p>В сетке используется лёгкое превью, а при экспорте конструктор автоматически берёт HQ-копию.</p><div class="meta-list"><div class="meta-row"><span>Размер</span><strong>${item.width} × ${item.height}</strong></div><div class="meta-row"><span>Качество экспорта</span><strong>${qualityLabel}</strong></div><div class="meta-row"><span>Ориентация</span><strong>${orientationLabel(item.orientation)}</strong></div><div class="meta-row"><span>Вес оригинала</span><strong>${item.sizeMb} МБ</strong></div><div class="meta-row"><span>Точные дубли</span><strong>${duplicateText}</strong></div></div>${themes}${roles}<div class="detail-actions"><button class="button button-primary" data-add-media="${item.id}">+ В будущую сетку</button>${copyAction}</div>${sourceNote}</div></div>`;
     ui.detailDialog.showModal();
@@ -817,9 +818,13 @@
   }));
   ui.growthAsset?.addEventListener("change", renderGrowthIdeas);
 
-  document.querySelectorAll(".filter-chip").forEach((button) => button.addEventListener("click", () => {
-    folderFilter = button.dataset.folder;
-    document.querySelectorAll(".filter-chip").forEach((chip) => chip.classList.toggle("is-active", chip === button));
+  document.querySelectorAll("[data-library-collection]").forEach((button) => button.addEventListener("click", () => {
+    collectionFilter = button.dataset.libraryCollection;
+    document.querySelectorAll("[data-library-collection]").forEach((tab) => {
+      const active = tab === button;
+      tab.classList.toggle("is-active", active);
+      tab.setAttribute("aria-pressed", String(active));
+    });
     renderLibrary(true);
   }));
   ui.librarySearch.addEventListener("input", () => renderLibrary(true));
@@ -874,6 +879,18 @@
   document.querySelector("#navLibraryCount").textContent = libraryPayload.uniqueCount;
   document.querySelector("#builderLibraryCount").textContent = libraryPayload.uniqueCount;
   document.querySelector("#librarySummary").textContent = `${libraryPayload.uniqueCount} уникальных фото из ${libraryPayload.sourceCount}`;
+  const collectionCountTargets = {
+    all: "#libraryCollectionAllCount",
+    neuro: "#libraryCollectionNeuroCount",
+    camp: "#libraryCollectionCampCount",
+    maternity: "#libraryCollectionMaternityCount",
+    body: "#libraryCollectionBodyCount",
+    olya: "#libraryCollectionOlyaCount",
+  };
+  Object.entries(collectionCountTargets).forEach(([id, selector]) => {
+    const target = document.querySelector(selector);
+    if (target) target.textContent = id === "all" ? libraryPayload.uniqueCount : Number(libraryPayload.byCollection?.[id] || 0);
+  });
   const collectionCount = Object.keys(libraryPayload.sourceFolders || {}).length;
   document.querySelector("#libraryCollectionCount").textContent = `${collectionCount} ${plural(collectionCount, "коллекция", "коллекции", "коллекций")}`;
   ui.libraryDuplicateSummary.textContent = `${libraryPayload.duplicateCount} ${plural(libraryPayload.duplicateCount, "точный дубль скрыт", "точных дубля скрыты", "точных дублей скрыты")}`;

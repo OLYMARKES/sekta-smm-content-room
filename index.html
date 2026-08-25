@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260825-10">
+  <link rel="stylesheet" href="styles.css?v=20260825-11">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -693,7 +693,7 @@
                   <label><span>Выравнивание</span><select id="carouselCoverAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
                   <label><span>Регистр заголовка</span><select id="carouselCoverCase"><option value="original">Как написано</option><option value="lower">Строчные</option><option value="upper">КАПС</option></select></label>
                 </div>
-                <div class="carousel-media-head"><div><strong>Фотография · вся медиатека (1059)</strong><span id="carouselCoverPhotoName">листайте вниз или используйте поиск</span></div><label class="carousel-search"><input id="carouselCoverMediaSearch" type="search" placeholder="Найти среди 1059 фото…"></label></div>
+                <div class="carousel-media-head"><div><strong>Фотография · вся медиатека</strong><span id="carouselCoverPhotoName">листайте вниз или используйте поиск</span></div><div class="carousel-media-actions"><label class="carousel-collection-picker"><span>Раздел</span><select id="carouselCoverCollection" aria-label="Раздел медиатеки для обложки"><option value="all">Все фото</option><option value="neuro">Нейрофотосеты</option><option value="camp">Секта лагерь</option><option value="maternity">Материнство / беременность</option><option value="body">Тело / тренировки</option><option value="olya">Оля портреты</option></select></label><label class="carousel-search"><input id="carouselCoverMediaSearch" type="search" placeholder="Найти фото…"></label></div></div>
                 <div class="carousel-media-strip" id="carouselCoverMedia"></div>
                 <button class="button button-secondary carousel-next-stage" type="button" data-carousel-go="longread">Дальше: вставить лонгрид →</button>
               </section>
@@ -809,7 +809,7 @@
                   <label><span>Положение блока</span><select id="carouselSlidePlacement"><option value="top">Сверху</option><option value="middle">По центру</option><option value="bottom">Снизу</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
                   <label><span>Выравнивание</span><select id="carouselSlideAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
                 </div>
-                <div class="carousel-media-head"><div><strong>Фото этого слайда · вся медиатека</strong><span id="carouselSlidePhotoName">листайте вниз или используйте поиск</span></div><div class="carousel-media-actions"><label class="carousel-search"><input id="carouselSlideMediaSearch" type="search" placeholder="Найти фото…"></label><button class="button button-quiet" id="carouselShuffleSlideMedia" type="button">Перемешать</button><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать</button></div></div>
+                <div class="carousel-media-head"><div><strong>Фото этого слайда · вся медиатека</strong><span id="carouselSlidePhotoName">листайте вниз или используйте поиск</span></div><div class="carousel-media-actions"><label class="carousel-collection-picker"><span>Раздел</span><select id="carouselSlideCollection" aria-label="Раздел медиатеки для слайда"><option value="all">Все фото</option><option value="neuro">Нейрофотосеты</option><option value="camp">Секта лагерь</option><option value="maternity">Материнство / беременность</option><option value="body">Тело / тренировки</option><option value="olya">Оля портреты</option></select></label><label class="carousel-search"><input id="carouselSlideMediaSearch" type="search" placeholder="Найти фото…"></label><button class="button button-quiet" id="carouselShuffleSlideMedia" type="button">Перемешать</button><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать</button></div></div>
                 <div class="carousel-media-strip" id="carouselSlideMedia"></div>
               </section>
             </div>
@@ -844,17 +844,16 @@
               <label class="button button-primary library-upload-button">+ Выбрать фото<input id="libraryUploadInput" type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
             </div>
           </section>
+          <nav class="library-collection-tabs" id="libraryCollectionTabs" aria-label="Разделы медиатеки">
+            <button class="library-collection-tab is-active" type="button" data-library-collection="all" aria-pressed="true"><span>Все</span><em id="libraryCollectionAllCount">—</em></button>
+            <button class="library-collection-tab" type="button" data-library-collection="neuro" aria-pressed="false"><span>Нейрофотосеты</span><em id="libraryCollectionNeuroCount">—</em></button>
+            <button class="library-collection-tab" type="button" data-library-collection="camp" aria-pressed="false"><span>Секта лагерь</span><em id="libraryCollectionCampCount">—</em></button>
+            <button class="library-collection-tab" type="button" data-library-collection="maternity" aria-pressed="false"><span>Материнство / беременность</span><em id="libraryCollectionMaternityCount">—</em></button>
+            <button class="library-collection-tab" type="button" data-library-collection="body" aria-pressed="false"><span>Тело / тренировки</span><em id="libraryCollectionBodyCount">—</em></button>
+            <button class="library-collection-tab" type="button" data-library-collection="olya" aria-pressed="false"><span>Оля портреты</span><em id="libraryCollectionOlyaCount">—</em></button>
+          </nav>
           <div class="toolbar" role="search">
             <label class="search-box"><span>⌕</span><input id="librarySearch" type="search" placeholder="Файл, тема или роль в карусели…" autocomplete="off"></label>
-            <div class="filter-group" aria-label="Папка">
-              <button class="filter-chip is-active" data-folder="all">Все</button>
-              <button class="filter-chip" data-folder="intake">Новые сегодня</button>
-              <button class="filter-chip" data-folder="archive">Архив</button>
-              <button class="filter-chip" data-folder="snaps">Дизайнерские снепы</button>
-              <button class="filter-chip" data-folder="fitter">Из примерочной</button>
-              <button class="filter-chip" data-folder="bali">Бали</button>
-              <button class="filter-chip" data-folder="carousel">Для карусели</button>
-            </div>
             <select id="themeFilter" aria-label="Тема"><option value="all">Все темы</option><option value="01_дети_воспитание_родительство">Дети и родительство</option><option value="02_семья_близость_отношения">Семья и отношения</option><option value="03_тело_спорт_сила_изменения">Тело, спорт и сила</option><option value="04_красота_сексуальность_самообраз">Красота и самообраз</option><option value="05_музыка_сцена_творчество">Музыка и творчество</option><option value="06_классы_комьюнити_продажа">Классы и комьюнити</option><option value="07_деталь_как_метафора">Детали и метафоры</option><option value="08_путешествия_и_многообразие_жизни">Путешествия и жизнь</option></select>
             <select id="orientationFilter" aria-label="Ориентация"><option value="all">Любая ориентация</option><option value="portrait">Вертикальные</option><option value="landscape">Горизонтальные</option><option value="square">Квадратные</option></select>
             <button class="button button-secondary toolbar-shuffle" id="libraryShuffle" type="button">Перемешать ↻</button>
@@ -917,11 +916,11 @@
   <script src="data/production-projects.js"></script>
   <script src="data/public-stats.js"></script>
   <script src="type-studio/font-data.js"></script>
-  <script src="app.js?v=20260825-3"></script>
+  <script src="app.js?v=20260825-4"></script>
   <script src="growth-coach.js?v=20260825-3"></script>
   <script src="production-room.js?v=20260825-2"></script>
   <script src="carousel-builder.js?v=20260825-1"></script>
-  <script src="carousel-studio.js?v=20260825-4"></script>
+  <script src="carousel-studio.js?v=20260825-5"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>
