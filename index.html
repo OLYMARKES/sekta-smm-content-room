@@ -649,6 +649,13 @@
                     <label><span>Фото влево / вправо</span><input id="carouselSlidePhotoFocusX" type="range" min="0" max="100" step="1" value="50"><output id="carouselSlidePhotoFocusXValue">50%</output></label>
                     <label><span>Фото вверх / вниз</span><input id="carouselSlidePhotoFocusY" type="range" min="0" max="100" step="1" value="50"><output id="carouselSlidePhotoFocusYValue">50%</output></label>
                   </div>
+                  <fieldset class="carousel-plaque-control carousel-slide-plaque-control"><legend>Плашка под заголовком</legend>
+                    <label class="carousel-check"><input id="carouselSlidePlaqueEnabled" type="checkbox"><span>Добавить плашку</span></label>
+                    <div class="carousel-plaque-settings is-disabled" id="carouselSlidePlaqueSettings">
+                      <div class="carousel-color-control"><span>Цвет плашки</span><div><input id="carouselSlidePlaqueColor" type="color" value="#c8edf2" aria-label="Цвет плашки слайда"><output id="carouselSlidePlaqueColorValue">из палитры</output><button class="text-button" id="carouselSlidePlaqueColorReset" type="button">Из палитры</button></div></div>
+                      <label><span>Непрозрачность</span><input id="carouselSlidePlaqueOpacity" type="range" min="0" max="100" step="5" value="100"><output id="carouselSlidePlaqueOpacityValue">100%</output></label>
+                    </div>
+                  </fieldset>
                   <div class="carousel-series-apply"><div><strong>Повторить оформление</strong><span>Фон, фактура, палитра и шрифтовая система — без замены фото, текста и координат.</span></div><button class="button button-secondary" id="carouselApplyAppearanceToSeries" type="button">Применить ко всей серии</button></div>
                 </div>
                 <div class="carousel-active-layer-head"><strong>Текст и типографика</strong><span id="carouselSlideTypeLayerLabel">заголовок</span></div>

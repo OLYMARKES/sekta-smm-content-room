@@ -179,6 +179,13 @@
     slideBackgroundColorValue: document.querySelector("#carouselSlideBackgroundColorValue"),
     slideBackgroundColorReset: document.querySelector("#carouselSlideBackgroundColorReset"),
     slideTexture: document.querySelector("#carouselSlideTexture"),
+    slidePlaqueEnabled: document.querySelector("#carouselSlidePlaqueEnabled"),
+    slidePlaqueSettings: document.querySelector("#carouselSlidePlaqueSettings"),
+    slidePlaqueColor: document.querySelector("#carouselSlidePlaqueColor"),
+    slidePlaqueColorValue: document.querySelector("#carouselSlidePlaqueColorValue"),
+    slidePlaqueColorReset: document.querySelector("#carouselSlidePlaqueColorReset"),
+    slidePlaqueOpacity: document.querySelector("#carouselSlidePlaqueOpacity"),
+    slidePlaqueOpacityValue: document.querySelector("#carouselSlidePlaqueOpacityValue"),
     slidePhotoScale: document.querySelector("#carouselSlidePhotoScale"),
     slidePhotoScaleValue: document.querySelector("#carouselSlidePhotoScaleValue"),
     slidePhotoFocusX: document.querySelector("#carouselSlidePhotoFocusX"),
@@ -1548,6 +1555,7 @@
     ui.slidePlacement.value = slide.placement || "middle";
     ui.slideAlign.value = slide.align || "left";
     ui.slideShowLabel.checked = slide.showSeriesLabel !== false;
+    syncSlidePlaqueControls(slide);
     syncActiveOffsets();
     syncTypographyControls("slide");
     syncLayerContentControls("slide");
@@ -1555,6 +1563,18 @@
     ui.slidePhotoName.textContent = photo?.fileName || "без фотографии";
     ui.removePhoto.disabled = !slide.photoId;
     renderMediaStrip(ui.slideMedia, slide.photoId, ui.slideMediaSearch.value, slideMediaOrder);
+  }
+
+  function syncSlidePlaqueControls(slide = activeSlide()) {
+    const palette = paletteFor(slide.palette);
+    const enabled = slide.plaqueEnabled === true;
+    ui.slidePlaqueEnabled.checked = enabled;
+    ui.slidePlaqueColor.value = slide.plaqueColor || palette.background;
+    ui.slidePlaqueColorValue.textContent = slide.plaqueColor || "из палитры";
+    ui.slidePlaqueOpacity.value = Math.round(Math.max(0, Math.min(1, numberOr(slide.plaqueOpacity, 1))) * 100);
+    ui.slidePlaqueOpacityValue.textContent = `${ui.slidePlaqueOpacity.value}%`;
+    ui.slidePlaqueSettings.classList.toggle("is-disabled", !enabled);
+    [ui.slidePlaqueColor, ui.slidePlaqueColorReset, ui.slidePlaqueOpacity].forEach((control) => { control.disabled = !enabled; });
   }
 
   function updateSlideAppearance() {
@@ -1662,7 +1682,9 @@
     slide.role = ui.slideRole.value;
     slide.template = ui.slideTemplate.value;
     slide.scene = ui.slideScene.value;
-    slide.plaqueEnabled = templateDefinitions[slide.template]?.plaque === true;
+    slide.plaqueEnabled = ui.slidePlaqueEnabled.checked;
+    slide.plaqueColor = ui.slidePlaqueColorValue.textContent === "из палитры" ? "" : ui.slidePlaqueColor.value;
+    slide.plaqueOpacity = Math.max(0, Math.min(1, Number(ui.slidePlaqueOpacity.value) / 100));
     slide.palette = ui.slidePalette.value;
     if (!slide.backgroundColor) {
       ui.slideBackgroundColor.value = paletteFor(slide.palette).background;
@@ -1682,6 +1704,7 @@
     });
     ensureFontFamily(layerTypography(slide, slideMoveTarget).resolvedFamily);
     slide.savedAt = null;
+    syncSlidePlaqueControls(slide);
     syncTypographyControls("slide");
     syncLayerContentControls("slide");
     const offsets = layerOffsets(slide, slideMoveTarget);
@@ -2631,6 +2654,7 @@
     if (definition) {
       ui.slideScene.value = definition.scene;
       ui.slidePlacement.value = definition.placement;
+      if (definition.plaque === true) ui.slidePlaqueEnabled.checked = true;
     }
     updateActiveFromForm();
   });
@@ -2640,7 +2664,16 @@
     if (definition) ui.slidePlacement.value = definition.placement;
     updateActiveFromForm();
   });
-  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slidePalette, ui.slideTypeFont, ui.slideTypeWeight, ui.slideTypeSize, ui.slideBoxWidth, ui.slideBoxHeight, ui.slideTypeLineHeight, ui.slideTypeTracking, ui.slidePlacement, ui.slideAlign, ui.slideShowLabel, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
+  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slidePalette, ui.slideTypeFont, ui.slideTypeWeight, ui.slideTypeSize, ui.slideBoxWidth, ui.slideBoxHeight, ui.slideTypeLineHeight, ui.slideTypeTracking, ui.slidePlacement, ui.slideAlign, ui.slideShowLabel, ui.slidePlaqueEnabled, ui.slidePlaqueOpacity, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
+  ui.slidePlaqueColor.addEventListener("input", () => {
+    ui.slidePlaqueColorValue.textContent = ui.slidePlaqueColor.value.toUpperCase();
+    updateActiveFromForm();
+  });
+  ui.slidePlaqueColorReset.addEventListener("click", () => {
+    ui.slidePlaqueColorValue.textContent = "из палитры";
+    ui.slidePlaqueColor.value = paletteFor(activeSlide().palette).background;
+    updateActiveFromForm();
+  });
   ui.slideLayerColor.addEventListener("input", () => updateLayerColor("slide", ui.slideLayerColor.value));
   ui.slideLayerColorReset.addEventListener("click", () => updateLayerColor("slide", ""));
   [ui.slideShadowOpacity, ui.slideShadowColor, ui.slideOutlineWidth, ui.slideOutlineColor].forEach((control) => control.addEventListener("input", () => updateLayerEffects("slide")));
