@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260825-4">
+  <link rel="stylesheet" href="styles.css?v=20260825-5">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -639,6 +639,10 @@
                 <div class="section-head"><div><h2 id="carouselActiveTitle">Слайд 1</h2><p id="carouselActiveMeta">обложка · не сохранён</p></div><button class="button button-quiet" id="carouselDuplicateSlide" type="button">Дублировать</button></div>
                 <section class="carousel-quick-inspector" aria-labelledby="carouselQuickInspectorTitle">
                   <div class="carousel-quick-inspector-head"><div><h3 id="carouselQuickInspectorTitle">Быстрые настройки кадра</h3><p>Главное оформление выбранного слоя — без прокрутки по всей панели.</p></div><button class="button button-secondary" id="carouselSuggestSlideStyle" type="button">Подобрать заново</button></div>
+                  <div class="carousel-quick-photo-picker">
+                    <div class="carousel-quick-photo-head"><div><strong>Фото кадра</strong><span id="carouselQuickPhotoName">Фото не выбрано</span></div><div><button class="button button-primary" id="carouselQuickBrowsePhotos" type="button">+ Добавить фото</button><button class="button button-quiet" id="carouselQuickRemovePhoto" type="button" hidden>Убрать</button></div></div>
+                    <div class="carousel-quick-photo-strip" id="carouselQuickSlideMedia" aria-label="Быстрый выбор фотографии"></div>
+                  </div>
                   <div class="carousel-quick-grid">
                     <label><span>Активный слой</span><select id="carouselSlideMoveTarget"><option value="title">Заголовок</option><option value="body">Основной текст</option><option value="label">Аккаунт / подпись</option><option value="counter">Номер слайда</option></select></label>
                     <label><span>Шрифт слоя</span><div class="carousel-font-browser"><select id="carouselSlideTypeFont"></select><button id="carouselSlideTypeFontPrev" type="button">Пред.</button><button id="carouselSlideTypeFontNext" type="button">След.</button></div><small class="carousel-font-key-hint">↑ / ↓ — быстрая примерка</small></label>
@@ -806,7 +810,7 @@
   <script src="type-studio/font-data.js"></script>
   <script src="app.js?v=20260824-1"></script>
   <script src="carousel-builder.js?v=20260824-2"></script>
-  <script src="carousel-studio.js?v=20260825-2"></script>
+  <script src="carousel-studio.js?v=20260825-3"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>

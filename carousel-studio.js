@@ -203,6 +203,10 @@
     quickPalettePresets: document.querySelector("#carouselQuickPalettePresets"),
     quickLayoutPresets: document.querySelector("#carouselQuickLayoutPresets"),
     suggestSlideStyle: document.querySelector("#carouselSuggestSlideStyle"),
+    quickSlideMedia: document.querySelector("#carouselQuickSlideMedia"),
+    quickPhotoName: document.querySelector("#carouselQuickPhotoName"),
+    quickBrowsePhotos: document.querySelector("#carouselQuickBrowsePhotos"),
+    quickRemovePhoto: document.querySelector("#carouselQuickRemovePhoto"),
     applyAppearanceToSeries: document.querySelector("#carouselApplyAppearanceToSeries"),
     slideTypeLayerLabel: document.querySelector("#carouselSlideTypeLayerLabel"),
     slideTypeFont: document.querySelector("#carouselSlideTypeFont"),
@@ -1392,6 +1396,17 @@
     element.innerHTML = visible.length ? visible.map((photo) => `<button type="button" class="${photo.id === selectedId ? "is-selected" : ""}" data-carousel-photo="${escapeHtml(photo.id)}" aria-label="Выбрать ${escapeHtml(photo.fileName)}"><img src="${escapeHtml(photo.thumb)}" alt="" loading="lazy"></button>`).join("") : `<span class="carousel-media-empty">Ничего не найдено.</span>`;
   }
 
+  function renderQuickPhotoPicker(slide = activeSlide()) {
+    if (!ui.quickSlideMedia) return;
+    const selected = photoById(slide.photoId);
+    const ordered = mediaPool("", slideMediaOrder);
+    const visible = selected ? [selected, ...ordered.filter((photo) => photo.id !== selected.id)].slice(0, 9) : ordered.slice(0, 9);
+    ui.quickPhotoName.textContent = selected?.fileName || "Фото не выбрано — нажмите на миниатюру";
+    ui.quickBrowsePhotos.textContent = selected ? "Заменить фото" : "+ Добавить фото";
+    ui.quickRemovePhoto.hidden = !selected;
+    ui.quickSlideMedia.innerHTML = visible.length ? visible.map((photo) => `<button type="button" class="${photo.id === slide.photoId ? "is-selected" : ""}" data-carousel-photo="${escapeHtml(photo.id)}" aria-label="Поставить ${escapeHtml(photo.fileName)} в этот кадр"><img src="${escapeHtml(photo.thumb)}" alt="" loading="lazy"></button>`).join("") : `<span class="carousel-media-empty">В медиатеке пока нет фотографий.</span>`;
+  }
+
   function bindInfiniteMedia(element, mode) {
     element.addEventListener("scroll", () => {
       if (element.scrollTop + element.clientHeight < element.scrollHeight - 180) return;
@@ -1652,6 +1667,7 @@
     syncTypographyControls("slide");
     syncLayerContentControls("slide");
     const photo = photoById(slide.photoId);
+    renderQuickPhotoPicker(slide);
     ui.slidePhotoName.textContent = photo?.fileName || "без фотографии";
     ui.removePhoto.disabled = !slide.photoId;
     renderMediaStrip(ui.slideMedia, slide.photoId, ui.slideMediaSearch.value, slideMediaOrder);
@@ -1683,6 +1699,29 @@
     renderRail();
     if (series.activeSlide === 0) renderGridPreview();
     markChanged();
+  }
+
+  function selectActiveSlidePhoto(photoId) {
+    const photo = photoById(photoId);
+    if (!photo) return;
+    const slide = activeSlide();
+    slide.photoId = photo.id;
+    if (["paper", "field", "dark", "quote"].includes(slide.scene)) slide.scene = "photo-dim";
+    slide.savedAt = null;
+    renderActiveEditor();
+    markChanged();
+    setStatus(`Фото ${photo.fileName} добавлено в слайд ${series.activeSlide + 1}.`);
+  }
+
+  function removeActiveSlidePhoto() {
+    const slide = activeSlide();
+    if (!slide.photoId) return;
+    slide.photoId = null;
+    if (!["paper", "field", "dark", "quote"].includes(slide.scene)) slide.scene = "paper";
+    slide.savedAt = null;
+    renderActiveEditor();
+    markChanged();
+    setStatus(`Фото убрано из слайда ${series.activeSlide + 1}.`);
   }
 
   function renderActiveEditor() {
@@ -2727,6 +2766,16 @@
     if (button) applyQuickLayout(button.dataset.carouselQuickLayout);
   });
   ui.suggestSlideStyle.addEventListener("click", suggestActiveSlideStyle);
+  ui.quickSlideMedia.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-carousel-photo]");
+    if (button) selectActiveSlidePhoto(button.dataset.carouselPhoto);
+  });
+  ui.quickBrowsePhotos.addEventListener("click", () => {
+    ui.slideMedia.previousElementSibling?.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.setTimeout(() => ui.slideMediaSearch.focus({ preventScroll: true }), 280);
+    setStatus("Открыта вся медиатека этого слайда — выберите фотографию или найдите её по имени.");
+  });
+  ui.quickRemovePhoto.addEventListener("click", removeActiveSlidePhoto);
   ui.bodyBold.addEventListener("click", () => makeSelectionBold(ui.slideBody));
   ui.slideMoveTarget.addEventListener("change", () => {
     slideMoveTarget = movableLayers[ui.slideMoveTarget.value] || customLayer(activeSlide(), ui.slideMoveTarget.value) ? ui.slideMoveTarget.value : "body";
@@ -2845,13 +2894,7 @@
   bindFontBrowser(ui.slideTypeFont, ui.slideTypeFontPrev, ui.slideTypeFontNext, "input");
   ui.slideMedia.addEventListener("click", (event) => {
     const button = event.target.closest("[data-carousel-photo]");
-    if (!button) return;
-    const slide = activeSlide();
-    slide.photoId = button.dataset.carouselPhoto;
-    if (["paper", "field", "dark", "quote"].includes(slide.scene)) slide.scene = "photo-dim";
-    slide.savedAt = null;
-    renderActiveEditor();
-    markChanged();
+    if (button) selectActiveSlidePhoto(button.dataset.carouselPhoto);
   });
   ui.slideMediaSearch.addEventListener("input", () => {
     slideMediaLimit = 48;
@@ -2862,6 +2905,7 @@
     slideMediaOrder = [...library];
     renderMediaStrip(ui.coverMedia, coverSlide().photoId, ui.coverMediaSearch.value);
     renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);
+    renderQuickPhotoPicker(activeSlide());
   });
   ui.shuffleSlideMedia.addEventListener("click", () => {
     slideMediaOrder = shuffle(slideMediaOrder);
@@ -2870,14 +2914,7 @@
     ui.slideMedia.scrollTop = 0;
     setStatus("Фотографии для этого слайда перемешаны.");
   });
-  ui.removePhoto.addEventListener("click", () => {
-    const slide = activeSlide();
-    slide.photoId = null;
-    if (!["paper", "field", "dark", "quote"].includes(slide.scene)) slide.scene = "paper";
-    slide.savedAt = null;
-    renderActiveEditor();
-    markChanged();
-  });
+  ui.removePhoto.addEventListener("click", removeActiveSlidePhoto);
   ui.saveSlide.addEventListener("click", () => saveCurrentSlide());
   ui.downloadActive.addEventListener("click", () => downloadSlide(activeSlide(), series.activeSlide));
   ui.duplicateSlide.addEventListener("click", () => {
