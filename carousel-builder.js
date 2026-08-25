@@ -20,6 +20,9 @@
     hook: document.querySelector("#builderHook"),
     subtitle: document.querySelector("#builderSubtitle"),
     workspace: document.querySelector("#builderWorkspace"),
+    quickControls: document.querySelector(".builder-design-controls"),
+    mediaPanel: document.querySelector(".builder-media-panel"),
+    directHint: document.querySelector("#builderDirectHint"),
     cover: document.querySelector("#builderCoverPreview"),
     coverImage: document.querySelector("#builderCoverImage"),
     coverAccount: document.querySelector("#builderCoverAccount"),
@@ -69,6 +72,16 @@
     tasteFont: document.querySelector("#builderTasteFont"),
     toStudio: document.querySelector("#builderToStudio"),
   };
+
+  const narrowWorkspace = window.matchMedia("(max-width: 1100px)");
+
+  function placeQuickControls() {
+    if (!ui.quickControls || !ui.mediaPanel || !ui.directHint) return;
+    const inline = narrowWorkspace.matches;
+    if (inline) ui.directHint.insertAdjacentElement("afterend", ui.quickControls);
+    else ui.mediaPanel.prepend(ui.quickControls);
+    ui.quickControls.classList.toggle("is-inline", inline);
+  }
 
   const extraHooks = {
     "return-after-pause": [
@@ -1106,6 +1119,9 @@
   ui.toStudio?.addEventListener("click", () => {
     setStatus("Открыта полная типографическая примерочная: 294 гарнитуры и 588 кадров обложки.");
   });
+
+  narrowWorkspace.addEventListener?.("change", placeQuickControls);
+  placeQuickControls();
 
   refreshTasteFont(false);
   restoreCoverSystem();

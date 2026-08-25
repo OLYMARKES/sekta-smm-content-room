@@ -449,7 +449,16 @@
                 </div>
               </section>
 
+              <div class="builder-cover-actions">
+                <button class="button button-primary builder-send-post" id="builderSendToPost" type="button">Отправить в конструктор поста →</button>
+                <button class="button button-secondary" id="builderDownload" type="button">Скачать PNG</button>
+                <button class="button button-secondary" id="builderAddGrid" type="button">+ В будущую сетку</button>
+              </div>
+            </section>
+
+            <aside class="panel builder-media-panel">
               <div class="builder-design-controls">
+                <div class="builder-quick-controls-head"><strong>Быстрые настройки обложки</strong><span>Меняйте — результат сразу виден слева</span></div>
                 <fieldset class="builder-control-block builder-control-wide"><legend>Композиция</legend><div class="builder-choice-row" role="group" aria-label="Композиция обложки">
                   <button type="button" class="builder-choice is-active" data-builder-style="clean">Текст на фото</button>
                   <button type="button" class="builder-choice" data-builder-style="plate">Плашка</button>
@@ -487,15 +496,6 @@
 
                 <fieldset class="builder-control-block builder-focus-control"><legend>Фокус фотографии</legend><label><span>По горизонтали</span><input id="builderFocusX" type="range" min="0" max="100" value="50"></label><label><span>По вертикали</span><input id="builderFocusY" type="range" min="0" max="100" value="50"></label></fieldset>
               </div>
-
-              <div class="builder-cover-actions">
-                <button class="button button-primary builder-send-post" id="builderSendToPost" type="button">Отправить в конструктор поста →</button>
-                <button class="button button-secondary" id="builderDownload" type="button">Скачать PNG</button>
-                <button class="button button-secondary" id="builderAddGrid" type="button">+ В будущую сетку</button>
-              </div>
-            </section>
-
-            <aside class="panel builder-media-panel">
               <div class="builder-media-head"><div><h2>Медиатека для обложки</h2><p id="builderMediaCount">Свежая подборка при каждой загрузке</p></div><button class="button button-secondary" id="builderExpandMedia" type="button" aria-expanded="false">Развернуть</button></div>
               <div class="builder-media-toolbar">
                 <label class="builder-media-search"><span>⌕</span><input id="builderMediaSearch" type="search" placeholder="Найти фото…" autocomplete="off"></label>
