@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260825-1">
+  <link rel="stylesheet" href="styles.css?v=20260825-2">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -637,6 +637,27 @@
               </section>
               <section class="panel carousel-controls-panel">
                 <div class="section-head"><div><h2 id="carouselActiveTitle">Слайд 1</h2><p id="carouselActiveMeta">обложка · не сохранён</p></div><button class="button button-quiet" id="carouselDuplicateSlide" type="button">Дублировать</button></div>
+                <section class="carousel-quick-inspector" aria-labelledby="carouselQuickInspectorTitle">
+                  <div class="carousel-quick-inspector-head"><div><h3 id="carouselQuickInspectorTitle">Быстрые настройки кадра</h3><p>Главное оформление выбранного слоя — без прокрутки по всей панели.</p></div><button class="button button-secondary" id="carouselSuggestSlideStyle" type="button">Подобрать заново</button></div>
+                  <div class="carousel-quick-grid">
+                    <label><span>Активный слой</span><select id="carouselSlideMoveTarget"><option value="title">Заголовок</option><option value="body">Основной текст</option><option value="label">Аккаунт / подпись</option><option value="counter">Номер слайда</option></select></label>
+                    <label><span>Шрифт слоя</span><div class="carousel-font-browser"><select id="carouselSlideTypeFont"></select><button id="carouselSlideTypeFontPrev" type="button">Пред.</button><button id="carouselSlideTypeFontNext" type="button">След.</button></div><small class="carousel-font-key-hint">↑ / ↓ — быстрая примерка</small></label>
+                    <label><span>Размер</span><input id="carouselSlideTypeSize" type="range" min="8" max="132" step="1" value="48"><output id="carouselSlideTypeSizeValue">48 px</output></label>
+                    <div class="carousel-color-control"><span>Цвет текста</span><div><input id="carouselSlideLayerColor" type="color" value="#17221f" aria-label="Цвет текста выбранного слоя"><output id="carouselSlideLayerColorValue">из палитры</output><button class="text-button" id="carouselSlideLayerColorReset" type="button">Из палитры</button></div></div>
+                  </div>
+                  <div class="carousel-font-samples" id="carouselSlideFontSamples" aria-label="Примеры шрифтов выбранного слоя"></div>
+                  <fieldset class="carousel-plaque-control carousel-slide-plaque-control"><legend>Плашка под заголовком</legend>
+                    <label class="carousel-check"><input id="carouselSlidePlaqueEnabled" type="checkbox"><span>Добавить плашку</span></label>
+                    <div class="carousel-plaque-settings is-disabled" id="carouselSlidePlaqueSettings">
+                      <div class="carousel-color-control"><span>Цвет плашки</span><div><input id="carouselSlidePlaqueColor" type="color" value="#c8edf2" aria-label="Цвет плашки слайда"><output id="carouselSlidePlaqueColorValue">из палитры</output><button class="text-button" id="carouselSlidePlaqueColorReset" type="button">Из палитры</button></div></div>
+                      <label><span>Непрозрачность</span><input id="carouselSlidePlaqueOpacity" type="range" min="0" max="100" step="5" value="100"><output id="carouselSlidePlaqueOpacityValue">100%</output></label>
+                    </div>
+                  </fieldset>
+                  <div class="carousel-quick-presets">
+                    <div class="carousel-quick-preset-group"><div class="carousel-quick-preset-label"><strong>Цветовые сочетания</strong><span>поле · текст · акцент</span></div><div class="carousel-quick-palette-list" id="carouselQuickPalettePresets"></div></div>
+                    <div class="carousel-quick-preset-group"><div class="carousel-quick-preset-label"><strong>Композиция и кегли</strong><span>готовые размеры из сетки</span></div><div class="carousel-quick-layout-list" id="carouselQuickLayoutPresets"></div></div>
+                  </div>
+                </section>
                 <label class="carousel-field"><span>Заголовок</span><textarea id="carouselSlideTitle" rows="3"></textarea></label>
                 <div class="carousel-field carousel-rich-field"><div class="carousel-field-head"><label for="carouselSlideBody">Основной текст</label><button type="button" id="carouselBodyBold" aria-label="Сделать выделенный фрагмент жирным"><b>Ж</b> Жирный</button></div><textarea id="carouselSlideBody" rows="9"></textarea><small>Выделите фрагмент и нажмите «Жирный». Форматирование сохранится в PNG.</small></div>
                 <label class="carousel-check carousel-layer-toggle"><input id="carouselSlideShowLabel" type="checkbox" checked><span>Показывать аккаунт / подпись сверху</span></label>
@@ -649,16 +670,9 @@
                     <label><span>Фото влево / вправо</span><input id="carouselSlidePhotoFocusX" type="range" min="0" max="100" step="1" value="50"><output id="carouselSlidePhotoFocusXValue">50%</output></label>
                     <label><span>Фото вверх / вниз</span><input id="carouselSlidePhotoFocusY" type="range" min="0" max="100" step="1" value="50"><output id="carouselSlidePhotoFocusYValue">50%</output></label>
                   </div>
-                  <fieldset class="carousel-plaque-control carousel-slide-plaque-control"><legend>Плашка под заголовком</legend>
-                    <label class="carousel-check"><input id="carouselSlidePlaqueEnabled" type="checkbox"><span>Добавить плашку</span></label>
-                    <div class="carousel-plaque-settings is-disabled" id="carouselSlidePlaqueSettings">
-                      <div class="carousel-color-control"><span>Цвет плашки</span><div><input id="carouselSlidePlaqueColor" type="color" value="#c8edf2" aria-label="Цвет плашки слайда"><output id="carouselSlidePlaqueColorValue">из палитры</output><button class="text-button" id="carouselSlidePlaqueColorReset" type="button">Из палитры</button></div></div>
-                      <label><span>Непрозрачность</span><input id="carouselSlidePlaqueOpacity" type="range" min="0" max="100" step="5" value="100"><output id="carouselSlidePlaqueOpacityValue">100%</output></label>
-                    </div>
-                  </fieldset>
                   <div class="carousel-series-apply"><div><strong>Повторить оформление</strong><span>Фон, фактура, палитра и шрифтовая система — без замены фото, текста и координат.</span></div><button class="button button-secondary" id="carouselApplyAppearanceToSeries" type="button">Применить ко всей серии</button></div>
                 </div>
-                <div class="carousel-active-layer-head"><strong>Текст и типографика</strong><span id="carouselSlideTypeLayerLabel">заголовок</span></div>
+                <div class="carousel-active-layer-head"><strong>Текст и точная типографика</strong><span id="carouselSlideTypeLayerLabel">заголовок</span></div>
                 <div class="carousel-layer-content-editor">
                   <label class="carousel-field"><span>Текст выбранного слоя</span><textarea id="carouselSlideLayerText" rows="2"></textarea></label>
                   <div><label class="carousel-check"><input id="carouselSlideLayerVisible" type="checkbox" checked><span>Показывать</span></label><button class="button button-secondary" id="carouselSlideLayerAdd" type="button">+ Текстовый блок</button><button class="button button-quiet" id="carouselSlideLayerRemove" type="button">Удалить элемент</button></div>
@@ -669,10 +683,6 @@
                   <label><span>Сцена</span><select id="carouselSlideScene"><option value="paper">Светлое поле</option><option value="dark">Тёмное поле</option><option value="photo-dim">Фото + затемнение</option><option value="photo-clean">Текст на фото</option><option value="plate">Плашка на фото</option><option value="split">Split</option><option value="window">Фото-окно</option><option value="field">Цветовое поле</option><option value="quote">Цитатная</option></select></label>
                   <label><span>Цвет слайда</span><select id="carouselSlidePalette"></select></label>
                   <label><span>Шрифтовая пара слайда</span><div class="carousel-font-browser"><select id="carouselSlideFont"></select><button id="carouselSlideFontPrev" type="button">Пред.</button><button id="carouselSlideFontNext" type="button">След.</button></div><small class="carousel-font-key-hint">Клавиши ↑ / ↓ листают варианты</small></label>
-                  <label><span>Активный слой</span><select id="carouselSlideMoveTarget"><option value="title">Заголовок</option><option value="body">Основной текст</option><option value="label">Аккаунт / подпись</option><option value="counter">Номер слайда</option></select></label>
-                  <label><span>Шрифт слоя</span><div class="carousel-font-browser"><select id="carouselSlideTypeFont"></select><button id="carouselSlideTypeFontPrev" type="button">Пред.</button><button id="carouselSlideTypeFontNext" type="button">След.</button></div><small class="carousel-font-key-hint">Фокус на списке + ↑ / ↓ — быстрая примерка</small></label>
-                  <div class="carousel-font-samples" id="carouselSlideFontSamples" aria-label="Примеры шрифтов выбранного слоя"></div>
-                  <div class="carousel-color-control"><span>Цвет текста слоя</span><div><input id="carouselSlideLayerColor" type="color" value="#17221f" aria-label="Цвет текста выбранного слоя"><output id="carouselSlideLayerColorValue">из палитры</output><button class="text-button" id="carouselSlideLayerColorReset" type="button">Из палитры</button></div></div>
                   <fieldset class="carousel-text-effects"><legend>Тень и обводка выбранного слоя</legend>
                     <label><span>Тень</span><input id="carouselSlideShadowOpacity" type="range" min="0" max="100" step="5" value="0"><output id="carouselSlideShadowOpacityValue">нет</output></label>
                     <label class="carousel-effect-color"><span>Цвет тени</span><input id="carouselSlideShadowColor" type="color" value="#000000" aria-label="Цвет тени выбранного слоя"><button class="text-button" id="carouselSlideShadowReset" type="button">Без тени</button></label>
@@ -680,7 +690,6 @@
                     <label class="carousel-effect-color"><span>Цвет обводки</span><input id="carouselSlideOutlineColor" type="color" value="#000000" aria-label="Цвет обводки выбранного слоя"></label>
                   </fieldset>
                   <label><span>Вес</span><input id="carouselSlideTypeWeight" type="range" min="100" max="900" step="10" value="800"><output id="carouselSlideTypeWeightValue">800</output></label>
-                  <label><span>Размер</span><input id="carouselSlideTypeSize" type="range" min="8" max="132" step="1" value="48"><output id="carouselSlideTypeSizeValue">48 px</output></label>
                   <label><span>Ширина блока</span><input id="carouselSlideBoxWidth" type="range" min="10" max="96" step="1" value="80"><output id="carouselSlideBoxWidthValue">80%</output></label>
                   <label><span>Предел по высоте</span><input id="carouselSlideBoxHeight" type="range" min="5" max="80" step="1" value="42"><output id="carouselSlideBoxHeightValue">42%</output></label>
                   <label><span>Интерлиньяж</span><input id="carouselSlideTypeLineHeight" type="range" min="0.7" max="1.6" step="0.01" value="0.96"><output id="carouselSlideTypeLineHeightValue">0.96</output></label>
@@ -795,7 +804,7 @@
   <script src="type-studio/font-data.js"></script>
   <script src="app.js?v=20260824-1"></script>
   <script src="carousel-builder.js?v=20260824-2"></script>
-  <script src="carousel-studio.js?v=20260825-1"></script>
+  <script src="carousel-studio.js?v=20260825-2"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>

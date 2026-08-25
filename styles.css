@@ -1381,7 +1381,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .carousel-system-bar input, .carousel-system-bar select, .carousel-controls-panel input, .carousel-controls-panel select, .carousel-controls-panel textarea, .carousel-longread-panel textarea, .carousel-split-settings select { width: 100%; border: 1px solid #cfd7d3; border-radius: 8px; color: var(--ink); background: #fbfcfb; }
 .carousel-system-bar input, .carousel-controls-panel input:not([type="range"]), .carousel-controls-panel select, .carousel-split-settings select { height: 38px; padding: 0 10px; }
 .carousel-series-name, .carousel-system-fonts, .carousel-system-colors { min-width: 0; }
-.carousel-series-name > span, .carousel-system-colors > span, .carousel-system-label > span, .carousel-field > span, .carousel-control-grid label > span, .carousel-color-control > span, .carousel-split-settings label > span { display: block; margin-bottom: 7px; color: var(--muted); font-size: 10px; font-weight: 700; }
+.carousel-series-name > span, .carousel-system-colors > span, .carousel-system-label > span, .carousel-field > span, .carousel-control-grid label > span, .carousel-quick-grid label > span, .carousel-color-control > span, .carousel-split-settings label > span { display: block; margin-bottom: 7px; color: var(--muted); font-size: 10px; font-weight: 700; }
 .carousel-font-browser { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 5px; }
 .carousel-font-browser button { min-width: 48px; padding: 0 8px; border: 1px solid #cfd7d3; border-radius: 7px; color: var(--ink); background: #fff; font-size: 9px; font-weight: 700; cursor: pointer; }
 .carousel-font-browser button:hover { border-color: #9fb3aa; background: var(--accent-soft); }
@@ -1535,6 +1535,38 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .carousel-canvas-actions .button { flex: 1; }
 
 .carousel-controls-panel { padding: 17px; }
+.carousel-quick-inspector { margin: 0 0 16px; padding: 13px; border: 1px solid #bfd0c8; border-radius: 12px; background: #f2f7f4; }
+.carousel-quick-inspector-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 12px; }
+.carousel-quick-inspector-head h3, .carousel-quick-inspector-head p { margin: 0; }
+.carousel-quick-inspector-head h3 { font-size: 13px; }
+.carousel-quick-inspector-head p { margin-top: 3px; color: var(--muted); font-size: 9px; line-height: 1.35; }
+.carousel-quick-inspector-head .button { flex: 0 0 auto; min-height: 34px; }
+.carousel-quick-grid { display: grid; grid-template-columns: 1fr 1.35fr 1fr 1.15fr; align-items: end; gap: 9px; }
+.carousel-quick-grid > * { min-width: 0; }
+.carousel-quick-grid input[type="range"] { width: 100%; height: 24px; padding: 0; border: 0; background: transparent; }
+.carousel-quick-grid output { display: block; margin-top: 2px; color: var(--muted); font-size: 10px; }
+.carousel-quick-inspector > .carousel-font-samples { margin-top: 10px; padding-bottom: 2px; }
+.carousel-quick-inspector .carousel-font-sample { flex-basis: 136px; min-height: 72px; padding: 8px; }
+.carousel-quick-inspector .carousel-font-sample span { font-size: 15px; -webkit-line-clamp: 2; }
+.carousel-quick-inspector .carousel-slide-plaque-control { margin: 10px 0 0; background: #fff; }
+.carousel-quick-presets { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 12px; margin-top: 11px; padding-top: 11px; border-top: 1px solid #d3dfd9; }
+.carousel-quick-preset-group { min-width: 0; }
+.carousel-quick-preset-label { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
+.carousel-quick-preset-label strong { font-size: 10px; }
+.carousel-quick-preset-label span { color: var(--muted); font-size: 8px; }
+.carousel-quick-palette-list, .carousel-quick-layout-list { display: flex; gap: 6px; overflow-x: auto; padding: 1px 1px 5px; scroll-snap-type: x proximity; scrollbar-width: thin; }
+.carousel-quick-palette, .carousel-quick-layout { flex: 0 0 auto; min-height: 48px; border: 1px solid #cfdad5; border-radius: 8px; color: var(--ink); background: #fff; text-align: left; scroll-snap-align: start; cursor: pointer; }
+.carousel-quick-palette { width: 108px; display: grid; grid-template-columns: 34px minmax(0, 1fr); align-items: center; gap: 7px; padding: 6px; }
+.carousel-quick-palette i { width: 34px; height: 34px; display: grid; grid-template-columns: repeat(3, 1fr); overflow: hidden; border: 1px solid rgba(23,34,31,.12); border-radius: 6px; }
+.carousel-quick-palette i span { min-width: 0; }
+.carousel-quick-palette strong, .carousel-quick-layout strong, .carousel-quick-layout small { display: block; }
+.carousel-quick-palette strong { overflow: hidden; font-size: 9px; line-height: 1.2; text-overflow: ellipsis; }
+.carousel-quick-layout { width: 128px; padding: 7px 9px; }
+.carousel-quick-layout strong { font-size: 9px; line-height: 1.2; }
+.carousel-quick-layout small { margin-top: 4px; color: var(--muted); font-size: 8px; line-height: 1.2; }
+.carousel-quick-palette:hover, .carousel-quick-layout:hover { border-color: #91a69c; background: #fbfcfb; }
+.carousel-quick-palette:focus-visible, .carousel-quick-layout:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.carousel-quick-palette.is-active, .carousel-quick-layout.is-active { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 .carousel-field { display: block; margin-bottom: 12px; }
 .carousel-field textarea { min-height: 86px; padding: 10px; resize: vertical; line-height: 1.4; }
 .carousel-field input { padding: 0 10px; }
@@ -1683,6 +1715,8 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
   .carousel-cover-workspace, .carousel-slide-editor { grid-template-columns: minmax(340px, .8fr) minmax(420px, 1.2fr); }
   .post-source-bar { grid-template-columns: minmax(240px, .75fr) minmax(0, 1.25fr); }
   .post-source-actions { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; }
+  .carousel-quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .carousel-quick-presets { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 820px) {
@@ -1714,6 +1748,9 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
   .carousel-canvas-column { position: sticky; top: 66px; z-index: 6; max-height: 354px; padding: 7px; }
   .carousel-slide-canvas { width: 230px; max-width: 230px; }
   .carousel-control-grid { grid-template-columns: 1fr; }
+  .carousel-quick-grid { grid-template-columns: 1fr; }
+  .carousel-quick-inspector-head { align-items: stretch; flex-direction: column; }
+  .carousel-quick-inspector-head .button { width: 100%; }
   .carousel-plaque-settings { grid-template-columns: 1fr; }
   .carousel-text-effects { grid-template-columns: 1fr 1fr; }
   .carousel-media-head { align-items: stretch; flex-direction: column; }

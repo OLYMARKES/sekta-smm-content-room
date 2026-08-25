@@ -80,6 +80,14 @@
     ],
     final: { template: "color-final", role: "cta", scene: "field", palette: "sekta-mint", placement: "middle", size: 70, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 72 },
   };
+  const quickPaletteIds = ["sekta-sky", "sekta-mint", "sekta-pink", "sekta-sun", "sekta-cream", "sekta-yellow"];
+  const quickLayoutPresets = {
+    "light-column": { name: "Светлая колонка", detail: "68 / 28 · ширина 72%", template: "light-column", scene: "paper", placement: "middle", size: 68, bodySize: 28, titleBoxWidth: 72, titleBoxHeight: 31, bodyBoxWidth: 72, bodyBoxHeight: 32 },
+    "photo-field": { name: "Фото + поле", detail: "64 / 27 · ширина 78%", template: "photo-field", scene: "window", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 78, titleBoxHeight: 29, bodyBoxWidth: 78, bodyBoxHeight: 20 },
+    "side-plaque": { name: "Боковое поле", detail: "60 / 26 · ширина 46%", template: "side-plaque", scene: "split", placement: "middle", size: 60, bodySize: 26, titleBoxWidth: 46, titleBoxHeight: 34, bodyBoxWidth: 46, bodyBoxHeight: 30 },
+    "accent-thought": { name: "Крупный тезис", detail: "74 / 26 · ширина 80%", template: "accent-thought", scene: "field", placement: "middle", size: 74, bodySize: 26, titleBoxWidth: 80, titleBoxHeight: 36, bodyBoxWidth: 76, bodyBoxHeight: 26 },
+    "text-photo": { name: "Текст на фото", detail: "64 / 27 · ширина 80%", template: "text-photo", scene: "photo-clean", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 80, titleBoxHeight: 31, bodyBoxWidth: 78, bodyBoxHeight: 22 },
+  };
 
   const ui = {
     saveState: document.querySelector("#carouselSaveState"),
@@ -192,6 +200,9 @@
     slidePhotoFocusXValue: document.querySelector("#carouselSlidePhotoFocusXValue"),
     slidePhotoFocusY: document.querySelector("#carouselSlidePhotoFocusY"),
     slidePhotoFocusYValue: document.querySelector("#carouselSlidePhotoFocusYValue"),
+    quickPalettePresets: document.querySelector("#carouselQuickPalettePresets"),
+    quickLayoutPresets: document.querySelector("#carouselQuickLayoutPresets"),
+    suggestSlideStyle: document.querySelector("#carouselSuggestSlideStyle"),
     applyAppearanceToSeries: document.querySelector("#carouselApplyAppearanceToSeries"),
     slideTypeLayerLabel: document.querySelector("#carouselSlideTypeLayerLabel"),
     slideTypeFont: document.querySelector("#carouselSlideTypeFont"),
@@ -1530,6 +1541,86 @@
     ui.slideRail.innerHTML = series.slides.map(miniSlideMarkup).join("");
   }
 
+  function renderQuickStylePresets(slide) {
+    if (ui.quickPalettePresets) {
+      ui.quickPalettePresets.innerHTML = quickPaletteIds.map((id) => {
+        const palette = palettes[id];
+        const label = palette.name.replace("#Sekta · ", "");
+        return `<button class="carousel-quick-palette${slide.palette === id ? " is-active" : ""}" type="button" data-carousel-quick-palette="${escapeHtml(id)}" aria-pressed="${slide.palette === id}"><i aria-hidden="true"><span style="background:${palette.background}"></span><span style="background:${palette.foreground}"></span><span style="background:${palette.accent}"></span></i><strong>${escapeHtml(label)}</strong></button>`;
+      }).join("");
+    }
+    if (ui.quickLayoutPresets) {
+      ui.quickLayoutPresets.innerHTML = Object.entries(quickLayoutPresets).map(([id, preset]) => `<button class="carousel-quick-layout${slide.template === id ? " is-active" : ""}" type="button" data-carousel-quick-layout="${escapeHtml(id)}" aria-pressed="${slide.template === id}"><strong>${escapeHtml(preset.name)}</strong><small>${escapeHtml(preset.detail)}</small></button>`).join("");
+    }
+  }
+
+  function resetSlidePaletteOverrides(slide) {
+    slide.backgroundColor = "";
+    slide.textColor = "";
+    slide.titleColor = "";
+    slide.bodyColor = "";
+    slide.labelColor = "";
+    slide.counterColor = "";
+    slide.plaqueColor = "";
+    (slide.customLayers || []).forEach((layer) => { layer.color = ""; });
+  }
+
+  function applyQuickLayoutData(slide, preset, resetOffsets = true) {
+    ["template", "scene", "placement", "size", "bodySize", "titleBoxWidth", "titleBoxHeight", "bodyBoxWidth", "bodyBoxHeight"].forEach((key) => {
+      if (preset[key] !== undefined) slide[key] = preset[key];
+    });
+    if (resetOffsets) {
+      slide.titleOffsetX = 0;
+      slide.titleOffsetY = 0;
+      slide.bodyOffsetX = 0;
+      slide.bodyOffsetY = 0;
+    }
+  }
+
+  function applyQuickPalette(id) {
+    if (!palettes[id]) return;
+    const slide = activeSlide();
+    slide.palette = id;
+    resetSlidePaletteOverrides(slide);
+    slide.savedAt = null;
+    renderActiveEditor();
+    if (series.activeSlide === 0) renderGridPreview();
+    markChanged();
+    setStatus(`Цветовое сочетание «${palettes[id].name}» применено к этому кадру.`);
+  }
+
+  function applyQuickLayout(id) {
+    const preset = quickLayoutPresets[id];
+    if (!preset) return;
+    const slide = activeSlide();
+    applyQuickLayoutData(slide, preset);
+    slide.savedAt = null;
+    renderActiveEditor();
+    if (series.activeSlide === 0) renderGridPreview();
+    markChanged();
+    setStatus(`Композиция «${preset.name}» применила готовые кегли и ширины.`);
+  }
+
+  function suggestActiveSlideStyle() {
+    const slide = activeSlide();
+    const bodyIndex = Math.max(0, series.activeSlide - 1);
+    const proposal = slide.role === "cover" || series.activeSlide === 0
+      ? montageTemplates.cover
+      : slide.role === "cta" || series.activeSlide === series.slides.length - 1
+        ? montageTemplates.final
+        : montageTemplates.body[bodyIndex % montageTemplates.body.length];
+    applyQuickLayoutData(slide, proposal);
+    if (proposal.palette) slide.palette = proposal.palette;
+    resetSlidePaletteOverrides(slide);
+    if (proposal.textColor) slide.textColor = proposal.textColor;
+    slide.plaqueEnabled = proposal.plaqueEnabled === true;
+    slide.savedAt = null;
+    renderActiveEditor();
+    if (series.activeSlide === 0) renderGridPreview();
+    markChanged();
+    setStatus("Для кадра заново подобраны композиция, кегли и цветовое сочетание из утверждённой сетки.");
+  }
+
   function syncActiveForm() {
     const slide = activeSlide();
     ui.activeTitle.textContent = `Слайд ${series.activeSlide + 1}`;
@@ -1541,6 +1632,7 @@
     ui.slideScene.value = slide.scene;
     renderSlidePaletteOptions(slide.palette);
     renderSlideFontOptions(slide);
+    renderQuickStylePresets(slide);
     const palette = paletteFor(slide.palette);
     ui.slideBackgroundColor.value = slide.backgroundColor || palette.background;
     ui.slideBackgroundColorValue.textContent = slide.backgroundColor || "из палитры";
@@ -2626,6 +2718,15 @@
     renderActiveEditor();
     markChanged();
   });
+  ui.quickPalettePresets.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-carousel-quick-palette]");
+    if (button) applyQuickPalette(button.dataset.carouselQuickPalette);
+  });
+  ui.quickLayoutPresets.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-carousel-quick-layout]");
+    if (button) applyQuickLayout(button.dataset.carouselQuickLayout);
+  });
+  ui.suggestSlideStyle.addEventListener("click", suggestActiveSlideStyle);
   ui.bodyBold.addEventListener("click", () => makeSelectionBold(ui.slideBody));
   ui.slideMoveTarget.addEventListener("change", () => {
     slideMoveTarget = movableLayers[ui.slideMoveTarget.value] || customLayer(activeSlide(), ui.slideMoveTarget.value) ? ui.slideMoveTarget.value : "body";
