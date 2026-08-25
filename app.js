@@ -128,9 +128,9 @@
 
   function sharedGridSnapshot() {
     return {
-      id: "shared-2026-08-20",
-      capturedAt: "2026-08-20T17:35:00+08:00",
-      sourceDate: "снято из Instagram 20 августа 2026",
+      id: "shared-2026-08-25",
+      capturedAt: "2026-08-25T20:30:00+08:00",
+      sourceDate: "снято из Instagram 25 августа 2026",
       scope: "общая версия",
       items: currentGrid.map((item) => ({ id: item.id, image: item.image, title: item.title })),
     };
@@ -159,7 +159,7 @@
     const snapshot = {
       id: `local-${now.getTime()}`,
       capturedAt: now.toISOString(),
-      sourceDate: "версия сетки от 20 августа 2026",
+      sourceDate: "версия сетки от 25 августа 2026",
       scope: "локально",
       items,
     };
@@ -226,8 +226,8 @@
     ui.overviewGrid.innerHTML = currentGrid.slice(0, 9).map((item) => feedTile(item)).join("");
     ui.currentGrid.innerHTML = currentGrid.map((item) => feedTile(item, currentCoverMode)).join("");
     document.querySelectorAll("[data-cover-mode]").forEach((button) => button.classList.toggle("is-active", button.dataset.coverMode === currentCoverMode));
-    if (ui.gridVersionLabel) ui.gridVersionLabel.textContent = "фактический снимок · 20 августа";
-    if (ui.coverModeNote) ui.coverModeNote.textContent = "Три закреплённых публикации и девять следующих карточек показаны в том же порядке, что в профиле 20 августа.";
+    if (ui.gridVersionLabel) ui.gridVersionLabel.textContent = "фактический снимок · 25 августа";
+    if (ui.coverModeNote) ui.coverModeNote.textContent = "Три закреплённых публикации и девять следующих карточек показаны в том же порядке, что в профиле 25 августа.";
   }
 
   function weekItem(item) {
