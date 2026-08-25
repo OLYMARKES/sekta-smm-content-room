@@ -126,6 +126,7 @@
   const accentColors = { sky: "#bde9f6", green: "#63dda7", yellow: "#ffe36a", pink: "#ff8fbd" };
   const accentLabels = { sky: "голубой", green: "зелёный", yellow: "жёлтый", pink: "розовый" };
   const textColors = { white: "#ffffff", ink: "#17221f" };
+  const coverTextDragSensitivity = 0.5;
   const seriesSystems = [
     { id: "tempo", label: "Tempo", family: "PT Sans Narrow", body: "Manrope", caseKind: "upper", note: "узкий капс × спокойный текст" },
     { id: "soft", label: "Мягкая", family: "Manrope", body: "Golos Text", caseKind: "upper", note: "широкий капс × нейтральный текст" },
@@ -831,15 +832,7 @@
     const headlineColor = activeTextColor === "auto" ? automaticColor : activeTextColor === "accent" ? accentColors[activeAccent] : textColors[activeTextColor];
     context.fillStyle = headlineColor;
     context.textBaseline = "alphabetic";
-    if (activeStyle === "clean") {
-      context.shadowColor = "rgba(0,0,0,.7)";
-      context.shadowBlur = 22 * scale;
-      context.shadowOffsetY = 4 * scale;
-    }
     if (headlineLayer.visible) lines.forEach((line, index) => context.fillText(line, x, startY + index * lineHeight));
-    context.shadowColor = "transparent";
-    context.shadowBlur = 0;
-    context.shadowOffsetY = 0;
 
     const subtitleX = x + subtitleLayer.x / 100 * width;
     const subtitleY = Math.min(height - 165 * scale, startY + textBlockHeight + 34 * scale) + subtitleLayer.y / 100 * height;
@@ -851,16 +844,8 @@
     context.font = `${accountLayer.weight} ${accountLayer.size * scale}px "${accountLayer.family}", Arial, sans-serif`;
     if ("letterSpacing" in context) context.letterSpacing = `${accountLayer.tracking * accountLayer.size * scale}px`;
     context.fillStyle = activeStyle === "rail" ? "#101a1e" : "#ffffff";
-    if (activeStyle !== "rail") {
-      context.shadowColor = "rgba(0,0,0,.72)";
-      context.shadowBlur = 12 * scale;
-      context.shadowOffsetY = 2 * scale;
-    }
     context.textAlign = "left";
     if (accountLayer.visible) context.fillText(ui.account.value, 54 * scale + accountLayer.x / 100 * width, 170 * scale + accountLayer.y / 100 * height);
-    context.shadowColor = "transparent";
-    context.shadowBlur = 0;
-    context.shadowOffsetY = 0;
     return canvas;
   }
 
@@ -966,8 +951,9 @@
       return;
     }
     const layer = coverLayers[coverDrag.key];
-    layer.x = Math.max(-35, Math.min(35, Math.round((coverDrag.x + (event.clientX - coverDrag.startX) / coverDrag.width * 100) * 2) / 2));
-    layer.y = Math.max(-35, Math.min(35, Math.round((coverDrag.y + (event.clientY - coverDrag.startY) / coverDrag.height * 100) * 2) / 2));
+    const precision = event.shiftKey ? 0.2 : coverTextDragSensitivity;
+    layer.x = Math.max(-35, Math.min(35, Math.round((coverDrag.x + (event.clientX - coverDrag.startX) / coverDrag.width * 100 * precision) * 2) / 2));
+    layer.y = Math.max(-35, Math.min(35, Math.round((coverDrag.y + (event.clientY - coverDrag.startY) / coverDrag.height * 100 * precision) * 2) / 2));
     coverDrag.moved ||= Math.abs(event.clientX - coverDrag.startX) + Math.abs(event.clientY - coverDrag.startY) > 2;
     applyCoverLayers();
     syncLayerInspector();
