@@ -23,6 +23,7 @@
     plaqueOpacityValue: document.querySelector("#mobileEditorPlaqueOpacityValue"),
     plaqueWidth: document.querySelector("#mobileEditorPlaqueWidth"),
     plaqueWidthValue: document.querySelector("#mobileEditorPlaqueWidthValue"),
+    bodyAction: document.querySelector("#mobileEditorBodyAction"),
     placement: document.querySelector("#mobileEditorPlacement"),
     miniCanvas: document.querySelector("#mobileEditorMiniCanvas"),
     miniImage: document.querySelector("#mobileEditorMiniImage"),
@@ -89,6 +90,7 @@
 
   let mediaOrder = shuffle([...library].sort((a, b) => scorePhoto(b) - scorePhoto(a)).slice(0, 160));
   let mediaFilter = "suggested";
+  let bodyEditing = false;
   let saveTimer;
   let state = loadState();
 
@@ -193,11 +195,13 @@
     const photo = photoById(slide.photoId) || defaultPhoto();
     const plaqueFill = colorWithAlpha(slide.plaqueColor, slide.plaqueOpacity);
     const plaqueText = slide.plaqueEnabled ? readableTextColor(slide.plaqueColor) : "#ffffff";
+    const hasBody = Boolean(slide.body.trim());
     ui.image.src = photo?.thumb || "";
     ui.miniImage.src = photo?.thumb || "";
     ui.inlineEditors.forEach((editor) => {
       if (document.activeElement === editor) return;
       editor.textContent = editor.dataset.mobileInline === "title" ? slide.title : slide.body;
+      if (editor.dataset.mobileInline === "body") editor.hidden = !hasBody && !bodyEditing;
     });
     ui.counter.textContent = `${String(state.activeSlide + 1).padStart(2, "0")} / ${String(state.slides.length).padStart(2, "0")}`;
     ui.miniCounter.textContent = ui.counter.textContent;
@@ -220,6 +224,8 @@
     ui.plaqueOpacityValue.value = `${Math.round(slide.plaqueOpacity * 100)}%`;
     ui.plaqueWidth.value = String(Math.round(slide.plaqueWidth));
     ui.plaqueWidthValue.value = `${Math.round(slide.plaqueWidth)}%`;
+    ui.bodyAction.textContent = hasBody ? "Убрать основной текст" : "Добавить основной текст";
+    ui.bodyAction.setAttribute("aria-pressed", String(hasBody));
     ui.plaqueColors.querySelectorAll("[data-mobile-plaque-color]").forEach((button) => {
       const selected = button.dataset.mobilePlaqueColor.toLowerCase() === slide.plaqueColor.toLowerCase();
       button.classList.toggle("is-active", selected);
@@ -300,12 +306,14 @@
     });
     state.slides = [cover, ...bodySlides];
     state.activeSlide = 0;
+    bodyEditing = false;
     renderSlide();
     markChanged(`Лонгрид распределён на ${state.slides.length} слайдов без переписывания.`);
   }
 
   function goToSlide(index) {
     state.activeSlide = Math.max(0, Math.min(state.slides.length - 1, index));
+    bodyEditing = false;
     renderSlide();
     markChanged(`Открыт слайд ${state.activeSlide + 1}.`);
   }
@@ -405,6 +413,21 @@
     renderSlide();
     markChanged("Положение текста сохранено для этого слайда.");
   });
+  ui.bodyAction.addEventListener("click", () => {
+    if (activeSlide().body.trim()) {
+      activeSlide().body = "";
+      ui.slideBody.value = "";
+      bodyEditing = false;
+      renderSlide();
+      markChanged("Основной текст убран с этого слайда.");
+      return;
+    }
+    bodyEditing = true;
+    renderSlide();
+    ui.previewBody.hidden = false;
+    ui.previewBody.focus({ preventScroll: true });
+    markChanged("Поле основного текста открыто. Напишите текст прямо на слайде.");
+  });
   ui.inlineEditors.forEach((editor) => {
     editor.addEventListener("input", () => {
       const value = editor.textContent.replace(/\u00a0/g, " ").replace(/\n{3,}/g, "\n\n");
@@ -417,7 +440,11 @@
           document.querySelector("#mobileEditorTitle").value = value;
         }
       } else {
+        bodyEditing = true;
         document.querySelector("#mobileEditorSlideBody").value = value;
+        const hasBody = Boolean(value.trim());
+        ui.bodyAction.textContent = hasBody ? "Убрать основной текст" : "Добавить основной текст";
+        ui.bodyAction.setAttribute("aria-pressed", String(hasBody));
       }
       ui.inlineEditors.forEach((peer) => {
         if (peer !== editor && peer.dataset.mobileInline === kind) peer.textContent = value;
@@ -426,6 +453,11 @@
     });
     editor.addEventListener("keydown", (event) => {
       if (event.key === "Escape") editor.blur();
+    });
+    editor.addEventListener("blur", () => {
+      if (editor.dataset.mobileInline !== "body" || activeSlide().body.trim()) return;
+      bodyEditing = false;
+      renderSlide();
     });
   });
   ui.progress.addEventListener("click", (event) => {
@@ -462,7 +494,7 @@
   ui.slideCount.addEventListener("change", () => { state.slideCount = Number(ui.slideCount.value); markChanged(); });
   ui.split.addEventListener("click", splitLongread);
   ui.slideTitle.addEventListener("input", () => { activeSlide().title = ui.slideTitle.value; if (state.activeSlide === 0) { state.title = ui.slideTitle.value; ui.title.value = state.title; } renderSlide(); markChanged(); });
-  ui.slideBody.addEventListener("input", () => { activeSlide().body = ui.slideBody.value; renderSlide(); markChanged(); });
+  ui.slideBody.addEventListener("input", () => { activeSlide().body = ui.slideBody.value; bodyEditing = Boolean(activeSlide().body); renderSlide(); markChanged(); });
   ui.openFull.addEventListener("click", sendToFullEditor);
   ui.dock.addEventListener("click", (event) => {
     const action = event.target.closest("[data-mobile-dock]")?.dataset.mobileDock;

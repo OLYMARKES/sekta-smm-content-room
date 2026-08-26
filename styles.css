@@ -750,6 +750,8 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .mobile-editor-placement { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 3px; border-radius: 9px; background: #e5ebe8; }
 .mobile-editor-placement button { min-height: 36px; padding: 0 9px; border: 0; border-radius: 7px; color: #5c6762; background: transparent; font-size: 10px; font-weight: 750; cursor: pointer; }
 .mobile-editor-placement button.is-active { color: #fff; background: var(--accent); }
+.mobile-editor-body-action { min-height: 40px; padding: 0 12px; border: 1px solid #cbd6d1; border-radius: 9px; color: var(--ink); background: #fff; font-size: 11px; font-weight: 800; cursor: pointer; }
+.mobile-editor-body-action[aria-pressed="true"] { color: #8b3232; border-color: #e3c5c5; background: #fffafa; }
 .mobile-editor-plaque-settings { display: grid; grid-template-columns: auto minmax(110px, 1fr) minmax(110px, 1fr); align-items: end; gap: 10px; }
 .mobile-editor-plaque-settings.is-disabled { opacity: .46; }
 .mobile-editor-plaque-colors { display: flex; align-items: center; gap: 5px; }
@@ -1409,6 +1411,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
   .mobile-editor-plaque-head { align-items: stretch; flex-direction: column; gap: 5px; }
   .mobile-editor-plaque-toggle { justify-content: center; }
   .mobile-editor-placement button { min-height: 44px; padding: 0 6px; font-size: 11px; }
+  .mobile-editor-body-action { min-height: 44px; font-size: 12px; }
   .mobile-editor-plaque-settings { grid-template-columns: 1fr 1fr; }
   .mobile-editor-plaque-colors { grid-column: 1 / -1; justify-content: center; }
   .mobile-editor-plaque-colors > button { width: 44px; height: 44px; border-radius: 10px; }
