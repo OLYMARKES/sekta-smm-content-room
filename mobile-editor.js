@@ -13,6 +13,10 @@
     image: document.querySelector("#mobileEditorImage"),
     previewTitle: document.querySelector("#mobileEditorPreviewTitle"),
     previewBody: document.querySelector("#mobileEditorPreviewBody"),
+    inlineEditors: [...document.querySelectorAll("[data-mobile-inline]")],
+    miniCanvas: document.querySelector("#mobileEditorMiniCanvas"),
+    miniImage: document.querySelector("#mobileEditorMiniImage"),
+    miniCounter: document.querySelector("#mobileEditorMiniCounter"),
     counter: document.querySelector("#mobileEditorCounter"),
     slideLabel: document.querySelector("#mobileEditorSlideLabel"),
     photoLabel: document.querySelector("#mobileEditorPhotoLabel"),
@@ -22,6 +26,7 @@
     mediaFilters: document.querySelector("#mobileEditorMediaFilters"),
     mediaSearch: document.querySelector("#mobileEditorMediaSearch"),
     media: document.querySelector("#mobileEditorMedia"),
+    mediaCount: document.querySelector("#mobileEditorMediaCount"),
     shuffle: document.querySelector("#mobileEditorShuffle"),
     title: document.querySelector("#mobileEditorTitle"),
     longread: document.querySelector("#mobileEditorLongread"),
@@ -124,8 +129,12 @@
   function mediaPool() {
     const query = ui.mediaSearch.value.trim().toLocaleLowerCase("ru");
     let pool = mediaFilter === "suggested" ? mediaOrder : library.filter((item) => categoryMatch(item, mediaFilter));
-    if (query) pool = pool.filter((item) => [item.fileName, item.folderLabel, item.sourceCategory, ...(item.contentThemes || [])].join(" ").toLocaleLowerCase("ru").includes(query));
-    return pool.slice(0, mediaFilter === "suggested" ? 18 : 36);
+    const matchesQuery = (item) => !query || [item.fileName, item.folderLabel, item.sourceCategory, ...(item.contentThemes || [])].join(" ").toLocaleLowerCase("ru").includes(query);
+    if (query) pool = pool.filter(matchesQuery);
+    const selected = photoById(activeSlide()?.photoId);
+    const selectedBelongs = selected && (mediaFilter === "suggested" || mediaFilter === "all" || categoryMatch(selected, mediaFilter)) && matchesQuery(selected);
+    if (selectedBelongs && !pool.some((item) => item.id === selected.id)) pool = [selected, ...pool];
+    return pool.slice(0, mediaFilter === "suggested" ? 72 : 120);
   }
 
   function renderMedia() {
@@ -134,6 +143,7 @@
     ui.media.innerHTML = pool.length
       ? pool.map((item) => `<button class="mobile-editor-photo${item.id === selectedId ? " is-selected" : ""}" type="button" data-mobile-photo="${escapeHtml(item.id)}" aria-pressed="${item.id === selectedId}" aria-label="Выбрать ${escapeHtml(item.fileName)}"><img src="${escapeHtml(item.thumb)}" alt="" loading="lazy"></button>`).join("")
       : `<div class="mobile-editor-empty">Ничего не найдено. Попробуйте другой раздел или запрос.</div>`;
+    ui.mediaCount.textContent = pool.length ? `${pool.length} фотографий · листайте вниз без кнопки «ещё»` : "По этому запросу фотографий нет";
     ui.mediaFilters.querySelectorAll("[data-mobile-media]").forEach((button) => {
       const active = button.dataset.mobileMedia === mediaFilter;
       button.classList.toggle("is-active", active);
@@ -152,12 +162,17 @@
     const slide = activeSlide();
     const photo = photoById(slide.photoId) || defaultPhoto();
     ui.image.src = photo?.thumb || "";
-    ui.previewTitle.textContent = slide.title || (state.activeSlide === 0 ? "Введите заголовок" : "");
-    ui.previewBody.textContent = slide.body;
+    ui.miniImage.src = photo?.thumb || "";
+    ui.inlineEditors.forEach((editor) => {
+      if (document.activeElement === editor) return;
+      editor.textContent = editor.dataset.mobileInline === "title" ? slide.title : slide.body;
+    });
     ui.counter.textContent = `${String(state.activeSlide + 1).padStart(2, "0")} / ${String(state.slides.length).padStart(2, "0")}`;
+    ui.miniCounter.textContent = ui.counter.textContent;
     ui.slideLabel.textContent = state.activeSlide === 0 ? "Обложка" : `Слайд ${state.activeSlide + 1}`;
     ui.photoLabel.textContent = photo?.folderLabel || "выберите фотографию";
     ui.canvas.dataset.tone = slide.tone;
+    ui.miniCanvas.dataset.tone = slide.tone;
     ui.slideTitle.value = slide.title;
     ui.slideBody.value = slide.body;
     ui.prev.disabled = state.activeSlide === 0;
@@ -287,6 +302,29 @@
     mediaFilter = button.dataset.mobileMedia;
     renderMedia();
   });
+  ui.inlineEditors.forEach((editor) => {
+    editor.addEventListener("input", () => {
+      const value = editor.textContent.replace(/\u00a0/g, " ").replace(/\n{3,}/g, "\n\n");
+      const kind = editor.dataset.mobileInline;
+      activeSlide()[kind] = value;
+      if (kind === "title") {
+        document.querySelector("#mobileEditorSlideTitle").value = value;
+        if (state.activeSlide === 0) {
+          state.title = value;
+          document.querySelector("#mobileEditorTitle").value = value;
+        }
+      } else {
+        document.querySelector("#mobileEditorSlideBody").value = value;
+      }
+      ui.inlineEditors.forEach((peer) => {
+        if (peer !== editor && peer.dataset.mobileInline === kind) peer.textContent = value;
+      });
+      markChanged("Текст на слайде сохранён.");
+    });
+    editor.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") editor.blur();
+    });
+  });
   ui.progress.addEventListener("click", (event) => {
     const step = event.target.closest("[data-mobile-step]")?.dataset.mobileStep;
     if (!step) return;
@@ -304,7 +342,7 @@
     mediaOrder = shuffle(mediaOrder);
     mediaFilter = "suggested";
     renderMedia();
-    ui.media.scrollLeft = 0;
+    ui.media.scrollIntoView({ behavior: "smooth", block: "start" });
     ui.status.textContent = "Подобрали другую сильную фотосерию.";
   });
   ui.title.addEventListener("input", () => {

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260826-3">
+  <link rel="stylesheet" href="styles.css?v=20260826-4">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -596,15 +596,16 @@
             <div class="mobile-editor-workspace">
               <section class="mobile-editor-stage" id="mobileEditorStage" aria-label="Текущий слайд">
                 <div class="mobile-editor-canvas" id="mobileEditorCanvas" data-tone="mint">
-                  <img id="mobileEditorImage" src="" alt="Предложенная фотография для слайда">
+                  <img id="mobileEditorImage" src="assets/library/lib-ce1074da9a251c.jpg" alt="Предложенная фотография для слайда">
                   <div class="mobile-editor-scrim"></div>
                   <span class="mobile-editor-label">@SEKTASCHOOL</span>
                   <div class="mobile-editor-copy">
-                    <strong id="mobileEditorPreviewTitle">Введите заголовок</strong>
-                    <p id="mobileEditorPreviewBody"></p>
+                    <strong id="mobileEditorPreviewTitle" contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-label="Редактировать заголовок прямо на слайде" spellcheck="true" data-mobile-inline="title" data-placeholder="Введите заголовок"></strong>
+                    <p id="mobileEditorPreviewBody" contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-label="Редактировать основной текст прямо на слайде" spellcheck="true" data-mobile-inline="body" data-placeholder="Добавьте основной текст"></p>
                   </div>
                   <span class="mobile-editor-counter" id="mobileEditorCounter">01 / 01</span>
                 </div>
+                <p class="mobile-editor-inline-hint">Коснитесь заголовка или текста прямо на слайде, чтобы изменить его.</p>
                 <div class="mobile-editor-stepper">
                   <button type="button" id="mobileEditorPrev" aria-label="Предыдущий слайд">←</button>
                   <div><strong id="mobileEditorSlideLabel">Обложка</strong><span id="mobileEditorPhotoLabel">предложенное фото</span></div>
@@ -615,7 +616,7 @@
 
               <section class="mobile-editor-controls" id="mobileEditorMediaSection" aria-label="Настройки мобильного черновика">
                 <div class="mobile-editor-media-head">
-                  <div><strong>Фото для этого кадра</strong><span>Сразу показываем сильные вертикальные кадры</span></div>
+                  <div><strong>Фото для этого кадра</strong><span id="mobileEditorMediaCount">Сразу показываем сильные вертикальные кадры</span></div>
                   <button class="button button-secondary" type="button" id="mobileEditorShuffle">Другие фото</button>
                 </div>
                 <div class="mobile-editor-media-filters" id="mobileEditorMediaFilters" role="group" aria-label="Раздел медиатеки">
@@ -628,7 +629,22 @@
                   <button type="button" data-mobile-media="olya" aria-pressed="false">Оля</button>
                 </div>
                 <label class="mobile-editor-search"><span>Найти фотографию</span><input id="mobileEditorMediaSearch" type="search" placeholder="портрет, лагерь, тренировка…" autocomplete="off"></label>
-                <div class="mobile-editor-media" id="mobileEditorMedia"></div>
+                <div class="mobile-editor-photo-browser">
+                  <aside class="mobile-editor-live-card" aria-label="Живое превью выбранной фотографии">
+                    <span>Живое превью</span>
+                    <div class="mobile-editor-mini-canvas" id="mobileEditorMiniCanvas" data-tone="mint">
+                      <img id="mobileEditorMiniImage" src="assets/library/lib-ce1074da9a251c.jpg" alt="Выбранная фотография в текущем слайде">
+                      <div class="mobile-editor-scrim"></div>
+                      <div class="mobile-editor-mini-copy">
+                        <strong contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-label="Редактировать заголовок в живом превью" spellcheck="true" data-mobile-inline="title" data-placeholder="Заголовок"></strong>
+                        <p contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-label="Редактировать основной текст в живом превью" spellcheck="true" data-mobile-inline="body" data-placeholder="Текст"></p>
+                      </div>
+                      <span id="mobileEditorMiniCounter">01 / 01</span>
+                    </div>
+                    <small>Фото и текст меняются сразу</small>
+                  </aside>
+                  <div class="mobile-editor-media" id="mobileEditorMedia" role="group" aria-label="Фотографии медиатеки"></div>
+                </div>
 
                 <div class="mobile-editor-writing" id="mobileEditorWritingSection">
                   <label><span>Заголовок обложки</span><input id="mobileEditorTitle" type="text" placeholder="О чём эта карусель?"></label>
@@ -1031,7 +1047,7 @@
   <script src="production-room.js?v=20260825-2"></script>
   <script src="carousel-builder.js?v=20260826-5"></script>
   <script src="carousel-studio.js?v=20260826-2"></script>
-  <script src="mobile-editor.js?v=20260826-2"></script>
+  <script src="mobile-editor.js?v=20260826-6"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>
