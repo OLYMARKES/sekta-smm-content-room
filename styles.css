@@ -972,9 +972,9 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .detail-layout { display: grid; grid-template-columns: minmax(320px, 1fr) minmax(280px, .8fr); min-height: 480px; }
 .detail-image { min-height: 480px; background: #e5e9e7; }
 .detail-image img { width: 100%; height: 100%; min-height: 480px; object-fit: contain; background: #edf0ee; }
-.detail-copy { padding: 36px 30px 28px; }
+.detail-copy { min-width: 0; padding: 36px 30px 28px; }
 .detail-copy .eyebrow { margin-bottom: 9px; }
-.detail-copy h2 { margin: 0; font: 600 28px/1.08 Georgia, serif; }
+.detail-copy h2 { margin: 0; overflow-wrap: anywhere; font: 600 28px/1.08 Georgia, serif; }
 .detail-copy > p { margin: 10px 0 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
 .meta-list { margin: 22px 0; border-top: 1px solid var(--line); }
 .meta-row { display: flex; justify-content: space-between; gap: 18px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 9px; }
@@ -1168,6 +1168,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
   .calendar-card > .status { grid-column: 2; }
   .detail-copy { padding: 26px 20px 22px; }
   .detail-image, .detail-image img { min-height: 280px; }
+  .detail-actions .button { width: 100%; min-height: 44px; }
   .carousel-stage { grid-template-columns: 38px minmax(0, 1fr) 38px; gap: 4px; padding: 10px; }
   .carousel-arrow { width: 34px; height: 34px; }
   .carousel-footer { padding: 0 14px; }
@@ -1759,7 +1760,9 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .carousel-slide-canvas .carousel-render-body > .carousel-layer-text { text-shadow: var(--carousel-body-shadow, none); -webkit-text-stroke: var(--carousel-body-stroke-width, 0) var(--carousel-body-stroke-color, transparent); paint-order: stroke fill; }
 .carousel-slide-canvas .carousel-render-series > .carousel-layer-text { text-shadow: var(--carousel-label-shadow, none); -webkit-text-stroke: var(--carousel-label-stroke-width, 0) var(--carousel-label-stroke-color, transparent); paint-order: stroke fill; }
 .carousel-slide-canvas .carousel-render-counter > .carousel-layer-text { text-shadow: var(--carousel-counter-shadow, none); -webkit-text-stroke: var(--carousel-counter-stroke-width, 0) var(--carousel-counter-stroke-color, transparent); paint-order: stroke fill; }
-.carousel-render-content p { width: 100%; margin: 14px 0 0; font-family: var(--carousel-body-font), sans-serif; font-size: var(--carousel-body-size); font-weight: var(--carousel-body-weight, 470); line-height: var(--carousel-body-line, 1.25); letter-spacing: var(--carousel-body-tracking, 0); white-space: pre-line; }
+.carousel-render-body > .carousel-layer-text { font-family: var(--carousel-body-font), sans-serif; font-size: var(--carousel-body-size); font-weight: var(--carousel-body-weight, 470); line-height: var(--carousel-body-line, 1.25); letter-spacing: var(--carousel-body-tracking, 0); white-space: pre-line; }
+.carousel-render-content p { width: 100%; margin: 14px 0 0; font: inherit; letter-spacing: inherit; white-space: pre-line; }
+.carousel-slide-canvas.is-direct-editing .carousel-render-body > .carousel-layer-text { margin-top: 14px; }
 .carousel-render-content p strong { font: inherit; font-weight: 800; letter-spacing: inherit; }
 .carousel-render-content p + p { margin-top: .85em; }
 .carousel-render-counter { position: absolute; z-index: 3; right: 10%; bottom: 10%; width: var(--carousel-counter-width, 22cqw); height: auto; max-height: var(--carousel-counter-height, 10cqw); color: var(--carousel-counter-color, var(--carousel-fg)); font-family: var(--carousel-counter-font), sans-serif; font-size: var(--carousel-counter-size, 10px); font-weight: var(--carousel-counter-weight, 750); line-height: var(--carousel-counter-line, 1); letter-spacing: var(--carousel-counter-tracking, .08em); text-align: right; transform: translate(var(--carousel-counter-x, 0), var(--carousel-counter-y, 0)); }
@@ -1767,16 +1770,26 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .carousel-slide-canvas.is-direct-editing { touch-action: none; }
 .carousel-slide-canvas.is-direct-editing .carousel-render-photo { cursor: grab; touch-action: none; }
 .carousel-slide-canvas.is-direct-editing.is-dragging-photo .carousel-render-photo { cursor: grabbing; }
-.carousel-slide-canvas.is-direct-editing .carousel-direct-layer { position: relative; box-sizing: border-box; cursor: grab; user-select: none; touch-action: none; }
+.carousel-slide-canvas.is-direct-editing .carousel-direct-layer { position: relative; box-sizing: border-box; cursor: default; user-select: none; touch-action: none; }
 .carousel-slide-canvas.is-direct-editing .carousel-render-series, .carousel-slide-canvas.is-direct-editing .carousel-render-counter, .carousel-slide-canvas.is-direct-editing .carousel-render-custom { position: absolute; }
 .carousel-slide-canvas.is-direct-editing[data-template="imported-cover"] .carousel-render-title,
 .carousel-slide-canvas.is-direct-editing[data-template="imported-cover"] .carousel-render-body { position: absolute; }
-.carousel-slide-canvas.is-direct-editing .carousel-direct-layer:active { cursor: grabbing; }
+.carousel-slide-canvas.is-direct-editing .carousel-direct-layer:active { cursor: default; }
 .carousel-slide-canvas.is-direct-editing .carousel-direct-layer:hover { outline: 1px dashed rgba(255,255,255,.72); outline-offset: 5px; }
 .carousel-slide-canvas.is-direct-editing .carousel-direct-layer.is-selected-layer { outline: 2px solid #fff; outline-offset: 5px; }
 .carousel-slide-canvas.is-direct-editing .carousel-direct-layer.has-text-overflow { outline-color: #ff6b6b; }
 .carousel-slide-canvas.is-direct-editing .carousel-direct-layer.is-selected-layer::after { content: attr(data-layer-label); position: absolute; z-index: 12; left: 0; top: -25px; padding: 4px 6px; border-radius: 4px; color: #fff; background: rgba(23,34,31,.9); font: 700 9px/1 var(--ui-font, sans-serif); letter-spacing: 0; text-transform: none; white-space: nowrap; pointer-events: none; }
+.carousel-slide-canvas.is-direct-editing [data-carousel-inline-editor] { min-width: 1ch; cursor: text; caret-color: currentColor; user-select: text; touch-action: manipulation; }
+.carousel-slide-canvas.is-direct-editing [data-carousel-inline-editor]:focus { outline: none; }
+.carousel-slide-canvas.is-direct-editing .carousel-direct-layer.is-inline-editing { outline-style: solid; }
+.carousel-slide-canvas.is-direct-editing .carousel-direct-layer.is-inline-editing::after { content: "редактирование"; }
+.carousel-slide-canvas.is-direct-editing .carousel-direct-layer.is-inline-editing .carousel-layer-text { overflow: visible; }
 .carousel-layer-controls { position: absolute; z-index: 14; inset: 0; pointer-events: none; }
+.carousel-layer-drag { position: absolute; z-index: 17; top: -31px; right: 30px; width: 24px; height: 24px; display: grid; place-items: center; padding: 0; border: 1px solid rgba(255,255,255,.7); border-radius: 50%; color: #fff; background: rgba(23,34,31,.92); cursor: grab; pointer-events: auto; touch-action: none; }
+.carousel-layer-drag:hover { background: #24483e; }
+.carousel-layer-drag:active { cursor: grabbing; }
+.carousel-layer-drag:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.carousel-layer-drag svg { width: 13px; height: 13px; fill: currentColor; }
 .carousel-layer-close { position: absolute; z-index: 16; top: 4px; right: 4px; width: 24px; height: 24px; display: grid; place-items: center; padding: 0; border: 1px solid rgba(255,255,255,.7); border-radius: 50%; color: #fff; background: rgba(23,34,31,.92); cursor: pointer; pointer-events: auto; }
 .carousel-layer-close:hover { background: #b63b46; }
 .carousel-layer-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }

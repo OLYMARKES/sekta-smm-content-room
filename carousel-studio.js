@@ -1475,12 +1475,18 @@
   function layerEditingControls(directEditing, selectedLayer, target, slide) {
     if (!directEditing || selectedLayer !== target) return "";
     const label = layerLabel(slide, target);
-    return `<span class="carousel-layer-controls"><button class="carousel-layer-close" type="button" data-layer-close="${escapeHtml(target)}" aria-label="Удалить ${escapeHtml(label)}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>${resizeHandles.map((handle) => `<span class="carousel-resize-handle" data-resize-handle="${handle}" aria-hidden="true"></span>`).join("")}</span>`;
+    return `<span class="carousel-layer-controls"><button class="carousel-layer-drag" type="button" data-layer-drag="${escapeHtml(target)}" aria-label="Переместить ${escapeHtml(label)}" title="Переместить слой"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="5" cy="4" r="1"/><circle cx="11" cy="4" r="1"/><circle cx="5" cy="8" r="1"/><circle cx="11" cy="8" r="1"/><circle cx="5" cy="12" r="1"/><circle cx="11" cy="12" r="1"/></svg></button><button class="carousel-layer-close" type="button" data-layer-close="${escapeHtml(target)}" aria-label="Удалить ${escapeHtml(label)}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>${resizeHandles.map((handle) => `<span class="carousel-resize-handle" data-resize-handle="${handle}" aria-hidden="true"></span>`).join("")}</span>`;
+  }
+
+  function inlineEditorAttributes(directEditing, target, label) {
+    if (!directEditing) return "";
+    return ` contenteditable="true" spellcheck="true" role="textbox" aria-multiline="true" aria-label="Редактировать ${escapeHtml(label)} прямо на слайде" data-carousel-inline-editor="${escapeHtml(target)}"`;
   }
 
   function fitDomTextLayer(element) {
     const textBox = element.querySelector(".carousel-layer-text") || element;
-    const textNodes = element.matches(".carousel-render-body") ? [...textBox.querySelectorAll("p")] : [element];
+    const bodyParagraphs = element.matches(".carousel-render-body") ? [...textBox.querySelectorAll("p")] : [];
+    const textNodes = bodyParagraphs.length ? bodyParagraphs : [element.matches(".carousel-render-body") ? textBox : element];
     if (!textNodes.length || !textBox.clientWidth || !textBox.clientHeight) return;
     textNodes.forEach((node) => { node.style.removeProperty("font-size"); });
     let size = parseFloat(getComputedStyle(textNodes[0]).fontSize) || 12;
@@ -1540,10 +1546,13 @@
       : "";
     const titleText = layerText(slide, "title", index);
     const bodyText = layerText(slide, "body", index);
-    const title = layerVisible(slide, "title") && titleText ? `<strong class="carousel-render-title${directEditing ? ` carousel-direct-layer${selectedLayer === "title" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="title"${directEditing ? ` data-carousel-layer="title" data-layer-label="${movableLayers.title.label}"` : ""}><span class="carousel-layer-text">${escapeHtml(displayText(stripInlineMarkup(titleText), slide.caseKind || slideFont.caseKind))}</span>${layerEditingControls(directEditing, selectedLayer, "title", slide)}</strong>` : "";
-    const body = layerVisible(slide, "body") && bodyText ? `<div class="carousel-render-body${directEditing ? ` carousel-direct-layer${selectedLayer === "body" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="body"${directEditing ? ` data-carousel-layer="body" data-layer-label="${movableLayers.body.label}"` : ""}><div class="carousel-layer-text"><p>${inlineMarkupHtml(bodyText).replace(/\n\s*\n/g, "</p><p>")}</p></div>${layerEditingControls(directEditing, selectedLayer, "body", slide)}</div>` : "";
-    const label = !layerVisible(slide, "label") ? "" : `<span class="carousel-render-series${directEditing ? ` carousel-direct-layer${selectedLayer === "label" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="label"${directEditing ? ` data-carousel-layer="label" data-layer-label="${movableLayers.label.label}"` : ""}><span class="carousel-layer-text">${escapeHtml(layerText(slide, "label", index))}</span>${layerEditingControls(directEditing, selectedLayer, "label", slide)}</span>`;
-    const counter = !layerVisible(slide, "counter") ? "" : `<small class="carousel-render-counter${directEditing ? ` carousel-direct-layer${selectedLayer === "counter" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="counter"${directEditing ? ` data-carousel-layer="counter" data-layer-label="${movableLayers.counter.label}"` : ""}><span class="carousel-layer-text">${escapeHtml(layerText(slide, "counter", index))}</span>${layerEditingControls(directEditing, selectedLayer, "counter", slide)}</small>`;
+    const title = layerVisible(slide, "title") && titleText ? `<strong class="carousel-render-title${directEditing ? ` carousel-direct-layer${selectedLayer === "title" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="title"${directEditing ? ` data-carousel-layer="title" data-layer-label="${movableLayers.title.label}"` : ""}><span class="carousel-layer-text"${inlineEditorAttributes(directEditing, "title", movableLayers.title.label)}>${escapeHtml(displayText(stripInlineMarkup(titleText), slide.caseKind || slideFont.caseKind))}</span>${layerEditingControls(directEditing, selectedLayer, "title", slide)}</strong>` : "";
+    const bodyContent = directEditing
+      ? escapeHtml(stripInlineMarkup(bodyText))
+      : `<p>${inlineMarkupHtml(bodyText).replace(/\n\s*\n/g, "</p><p>")}</p>`;
+    const body = layerVisible(slide, "body") && bodyText ? `<div class="carousel-render-body${directEditing ? ` carousel-direct-layer${selectedLayer === "body" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="body"${directEditing ? ` data-carousel-layer="body" data-layer-label="${movableLayers.body.label}"` : ""}><div class="carousel-layer-text"${inlineEditorAttributes(directEditing, "body", movableLayers.body.label)}>${bodyContent}</div>${layerEditingControls(directEditing, selectedLayer, "body", slide)}</div>` : "";
+    const label = !layerVisible(slide, "label") ? "" : `<span class="carousel-render-series${directEditing ? ` carousel-direct-layer${selectedLayer === "label" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="label"${directEditing ? ` data-carousel-layer="label" data-layer-label="${movableLayers.label.label}"` : ""}><span class="carousel-layer-text"${inlineEditorAttributes(directEditing, "label", movableLayers.label.label)}>${escapeHtml(layerText(slide, "label", index))}</span>${layerEditingControls(directEditing, selectedLayer, "label", slide)}</span>`;
+    const counter = !layerVisible(slide, "counter") ? "" : `<small class="carousel-render-counter${directEditing ? ` carousel-direct-layer${selectedLayer === "counter" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="counter"${directEditing ? ` data-carousel-layer="counter" data-layer-label="${movableLayers.counter.label}"` : ""}><span class="carousel-layer-text"${inlineEditorAttributes(directEditing, "counter", movableLayers.counter.label)}>${escapeHtml(layerText(slide, "counter", index))}</span>${layerEditingControls(directEditing, selectedLayer, "counter", slide)}</small>`;
     const custom = (slide.customLayers || []).filter((layer) => layer.visible !== false && layer.text).map((layer) => {
       const target = `custom:${layer.id}`;
       const type = layerTypography(slide, target);
@@ -1551,7 +1560,7 @@
       const box = layerBox(slide, target);
       const effects = layerEffectCss(slide, target);
       const style = `--custom-x:${Number(layer.x) || 0}cqw;--custom-y:${(Number(layer.y) || 0) * 1.25}cqw;width:${box.width}cqw;max-height:${box.height * 1.25}cqw;color:${resolvedLayerColor(slide, target)};font-family:'${escapeHtml(type.resolvedFamily)}',sans-serif;font-weight:${type.weight};font-size:${Math.round(type.size * 48) / 100}px;line-height:${type.lineHeight};letter-spacing:${type.tracking}em;text-shadow:${effects.shadow};-webkit-text-stroke:${effects.strokeWidth} ${effects.strokeColor};paint-order:stroke fill`;
-      return `<div class="carousel-render-custom${directEditing ? ` carousel-direct-layer${selectedLayer === target ? " is-selected-layer" : ""}` : ""}" style="${style}" data-carousel-fit-layer="${escapeHtml(target)}"${directEditing ? ` data-carousel-layer="${escapeHtml(target)}" data-layer-label="текстовый блок"` : ""}><span class="carousel-layer-text">${escapeHtml(layer.text)}</span>${layerEditingControls(directEditing, selectedLayer, target, slide)}</div>`;
+      return `<div class="carousel-render-custom${directEditing ? ` carousel-direct-layer${selectedLayer === target ? " is-selected-layer" : ""}` : ""}" style="${style}" data-carousel-fit-layer="${escapeHtml(target)}"${directEditing ? ` data-carousel-layer="${escapeHtml(target)}" data-layer-label="текстовый блок"` : ""}><span class="carousel-layer-text"${inlineEditorAttributes(directEditing, target, "текстовый блок")}>${escapeHtml(layer.text)}</span>${layerEditingControls(directEditing, selectedLayer, target, slide)}</div>`;
     }).join("");
     const geometry = `<div class="carousel-render-geometry" data-serial="${String(index + 1).padStart(2, "0")}" aria-hidden="true"></div>`;
     element.innerHTML = `${image}<div class="carousel-render-shade"></div>${geometry}<div class="carousel-render-texture" aria-hidden="true"></div>${label}<div class="carousel-render-content">${title}${body}</div>${counter}${custom}`;
@@ -2190,6 +2199,86 @@
     canvas.querySelectorAll("[data-carousel-layer]").forEach((element) => element.classList.toggle("is-selected-layer", element.dataset.carouselLayer === layer));
   }
 
+  function editablePlainText(editor) {
+    return String(editor?.innerText || "")
+      .replace(/\u00a0/g, " ")
+      .replace(/\r/g, "")
+      .replace(/[ \t]+\n/g, "\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .replace(/[ \t]+$/g, "");
+  }
+
+  function placeInlineCaret(editor, clientX, clientY) {
+    const selection = window.getSelection?.();
+    if (!selection) return;
+    let range = null;
+    if (document.caretPositionFromPoint) {
+      const position = document.caretPositionFromPoint(clientX, clientY);
+      if (position?.offsetNode && editor.contains(position.offsetNode)) {
+        range = document.createRange();
+        range.setStart(position.offsetNode, position.offset);
+        range.collapse(true);
+      }
+    } else if (document.caretRangeFromPoint) {
+      const candidate = document.caretRangeFromPoint(clientX, clientY);
+      if (candidate && editor.contains(candidate.startContainer)) range = candidate;
+    }
+    if (!range) {
+      range = document.createRange();
+      range.selectNodeContents(editor);
+      range.collapse(false);
+    }
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  function mirrorInlineTextToInspector(mode, slide, target, text) {
+    const cover = mode === "cover";
+    const selectedTarget = cover ? coverMoveTarget : slideMoveTarget;
+    if (selectedTarget === target) {
+      const textControl = cover ? ui.coverLayerText : ui.slideLayerText;
+      textControl.value = text;
+    }
+    if (cover && target === "title") ui.coverTitle.value = text;
+    if (cover && target === "body") ui.coverSubtitle.value = text;
+    if (!cover && target === "title") ui.slideTitle.value = text;
+    if (!cover && target === "body") ui.slideBody.value = text;
+  }
+
+  function updateInlineEditor(mode, editor) {
+    const target = editor?.dataset.carouselInlineEditor;
+    const slide = mode === "cover" ? coverSlide() : activeSlide();
+    if (!target || (!movableLayers[target] && !customLayer(slide, target))) return;
+    const text = editablePlainText(editor);
+    setLayerText(slide, target, text);
+    setLayerVisible(slide, target, true);
+    mirrorInlineTextToInspector(mode, slide, target, text);
+    slide.savedAt = null;
+    const layerElement = editor.closest("[data-carousel-layer]");
+    if (layerElement) fitDomTextLayer(layerElement);
+    if (mode === "cover" || series.activeSlide === 0) scheduleGridPreview();
+    markChanged();
+  }
+
+  function finishInlineEditor(mode, editor, options = {}) {
+    if (!editor?.isConnected) return;
+    const target = editor.dataset.carouselInlineEditor;
+    const slide = mode === "cover" ? coverSlide() : activeSlide();
+    if (options.restore && editor.dataset.inlineOriginal != null) {
+      setLayerText(slide, target, editor.dataset.inlineOriginal);
+      mirrorInlineTextToInspector(mode, slide, target, editor.dataset.inlineOriginal);
+    } else updateInlineEditor(mode, editor);
+    editor.closest("[data-carousel-layer]")?.classList.remove("is-inline-editing");
+    const canvas = editor.closest(".carousel-slide-canvas");
+    canvas?.classList.remove("has-inline-editor");
+    renderCanvas(canvas, slide, mode === "cover" ? 0 : series.activeSlide);
+    if (mode === "cover" || series.activeSlide === 0) renderGridPreview();
+    if (mode === "slide") renderRail();
+    syncLayerContentControls(mode);
+    markChanged();
+    setStatus(options.restore ? "Изменение текста отменено." : `${layerLabel(slide, target)} отредактирован прямо на слайде и сохранён.`);
+  }
+
   function removeCanvasLayer(mode, target) {
     const cover = mode === "cover";
     const slide = cover ? coverSlide() : activeSlide();
@@ -2208,6 +2297,46 @@
 
   function bindCanvasLayerDrag(canvas, mode) {
     let drag = null;
+    canvas.addEventListener("focusin", (event) => {
+      const editor = event.target.closest("[data-carousel-inline-editor]");
+      if (!editor || !canvas.contains(editor)) return;
+      const target = editor.dataset.carouselInlineEditor;
+      const slide = mode === "cover" ? coverSlide() : activeSlide();
+      selectCanvasLayer(mode, target, canvas);
+      editor.dataset.inlineOriginal = layerText(slide, target, mode === "cover" ? 0 : series.activeSlide);
+      editor.closest("[data-carousel-layer]")?.classList.add("is-inline-editing");
+      canvas.classList.add("has-inline-editor");
+      setStatus(`${layerLabel(slide, target)} · печатайте прямо на слайде, Ctrl/⌘ + Enter — готово, Esc — отменить`);
+    });
+    canvas.addEventListener("input", (event) => {
+      const editor = event.target.closest("[data-carousel-inline-editor]");
+      if (!editor || !canvas.contains(editor)) return;
+      updateInlineEditor(mode, editor);
+    });
+    canvas.addEventListener("keydown", (event) => {
+      const editor = event.target.closest("[data-carousel-inline-editor]");
+      if (!editor || !canvas.contains(editor)) return;
+      const target = editor.dataset.carouselInlineEditor;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        finishInlineEditor(mode, editor, { restore: true });
+        return;
+      }
+      if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+        event.preventDefault();
+        editor.blur();
+        return;
+      }
+      if (event.key === "Enter" && ["label", "counter"].includes(target)) {
+        event.preventDefault();
+        editor.blur();
+      }
+    });
+    canvas.addEventListener("focusout", (event) => {
+      const editor = event.target.closest("[data-carousel-inline-editor]");
+      if (!editor || !canvas.contains(editor) || event.relatedTarget?.closest?.("[data-carousel-layer]") === editor.closest("[data-carousel-layer]")) return;
+      finishInlineEditor(mode, editor);
+    });
     canvas.addEventListener("pointerdown", (event) => {
       const closeButton = event.target.closest("[data-layer-close]");
       if (closeButton && canvas.contains(closeButton)) {
@@ -2218,6 +2347,14 @@
       }
       const layerElement = event.target.closest("[data-carousel-layer]");
       const slide = mode === "cover" ? coverSlide() : activeSlide();
+      const inlineEditor = event.target.closest("[data-carousel-inline-editor]");
+      if (inlineEditor && canvas.contains(inlineEditor)) {
+        event.preventDefault();
+        selectCanvasLayer(mode, inlineEditor.dataset.carouselInlineEditor, canvas);
+        inlineEditor.focus({ preventScroll: true });
+        placeInlineCaret(inlineEditor, event.clientX, event.clientY);
+        return;
+      }
       const canDragPhoto = slide.photoId && !["paper", "field", "dark", "quote"].includes(slide.scene);
       if ((!layerElement || !canvas.contains(layerElement)) && canDragPhoto) {
         event.preventDefault();
@@ -2250,6 +2387,7 @@
       const typography = layerTypography(slide, layer);
       const rect = canvas.getBoundingClientRect();
       const resizeHandle = event.target.closest("[data-resize-handle]");
+      const dragHandle = event.target.closest("[data-layer-drag]");
       drag = {
         kind: resizeHandle ? "resize" : "move",
         id: event.pointerId,
@@ -2267,7 +2405,7 @@
         height: rect.height,
         moved: false,
       };
-      (resizeHandle || layerElement).setPointerCapture(event.pointerId);
+      (resizeHandle || dragHandle || layerElement).setPointerCapture(event.pointerId);
       setStatus(resizeHandle ? `${layerLabel(slide, layer)} · боковые ручки меняют ширину строк, углы масштабируют текст` : `${layerLabel(slide, layer)} · двигайте мышкой`);
     });
     canvas.addEventListener("pointermove", (event) => {
