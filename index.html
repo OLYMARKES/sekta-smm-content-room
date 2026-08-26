@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260826-5">
+  <link rel="stylesheet" href="styles.css?v=20260826-6">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -36,6 +36,7 @@
         <button class="nav-item" data-view="coach"><span class="nav-type-mark">К</span>Коуч роста</button>
         <button class="nav-item" data-view="current"><span>▦</span>Текущая сетка</button>
         <button class="nav-item" data-view="library"><span>▧</span>Медиатека <em id="navLibraryCount">1059</em></button>
+        <button class="nav-item nav-item-moms" data-view="moms"><span class="nav-type-mark">МА</span>Для мам <em id="navMomsCount">—</em></button>
         <button class="nav-item" data-view="planner"><span>↗</span>План недели <em id="navPlanCount">7</em></button>
       </nav>
       <div class="sidebar-note">
@@ -973,6 +974,71 @@
           <div class="carousel-studio-status" id="carouselStudioStatus" role="status" aria-live="polite">Черновик готов к монтажу.</div>
         </section>
 
+        <section class="view moms-view" data-view-panel="moms">
+          <header class="moms-heading">
+            <div>
+              <h1>Для мам</h1>
+              <p>Отдельное пространство для контента о материнстве: фотографии не смешиваются с общей выдачей, а темы собираются из личного опыта, соцсетей #Sekta и экспертных материалов.</p>
+            </div>
+            <div class="moms-heading-status"><span>Отдельный контур</span><strong id="momsHeadingCount">Собираем медиатеку…</strong></div>
+          </header>
+
+          <div class="moms-tabs" role="tablist" aria-label="Разделы пространства для мам">
+            <button class="moms-tab is-active" id="momsMediaTab" type="button" role="tab" aria-controls="momsMediaPanel" aria-selected="true" data-moms-tab="media"><span>Медиатека</span><small id="momsMediaTabCount">— фото</small></button>
+            <button class="moms-tab" id="momsIdeasTab" type="button" role="tab" aria-controls="momsIdeasPanel" aria-selected="false" data-moms-tab="ideas"><span>Генератор тем</span><small>личный опыт + источники</small></button>
+          </div>
+
+          <section class="moms-panel is-active" id="momsMediaPanel" role="tabpanel" aria-labelledby="momsMediaTab" data-moms-panel="media">
+            <div class="moms-media-bar">
+              <div><h2>Мамская медиатека</h2><p>Беременность, дети, семейные сцены и мама в кадре — в отдельной рабочей выдаче.</p></div>
+              <label class="button button-primary moms-upload-button">+ Добавить фото<input id="momsUploadInput" type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
+            </div>
+            <div class="moms-media-summary" aria-label="Состав мамской медиатеки">
+              <button class="is-active" type="button" data-moms-media-filter="all" aria-pressed="true"><strong id="momsCountAll">—</strong><span>Все фото</span></button>
+              <button type="button" data-moms-media-filter="pregnancy" aria-pressed="false"><strong id="momsCountPregnancy">—</strong><span>Беременность</span></button>
+              <button type="button" data-moms-media-filter="children" aria-pressed="false"><strong id="momsCountChildren">—</strong><span>С детьми</span></button>
+              <button type="button" data-moms-media-filter="family" aria-pressed="false"><strong id="momsCountFamily">—</strong><span>Семья</span></button>
+              <button type="button" data-moms-media-filter="mother" aria-pressed="false"><strong id="momsCountMother">—</strong><span>Мама в кадре</span></button>
+            </div>
+            <div class="moms-media-tools" role="search">
+              <label class="search-box"><span>⌕</span><input id="momsMediaSearch" type="search" placeholder="Найти сцену, файл или тему…" autocomplete="off"></label>
+              <select id="momsMediaOrientation" aria-label="Ориентация мамских фото"><option value="all">Любая ориентация</option><option value="portrait">Вертикальные</option><option value="landscape">Горизонтальные</option><option value="square">Квадратные</option></select>
+              <button class="button button-secondary" id="momsMediaShuffle" type="button">Перемешать</button>
+            </div>
+            <div class="moms-result-line"><span id="momsMediaResult">Собираем материалы…</span><span id="momsUploadState">Локальных фото пока нет</span></div>
+            <div class="moms-media-grid" id="momsMediaGrid"></div>
+            <button class="button button-secondary moms-load-more" id="momsMediaMore" type="button">Показать ещё</button>
+          </section>
+
+          <section class="moms-panel" id="momsIdeasPanel" role="tabpanel" aria-labelledby="momsIdeasTab" data-moms-panel="ideas" hidden>
+            <div class="moms-generator-intro">
+              <div><h2>Нейрогенератор тем о материнстве</h2><p>Смешивает выбранные источники и выдаёт не абстрактный заголовок, а готовую редакционную задачу.</p></div>
+              <span>AI-черновик · перед публикацией проверяет человек</span>
+            </div>
+            <div class="moms-generator-layout">
+              <aside class="moms-generator-controls" aria-label="Настройки генератора тем">
+                <fieldset>
+                  <legend>Откуда брать темы</legend>
+                  <label><input type="checkbox" name="moms-source" value="social" checked><span><strong>Соцсети #Sekta</strong><small>архив, комментарии, вопросы аудитории</small></span></label>
+                  <label><input type="checkbox" name="moms-source" value="olya" checked><span><strong>Личный опыт Оли</strong><small>истории, наблюдения, таймхоп</small></span></label>
+                  <label><input type="checkbox" name="moms-source" value="community" checked><span><strong>Опыт сообщества</strong><small>живые ситуации мам и семьи</small></span></label>
+                  <label><input type="checkbox" name="moms-source" value="expert" checked><span><strong>Эксперты и наука</strong><small>только с обязательным ревью</small></span></label>
+                </fieldset>
+                <label class="moms-generator-field"><span>Этап</span><select id="momsStage"><option value="all">Любой этап</option><option value="pregnancy">Беременность</option><option value="baby">Первый год</option><option value="childhood">Дети постарше</option><option value="identity">Мама и её жизнь</option><option value="family">Партнёрство и семья</option></select></label>
+                <label class="moms-generator-field"><span>Формат</span><select id="momsFormat"><option value="all">Любой формат</option><option value="carousel">Карусель</option><option value="reel">Reel</option><option value="post">Пост</option><option value="stories">Stories</option></select></label>
+                <label class="moms-generator-field"><span>На что работаем</span><select id="momsObjective"><option value="all">Любая цель</option><option value="comments">Комментарии</option><option value="saves">Сохранения</option><option value="trust">Доверие</option><option value="warmth">Теплота</option><option value="reach">Охват</option></select></label>
+                <button class="button button-primary moms-generate" id="momsGenerate" type="button">Сгенерировать 6 тем</button>
+                <button class="button button-quiet" id="momsResetGenerator" type="button">Сбросить настройки</button>
+              </aside>
+              <div class="moms-generator-output">
+                <div class="moms-output-head"><div><strong id="momsIdeaResult">6 тем готовы</strong><span id="momsIdeaRecipe">4 источника · все этапы</span></div><button class="button button-secondary" id="momsRefreshIdeas" type="button">Ещё варианты</button></div>
+                <div class="moms-idea-list" id="momsIdeaList"></div>
+                <div class="moms-idea-empty" id="momsIdeaEmpty" hidden><strong>Для такой связки пока нет темы</strong><span>Подключите ещё один источник или расширьте этап.</span><button class="button button-secondary" type="button" data-moms-reset>Показать все темы</button></div>
+              </div>
+            </div>
+          </section>
+        </section>
+
         <section class="view" data-view-panel="library">
           <div class="page-heading compact">
             <div><p class="eyebrow">Полный каталог из <span id="libraryCollectionCount">16 коллекций</span> · оригиналы не изменены</p><h1>Медиатека</h1><p><span id="librarySummary">1059 уникальных фото</span> · <span id="libraryDuplicateSummary">21 дубль скрыт</span>.</p></div>
@@ -1065,8 +1131,10 @@
   <script src="data/growth-coach-demo.js"></script>
   <script src="data/production-projects.js"></script>
   <script src="data/public-stats.js"></script>
+  <script src="data/moms-room-data.js?v=20260826-1"></script>
   <script src="type-studio/font-data.js"></script>
-  <script src="app.js?v=20260826-8"></script>
+  <script src="app.js?v=20260826-9"></script>
+  <script src="moms-room.js?v=20260826-2"></script>
   <script src="growth-coach.js?v=20260825-3"></script>
   <script src="production-room.js?v=20260825-2"></script>
   <script src="carousel-builder.js?v=20260826-6"></script>

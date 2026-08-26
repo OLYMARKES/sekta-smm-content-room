@@ -9,7 +9,7 @@
   const library = libraryPayload.items || [];
   const driveOriginals = window.SEKTA_DRIVE_ORIGINALS || { root: {}, items: {} };
   const publicStats = window.SEKTA_PUBLIC_STATS || { checkedAt: "", note: "", channels: [] };
-  const viewLabels = { overview: "Рабочий обзор", growth: "Банк идей", timehop: "Таймхоп Оли", production: "Материалы", coach: "Коуч роста", builder: "Идеи и обложки", postbuilder: "Конструктор поста", mobileeditor: "Мобильный редактор", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
+  const viewLabels = { overview: "Рабочий обзор", growth: "Банк идей", timehop: "Таймхоп Оли", production: "Материалы", coach: "Коуч роста", builder: "Идеи и обложки", postbuilder: "Конструктор поста", mobileeditor: "Мобильный редактор", current: "Текущая сетка", library: "Медиатека", moms: "Для мам", planner: "План недели" };
   const statusClass = (status) => status === "Готово" ? "status-ready" : status === "На ревью" || status === "Текст готов" ? "status-review" : "status-shoot";
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
 
