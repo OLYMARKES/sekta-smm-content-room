@@ -71,6 +71,8 @@
     layerWeightValue: document.querySelector("#builderLayerWeightValue"),
     layerSize: document.querySelector("#builderLayerSize"),
     layerSizeValue: document.querySelector("#builderLayerSizeValue"),
+    layerBoxWidth: document.querySelector("#builderLayerBoxWidth"),
+    layerBoxWidthValue: document.querySelector("#builderLayerBoxWidthValue"),
     layerLineHeight: document.querySelector("#builderLayerLineHeight"),
     layerLineHeightValue: document.querySelector("#builderLayerLineHeightValue"),
     layerTracking: document.querySelector("#builderLayerTracking"),
@@ -173,8 +175,6 @@
   const accentColors = { sky: "#bde9f6", green: "#63dda7", yellow: "#ffe36a", pink: "#ff8fbd" };
   const accentLabels = { sky: "голубой", green: "зелёный", yellow: "жёлтый", pink: "розовый" };
   const textColors = { white: "#ffffff", ink: "#17221f" };
-  const coverTextDragSensitivity = 0.5;
-  const coverTextDragAccelerationDistance = 200;
   const coverLayerOffsetLimit = 90;
   const seriesSystems = [
     { id: "tempo", label: "Tempo", family: "PT Sans Narrow", body: "Manrope", caseKind: "upper", note: "узкий капс × спокойный текст" },
@@ -207,9 +207,9 @@
   let activeSeriesSystem = "tempo";
   let activeCoverLayer = "headline";
   const coverLayers = {
-    headline: { label: "заголовок", visible: true, family: "PT Sans Narrow", weight: 700, size: 106, lineHeight: .86, tracking: -.012, x: 0, y: 0 },
-    subtitle: { label: "подстрочник", visible: true, family: "Manrope", weight: 800, size: 20, lineHeight: 1, tracking: .08, x: 0, y: 0 },
-    account: { label: "аккаунт", visible: true, family: "Manrope", weight: 800, size: 22, lineHeight: 1, tracking: .06, x: 0, y: 0 },
+    headline: { label: "заголовок", visible: true, family: "PT Sans Narrow", weight: 700, size: 106, lineHeight: .86, tracking: -.012, x: 0, y: 0, boxWidth: null },
+    subtitle: { label: "подстрочник", visible: true, family: "Manrope", weight: 800, size: 20, lineHeight: 1, tracking: .08, x: 0, y: 0, boxWidth: null },
+    account: { label: "аккаунт", visible: true, family: "Manrope", weight: 800, size: 22, lineHeight: 1, tracking: .06, x: 0, y: 0, boxWidth: null },
   };
 
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
@@ -249,6 +249,12 @@
     if (["auto", "ink", "white", "accent"].includes(saved.textColor)) activeTextColor = saved.textColor;
     if (Number.isFinite(Number(saved.focusX))) ui.focusX.value = Math.max(0, Math.min(100, Number(saved.focusX)));
     if (Number.isFinite(Number(saved.focusY))) ui.focusY.value = Math.max(0, Math.min(100, Number(saved.focusY)));
+    Object.entries(saved.layers || {}).forEach(([key, values]) => {
+      if (!coverLayers[key] || !values || typeof values !== "object") return;
+      ["visible", "family", "weight", "size", "lineHeight", "tracking", "x", "y", "boxWidth"].forEach((property) => {
+        if (values[property] !== undefined) coverLayers[key][property] = values[property];
+      });
+    });
   }
 
   function saveCoverSystem() {
@@ -260,6 +266,7 @@
       textColor: activeTextColor,
       focusX: Number(ui.focusX.value),
       focusY: Number(ui.focusY.value),
+      layers: Object.fromEntries(Object.entries(coverLayers).map(([key, layer]) => [key, { ...layer }])),
     });
   }
 
@@ -533,6 +540,43 @@
     }
   }
 
+  const resizeHandleDirections = ["nw", "ne", "e", "se", "sw", "w"];
+  const resizeHandleLabels = {
+    nw: "Изменить размер из левого верхнего угла",
+    ne: "Изменить размер из правого верхнего угла",
+    e: "Изменить ширину строки справа",
+    se: "Изменить размер из правого нижнего угла",
+    sw: "Изменить размер из левого нижнего угла",
+    w: "Изменить ширину строки слева",
+  };
+
+  function decorateLayer(element, text) {
+    element.replaceChildren(document.createTextNode(text));
+    resizeHandleDirections.forEach((direction) => {
+      const handle = document.createElement("span");
+      handle.className = `builder-resize-handle builder-resize-${direction}`;
+      handle.dataset.builderResize = direction;
+      handle.setAttribute("aria-hidden", "true");
+      handle.title = resizeHandleLabels[direction];
+      element.append(handle);
+    });
+  }
+
+  function hasLayerBoxWidth(layer) {
+    return layer.boxWidth !== null && layer.boxWidth !== "" && Number.isFinite(Number(layer.boxWidth));
+  }
+
+  function measuredLayerBoxWidth(key) {
+    const layer = coverLayers[key];
+    if (hasLayerBoxWidth(layer)) return Number(layer.boxWidth);
+    const coverRect = ui.cover.getBoundingClientRect();
+    const layerRect = layerElement(key).getBoundingClientRect();
+    if (coverRect.width > 0 && layerRect.width > 0) return Math.max(18, Math.min(96, layerRect.width / coverRect.width * 100));
+    if (key === "account") return 52;
+    if (key === "subtitle") return activeStyle === "rail" ? 34 : 90;
+    return activeStyle === "rail" ? 42 : activeStyle === "plate" ? 62 : activeStyle === "footer" ? 96 : 90;
+  }
+
   function syncLayerInspector() {
     const layer = coverLayers[activeCoverLayer];
     ui.layerTarget.value = activeCoverLayer;
@@ -543,6 +587,9 @@
     ui.layerWeightValue.textContent = layer.weight;
     ui.layerSize.value = layer.size;
     ui.layerSizeValue.textContent = `${layer.size} px`;
+    const boxWidth = Math.round(measuredLayerBoxWidth(activeCoverLayer));
+    ui.layerBoxWidth.value = boxWidth;
+    ui.layerBoxWidthValue.textContent = `${boxWidth}%`;
     ui.layerLineHeight.value = layer.lineHeight;
     ui.layerLineHeightValue.textContent = Number(layer.lineHeight).toFixed(2);
     ui.layerTracking.value = layer.tracking;
@@ -559,6 +606,7 @@
       const element = layerElement(key);
       element.hidden = !layer.visible;
       element.classList.toggle("is-selected-layer", key === activeCoverLayer);
+      element.setAttribute("aria-label", `${layer.label}: ${layerText(key)}. Тяните за центр, чтобы переместить; за углы, чтобы изменить размер.`);
       element.style.setProperty("--builder-layer-x", `${layer.x}cqw`);
       element.style.setProperty("--builder-layer-y", `${layer.y * 1.25}cqw`);
       element.style.fontFamily = `"${layer.family}", sans-serif`;
@@ -566,6 +614,10 @@
       element.style.fontSize = `${Math.round(layer.size * 48) / 100}px`;
       element.style.lineHeight = layer.lineHeight;
       element.style.letterSpacing = `${layer.tracking}em`;
+      const hasCustomWidth = hasLayerBoxWidth(layer);
+      element.classList.toggle("has-custom-width", hasCustomWidth);
+      if (hasCustomWidth) element.style.setProperty("--builder-layer-width", `${layer.boxWidth}%`);
+      else element.style.removeProperty("--builder-layer-width");
     });
   }
 
@@ -575,6 +627,7 @@
     layer.family = ui.layerFont.value;
     layer.weight = Number(ui.layerWeight.value);
     layer.size = Number(ui.layerSize.value);
+    layer.boxWidth = Number(ui.layerBoxWidth.value);
     layer.lineHeight = Number(ui.layerLineHeight.value);
     layer.tracking = Number(ui.layerTracking.value);
     layer.x = Number(ui.layerOffsetX.value);
@@ -596,9 +649,9 @@
     ui.cover.style.setProperty("--focus-x", `${ui.focusX.value}%`);
     ui.cover.style.setProperty("--focus-y", `${ui.focusY.value}%`);
     ui.coverImage.src = selectedPhoto?.thumb || "";
-    ui.coverHeadline.textContent = ui.hook.value;
-    ui.coverPromise.textContent = ui.subtitle.value;
-    ui.coverAccount.textContent = ui.account.value;
+    decorateLayer(ui.coverHeadline, ui.hook.value);
+    decorateLayer(ui.coverPromise, ui.subtitle.value);
+    decorateLayer(ui.coverAccount, ui.account.value);
     applyCoverLayers();
     ui.coverStatus.textContent = `#Sekta · ${styleLabels[activeStyle]} · ${accentLabels[activeAccent]}`;
     document.querySelectorAll("[data-builder-style]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderStyle === activeStyle));
@@ -620,8 +673,9 @@
     const layerMarkup = (key, tag, className, text) => {
       const layer = coverLayers[key];
       if (!layer.visible) return "";
-      const style = `--builder-layer-x:${layer.x}cqw;--builder-layer-y:${layer.y * 1.25}cqw;font-family:'${escapeHtml(layer.family)}',sans-serif;font-weight:${layer.weight};font-size:${Math.round(layer.size * .144)}px;line-height:${layer.lineHeight};letter-spacing:${layer.tracking}em`;
-      return `<${tag} class="${className}" style="${style}">${escapeHtml(text)}</${tag}>`;
+      const customWidth = hasLayerBoxWidth(layer);
+      const style = `--builder-layer-x:${layer.x}cqw;--builder-layer-y:${layer.y * 1.25}cqw;${customWidth ? `--builder-layer-width:${layer.boxWidth}%;` : ""}font-family:'${escapeHtml(layer.family)}',sans-serif;font-weight:${layer.weight};font-size:${Math.round(layer.size * .144)}px;line-height:${layer.lineHeight};letter-spacing:${layer.tracking}em`;
+      return `<${tag} class="${className}${customWidth ? " has-custom-width" : ""}" style="${style}">${escapeHtml(text)}</${tag}>`;
     };
     const draft = `<div class="builder-grid-cell is-draft"><div class="builder-grid-draft builder-cover builder-cover-${activeStyle}" data-placement="${escapeHtml(activePlacement)}" data-font="${escapeHtml(activeFont)}" data-accent="${escapeHtml(activeAccent)}" data-taste-case="${escapeHtml(tasteFont?.caseKind || "lower")}" data-text-color="${escapeHtml(activeTextColor)}" style="--builder-accent:${accentColors[activeAccent]};--builder-headline-font:${tasteFont ? `'${escapeHtml(tasteFont.family)}'` : `'Golos Text'`};--focus-x:${ui.focusX.value}%;--focus-y:${ui.focusY.value}%"><img src="${escapeHtml(selectedPhoto?.thumb || "")}" alt="">${layerMarkup("account", "span", "builder-cover-account", ui.account.value)}${layerMarkup("headline", "strong", "", ui.hook.value)}${layerMarkup("subtitle", "small", "", ui.subtitle.value)}</div><span class="builder-grid-new">NEW</span></div>`;
     const existing = currentGrid.slice(0, 8).map((item) => `<div class="builder-grid-cell"><img src="${escapeHtml(item.image)}" alt="" loading="lazy"><span class="builder-grid-kind">${item.pinned ? "◆" : item.type === "Reel" ? "▶" : "▣"}</span></div>`).join("");
@@ -893,9 +947,9 @@
         plaqueEnabled: activeStyle === "plate",
         plaqueColor: accentColors[activeAccent],
         plaqueOpacity: 1,
-        title: { ...coverLayers.headline, color: coverColors.title, boxWidth: coverBox.titleWidth, boxHeight: coverBox.titleHeight },
-        body: { ...coverLayers.subtitle, color: coverColors.body, boxWidth: coverBox.bodyWidth, boxHeight: coverBox.bodyHeight },
-        label: { ...coverLayers.account, color: coverColors.label, boxWidth: 52, boxHeight: 8 },
+        title: { ...coverLayers.headline, color: coverColors.title, boxWidth: measuredLayerBoxWidth("headline") || coverBox.titleWidth, boxHeight: coverBox.titleHeight },
+        body: { ...coverLayers.subtitle, color: coverColors.body, boxWidth: measuredLayerBoxWidth("subtitle") || coverBox.bodyWidth, boxHeight: coverBox.bodyHeight },
+        label: { ...coverLayers.account, color: coverColors.label, boxWidth: measuredLayerBoxWidth("account") || 52, boxHeight: 8 },
       },
       slides: rows.map((slide, index) => ({
         role: index === 0 ? "cover" : index === rows.length - 1 ? "cta" : "longread",
@@ -987,8 +1041,7 @@
     context.fillStyle = gradient;
     context.fillRect(0, 0, width, height);
 
-    const isSide = activePlacement === "left" || activePlacement === "right";
-    let maxWidth = width * (activeStyle === "rail" ? .34 : activeStyle === "footer" ? .82 : isSide ? .52 : .82);
+    let maxWidth = width * Math.min(.96, measuredLayerBoxWidth("headline") / 100);
     const headlineLayer = coverLayers.headline;
     const subtitleLayer = coverLayers.subtitle;
     const accountLayer = coverLayers.account;
@@ -1096,7 +1149,7 @@
     syncLayerInspector();
     applyCoverLayers();
   });
-  [ui.layerText, ui.layerFont, ui.layerWeight, ui.layerSize, ui.layerLineHeight, ui.layerTracking, ui.layerOffsetX, ui.layerOffsetY].forEach((control) => control.addEventListener("input", updateLayerFromInspector));
+  [ui.layerText, ui.layerFont, ui.layerWeight, ui.layerSize, ui.layerBoxWidth, ui.layerLineHeight, ui.layerTracking, ui.layerOffsetX, ui.layerOffsetY].forEach((control) => control.addEventListener("input", updateLayerFromInspector));
   ui.layerRemove.addEventListener("click", () => {
     const layer = coverLayers[activeCoverLayer];
     layer.visible = !layer.visible;
@@ -1106,6 +1159,7 @@
   let coverDrag = null;
   ui.cover.addEventListener("pointerdown", (event) => {
     if (event.isPrimary === false || event.button > 0) return;
+    const resizeHandle = event.target.closest("[data-builder-resize]");
     const element = event.target.closest("[data-builder-layer]");
     if (!element || !ui.cover.contains(element)) {
       if (!selectedPhoto) return;
@@ -1131,11 +1185,31 @@
     activeCoverLayer = key;
     const layer = coverLayers[key];
     const rect = ui.cover.getBoundingClientRect();
-    coverDrag = { kind: "layer", id: event.pointerId, key, startX: event.clientX, startY: event.clientY, x: layer.x, y: layer.y, width: rect.width, height: rect.height, moved: false };
+    const layerRect = element.getBoundingClientRect();
+    const kind = resizeHandle ? "resize" : "layer";
+    coverDrag = {
+      kind,
+      direction: resizeHandle?.dataset.builderResize || "",
+      id: event.pointerId,
+      key,
+      startX: event.clientX,
+      startY: event.clientY,
+      x: layer.x,
+      y: layer.y,
+      size: layer.size,
+      boxWidth: measuredLayerBoxWidth(key),
+      layerWidth: layerRect.width,
+      layerHeight: layerRect.height,
+      width: rect.width,
+      height: rect.height,
+      moved: false,
+    };
     event.preventDefault();
-    element.setPointerCapture(event.pointerId);
+    ui.cover.classList.toggle("is-resizing-layer", kind === "resize");
+    ui.cover.setPointerCapture(event.pointerId);
     syncLayerInspector();
     applyCoverLayers();
+    if (kind === "resize") setStatus(resizeHandle.dataset.builderResize.length === 1 ? "Боковая ручка меняет ширину строки и переносы." : "Угол пропорционально меняет кегль и ширину заголовка.");
   });
   ui.cover.addEventListener("pointermove", (event) => {
     if (!coverDrag || coverDrag.id !== event.pointerId) return;
@@ -1152,12 +1226,34 @@
       return;
     }
     const layer = coverLayers[coverDrag.key];
-    const pointerDistance = Math.hypot(event.clientX - coverDrag.startX, event.clientY - coverDrag.startY);
-    const precision = event.shiftKey
-      ? 0.2
-      : Math.min(1, coverTextDragSensitivity + pointerDistance / coverTextDragAccelerationDistance * (1 - coverTextDragSensitivity));
-    layer.x = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, Math.round((coverDrag.x + (event.clientX - coverDrag.startX) / coverDrag.width * 100 * precision) * 2) / 2));
-    layer.y = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, Math.round((coverDrag.y + (event.clientY - coverDrag.startY) / coverDrag.height * 100 * precision) * 2) / 2));
+    const deltaX = event.clientX - coverDrag.startX;
+    const deltaY = event.clientY - coverDrag.startY;
+    if (coverDrag.kind === "resize") {
+      const direction = coverDrag.direction;
+      if (direction === "e" || direction === "w") {
+        const signedDelta = direction === "e" ? deltaX : -deltaX;
+        const boxWidth = Math.max(18, Math.min(96, coverDrag.boxWidth + signedDelta / coverDrag.width * 100));
+        layer.boxWidth = Math.round(boxWidth * 10) / 10;
+        if (direction === "w") layer.x = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, coverDrag.x - (boxWidth - coverDrag.boxWidth)));
+      } else {
+        const outwardX = direction.includes("e") ? deltaX : -deltaX;
+        const outwardY = direction.includes("s") ? deltaY : -deltaY;
+        const denominator = coverDrag.layerWidth ** 2 + coverDrag.layerHeight ** 2 || 1;
+        const scale = Math.max(.35, Math.min(2.4, 1 + (outwardX * coverDrag.layerWidth + outwardY * coverDrag.layerHeight) / denominator));
+        const boxWidth = Math.max(18, Math.min(96, coverDrag.boxWidth * scale));
+        const size = Math.max(8, Math.min(132, coverDrag.size * scale));
+        layer.boxWidth = Math.round(boxWidth * 10) / 10;
+        layer.size = Math.round(size);
+        if (direction.includes("w")) layer.x = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, coverDrag.x - (boxWidth - coverDrag.boxWidth)));
+        if (direction.includes("n")) {
+          const heightDelta = coverDrag.layerHeight * (scale - 1) / coverDrag.height * 100;
+          layer.y = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, coverDrag.y - heightDelta));
+        }
+      }
+    } else {
+      layer.x = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, Math.round((coverDrag.x + deltaX / coverDrag.width * 100) * 10) / 10));
+      layer.y = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, Math.round((coverDrag.y + deltaY / coverDrag.height * 100) * 10) / 10));
+    }
     coverDrag.moved ||= Math.abs(event.clientX - coverDrag.startX) + Math.abs(event.clientY - coverDrag.startY) > 2;
     applyCoverLayers();
     syncLayerInspector();
@@ -1166,16 +1262,37 @@
     if (!coverDrag || coverDrag.id !== event.pointerId) return;
     const moved = coverDrag.moved;
     const kind = coverDrag.kind;
-    const label = kind === "layer" ? coverLayers[coverDrag.key].label : "фотография";
+    const label = kind === "photo" ? "фотография" : coverLayers[coverDrag.key].label;
     coverDrag = null;
     ui.cover.classList.remove("is-dragging-photo");
+    ui.cover.classList.remove("is-resizing-layer");
     renderCover();
     setStatus(kind === "photo"
       ? moved ? "Кадрирование фотографии изменено и сохранено." : "Фотография выбрана; потяните её за свободное место."
-      : moved ? `${label} перемещён мышкой.` : `${label} выбран.`);
+      : kind === "resize" ? moved ? `${label}: размер и ширина сохранены.` : `${label} выбран.`
+        : moved ? `${label} перемещён мышкой.` : `${label} выбран.`);
   };
   ui.cover.addEventListener("pointerup", finishCoverDrag);
   ui.cover.addEventListener("pointercancel", finishCoverDrag);
+  ui.cover.addEventListener("keydown", (event) => {
+    const element = event.target.closest("[data-builder-layer]");
+    if (!element || !["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return;
+    const key = element.dataset.builderLayer;
+    const layer = coverLayers[key];
+    const step = event.shiftKey ? 2 : .5;
+    activeCoverLayer = key;
+    if (event.key === "ArrowLeft") layer.x -= step;
+    if (event.key === "ArrowRight") layer.x += step;
+    if (event.key === "ArrowUp") layer.y -= step;
+    if (event.key === "ArrowDown") layer.y += step;
+    layer.x = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, layer.x));
+    layer.y = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, layer.y));
+    event.preventDefault();
+    applyCoverLayers();
+    syncLayerInspector();
+    saveCoverSystem();
+    setStatus(`${layer.label} сдвинут стрелкой на ${step}%.`);
+  });
   ui.refreshIdeas.addEventListener("click", () => refreshDiscovery());
   ui.ideaTheme?.addEventListener("change", () => {
     refreshDiscovery();
