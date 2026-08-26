@@ -552,11 +552,20 @@
 
   function decorateLayer(element, text) {
     element.replaceChildren(document.createTextNode(text));
+    const dragHandle = document.createElement("button");
+    dragHandle.type = "button";
+    dragHandle.className = "builder-layer-drag";
+    dragHandle.dataset.builderDrag = "true";
+    dragHandle.setAttribute("aria-label", `Переместить: ${element.dataset.layerLabel || "текст"}`);
+    dragHandle.title = "Переместить слой";
+    dragHandle.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm9-13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/></svg>';
+    element.append(dragHandle);
     resizeHandleDirections.forEach((direction) => {
-      const handle = document.createElement("span");
+      const handle = document.createElement("button");
+      handle.type = "button";
       handle.className = `builder-resize-handle builder-resize-${direction}`;
       handle.dataset.builderResize = direction;
-      handle.setAttribute("aria-hidden", "true");
+      handle.setAttribute("aria-label", resizeHandleLabels[direction]);
       handle.title = resizeHandleLabels[direction];
       element.append(handle);
     });
@@ -1160,6 +1169,7 @@
   ui.cover.addEventListener("pointerdown", (event) => {
     if (event.isPrimary === false || event.button > 0) return;
     const resizeHandle = event.target.closest("[data-builder-resize]");
+    const dragHandle = event.target.closest("[data-builder-drag]");
     const element = event.target.closest("[data-builder-layer]");
     if (!element || !ui.cover.contains(element)) {
       if (!selectedPhoto) return;
@@ -1184,6 +1194,11 @@
     const key = element.dataset.builderLayer;
     activeCoverLayer = key;
     const layer = coverLayers[key];
+    if (window.matchMedia("(pointer: coarse)").matches && !resizeHandle && !dragHandle) {
+      syncLayerInspector();
+      applyCoverLayers();
+      return;
+    }
     const rect = ui.cover.getBoundingClientRect();
     const layerRect = element.getBoundingClientRect();
     const kind = resizeHandle ? "resize" : "layer";
@@ -1251,8 +1266,12 @@
         }
       }
     } else {
-      layer.x = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, Math.round((coverDrag.x + deltaX / coverDrag.width * 100) * 10) / 10));
-      layer.y = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, Math.round((coverDrag.y + deltaY / coverDrag.height * 100) * 10) / 10));
+      const distance = Math.hypot(deltaX, deltaY);
+      const sensitivity = event.shiftKey ? .25 : .5 + Math.min(1, distance / 140) * .5;
+      const moveX = deltaX * sensitivity;
+      const moveY = deltaY * sensitivity;
+      layer.x = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, Math.round((coverDrag.x + moveX / coverDrag.width * 100) * 10) / 10));
+      layer.y = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, Math.round((coverDrag.y + moveY / coverDrag.height * 100) * 10) / 10));
     }
     coverDrag.moved ||= Math.abs(event.clientX - coverDrag.startX) + Math.abs(event.clientY - coverDrag.startY) > 2;
     applyCoverLayers();
@@ -1392,6 +1411,13 @@
   });
   ui.mediaGrid.addEventListener("scroll", () => {
     if (ui.mediaGrid.scrollTop + ui.mediaGrid.clientHeight < ui.mediaGrid.scrollHeight - 180 || mediaLimit >= mediaPool.length) return;
+    mediaLimit = Math.min(mediaLimit + 40, mediaPool.length);
+    renderMedia();
+  }, { passive: true });
+  window.addEventListener("scroll", () => {
+    if (window.innerWidth > 560 || mediaLimit >= mediaPool.length) return;
+    const mediaRect = ui.mediaGrid.getBoundingClientRect();
+    if (mediaRect.bottom > window.innerHeight + 520) return;
     mediaLimit = Math.min(mediaLimit + 40, mediaPool.length);
     renderMedia();
   }, { passive: true });
