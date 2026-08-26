@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260826-4">
+  <link rel="stylesheet" href="styles.css?v=20260826-5">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -20,6 +20,7 @@
   <a class="skip-link" href="#main">К содержимому</a>
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
+      <button class="sidebar-close" id="mobileMenuClose" type="button" aria-label="Закрыть меню">×</button>
       <div class="brand">
         <div class="brand-mark">S</div>
         <div><strong>#Sekta</strong><span>Content room</span></div>
@@ -42,10 +43,11 @@
         <div><strong>Сверено с профилем</strong><span>25 августа 2026</span></div>
       </div>
     </aside>
+    <button class="sidebar-scrim" id="sidebarScrim" type="button" aria-label="Закрыть меню" tabindex="-1"></button>
 
     <div class="main-column">
       <header class="topbar">
-        <button class="icon-button mobile-menu" id="mobileMenu" aria-label="Открыть меню">☰</button>
+        <button class="icon-button mobile-menu" id="mobileMenu" type="button" aria-label="Открыть меню" aria-controls="sidebar" aria-expanded="false">☰</button>
         <div class="topbar-title"><span>Instagram</span><strong id="viewTitle">Рабочий обзор</strong></div>
         <div class="topbar-actions">
           <button class="button button-quiet is-hidden" id="resetPlanner">Сбросить черновик</button>
@@ -1042,7 +1044,7 @@
   <script src="data/production-projects.js"></script>
   <script src="data/public-stats.js"></script>
   <script src="type-studio/font-data.js"></script>
-  <script src="app.js?v=20260826-7"></script>
+  <script src="app.js?v=20260826-8"></script>
   <script src="growth-coach.js?v=20260825-3"></script>
   <script src="production-room.js?v=20260825-2"></script>
   <script src="carousel-builder.js?v=20260826-5"></script>

@@ -16,6 +16,10 @@
   const ui = {
     viewTitle: document.querySelector("#viewTitle"),
     sidebar: document.querySelector("#sidebar"),
+    mainColumn: document.querySelector(".main-column"),
+    mobileMenu: document.querySelector("#mobileMenu"),
+    mobileMenuClose: document.querySelector("#mobileMenuClose"),
+    sidebarScrim: document.querySelector("#sidebarScrim"),
     overviewGrid: document.querySelector("#overviewGrid"),
     saveOverviewGrid: document.querySelector("#saveOverviewGrid"),
     overviewSnapshotDate: document.querySelector("#overviewSnapshotDate"),
@@ -208,13 +212,35 @@
     toastTimer = setTimeout(() => ui.toast.classList.remove("is-visible"), 2200);
   }
 
+  const mobileMenuQuery = window.matchMedia("(max-width: 820px)");
+
+  function setMobileMenu(open, { restoreFocus = false } = {}) {
+    const shouldOpen = Boolean(open) && mobileMenuQuery.matches;
+    ui.sidebar.classList.toggle("is-open", shouldOpen);
+    document.body.classList.toggle("sidebar-open", shouldOpen);
+    ui.mobileMenu.setAttribute("aria-expanded", String(shouldOpen));
+    ui.sidebarScrim.tabIndex = shouldOpen ? 0 : -1;
+    ui.sidebar.toggleAttribute("inert", mobileMenuQuery.matches && !shouldOpen);
+    ui.mainColumn.toggleAttribute("inert", shouldOpen);
+    if (shouldOpen) requestAnimationFrame(() => ui.mobileMenuClose.focus());
+    else if (restoreFocus && mobileMenuQuery.matches) ui.mobileMenu.focus();
+  }
+
   function setView(view) {
+    const cameFromMobileMenu = mobileMenuQuery.matches && ui.sidebar.classList.contains("is-open");
     document.querySelectorAll("[data-view-panel]").forEach((panel) => panel.classList.toggle("is-active", panel.dataset.viewPanel === view));
     document.querySelectorAll(".nav-item").forEach((button) => button.classList.toggle("is-active", button.dataset.view === view));
     ui.viewTitle.textContent = viewLabels[view] || viewLabels.overview;
     document.querySelector("#resetPlanner")?.classList.toggle("is-hidden", view !== "planner");
-    ui.sidebar.classList.remove("is-open");
+    setMobileMenu(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
+    if (cameFromMobileMenu) {
+      const heading = document.querySelector(`[data-view-panel="${view}"] h1`);
+      if (heading) {
+        heading.tabIndex = -1;
+        heading.focus({ preventScroll: true });
+      } else ui.mobileMenu.focus({ preventScroll: true });
+    }
     if (view === "library") ui.librarySearch.focus({ preventScroll: true });
   }
 
@@ -729,7 +755,14 @@
   document.querySelectorAll("[data-jump]").forEach((button) => button.addEventListener("click", () => setView(button.dataset.jump)));
   ui.saveOverviewGrid?.addEventListener("click", saveCurrentGridSnapshot);
   ui.overviewSnapshotCountButton?.addEventListener("click", () => ui.snapshotHistoryPanel?.scrollIntoView({ behavior: "smooth", block: "start" }));
-  document.querySelector("#mobileMenu").addEventListener("click", () => ui.sidebar.classList.toggle("is-open"));
+  setMobileMenu(false);
+  ui.mobileMenu.addEventListener("click", () => setMobileMenu(!ui.sidebar.classList.contains("is-open")));
+  ui.mobileMenuClose.addEventListener("click", () => setMobileMenu(false, { restoreFocus: true }));
+  ui.sidebarScrim.addEventListener("click", () => setMobileMenu(false, { restoreFocus: true }));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && ui.sidebar.classList.contains("is-open")) setMobileMenu(false, { restoreFocus: true });
+  });
+  mobileMenuQuery.addEventListener("change", () => setMobileMenu(false));
   document.querySelectorAll("#openCarousel, #openCarouselVisual, #openCarouselSecond").forEach((button) => button.addEventListener("click", openCarousel));
   document.querySelectorAll("#openReturnCarousel, #openReturnCarouselSecond").forEach((button) => button.addEventListener("click", openReturnCarousel));
   document.querySelector("#openIdealPoster").addEventListener("click", () => ui.idealPosterDialog.showModal());

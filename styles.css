@@ -66,6 +66,7 @@ img { display: block; max-width: 100%; }
 
 .app-shell { min-height: 100vh; display: grid; grid-template-columns: var(--sidebar) minmax(0, 1fr); }
 .sidebar { position: fixed; inset: 0 auto 0 0; z-index: 20; width: var(--sidebar); display: flex; flex-direction: column; padding: 22px 16px 18px; color: #f8fbf9; background: #17221f; border-right: 1px solid #26332f; }
+.sidebar-close, .sidebar-scrim { display: none; }
 .brand { display: flex; align-items: center; gap: 11px; padding: 0 8px 24px; border-bottom: 1px solid #2e3b37; }
 .brand-mark { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid #668077; border-radius: 10px; background: #23332e; font: 700 17px/1 Georgia, serif; }
 .brand strong, .brand span { display: block; }
@@ -1194,10 +1195,16 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
   .carousel-media-strip { grid-template-columns: repeat(5, minmax(0, 1fr)); max-height: 390px; }
   :root { --sidebar: 224px; }
   .app-shell { display: block; }
-  .sidebar { transform: translateX(-102%); transition: transform .2s ease; box-shadow: 10px 0 35px rgba(0,0,0,.22); }
+  .sidebar { z-index: 40; transform: translateX(-102%); transition: transform .2s ease; box-shadow: 10px 0 35px rgba(0,0,0,.22); }
   .sidebar.is-open { transform: none; }
+  .sidebar-close { position: absolute; top: 12px; right: 10px; width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: 10px; color: #e7efeb; background: transparent; font: 300 29px/1 Arial, sans-serif; cursor: pointer; }
+  .sidebar-close:hover, .sidebar-close:focus-visible { background: #263630; }
+  .sidebar .brand { padding-right: 44px; }
+  .sidebar-scrim { position: fixed; inset: 0 0 0 var(--sidebar); z-index: 35; display: block; border: 0; padding: 0; background: rgba(18,31,27,.42); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .2s ease, visibility .2s ease; }
+  .sidebar.is-open + .sidebar-scrim { opacity: 1; visibility: visible; pointer-events: auto; }
+  body.sidebar-open { overflow: hidden; }
   .main-column { width: 100%; }
-  .mobile-menu { display: grid; width: 34px; height: 34px; place-items: center; margin-right: 8px; }
+  .mobile-menu { display: grid; width: 44px; height: 44px; place-items: center; margin: 0 6px 0 -5px; }
   .topbar { justify-content: flex-start; padding: 0 16px; }
   .topbar-actions { margin-left: auto; }
   main { padding: 24px 16px 42px; }
