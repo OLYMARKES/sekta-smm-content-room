@@ -1,14 +1,14 @@
 window.SEKTA_LIBRARY = {
-  "generatedAt": "2026-08-25T09:32:17.498Z",
-  "sourceCount": 1764,
-  "uniqueCount": 1649,
+  "generatedAt": "2026-08-26T08:20:56.262Z",
+  "sourceCount": 1749,
+  "uniqueCount": 1634,
   "duplicateCount": 115,
-  "personalSourceCount": 1764,
-  "personalUniqueCount": 1649,
+  "personalSourceCount": 1749,
+  "personalUniqueCount": 1634,
   "newTodayUniqueCount": 459,
   "byFolder": {
     "intake": 459,
-    "archive": 529,
+    "archive": 514,
     "bali": 131,
     "carousel": 143,
     "snaps": 24,
@@ -26,7 +26,7 @@ window.SEKTA_LIBRARY = {
     "neuro": 56,
     "camp": 355,
     "maternity": 161,
-    "body": 715,
+    "body": 700,
     "olya": 200
   },
   "sourceFolders": {
@@ -47,7 +47,6 @@ window.SEKTA_LIBRARY = {
     "карусель интерьеры": 44,
     "карусель много крутых": 189,
     "карусель семья": 43,
-    "тело ДО": 15,
     "фото для каруселей ": 72,
     "фото для карусели": 143
   },
@@ -1081,39 +1080,6 @@ window.SEKTA_LIBRARY = {
         "01_обложка_личное_присутствие"
       ],
       "collections": [],
-      "isUtility": false,
-      "duplicates": []
-    },
-    {
-      "id": "69f87ebdd65b56",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9923.HEIC",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-69f87ebdd65b56-v2.jpg",
-      "exportImage": "assets/library/lib-69f87ebdd65b56-hq-v2.jpg",
-      "width": 3024,
-      "height": 4032,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 2.2,
-      "modifiedAt": "2019-12-15T11:00:59.000Z",
-      "agentScore": 0.7849,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения",
-        "04_красота_сексуальность_самообраз"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство",
-        "06_фон_под_текст"
-      ],
-      "collections": [
-        "body"
-      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -2312,39 +2278,6 @@ window.SEKTA_LIBRARY = {
       "duplicates": []
     },
     {
-      "id": "5de5f47abd05b3",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9927.HEIC",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-5de5f47abd05b3-v2.jpg",
-      "exportImage": "assets/library/lib-5de5f47abd05b3-hq-v2.jpg",
-      "width": 3024,
-      "height": 4032,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 2.2,
-      "modifiedAt": "2019-12-15T11:01:13.000Z",
-      "agentScore": 0.7522,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения",
-        "04_красота_сексуальность_самообраз"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство",
-        "06_фон_под_текст"
-      ],
-      "collections": [
-        "body"
-      ],
-      "isUtility": false,
-      "duplicates": []
-    },
-    {
       "id": "a16f86179159c5",
       "folder": "bali",
       "folderLabel": "Бали — фото для карусели",
@@ -3287,39 +3220,6 @@ window.SEKTA_LIBRARY = {
       "contentThemes": [],
       "carouselRoles": [],
       "collections": [],
-      "isUtility": false,
-      "duplicates": []
-    },
-    {
-      "id": "e6993bbc7f4cc1",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9934.HEIC",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-e6993bbc7f4cc1-v2.jpg",
-      "exportImage": "assets/library/lib-e6993bbc7f4cc1-hq-v2.jpg",
-      "width": 3024,
-      "height": 4032,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 2.8,
-      "modifiedAt": "2019-12-15T11:02:12.000Z",
-      "agentScore": 0.737,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения",
-        "04_красота_сексуальность_самообраз"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство",
-        "06_фон_под_текст"
-      ],
-      "collections": [
-        "body"
-      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -4380,39 +4280,6 @@ window.SEKTA_LIBRARY = {
           "fileName": "IMG_5954.JPG"
         }
       ]
-    },
-    {
-      "id": "ea7798384da265",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9924.HEIC",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-ea7798384da265-v2.jpg",
-      "exportImage": "assets/library/lib-ea7798384da265-hq-v2.jpg",
-      "width": 3024,
-      "height": 4032,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 2.9,
-      "modifiedAt": "2019-12-15T11:01:03.000Z",
-      "agentScore": 0.7275,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения",
-        "04_красота_сексуальность_самообраз"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство",
-        "06_фон_под_текст"
-      ],
-      "collections": [
-        "body"
-      ],
-      "isUtility": false,
-      "duplicates": []
     },
     {
       "id": "2219d672c920aa",
@@ -7223,39 +7090,6 @@ window.SEKTA_LIBRARY = {
       ]
     },
     {
-      "id": "8ce4ceb1bd2b3f",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9932.HEIC",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-8ce4ceb1bd2b3f-v2.jpg",
-      "exportImage": "assets/library/lib-8ce4ceb1bd2b3f-hq-v2.jpg",
-      "width": 3024,
-      "height": 4032,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 2.9,
-      "modifiedAt": "2019-12-15T11:01:59.000Z",
-      "agentScore": 0.6923,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения",
-        "04_красота_сексуальность_самообраз"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство",
-        "06_фон_под_текст"
-      ],
-      "collections": [
-        "body"
-      ],
-      "isUtility": false,
-      "duplicates": []
-    },
-    {
       "id": "7b5aba192894ec",
       "folder": "archive",
       "folderLabel": "Личная медиатека · архив",
@@ -7689,38 +7523,6 @@ window.SEKTA_LIBRARY = {
       "duplicates": []
     },
     {
-      "id": "814c19b955b0e2",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9926.jpg",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-814c19b955b0e2-v2.jpg",
-      "exportImage": "assets/library/lib-814c19b955b0e2-hq-v2.jpg",
-      "width": 1343,
-      "height": 2967,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 1.3,
-      "modifiedAt": "2019-12-15T11:01:12.000Z",
-      "agentScore": 0.6865,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения",
-        "04_красота_сексуальность_самообраз"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство"
-      ],
-      "collections": [
-        "body"
-      ],
-      "isUtility": false,
-      "duplicates": []
-    },
-    {
       "id": "1af9a5a7f671fe",
       "folder": "archive",
       "folderLabel": "Личная медиатека · архив",
@@ -8071,39 +7873,6 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
-      ],
-      "collections": [
-        "body"
-      ],
-      "isUtility": false,
-      "duplicates": []
-    },
-    {
-      "id": "239067ff199be2",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9935.HEIC",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-239067ff199be2-v2.jpg",
-      "exportImage": "assets/library/lib-239067ff199be2-hq-v2.jpg",
-      "width": 3024,
-      "height": 4032,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 2.8,
-      "modifiedAt": "2019-12-15T11:02:15.000Z",
-      "agentScore": 0.6829,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения",
-        "04_красота_сексуальность_самообраз"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство",
-        "06_фон_под_текст"
       ],
       "collections": [
         "body"
@@ -9105,39 +8874,6 @@ window.SEKTA_LIBRARY = {
       "carouselRoles": [
         "01_обложка_личное_присутствие",
         "02_действие_и_доказательство"
-      ],
-      "collections": [
-        "body"
-      ],
-      "isUtility": false,
-      "duplicates": []
-    },
-    {
-      "id": "b4f4d2fed42655",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9933.HEIC",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-b4f4d2fed42655-v2.jpg",
-      "exportImage": "assets/library/lib-b4f4d2fed42655-hq-v2.jpg",
-      "width": 3024,
-      "height": 4032,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 2.8,
-      "modifiedAt": "2019-12-15T11:02:09.000Z",
-      "agentScore": 0.6722,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения",
-        "04_красота_сексуальность_самообраз"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство",
-        "06_фон_под_текст"
       ],
       "collections": [
         "body"
@@ -13165,39 +12901,6 @@ window.SEKTA_LIBRARY = {
       "duplicates": []
     },
     {
-      "id": "d746f6079839af",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9936.HEIC",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-d746f6079839af-v2.jpg",
-      "exportImage": "assets/library/lib-d746f6079839af-hq-v2.jpg",
-      "width": 3024,
-      "height": 4032,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 2.8,
-      "modifiedAt": "2019-12-15T11:02:18.000Z",
-      "agentScore": 0.6296,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения",
-        "04_красота_сексуальность_самообраз"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство",
-        "06_фон_под_текст"
-      ],
-      "collections": [
-        "body"
-      ],
-      "isUtility": false,
-      "duplicates": []
-    },
-    {
       "id": "121c30e2472bb7",
       "folder": "intake",
       "folderLabel": "Новые сегодня",
@@ -14278,39 +13981,6 @@ window.SEKTA_LIBRARY = {
       "duplicates": []
     },
     {
-      "id": "51e13cbafe541b",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9930.HEIC",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-51e13cbafe541b-v2.jpg",
-      "exportImage": "assets/library/lib-51e13cbafe541b-hq-v2.jpg",
-      "width": 3024,
-      "height": 4032,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 2.3,
-      "modifiedAt": "2019-12-15T11:01:18.000Z",
-      "agentScore": 0.6169,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения",
-        "04_красота_сексуальность_самообраз"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство",
-        "06_фон_под_текст"
-      ],
-      "collections": [
-        "body"
-      ],
-      "isUtility": false,
-      "duplicates": []
-    },
-    {
       "id": "6fcffc5cfe47f5",
       "folder": "bali",
       "folderLabel": "Бали — фото для карусели",
@@ -14337,38 +14007,6 @@ window.SEKTA_LIBRARY = {
       ],
       "collections": [
         "olya"
-      ],
-      "isUtility": false,
-      "duplicates": []
-    },
-    {
-      "id": "b676528aec886e",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9931.HEIC",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-b676528aec886e-v2.jpg",
-      "exportImage": "assets/library/lib-b676528aec886e-hq-v2.jpg",
-      "width": 3024,
-      "height": 4032,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 2.8,
-      "modifiedAt": "2019-12-15T11:01:20.000Z",
-      "agentScore": 0.6161,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство",
-        "06_фон_под_текст"
-      ],
-      "collections": [
-        "body"
       ],
       "isUtility": false,
       "duplicates": []
@@ -14685,38 +14323,6 @@ window.SEKTA_LIBRARY = {
       "contentThemes": [],
       "carouselRoles": [],
       "collections": [],
-      "isUtility": false,
-      "duplicates": []
-    },
-    {
-      "id": "bd503e133ba098",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9921.HEIC",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-bd503e133ba098-v2.jpg",
-      "exportImage": "assets/library/lib-bd503e133ba098-hq-v2.jpg",
-      "width": 3024,
-      "height": 4032,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 2.9,
-      "modifiedAt": "2019-12-15T11:00:52.000Z",
-      "agentScore": 0.6141,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство",
-        "06_фон_под_текст"
-      ],
-      "collections": [
-        "body"
-      ],
       "isUtility": false,
       "duplicates": []
     },
@@ -15571,39 +15177,6 @@ window.SEKTA_LIBRARY = {
       "duplicates": []
     },
     {
-      "id": "817c30dd58fbdd",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9922.HEIC",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-817c30dd58fbdd-v2.jpg",
-      "exportImage": "assets/library/lib-817c30dd58fbdd-hq-v2.jpg",
-      "width": 3024,
-      "height": 4032,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 2.9,
-      "modifiedAt": "2019-12-15T11:00:54.000Z",
-      "agentScore": 0.6072,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения",
-        "04_красота_сексуальность_самообраз"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство",
-        "06_фон_под_текст"
-      ],
-      "collections": [
-        "body"
-      ],
-      "isUtility": false,
-      "duplicates": []
-    },
-    {
       "id": "c84e82f9387d74",
       "folder": "archive",
       "folderLabel": "Личная медиатека · архив",
@@ -15721,70 +15294,6 @@ window.SEKTA_LIBRARY = {
         "06_фон_под_текст"
       ],
       "collections": [],
-      "isUtility": false,
-      "duplicates": []
-    },
-    {
-      "id": "d3614827b93c31",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9929.HEIC",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-d3614827b93c31-v2.jpg",
-      "exportImage": "assets/library/lib-d3614827b93c31-hq-v2.jpg",
-      "width": 3024,
-      "height": 4032,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 3,
-      "modifiedAt": "2019-12-15T11:01:16.000Z",
-      "agentScore": 0.6056,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство",
-        "06_фон_под_текст"
-      ],
-      "collections": [
-        "body"
-      ],
-      "isUtility": false,
-      "duplicates": []
-    },
-    {
-      "id": "e1bf9096c260d4",
-      "folder": "archive",
-      "folderLabel": "Личная медиатека · архив",
-      "sourceCategory": "тело ДО",
-      "sourceFolder": "тело ДО",
-      "fileName": "IMG_9928.HEIC",
-      "originalPath": "Локальный оригинал скрыт в публичной версии",
-      "originalUrl": "",
-      "thumb": "assets/library/lib-e1bf9096c260d4-v2.jpg",
-      "exportImage": "assets/library/lib-e1bf9096c260d4-hq-v2.jpg",
-      "width": 3024,
-      "height": 4032,
-      "orientation": "portrait",
-      "exportQuality": "instagram-ready",
-      "sizeMb": 2.8,
-      "modifiedAt": "2019-12-15T11:01:14.000Z",
-      "agentScore": 0.6054,
-      "contentThemes": [
-        "03_тело_спорт_сила_изменения"
-      ],
-      "carouselRoles": [
-        "01_обложка_личное_присутствие",
-        "02_действие_и_доказательство",
-        "06_фон_под_текст"
-      ],
-      "collections": [
-        "body"
-      ],
       "isUtility": false,
       "duplicates": []
     },
