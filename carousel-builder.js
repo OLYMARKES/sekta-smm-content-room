@@ -11,19 +11,29 @@
     const parts = scienceWordList(sentence);
     return `${parts.slice(0, limit).join(" ")}${parts.length > limit ? "…" : ""}`;
   };
+  const trimHookEnd = (value) => {
+    let next = String(value || "").replace(/…$/, "").replace(/[,:;—-]+$/, "").trim();
+    while (/\s+(и|а|но|что|как|для|при|по|в|на|с|без|из|к|о|про|или|же)$/i.test(next)) next = next.replace(/\s+\S+$/, "").replace(/[,:;—-]+$/, "").trim();
+    return next;
+  };
   const sciencePriority = /(тренир|движ|ходьб|мышц|сердц|мотивац|метабол|восстанов|беремен|питан|переедан|ожирен|ии)/i;
   const scienceTopics = [...scienceLibrary]
     .sort((a, b) => Number(sciencePriority.test(b.title)) - Number(sciencePriority.test(a.title)))
-    .slice(0, 14)
-    .map((article) => ({
-      id: `science-${article.id}`,
-      label: article.title,
-      theme: "03_тело_спорт_сила_изменения",
-      scienceSource: { title: article.title, url: article.url },
-      hooks: [scienceHeadline(article.title, 11), `Что на самом деле известно про «${scienceHeadline(article.title, 7).toLocaleLowerCase("ru")}»`, `${scienceHeadline(article.title, 8)}: разбор без мифов`],
-      promise: `Развёрнутый разбор по материалам Sex Sport & Science: что известно, где есть ограничения и что можно применить на практике.`,
-      slides: article.paragraphs.slice(0, 8).map((paragraph, index) => ({ role: index < 2 ? "Контекст" : index < 5 ? "Научное объяснение" : "Практический вывод", title: scienceHeadline(paragraph), body: paragraph })),
-    }))
+    .slice(0, 24)
+    .map((article) => {
+      const fullHook = scienceHeadline(article.title, 11);
+      const shortHook = trimHookEnd(scienceHeadline(article.title, 8));
+      const tinyHook = trimHookEnd(scienceHeadline(article.title, 7)).toLocaleLowerCase("ru");
+      return {
+        id: `science-${article.id}`,
+        label: article.title,
+        theme: "03_тело_спорт_сила_изменения",
+        scienceSource: { title: article.title, url: article.url },
+        hooks: [fullHook, `Что на самом деле известно о теме «${tinyHook}»?`, `${shortHook}. Разбор без мифов`],
+        promise: `Развёрнутый разбор по материалам Sex Sport & Science: что известно, где есть ограничения и что можно применить на практике.`,
+        slides: article.paragraphs.slice(0, 8).map((paragraph, index) => ({ role: index < 2 ? "Контекст" : index < 5 ? "Научное объяснение" : "Практический вывод", title: scienceHeadline(paragraph), body: paragraph })),
+      };
+    })
     .filter((topic) => topic.slides.length >= 6);
   const topics = [...scienceTopics, ...config.topics];
 
@@ -31,6 +41,7 @@
     form: document.querySelector("#builderControls"),
     ideaStrip: document.querySelector("#builderIdeaStrip"),
     refreshIdeas: document.querySelector("#builderRefreshIdeas"),
+    ideaTheme: document.querySelector("#builderIdeaTheme"),
     development: document.querySelector("#builderIdeaDevelopment"),
     developmentTitle: document.querySelector("#builderDevelopmentTitle"),
     developmentHook: document.querySelector("#builderDevelopmentHook"),
@@ -186,6 +197,7 @@
   let scriptVariant = 0;
   let selectedIdeaKey = "";
   let currentIdeas = [];
+  let ideaRefreshSerial = 0;
   let mediaScope = "all";
   let mediaLimit = 40;
   let mediaOrder = [...library];
@@ -285,22 +297,84 @@
     ui.status.textContent = message;
   }
 
+  function topicIdeaTheme(topic) {
+    const haystack = (topic.scienceSource ? [topic.id, topic.label, topic.scienceSource.title] : [topic.id, topic.label, topic.theme]).join(" ").toLocaleLowerCase("ru");
+    if (/(беремен|родов|материн|реб[её]н|родител)/.test(haystack)) return "motherhood";
+    if (/(питан|ед[аы]|переед|бжу|белк|слад|сироп|м[её]д|ожирен)/.test(haystack)) return "food";
+    if (/(мотивац|беспомощ|жизн|ии|искусственн.*интеллект|комьюнити)/.test(haystack)) return "motivation";
+    if (/(тренир|движ|мышц|кардио|бег|ходьб|сердц|судорог|тело|метабол)/.test(haystack)) return "body";
+    return topic.scienceSource ? "science" : "motivation";
+  }
+
+  const ideaThemeLabels = { science: "наука без скуки", body: "тело и тренировки", food: "еда", motherhood: "материнство", motivation: "мотивация и жизнь" };
+  const neuroFrames = [
+    (core) => `Сначала данные, потом советы: ${core}`,
+    (core) => `${core}. Версия без героизма`,
+    (core) => `Наука для очень обычного вторника: ${core}`,
+    (core) => `Сначала мем, потом разбор: ${core}`,
+    (core) => `Что здесь правда, а что привычный миф: ${core}`,
+    (core) => `${core} — объясняем как подруге на прогулке`,
+    (core) => `Неловкий вопрос дня: ${core}`,
+    (core) => `Мы принесли данные: ${core}`,
+    (core) => `Давайте спокойно: ${core}`,
+    (core) => `Короткий научный детектив: ${core}`,
+    (core) => `${core}. А теперь без стыда и гонки`,
+    (core) => `Один вопрос, несколько честных ответов: ${core}`,
+  ];
+
+  function neuroIdeas(topic) {
+    const core = scienceHeadline(topic.scienceSource?.title || topic.hooks[ideaRefreshSerial % topic.hooks.length] || topic.label, 10).replace(/[.!?]+$/, "");
+    const sensitive = /(врач|опас|ожирен|беремен|аллерг|сердц|анализ|лечен)/i.test(topic.scienceSource?.title || topic.label);
+    const frameOrder = sensitive ? [0, 1, 2, 4, 5, 7, 8, 9, 10, 11] : neuroFrames.map((_, index) => index);
+    const offset = (ideaRefreshSerial + topic.id.length) % frameOrder.length;
+    return Array.from({ length: topic.scienceSource ? 4 : 2 }, (_, index) => {
+      const frameIndex = frameOrder[(offset + index * 2) % frameOrder.length];
+      const hook = neuroFrames[frameIndex](core);
+      return { key: `neuro-${ideaRefreshSerial}-${topic.id}-${frameIndex}`, topic, hook, kind: "neuro", ideaTheme: topicIdeaTheme(topic) };
+    });
+  }
+
   function ideaPool() {
     const toIdeas = (sourceTopics) => sourceTopics.flatMap((topic) => [...topic.hooks, ...(extraHooks[topic.id] || [])].map((hook, index) => ({
       key: `${topic.id}-${index}-${hook}`,
       topic,
       hook,
+      kind: topic.scienceSource ? "science" : "editorial",
+      ideaTheme: topicIdeaTheme(topic),
     })));
-    const scienceIdeas = toIdeas(scienceTopics);
-    return [...scienceIdeas, ...scienceIdeas.map((idea) => ({ ...idea, key: `${idea.key}-science-priority` })), ...toIdeas(config.topics)];
+    const pool = [...topics.flatMap(neuroIdeas), ...toIdeas(scienceTopics), ...toIdeas(config.topics)];
+    const selectedTheme = ui.ideaTheme?.value || "all";
+    if (selectedTheme === "all") return pool;
+    if (selectedTheme === "science") return pool.filter((idea) => idea.topic.scienceSource);
+    return pool.filter((idea) => idea.ideaTheme === selectedTheme);
   }
 
   function refreshIdeas({ initial = false } = {}) {
+    ideaRefreshSerial += 1;
     const lastDiscovery = readLocalJson(discoveryStateKey, {});
     const previousKeys = new Set(currentIdeas.map((idea) => idea.key));
+    const previousHooks = new Set(currentIdeas.map((idea) => idea.hook));
     const fresh = shuffle(ideaPool());
-    const unseen = fresh.filter((idea) => !previousKeys.has(idea.key) && idea.key !== lastDiscovery.ideaKey);
-    currentIdeas = [...unseen, ...fresh].slice(0, 10);
+    const nonRepeating = fresh.filter((idea) => !previousHooks.has(idea.hook));
+    const unseen = nonRepeating.filter((idea) => !previousKeys.has(idea.key) && idea.key !== lastDiscovery.ideaKey);
+    const selectedTheme = ui.ideaTheme?.value || "all";
+    const takeUniqueTopics = (items, count) => {
+      const usedTopics = new Set();
+      const unique = items.filter((idea) => {
+        if (usedTopics.has(idea.topic.id)) return false;
+        usedTopics.add(idea.topic.id);
+        return true;
+      });
+      return [...unique, ...items.filter((idea) => !unique.includes(idea))].slice(0, count);
+    };
+    const available = unseen.length >= 10 ? unseen : [...unseen, ...nonRepeating.filter((idea) => !unseen.includes(idea)), ...fresh];
+    const neuro = takeUniqueTopics(available.filter((idea) => idea.kind === "neuro"), selectedTheme === "all" ? 5 : 6);
+    const science = takeUniqueTopics(available.filter((idea) => idea.kind === "science" && !neuro.some((item) => item.topic.id === idea.topic.id)), selectedTheme === "all" ? 3 : 3);
+    const editorial = takeUniqueTopics(available.filter((idea) => idea.kind === "editorial" && !neuro.some((item) => item.topic.id === idea.topic.id)), 2);
+    const composed = selectedTheme === "all"
+      ? [...neuro.slice(0, 5), ...science.slice(0, 3), ...editorial.slice(0, 2)]
+      : [...neuro.slice(0, 6), ...science, ...editorial].slice(0, 10);
+    currentIdeas = [...shuffle(composed), ...available.filter((idea) => !composed.includes(idea))].slice(0, 10);
     selectedIdeaKey = "";
     ui.development.hidden = true;
     renderIdeaStrip();
@@ -308,7 +382,7 @@
   }
 
   function renderIdeaStrip() {
-    ui.ideaStrip.innerHTML = currentIdeas.map((idea) => `<button type="button" class="builder-idea${idea.key === selectedIdeaKey ? " is-active" : ""}" data-builder-idea="${escapeHtml(idea.key)}"><span>${escapeHtml(idea.topic.label)}</span><strong>${escapeHtml(idea.hook)}</strong><small>${escapeHtml(idea.topic.promise)}</small></button>`).join("");
+    ui.ideaStrip.innerHTML = currentIdeas.map((idea) => `<button type="button" class="builder-idea${idea.key === selectedIdeaKey ? " is-active" : ""}${idea.kind === "neuro" ? " is-neuro" : ""}" data-builder-idea="${escapeHtml(idea.key)}"><span>${idea.kind === "neuro" ? "Нейро-идея" : idea.kind === "science" ? "Sektascience" : "Редакторская"} · ${escapeHtml(ideaThemeLabels[idea.ideaTheme] || "микс")}</span><strong>${escapeHtml(idea.hook)}</strong><small>${escapeHtml(idea.topic.promise)}</small></button>`).join("");
   }
 
   function selectIdea(key, { scroll = true, revealDevelopment = true, announce = true } = {}) {
@@ -1103,6 +1177,10 @@
   ui.cover.addEventListener("pointerup", finishCoverDrag);
   ui.cover.addEventListener("pointercancel", finishCoverDrag);
   ui.refreshIdeas.addEventListener("click", () => refreshDiscovery());
+  ui.ideaTheme?.addEventListener("change", () => {
+    refreshDiscovery();
+    setStatus(`Собрали 10 новых идей по теме «${ui.ideaTheme.selectedOptions[0]?.textContent || "Всё вперемешку"}».`);
+  });
   ui.closeDevelopment.addEventListener("click", () => {
     ui.development.hidden = true;
     selectedIdeaKey = "";

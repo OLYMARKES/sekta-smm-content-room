@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260825-14">
+  <link rel="stylesheet" href="styles.css?v=20260826-1">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -529,8 +529,11 @@
 
           <section class="panel builder-ideas-panel">
             <div class="builder-ideas-head">
-              <div><h2>10 свежих идей на эту загрузку</h2><p>Первая уже стоит на обложке. Нажмите на любую — под карточками раскроются настройки и сценарий.</p></div>
-              <button class="button button-secondary" id="builderRefreshIdeas" type="button">Обновить идеи и фото ↻</button>
+              <div><h2>Нейро-миксер идей</h2><p>Живые заходы сверху, научный корпус внутри. Выберите тему и обновляйте, пока не появится тот самый хук.</p></div>
+              <div class="builder-idea-actions">
+                <label><span>Тема</span><select id="builderIdeaTheme" aria-label="Тема свежих идей"><option value="all">Всё вперемешку</option><option value="science">Наука без скуки</option><option value="body">Тело и тренировки</option><option value="food">Еда и отношения с ней</option><option value="motherhood">Материнство и беременность</option><option value="motivation">Мотивация и жизнь</option></select></label>
+                <button class="button button-secondary" id="builderRefreshIdeas" type="button">Ещё 10 идей ↻</button>
+              </div>
             </div>
             <div class="builder-idea-strip" id="builderIdeaStrip" aria-label="Идеи и хуки"></div>
 
@@ -944,7 +947,7 @@
   <script src="app.js?v=20260825-6"></script>
   <script src="growth-coach.js?v=20260825-3"></script>
   <script src="production-room.js?v=20260825-2"></script>
-  <script src="carousel-builder.js?v=20260826-1"></script>
+  <script src="carousel-builder.js?v=20260826-4"></script>
   <script src="carousel-studio.js?v=20260826-1"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
