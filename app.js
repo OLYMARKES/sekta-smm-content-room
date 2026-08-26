@@ -7,6 +7,7 @@
   const ideaRadar = window.SEKTA_IDEA_RADAR || { sources: [], mechanics: [], directions: {}, items: [] };
   const libraryPayload = window.SEKTA_LIBRARY || { items: [], uniqueCount: 0, duplicateCount: 0, sourceCount: 0 };
   const library = libraryPayload.items || [];
+  const driveOriginals = window.SEKTA_DRIVE_ORIGINALS || { root: {}, items: {} };
   const publicStats = window.SEKTA_PUBLIC_STATS || { checkedAt: "", note: "", channels: [] };
   const viewLabels = { overview: "Рабочий обзор", growth: "Банк идей", timehop: "Таймхоп Оли", production: "Материалы", coach: "Коуч роста", builder: "Идеи и обложки", postbuilder: "Конструктор поста", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
   const statusClass = (status) => status === "Готово" ? "status-ready" : status === "На ревью" || status === "Текст готов" ? "status-review" : "status-shoot";
@@ -37,6 +38,8 @@
     orientationFilter: document.querySelector("#orientationFilter"),
     libraryResultCount: document.querySelector("#libraryResultCount"),
     libraryDuplicateSummary: document.querySelector("#libraryDuplicateSummary"),
+    libraryDriveStatus: document.querySelector("#libraryDriveStatus"),
+    libraryDriveCount: document.querySelector("#libraryDriveCount"),
     libraryShuffle: document.querySelector("#libraryShuffle"),
     libraryUploadZone: document.querySelector("#libraryUploadZone"),
     libraryUploadInput: document.querySelector("#libraryUploadInput"),
@@ -615,13 +618,17 @@
     const themes = (item.contentThemes || []).length ? `<div class="media-taxonomy"><span>Темы</span><p>${item.contentThemes.map((tag) => escapeHtml(formatTaxonomy(tag))).join(" · ")}</p></div>` : "";
     const roles = (item.carouselRoles || []).length ? `<div class="media-taxonomy"><span>Роли в карусели</span><p>${item.carouselRoles.map((tag) => escapeHtml(formatTaxonomy(tag))).join(" · ")}</p></div>` : "";
     const category = item.sourceCategory ? ` · ${escapeHtml(formatTaxonomy(item.sourceCategory))}` : "";
+    const driveOriginal = driveOriginals.items?.[item.id];
     const localPathAvailable = Boolean(item.originalUrl);
     const copyAction = localPathAvailable ? `<button class="button button-secondary" data-copy-path="${escapeHtml(item.originalPath)}">Скопировать путь</button>` : "";
-    const sourceNote = localPathAvailable
-      ? `<div class="path-box" title="${escapeHtml(item.originalPath)}">${escapeHtml(item.originalPath)}</div>`
-      : `<div class="path-box">Оригинал доступен во внутренней медиатеке.</div>`;
+    const driveAction = driveOriginal ? `<a class="button button-secondary" href="${escapeHtml(driveOriginal.url)}" target="_blank" rel="noreferrer">Открыть оригинал в Drive ↗</a>` : "";
+    const sourceNote = driveOriginal
+      ? `<div class="path-box path-box-ready"><span aria-hidden="true">●</span> Оригинал сохранён в командном архиве Google Drive</div>`
+      : localPathAvailable
+        ? `<div class="path-box" title="${escapeHtml(item.originalPath)}">${escapeHtml(item.originalPath)}</div>`
+        : `<div class="path-box">Оригинал ещё переносится в командный архив.</div>`;
     const qualityLabel = item.exportQuality === "source-limited" ? "исходник меньше формата Instagram" : "готово для 1080 × 1350";
-    ui.dialogContent.innerHTML = `<div class="detail-layout"><div class="detail-image"><img src="${escapeHtml(item.thumb)}" alt="${escapeHtml(item.fileName)}"></div><div class="detail-copy"><p class="eyebrow">${escapeHtml(item.folderLabel)}${category}</p><h2>${escapeHtml(item.fileName)}</h2><p>В сетке используется лёгкое превью, а при экспорте конструктор автоматически берёт HQ-копию.</p><div class="meta-list"><div class="meta-row"><span>Размер</span><strong>${item.width} × ${item.height}</strong></div><div class="meta-row"><span>Качество экспорта</span><strong>${qualityLabel}</strong></div><div class="meta-row"><span>Ориентация</span><strong>${orientationLabel(item.orientation)}</strong></div><div class="meta-row"><span>Вес оригинала</span><strong>${item.sizeMb} МБ</strong></div><div class="meta-row"><span>Точные дубли</span><strong>${duplicateText}</strong></div></div>${themes}${roles}<div class="detail-actions"><button class="button button-primary" data-add-media="${item.id}">+ В будущую сетку</button>${copyAction}</div>${sourceNote}</div></div>`;
+    ui.dialogContent.innerHTML = `<div class="detail-layout"><div class="detail-image"><img src="${escapeHtml(item.thumb)}" alt="${escapeHtml(item.fileName)}"></div><div class="detail-copy"><p class="eyebrow">${escapeHtml(item.folderLabel)}${category}</p><h2>${escapeHtml(item.fileName)}</h2><p>В сетке используется лёгкое превью, а при экспорте конструктор автоматически берёт HQ-копию.</p><div class="meta-list"><div class="meta-row"><span>Размер</span><strong>${item.width} × ${item.height}</strong></div><div class="meta-row"><span>Качество экспорта</span><strong>${qualityLabel}</strong></div><div class="meta-row"><span>Ориентация</span><strong>${orientationLabel(item.orientation)}</strong></div><div class="meta-row"><span>Вес оригинала</span><strong>${item.sizeMb} МБ</strong></div><div class="meta-row"><span>Точные дубли</span><strong>${duplicateText}</strong></div></div>${themes}${roles}<div class="detail-actions"><button class="button button-primary" data-add-media="${item.id}">+ В будущую сетку</button>${driveAction}${copyAction}</div>${sourceNote}</div></div>`;
     ui.detailDialog.showModal();
   }
 
@@ -934,6 +941,15 @@
     const target = document.querySelector(selector);
     if (target) target.textContent = id === "all" ? libraryPayload.uniqueCount : Number(libraryPayload.byCollection?.[id] || 0);
   });
+  const driveOriginalCount = Object.keys(driveOriginals.items || {}).length;
+  if (ui.libraryDriveStatus && ui.libraryDriveCount) {
+    ui.libraryDriveStatus.href = driveOriginals.root?.url || "#";
+    ui.libraryDriveCount.textContent = `${driveOriginalCount} / ${libraryPayload.uniqueCount}`;
+    ui.libraryDriveStatus.classList.toggle("is-incomplete", driveOriginalCount < libraryPayload.uniqueCount);
+    ui.libraryDriveStatus.title = driveOriginalCount < libraryPayload.uniqueCount
+      ? `${libraryPayload.uniqueCount - driveOriginalCount} оригиналов ещё переносятся`
+      : "Все оригиналы сохранены в командном архиве";
+  }
   const collectionCount = Object.keys(libraryPayload.sourceFolders || {}).length;
   document.querySelector("#libraryCollectionCount").textContent = `${collectionCount} ${plural(collectionCount, "коллекция", "коллекции", "коллекций")}`;
   ui.libraryDuplicateSummary.textContent = `${libraryPayload.duplicateCount} ${plural(libraryPayload.duplicateCount, "точный дубль скрыт", "точных дубля скрыты", "точных дублей скрыты")}`;

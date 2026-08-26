@@ -578,11 +578,33 @@
 
   function currentSlideMedia() {
     const pool = mediaPool.length ? mediaPool : currentMediaPool();
-    return [selectedPhoto, ...pool.filter((item) => item?.id !== selectedPhoto?.id)].filter(Boolean);
+    const looksLikeDocument = (item) => /(скрин|снимок экрана|screenshot|screen ?shot|conference|конференц|article|статья|pdf|документ)/.test([item?.fileName, item?.folderLabel, item?.sourceCategory].join(" ").toLocaleLowerCase("ru"));
+    const rankedPhotos = pool
+      .filter((item) => item && !looksLikeDocument(item))
+      .sort((a, b) => candidateScore(b) - candidateScore(a));
+    return [selectedPhoto, ...rankedPhotos.filter((item) => item.id !== selectedPhoto?.id)].filter(Boolean);
   }
 
   function selectedSeriesSystem() {
     return seriesSystems.find((system) => system.id === activeSeriesSystem) || seriesSystems[0];
+  }
+
+  function paletteForAccent(accent = activeAccent, role = "accent") {
+    const systems = {
+      sky: { accent: "sekta-sky", neutral: "sekta-cream", dark: "ink" },
+      green: { accent: "sekta-mint", neutral: "sekta-cream", dark: "ink" },
+      yellow: { accent: "sekta-sun", neutral: "sekta-cream", dark: "sekta-yellow" },
+      pink: { accent: "sekta-pink", neutral: "sekta-cream", dark: "ink" },
+    };
+    return (systems[accent] || systems.yellow)[role] || systems.yellow.accent;
+  }
+
+  function resolvedCoverLayerColors() {
+    const accent = accentColors[activeAccent];
+    const explicit = activeTextColor === "white" ? "#ffffff" : activeTextColor === "ink" ? "#17221f" : activeTextColor === "accent" ? accent : "";
+    const surfaceText = explicit || (activeStyle === "clean" ? accent : "#101a1e");
+    const account = explicit || (activeStyle === "rail" ? "#101a1e" : "#ffffff");
+    return { title: surfaceText, body: surfaceText, label: account };
   }
 
   function renderTypeSystems() {
@@ -591,15 +613,15 @@
   }
 
   function visualPlanFor(index, total) {
-    if (index === 0) return { scene: "cover", accent: "sky", withPhoto: true, studioScene: "plate", studioPalette: "paper" };
-    if (index === total - 1) return { scene: "cta", accent: "green", withPhoto: false, studioScene: "field", studioPalette: "lime" };
+    if (index === 0) return { scene: "cover", accent: activeAccent, withPhoto: true, studioScene: "photo-clean", studioTemplate: "imported-cover", studioPalette: paletteForAccent(activeAccent, "accent") };
+    if (index === total - 1) return { scene: "cta", accent: activeAccent, withPhoto: false, studioScene: "field", studioTemplate: "color-final", studioPalette: paletteForAccent(activeAccent, "accent") };
     const cadence = [
-      { scene: "paper", accent: "yellow", withPhoto: false, studioScene: "paper", studioPalette: "paper" },
-      { scene: "split", accent: "green", withPhoto: true, studioScene: "split", studioPalette: "paper" },
-      { scene: "scrim", accent: "sky", withPhoto: true, studioScene: "photo-dim", studioPalette: "ink" },
-      { scene: "quote", accent: "pink", withPhoto: false, studioScene: "quote", studioPalette: "pink" },
-      { scene: "window", accent: "yellow", withPhoto: true, studioScene: "window", studioPalette: "paper" },
-      { scene: "clean", accent: "green", withPhoto: true, studioScene: "photo-clean", studioPalette: "ink" },
+      { scene: "paper", accent: activeAccent, withPhoto: false, studioScene: "paper", studioTemplate: "light-column", studioPalette: paletteForAccent(activeAccent, "neutral") },
+      { scene: "split", accent: activeAccent, withPhoto: true, studioScene: "split", studioTemplate: "side-plaque", studioPalette: paletteForAccent(activeAccent, "accent") },
+      { scene: "scrim", accent: activeAccent, withPhoto: true, studioScene: "photo-dim", studioTemplate: "photo-scrim", studioPalette: paletteForAccent(activeAccent, "dark") },
+      { scene: "quote", accent: activeAccent, withPhoto: false, studioScene: "field", studioTemplate: "accent-thought", studioPalette: paletteForAccent(activeAccent, "accent") },
+      { scene: "window", accent: activeAccent, withPhoto: true, studioScene: "window", studioTemplate: "photo-field", studioPalette: paletteForAccent(activeAccent, "accent") },
+      { scene: "clean", accent: activeAccent, withPhoto: true, studioScene: "photo-dim", studioTemplate: "text-photo", studioPalette: paletteForAccent(activeAccent, "dark") },
     ];
     return cadence[(index - 1) % cadence.length];
   }
@@ -621,7 +643,7 @@
       const plan = visualPlanFor(index, slides.length);
       const photo = photoForSlide(index, plan, slideMedia);
       const image = photo ? `<img class="builder-slide-photo" src="${escapeHtml(photo.thumb)}" alt="" loading="lazy">` : "";
-      return `<article class="builder-slide scene-${plan.scene}" data-builder-slide="${index + 1}" data-photo-id="${escapeHtml(photo?.id || "")}" data-studio-scene="${plan.studioScene}" data-studio-palette="${plan.studioPalette}" style="--slide-accent:${accentColors[plan.accent]}"><div class="builder-slide-canvas">${image}<div class="builder-slide-scrim"></div><span class="builder-slide-account">#SEKTA · ${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="true" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="true" spellcheck="true">${escapeHtml(slide.body)}</p></div></div><footer><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(seriesSceneLabels[plan.scene])}</strong>${photo ? `<small>${escapeHtml(photo.fileName)}</small>` : ""}<button type="button" class="builder-slide-edit" data-edit-builder-slide="${index}">Текст · фото · шрифт</button></footer></article>`;
+      return `<article class="builder-slide scene-${plan.scene}" data-builder-slide="${index + 1}" data-photo-id="${escapeHtml(photo?.id || "")}" data-studio-scene="${plan.studioScene}" data-studio-template="${plan.studioTemplate}" data-studio-palette="${plan.studioPalette}" style="--slide-accent:${accentColors[plan.accent]}"><div class="builder-slide-canvas">${image}<div class="builder-slide-scrim"></div><span class="builder-slide-account">#SEKTA · ${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="true" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="true" spellcheck="true">${escapeHtml(slide.body)}</p></div></div><footer><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(seriesSceneLabels[plan.scene])}</strong>${photo ? `<small>${escapeHtml(photo.fileName)}</small>` : ""}<button type="button" class="builder-slide-edit" data-edit-builder-slide="${index}">Текст · фото · шрифт</button></footer></article>`;
     }).join("");
     const count = Number(ui.slideCount?.value || 10);
     ui.scriptTitle.textContent = `Карусель · ${count} ${plural(count, "слайд", "слайда", "слайдов")}`;
@@ -684,6 +706,15 @@
   function sendToCarouselBuilder(activeSlide = 0) {
     const goal = config.goals[ui.goal.value] || config.goals.save;
     const rows = [...ui.slides.querySelectorAll(".builder-slide")];
+    const coverColors = resolvedCoverLayerColors();
+    const coverCase = activeFont === "tempo" ? "upper" : activeFont === "taste" ? tasteFont?.caseKind || "original" : "original";
+    const coverBox = activeStyle === "rail"
+      ? { titleWidth: 34, titleHeight: 62, bodyWidth: 34, bodyHeight: 12 }
+      : activeStyle === "footer"
+        ? { titleWidth: 91, titleHeight: 24, bodyWidth: 91, bodyHeight: 8 }
+        : activeStyle === "plate"
+          ? { titleWidth: 62, titleHeight: 58, bodyWidth: 90, bodyHeight: 8 }
+          : { titleWidth: 91, titleHeight: 55, bodyWidth: 90, bodyHeight: 8 };
     const detail = {
       id: activeTopic.id,
       kind: "post",
@@ -698,25 +729,35 @@
       photoId: selectedPhoto?.id || null,
       font: { ...selectedSeriesSystem(), recipe: "сохранённая кириллическая пара" },
       coverDesign: {
+        schema: "sekta-cover-design-v2",
+        template: "imported-cover",
+        style: activeStyle,
         scene: activeStyle === "clean" ? "photo-clean" : activeStyle === "plate" ? "plate" : "photo-dim",
-        palette: activeTextColor === "accent" && activeAccent === "yellow" ? "sekta-yellow" : "ink",
+        palette: paletteForAccent(activeAccent, "accent"),
+        accent: activeAccent,
+        accentColor: accentColors[activeAccent],
         titleText: ui.hook.value,
         subtitleText: ui.subtitle.value,
         labelText: ui.account.value,
         placement: activePlacement,
         focusX: Number(ui.focusX.value),
         focusY: Number(ui.focusY.value),
-        textColor: activeTextColor === "accent" ? accentColors[activeAccent] : activeTextColor === "white" ? "#ffffff" : activeTextColor === "ink" ? "#17221f" : activeStyle === "clean" ? accentColors[activeAccent] : "#101a1e",
-        title: { ...coverLayers.headline },
-        body: { ...coverLayers.subtitle },
-        label: { ...coverLayers.account },
+        photoScale: 1,
+        caseKind: coverCase,
+        textColor: coverColors.title,
+        plaqueEnabled: activeStyle === "plate",
+        plaqueColor: accentColors[activeAccent],
+        plaqueOpacity: 1,
+        title: { ...coverLayers.headline, color: coverColors.title, boxWidth: coverBox.titleWidth, boxHeight: coverBox.titleHeight },
+        body: { ...coverLayers.subtitle, color: coverColors.body, boxWidth: coverBox.bodyWidth, boxHeight: coverBox.bodyHeight },
+        label: { ...coverLayers.account, color: coverColors.label, boxWidth: 52, boxHeight: 8 },
       },
       slides: rows.map((slide, index) => ({
         role: index === 0 ? "cover" : index === rows.length - 1 ? "cta" : "longread",
         title: slide.querySelector(".builder-slide-copy strong")?.textContent.trim() || "",
         body: slide.querySelector(".builder-slide-copy p")?.textContent.trim() || "",
       })),
-      visualPlan: rows.map((slide) => ({ scene: slide.dataset.studioScene, palette: slide.dataset.studioPalette, photoId: slide.dataset.photoId || null })),
+      visualPlan: rows.map((slide) => ({ scene: slide.dataset.studioScene, template: slide.dataset.studioTemplate, palette: slide.dataset.studioPalette, photoId: slide.dataset.photoId || null })),
       activeSlide,
       openSlides: true,
     };
