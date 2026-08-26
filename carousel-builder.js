@@ -822,14 +822,15 @@
   function visualPlanFor(index, total) {
     if (index === 0) return { scene: "cover", accent: activeAccent, withPhoto: true, studioScene: "photo-clean", studioTemplate: "imported-cover", studioPalette: paletteForAccent(activeAccent, "accent") };
     if (index === total - 1) return { scene: "cta", accent: activeAccent, withPhoto: false, studioScene: "field", studioTemplate: "color-final", studioPalette: paletteForAccent(activeAccent, "accent") };
-    const cadence = [
-      { scene: "paper", accent: activeAccent, withPhoto: false, studioScene: "paper", studioTemplate: "light-column", studioPalette: paletteForAccent(activeAccent, "neutral") },
-      { scene: "scrim", accent: activeAccent, withPhoto: true, studioScene: "photo-dim", studioTemplate: "photo-scrim", studioPalette: paletteForAccent(activeAccent, "dark") },
-      { scene: "scrim", accent: activeAccent, withPhoto: true, studioScene: "photo-dim", studioTemplate: "photo-scrim", studioPalette: paletteForAccent(activeAccent, "dark") },
-      { scene: "quote", accent: activeAccent, withPhoto: false, studioScene: "field", studioTemplate: "accent-thought", studioPalette: paletteForAccent(activeAccent, "accent") },
-      { scene: "window", accent: activeAccent, withPhoto: true, studioScene: "window", studioTemplate: "photo-field", studioPalette: paletteForAccent(activeAccent, "accent") },
-      { scene: "clean", accent: activeAccent, withPhoto: true, studioScene: "photo-dim", studioTemplate: "text-photo", studioPalette: paletteForAccent(activeAccent, "dark") },
-    ];
+    const cadence = ["bottom", "middle", "top", "bottom", "middle", "top"].map((placement) => ({
+      scene: "scrim",
+      accent: activeAccent,
+      withPhoto: true,
+      studioScene: "photo-dim",
+      studioTemplate: "photo-scrim",
+      studioPalette: paletteForAccent(activeAccent, "dark"),
+      studioPlacement: placement,
+    }));
     return cadence[(index - 1) % cadence.length];
   }
 
@@ -850,7 +851,7 @@
       const plan = visualPlanFor(index, slides.length);
       const photo = photoForSlide(index, plan, slideMedia);
       const image = photo ? `<img class="builder-slide-photo" src="${escapeHtml(photo.thumb)}" alt="" loading="lazy">` : "";
-      return `<article class="builder-slide scene-${plan.scene}" data-builder-slide="${index + 1}" data-photo-id="${escapeHtml(photo?.id || "")}" data-studio-scene="${plan.studioScene}" data-studio-template="${plan.studioTemplate}" data-studio-palette="${plan.studioPalette}" style="--slide-accent:${accentColors[plan.accent]}"><div class="builder-slide-canvas">${image}<div class="builder-slide-scrim"></div><span class="builder-slide-account">#SEKTA · ${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="true" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="true" spellcheck="true">${escapeHtml(slide.body)}</p></div></div><footer><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(seriesSceneLabels[plan.scene])}</strong>${photo ? `<small>${escapeHtml(photo.fileName)}</small>` : ""}<button type="button" class="builder-slide-edit" data-edit-builder-slide="${index}">Текст · фото · шрифт</button></footer></article>`;
+      return `<article class="builder-slide scene-${plan.scene}" data-builder-slide="${index + 1}" data-photo-id="${escapeHtml(photo?.id || "")}" data-studio-scene="${plan.studioScene}" data-studio-template="${plan.studioTemplate}" data-studio-palette="${plan.studioPalette}" data-studio-placement="${plan.studioPlacement || "bottom"}" style="--slide-accent:${accentColors[plan.accent]}"><div class="builder-slide-canvas">${image}<div class="builder-slide-scrim"></div><span class="builder-slide-account">#SEKTA · ${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="true" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="true" spellcheck="true">${escapeHtml(slide.body)}</p></div></div><footer><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(seriesSceneLabels[plan.scene])}</strong>${photo ? `<small>${escapeHtml(photo.fileName)}</small>` : ""}<button type="button" class="builder-slide-edit" data-edit-builder-slide="${index}">Текст · фото · шрифт</button></footer></article>`;
     }).join("");
     const count = Number(ui.slideCount?.value || 10);
     ui.scriptTitle.textContent = `Карусель · ${count} ${plural(count, "слайд", "слайда", "слайдов")}`;
@@ -965,7 +966,7 @@
         title: slide.querySelector(".builder-slide-copy strong")?.textContent.trim() || "",
         body: slide.querySelector(".builder-slide-copy p")?.textContent.trim() || "",
       })),
-      visualPlan: rows.map((slide) => ({ scene: slide.dataset.studioScene, template: slide.dataset.studioTemplate, palette: slide.dataset.studioPalette, photoId: slide.dataset.photoId || null })),
+      visualPlan: rows.map((slide) => ({ scene: slide.dataset.studioScene, template: slide.dataset.studioTemplate, palette: slide.dataset.studioPalette, placement: slide.dataset.studioPlacement, photoId: slide.dataset.photoId || null })),
       activeSlide,
       openSlides: true,
     };

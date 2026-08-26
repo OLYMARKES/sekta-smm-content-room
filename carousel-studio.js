@@ -7,7 +7,7 @@
   const DRAFT_KEY = "sekta-carousel-studio-draft-v2";
   const SAVED_KEY = "sekta-carousel-studio-series-v1";
   const IMPORT_KEY = "sekta-carousel-studio-taste-import-v1";
-  const MONTAGE_VERSION = 6;
+  const MONTAGE_VERSION = 7;
   const DEFAULT_LONGREAD = document.querySelector("#carouselLongreadText")?.value || "";
   const palettes = {
     ink: { name: "Контрастная", background: "#17221f", foreground: "#ffffff", accent: "#f7f7f2", ink: "#17221f", plaque: "#f7f7f2", plaqueText: "#17221f" },
@@ -71,14 +71,14 @@
   const montageTemplates = {
     cover: { template: "text-photo", role: "cover", scene: "photo-clean", palette: "sekta-sky", placement: "bottom", size: 76, bodySize: 24, titleBoxWidth: 72, titleBoxHeight: 30, bodyBoxWidth: 68, bodyBoxHeight: 14, showSeriesLabel: false, showBody: false, showCounter: false, plaqueEnabled: false },
     body: [
-      { template: "light-column", scene: "paper", palette: "sekta-cream", placement: "middle", size: 62, bodySize: 40, titleBoxWidth: 84, titleBoxHeight: 28, bodyBoxWidth: 84, bodyBoxHeight: 52 },
-      { template: "photo-field", scene: "window", palette: "sekta-sun", placement: "bottom", size: 58, bodySize: 38, titleBoxWidth: 86, titleBoxHeight: 27, bodyBoxWidth: 86, bodyBoxHeight: 50 },
-      { template: "accent-thought", scene: "field", palette: "sekta-sun", placement: "middle", size: 64, bodySize: 40, titleBoxWidth: 86, titleBoxHeight: 30, bodyBoxWidth: 86, bodyBoxHeight: 50 },
-      { template: "photo-scrim", scene: "photo-dim", palette: "sekta-yellow", placement: "bottom", size: 58, bodySize: 38, titleBoxWidth: 86, titleBoxHeight: 27, bodyBoxWidth: 86, bodyBoxHeight: 50, textColor: "#ffffff" },
-      { template: "photo-window", scene: "window", palette: "sekta-sun", placement: "bottom", size: 58, bodySize: 38, titleBoxWidth: 86, titleBoxHeight: 27, bodyBoxWidth: 86, bodyBoxHeight: 50 },
-      { template: "light-column", scene: "paper", palette: "sekta-cream", placement: "middle", size: 62, bodySize: 40, titleBoxWidth: 84, titleBoxHeight: 28, bodyBoxWidth: 84, bodyBoxHeight: 52 },
-      { template: "text-photo", scene: "photo-dim", palette: "sekta-yellow", placement: "bottom", size: 58, bodySize: 38, titleBoxWidth: 86, titleBoxHeight: 27, bodyBoxWidth: 86, bodyBoxHeight: 50, textColor: "#ffffff" },
-      { template: "photo-field", scene: "window", palette: "sekta-sun", placement: "bottom", size: 58, bodySize: 38, titleBoxWidth: 86, titleBoxHeight: 27, bodyBoxWidth: 86, bodyBoxHeight: 50 },
+      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "bottom", size: 68, bodySize: 44, titleBoxWidth: 78, titleBoxHeight: 34, bodyBoxWidth: 84, bodyBoxHeight: 52, textColor: "#ffffff", plaqueEnabled: false },
+      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "middle", size: 66, bodySize: 44, titleBoxWidth: 74, titleBoxHeight: 34, bodyBoxWidth: 84, bodyBoxHeight: 54, textColor: "#ffffff", plaqueEnabled: false },
+      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "top", size: 64, bodySize: 43, titleBoxWidth: 76, titleBoxHeight: 34, bodyBoxWidth: 84, bodyBoxHeight: 52, textColor: "#ffffff", plaqueEnabled: false },
+      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "bottom", size: 72, bodySize: 42, titleBoxWidth: 70, titleBoxHeight: 38, bodyBoxWidth: 84, bodyBoxHeight: 50, textColor: "#ffffff", plaqueEnabled: false },
+      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "middle", size: 64, bodySize: 45, titleBoxWidth: 80, titleBoxHeight: 32, bodyBoxWidth: 84, bodyBoxHeight: 56, textColor: "#ffffff", plaqueEnabled: false },
+      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "top", size: 68, bodySize: 43, titleBoxWidth: 72, titleBoxHeight: 36, bodyBoxWidth: 84, bodyBoxHeight: 52, textColor: "#ffffff", plaqueEnabled: false },
+      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "bottom", size: 66, bodySize: 44, titleBoxWidth: 76, titleBoxHeight: 34, bodyBoxWidth: 84, bodyBoxHeight: 54, textColor: "#ffffff", plaqueEnabled: false },
+      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "middle", size: 70, bodySize: 42, titleBoxWidth: 72, titleBoxHeight: 38, bodyBoxWidth: 84, bodyBoxHeight: 50, textColor: "#ffffff", plaqueEnabled: false },
     ],
     final: { template: "color-final", role: "cta", scene: "field", palette: "sekta-sun", placement: "middle", size: 70, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 72 },
   };
@@ -88,6 +88,7 @@
     "photo-field": { name: "Фото + поле", detail: "64 / 27 · ширина 78%", template: "photo-field", scene: "window", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 78, titleBoxHeight: 29, bodyBoxWidth: 78, bodyBoxHeight: 20 },
     "side-plaque": { name: "Боковое поле", detail: "60 / 26 · ширина 46%", template: "side-plaque", scene: "split", placement: "middle", size: 60, bodySize: 26, titleBoxWidth: 46, titleBoxHeight: 34, bodyBoxWidth: 46, bodyBoxHeight: 30 },
     "accent-thought": { name: "Крупный тезис", detail: "74 / 26 · ширина 80%", template: "accent-thought", scene: "field", placement: "middle", size: 74, bodySize: 26, titleBoxWidth: 80, titleBoxHeight: 36, bodyBoxWidth: 76, bodyBoxHeight: 26 },
+    "photo-scrim": { name: "Фото + затемнение", detail: "68 / 44 · ширина 84%", template: "photo-scrim", scene: "photo-dim", placement: "bottom", size: 68, bodySize: 44, titleBoxWidth: 78, titleBoxHeight: 34, bodyBoxWidth: 84, bodyBoxHeight: 52, textColor: "#ffffff", plaqueEnabled: false },
     "text-photo": { name: "Текст на фото", detail: "64 / 27 · ширина 80%", template: "text-photo", scene: "photo-clean", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 80, titleBoxHeight: 31, bodyBoxWidth: 78, bodyBoxHeight: 22 },
   };
 
@@ -787,13 +788,14 @@
     const bodyWords = words(slide.body).length;
     slide.showTitle = titleWords > 0;
     slide.showBody = bodyWords > 0;
+    if (slide.role === "longread") slide.showSeriesLabel = false;
     slide.size = bodyWords > 55
       ? titleWords > 8 ? 48 : titleWords > 5 ? 52 : 56
       : Math.max(titleWords > 10 ? 52 : 58, numberOr(slide.size, 60));
     slide.bodySize = Math.max(bodyWords > 100 ? 34 : bodyWords > 78 ? 36 : bodyWords > 55 ? 38 : 40, numberOr(slide.bodySize, 38));
     slide.titleBoxHeight = Math.max(numberOr(slide.titleBoxHeight, 30), titleWords > 10 ? 36 : 28);
     slide.bodyBoxWidth = Math.max(numberOr(slide.bodyBoxWidth, 78), bodyWords > 55 ? 84 : 78);
-    slide.bodyBoxHeight = Math.max(numberOr(slide.bodyBoxHeight, 38), bodyWords > 78 ? 56 : bodyWords > 55 ? 50 : 42);
+    slide.bodyBoxHeight = Math.max(numberOr(slide.bodyBoxHeight, 38), bodyWords > 100 ? 74 : bodyWords > 78 ? 72 : bodyWords > 55 ? 64 : 42);
     slide.photoFocusY = numberOr(slide.photoFocusY, 38);
     slide.photoFocusX = numberOr(slide.photoFocusX, 50);
     slide.photoScale = Math.max(1, Math.min(1.35, numberOr(slide.photoScale, 1)));
@@ -830,8 +832,11 @@
         role: "longread",
         title: copy.title,
         body: copy.body,
-        bodySize: words(body).length > 100 ? 34 : words(body).length > 78 ? 36 : words(body).length > 55 ? 38 : 40,
-        photoId: templateUsesPhoto && photoRhythm && photos.length ? photos.find((item) => !usedPhotos.has(item.id))?.id || photos[index % photos.length].id : null,
+        photoId: templateUsesPhoto && photos.length
+          ? photoRhythm
+            ? photos.find((item) => !usedPhotos.has(item.id))?.id || photos[index % photos.length].id
+            : cover.photoId || photos[0].id
+          : null,
       });
       return ensureGeneratedSlideIntegrity(slide, index + 1, next, usedPhotos);
     });
@@ -851,6 +856,7 @@
     next.slides = next.slides.map((slide, index) => {
       const isCover = index === 0;
       const isFinal = index === next.slides.length - 1;
+      if (slide.savedAt) return makeSlide({ ...slide });
       if (isCover && slide.transferredCover) return makeSlide({ ...slide, savedAt: null });
       const template = isCover ? montageTemplates.cover : themedTemplate(isFinal ? montageTemplates.final : montageTemplates.body[(index - 1) % montageTemplates.body.length], next);
       const templateUsesPhoto = isCover || templateDefinitions[template.template]?.usesPhoto === true;
@@ -1008,7 +1014,7 @@
           const visual = idea.visualPlan[index];
           if (!visual) return;
           if (visual.template && templateDefinitions[visual.template]) {
-            const quickPreset = quickLayoutPresets[visual.template] || (visual.template === "photo-scrim" ? quickLayoutPresets["text-photo"] : null);
+            const quickPreset = quickLayoutPresets[visual.template];
             if (quickPreset && index > 0) applyQuickLayoutData(slide, { ...quickPreset, template: visual.template, scene: visual.scene || quickPreset.scene });
             else {
               slide.template = visual.template;
@@ -1016,6 +1022,7 @@
             }
           }
           if (visual.scene && sceneLabels[visual.scene]) slide.scene = visual.scene;
+          if (["top", "middle", "bottom", "left", "right"].includes(visual.placement)) slide.placement = visual.placement;
           if (visual.palette && paletteChoices()[visual.palette]) slide.palette = visual.palette;
           if (visual.photoId && photoById(visual.photoId)) slide.photoId = visual.photoId;
           if (index > 0) {
@@ -1027,6 +1034,8 @@
             slide.plaqueEnabled = false;
           }
         });
+        const usedImportedPhotos = new Set();
+        series.slides.forEach((slide, index) => ensureGeneratedSlideIntegrity(slide, index, series, usedImportedPhotos));
       }
       if (idea.coverDesign) {
         const target = series.slides[0];
@@ -1504,7 +1513,7 @@
     textNodes.forEach((node) => { node.style.removeProperty("font-size"); });
     let size = parseFloat(getComputedStyle(textNodes[0]).fontSize) || 12;
     const layer = element.dataset.carouselFitLayer || "body";
-    const minimumRatio = layer === "title" ? .72 : layer === "body" ? .8 : .86;
+    const minimumRatio = layer === "title" ? .72 : layer === "body" ? .72 : .86;
     const absoluteMinimum = layer === "title" ? 18 : layer === "body" ? 11 : 8;
     const min = Math.min(size, Math.max(absoluteMinimum, size * minimumRatio));
     const overflows = () => textBox.scrollHeight > element.clientHeight + 4 || textBox.scrollWidth > element.clientWidth + 4;
@@ -2766,7 +2775,8 @@
       else cropImage(context, image, 0, 0, 1080, 1350, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
       if (slide.scene === "photo-dim") {
         const gradient = context.createLinearGradient(0, 250, 0, 1350);
-        gradient.addColorStop(0, "rgba(10,16,14,.08)");
+        gradient.addColorStop(0, "rgba(10,16,14,.24)");
+        gradient.addColorStop(.52, "rgba(10,16,14,.46)");
         gradient.addColorStop(1, "rgba(10,16,14,.88)");
         context.fillStyle = gradient;
         context.fillRect(0, 0, 1080, 1350);

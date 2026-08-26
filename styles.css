@@ -856,8 +856,11 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .builder-slide.scene-split .builder-slide-canvas { background: var(--slide-accent); }
 .builder-slide.scene-split .builder-slide-copy { top: 59%; bottom: auto; }
 .builder-slide.scene-scrim .builder-slide-canvas, .builder-slide.scene-clean .builder-slide-canvas { color: #fff; }
-.builder-slide.scene-scrim .builder-slide-scrim { background: linear-gradient(90deg, rgba(15,26,22,.82), rgba(15,26,22,.16)); }
-.builder-slide.scene-scrim .builder-slide-copy { right: 22%; }
+.builder-slide.scene-scrim .builder-slide-scrim { background: linear-gradient(180deg, rgba(10,18,15,.22), rgba(10,18,15,.46) 52%, rgba(10,18,15,.9)); }
+.builder-slide.scene-scrim .builder-slide-copy { right: 7%; }
+.builder-slide.scene-scrim[data-studio-placement="top"] .builder-slide-copy { top: 14%; bottom: auto; }
+.builder-slide.scene-scrim[data-studio-placement="middle"] .builder-slide-copy { top: 50%; bottom: auto; transform: translateY(-45%); }
+.builder-slide.scene-scrim .builder-slide-copy p { font-size: clamp(13px, 5cqw, 21px); -webkit-line-clamp: 14; }
 .builder-slide.scene-paper .builder-slide-canvas { background: #fbf7ee; }
 .builder-slide.scene-paper .builder-slide-canvas::after { position: absolute; inset: 0 0 0 auto; width: 8%; background: var(--slide-accent); content: ""; }
 .builder-slide.scene-paper .builder-slide-copy { top: 24%; bottom: auto; right: 16%; }
@@ -1841,7 +1844,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .carousel-slide-canvas[data-texture="paper"] .carousel-render-texture { background-image: repeating-linear-gradient(2deg, rgba(65,48,34,.055) 0 1px, transparent 1px 15px), repeating-linear-gradient(91deg, rgba(255,255,255,.045) 0 1px, transparent 1px 27px); }
 .carousel-slide-canvas[data-texture="grain"] .carousel-render-texture { background-image: radial-gradient(circle at 14% 19%, rgba(255,255,255,.13) 0 1px, transparent 1.4px), radial-gradient(circle at 68% 64%, rgba(13,21,18,.11) 0 1px, transparent 1.5px), radial-gradient(circle at 38% 82%, rgba(255,255,255,.1) 0 1px, transparent 1.3px); background-size: 13px 17px, 19px 23px, 29px 31px; }
 .carousel-slide-canvas[data-texture="dots"] .carousel-render-texture { background-image: radial-gradient(circle, rgba(20,29,25,.16) 0 1px, transparent 1.5px); background-size: 18px 18px; }
-.carousel-slide-canvas[data-scene="photo-dim"] .carousel-render-shade { background: linear-gradient(180deg, rgba(8,14,12,.04) 20%, rgba(8,14,12,.9) 92%); }
+.carousel-slide-canvas[data-scene="photo-dim"] .carousel-render-shade { background: linear-gradient(180deg, rgba(8,14,12,.22), rgba(8,14,12,.46) 52%, rgba(8,14,12,.9) 94%); }
 .carousel-slide-canvas[data-scene="paper"], .carousel-slide-canvas[data-scene="quote"], .carousel-slide-canvas[data-scene="dark"] { color: var(--carousel-fg); background: var(--carousel-bg); }
 .carousel-slide-canvas[data-scene="field"] { color: var(--carousel-fg); background: var(--carousel-bg); }
 .carousel-slide-canvas[data-scene="plate"] .carousel-render-title > .carousel-layer-text, .carousel-slide-canvas[data-scene="plate"] .carousel-render-body p { max-width: 100%; padding: .1em .16em .14em; color: inherit; background: var(--carousel-bg); box-decoration-break: clone; -webkit-box-decoration-break: clone; text-shadow: none; }
@@ -1875,7 +1878,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .carousel-slide-canvas[data-template="photo-window"] .carousel-render-photo { inset: 7% 8% auto; width: 84%; height: 45%; }
 .carousel-slide-canvas[data-template="photo-window"] .carousel-render-content { inset: 58% 8% 13%; justify-content: flex-start; }
 .carousel-slide-canvas[data-template="photo-window"] .carousel-render-counter { right: 8%; bottom: 4%; }
-.carousel-slide-canvas[data-template="photo-scrim"] .carousel-render-content,
+.carousel-slide-canvas[data-template="photo-scrim"] .carousel-render-content { inset: 8% 8% 9%; }
 .carousel-slide-canvas[data-template="text-photo"] .carousel-render-content { inset: 42% 8% 13%; }
 .carousel-slide-canvas[data-template="photo-scrim"] .carousel-render-counter,
 .carousel-slide-canvas[data-template="text-photo"] .carousel-render-counter { right: 8%; bottom: 4%; }
