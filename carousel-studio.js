@@ -1,12 +1,13 @@
 (() => {
   const library = window.SEKTA_LIBRARY?.items || [];
+  const scienceLibrary = window.SEKTA_SCIENCE_LIBRARY?.items || [];
   const root = document.querySelector('[data-view-panel="postbuilder"]');
   if (!root) return;
 
   const DRAFT_KEY = "sekta-carousel-studio-draft-v2";
   const SAVED_KEY = "sekta-carousel-studio-series-v1";
   const IMPORT_KEY = "sekta-carousel-studio-taste-import-v1";
-  const MONTAGE_VERSION = 5;
+  const MONTAGE_VERSION = 6;
   const DEFAULT_LONGREAD = document.querySelector("#carouselLongreadText")?.value || "";
   const palettes = {
     ink: { name: "Контрастная", background: "#17221f", foreground: "#ffffff", accent: "#f7f7f2", ink: "#17221f", plaque: "#f7f7f2", plaqueText: "#17221f" },
@@ -70,14 +71,14 @@
   const montageTemplates = {
     cover: { template: "text-photo", role: "cover", scene: "photo-clean", palette: "sekta-sky", placement: "bottom", size: 76, bodySize: 24, titleBoxWidth: 72, titleBoxHeight: 30, bodyBoxWidth: 68, bodyBoxHeight: 14, showSeriesLabel: false, showBody: false, showCounter: false, plaqueEnabled: false },
     body: [
-      { template: "light-column", scene: "paper", palette: "sekta-cream", placement: "middle", size: 68, bodySize: 28, titleBoxWidth: 72, bodyBoxWidth: 72 },
-      { template: "photo-field", scene: "window", palette: "sekta-sun", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 78 },
-      { template: "side-plaque", scene: "split", palette: "sekta-sun", placement: "middle", size: 60, bodySize: 26, titleBoxWidth: 46, bodyBoxWidth: 46, textColor: "#17221f" },
-      { template: "accent-thought", scene: "field", palette: "sekta-sun", placement: "middle", size: 74, bodySize: 26, titleBoxWidth: 80, bodyBoxWidth: 76 },
-      { template: "photo-window", scene: "window", palette: "sekta-sun", placement: "bottom", size: 62, bodySize: 26, titleBoxWidth: 78, bodyBoxWidth: 78 },
-      { template: "top-plaque", scene: "plate", palette: "sekta-cream", placement: "top", size: 58, bodySize: 25, titleBoxWidth: 78, bodyBoxWidth: 76, textColor: "#17221f" },
-      { template: "photo-scrim", scene: "photo-dim", palette: "sekta-yellow", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 80, bodyBoxWidth: 78, textColor: "#ffffff" },
-      { template: "photo-field", scene: "window", palette: "sekta-sun", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 78 },
+      { template: "light-column", scene: "paper", palette: "sekta-cream", placement: "middle", size: 62, bodySize: 40, titleBoxWidth: 84, titleBoxHeight: 28, bodyBoxWidth: 84, bodyBoxHeight: 52 },
+      { template: "photo-field", scene: "window", palette: "sekta-sun", placement: "bottom", size: 58, bodySize: 38, titleBoxWidth: 86, titleBoxHeight: 27, bodyBoxWidth: 86, bodyBoxHeight: 50 },
+      { template: "accent-thought", scene: "field", palette: "sekta-sun", placement: "middle", size: 64, bodySize: 40, titleBoxWidth: 86, titleBoxHeight: 30, bodyBoxWidth: 86, bodyBoxHeight: 50 },
+      { template: "photo-scrim", scene: "photo-dim", palette: "sekta-yellow", placement: "bottom", size: 58, bodySize: 38, titleBoxWidth: 86, titleBoxHeight: 27, bodyBoxWidth: 86, bodyBoxHeight: 50, textColor: "#ffffff" },
+      { template: "photo-window", scene: "window", palette: "sekta-sun", placement: "bottom", size: 58, bodySize: 38, titleBoxWidth: 86, titleBoxHeight: 27, bodyBoxWidth: 86, bodyBoxHeight: 50 },
+      { template: "light-column", scene: "paper", palette: "sekta-cream", placement: "middle", size: 62, bodySize: 40, titleBoxWidth: 84, titleBoxHeight: 28, bodyBoxWidth: 84, bodyBoxHeight: 52 },
+      { template: "text-photo", scene: "photo-dim", palette: "sekta-yellow", placement: "bottom", size: 58, bodySize: 38, titleBoxWidth: 86, titleBoxHeight: 27, bodyBoxWidth: 86, bodyBoxHeight: 50, textColor: "#ffffff" },
+      { template: "photo-field", scene: "window", palette: "sekta-sun", placement: "bottom", size: 58, bodySize: 38, titleBoxWidth: 86, titleBoxHeight: 27, bodyBoxWidth: 86, bodyBoxHeight: 50 },
     ],
     final: { template: "color-final", role: "cta", scene: "field", palette: "sekta-sun", placement: "middle", size: 70, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 72 },
   };
@@ -786,10 +787,13 @@
     const bodyWords = words(slide.body).length;
     slide.showTitle = titleWords > 0;
     slide.showBody = bodyWords > 0;
-    slide.size = Math.max(titleWords > 10 ? 52 : 58, numberOr(slide.size, 60));
-    slide.bodySize = Math.max(bodyWords > 65 ? 24 : bodyWords > 42 ? 25 : 26, numberOr(slide.bodySize, 26));
+    slide.size = bodyWords > 55
+      ? titleWords > 8 ? 48 : titleWords > 5 ? 52 : 56
+      : Math.max(titleWords > 10 ? 52 : 58, numberOr(slide.size, 60));
+    slide.bodySize = Math.max(bodyWords > 100 ? 34 : bodyWords > 78 ? 36 : bodyWords > 55 ? 38 : 40, numberOr(slide.bodySize, 38));
     slide.titleBoxHeight = Math.max(numberOr(slide.titleBoxHeight, 30), titleWords > 10 ? 36 : 28);
-    slide.bodyBoxHeight = Math.max(numberOr(slide.bodyBoxHeight, 28), bodyWords > 55 ? 38 : bodyWords > 30 ? 30 : 22);
+    slide.bodyBoxWidth = Math.max(numberOr(slide.bodyBoxWidth, 78), bodyWords > 55 ? 84 : 78);
+    slide.bodyBoxHeight = Math.max(numberOr(slide.bodyBoxHeight, 38), bodyWords > 78 ? 56 : bodyWords > 55 ? 50 : 42);
     slide.photoFocusY = numberOr(slide.photoFocusY, 38);
     slide.photoFocusX = numberOr(slide.photoFocusX, 50);
     slide.photoScale = Math.max(1, Math.min(1.35, numberOr(slide.photoScale, 1)));
@@ -826,7 +830,7 @@
         role: "longread",
         title: copy.title,
         body: copy.body,
-        bodySize: words(body).length > 70 ? 24 : words(body).length > 48 ? 26 : template.bodySize,
+        bodySize: words(body).length > 100 ? 34 : words(body).length > 78 ? 36 : words(body).length > 55 ? 38 : 40,
         photoId: templateUsesPhoto && photoRhythm && photos.length ? photos.find((item) => !usedPhotos.has(item.id))?.id || photos[index % photos.length].id : null,
       });
       return ensureGeneratedSlideIntegrity(slide, index + 1, next, usedPhotos);
@@ -895,22 +899,29 @@
   }
 
   function generatedLongread(idea, variant = 0) {
-    const hookSentence = /[.!?…]$/.test(idea.hook.trim()) ? idea.hook.trim() : `${idea.hook.trim()}.`;
-    const openings = [
-      `${hookSentence} Эта мысль важна именно в обычный день — не тогда, когда всё получается, а когда план снова не совпал с жизнью.`,
-      `Есть момент, в котором особенно легко решить, что с вами что-то не так: ${idea.title.toLocaleLowerCase("ru")}. Но привычное объяснение здесь редко помогает.`,
-      `Попробуем посмотреть на это без героизма и без чувства вины. ${hookSentence} Не как красивый лозунг, а как рабочее правило для реальной жизни.`
+    const tokenize = (value) => new Set(String(value || "").toLocaleLowerCase("ru").split(/[^a-zа-яё0-9]+/i).filter((word) => word.length > 4));
+    const query = tokenize([idea.title, idea.hook, idea.objective, idea.asset].join(" "));
+    const ranked = scienceLibrary.flatMap((article) => article.paragraphs.map((paragraph, paragraphIndex) => {
+      const tokens = tokenize(`${article.title} ${paragraph}`);
+      let score = 0;
+      query.forEach((token) => { if (tokens.has(token)) score += article.title.toLocaleLowerCase("ru").includes(token) ? 5 : 1; });
+      return { article, paragraph, paragraphIndex, score };
+    })).sort((a, b) => b.score - a.score || a.paragraphIndex - b.paragraphIndex);
+    const evidence = ranked.slice(variant % 4).filter((item, index, items) => items.findIndex((candidate) => candidate.article.id === item.article.id) === index).slice(0, 8);
+    const fallback = `В материалах Sektascience эта тема рассматривается не как вопрос силы воли, а как связь поведения, среды, самочувствия и доступного человеку действия.`;
+    const bridges = [
+      `Это задаёт важную рамку: сначала нужно понять условия, а уже потом оценивать результат или искать «правильное» поведение.`,
+      `Практический смысл здесь не в обещании быстрого эффекта, а в выборе шага, который соответствует реальной нагрузке и может повторяться.`,
+      `Так личный опыт не противопоставляется данным: он помогает уточнить, как общий принцип работает именно в ваших обстоятельствах.`,
+      `Важно удерживать ограничения: одна закономерность не объясняет всё, а наблюдение не заменяет медицинскую консультацию, когда она нужна.`,
     ];
-    const middles = [
-      `Мы часто замечаем только итог: сколько минут сделали, насколько устали, выполнили ли план полностью. Но устойчивость складывается из другого — из способности заметить своё состояние, выбрать подходящий объём и не превращать движение в проверку характера.`,
-      `Проблема не в недостатке силы воли. Чаще всего слишком большой следующий шаг просто не помещается в конкретный день. Тогда полезнее не уговаривать себя на максимум, а уменьшить порог входа до действия, которое действительно можно повторить.`,
-      `У движения нет задачи доказать, что вы хороший человек. Оно может быть способом вернуть контакт с телом, чуть изменить состояние и оставить себе возможность продолжить завтра. Этого уже достаточно, чтобы опыт не был пустым.`
-    ];
-    const proof = `Для этого материала мы используем ${idea.asset.toLocaleLowerCase("ru")}. Визуал должен не изображать идеальную дисциплину, а показывать живой момент: паузу, выбор, короткое действие или возвращение к знакомому движению.`;
-    const step = `Практический шаг на сегодня: сначала спросите себя не «сколько я должна сделать?», а «какой объём сейчас поддержит меня и не потребует расплаты завтра?». Выберите самый короткий честный вариант, начните с него и оставьте право остановиться.`;
-    const close = `Так появляется не идеальная серия дней, а навык, который выдерживает разные обстоятельства. Если эта рамка вам подходит — ${idea.cta.toLocaleLowerCase("ru")}.`;
-    const review = /ревью|специалист|методическ|эксперт/i.test(idea.readiness) ? `\n\nРедакторская пометка: формулировки о нагрузке и результате нужно проверить со специалистом перед публикацией.` : "";
-    return [openings[variant % openings.length], middles[variant % middles.length], proof, step, close].join("\n\n") + review;
+    return Array.from({ length: 8 }, (_, index) => {
+      const item = evidence[index] || ranked[(index + variant) % Math.max(1, ranked.length)];
+      const excerpt = words(item?.paragraph || fallback).slice(0, 62).join(" ");
+      const opening = index === 0 ? `${idea.hook.replace(/[.!?…]+$/, "")}. Начнём не с совета, а с того, что известно по материалам Sex Sport & Science.` : "";
+      const closing = index === 7 ? `Из этого можно собрать не жёсткое правило, а рабочий эксперимент: ${idea.cta.toLocaleLowerCase("ru")}. Перед публикацией научные и медицинские формулировки нужно проверить с экспертом.` : bridges[(index + variant) % bridges.length];
+      return [opening, excerpt, closing].filter(Boolean).join(" ");
+    }).join("\n\n");
   }
 
   function generateFromIdea(advance = false) {
@@ -934,6 +945,7 @@
     }
     if (paletteChoices()[direction.palette]) series.palette = direction.palette;
     const portraitPhotos = library.filter((item) => item.orientation === "portrait");
+    const directionPhotos = new Set();
     series.slides.forEach((slide, index) => {
       const isCover = index === 0;
       const isFinal = index === series.slides.length - 1;
@@ -950,6 +962,7 @@
       const usesPhoto = templateDefinitions[slide.template]?.usesPhoto === true;
       slide.photoId = usesPhoto ? slide.photoId || portraitPhotos[index % Math.max(1, portraitPhotos.length)]?.id || preferredPhoto()?.id || null : null;
       slide.font = null;
+      if (!isCover && !isFinal) ensureGeneratedSlideIntegrity(slide, index, series, directionPhotos);
     });
     series.updatedAt = new Date().toISOString();
     return true;

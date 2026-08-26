@@ -1,8 +1,31 @@
 (() => {
   const config = window.SEKTA_CAROUSEL_BUILDER;
   const library = window.SEKTA_LIBRARY?.items || [];
+  const scienceLibrary = window.SEKTA_SCIENCE_LIBRARY?.items || [];
   const currentGrid = window.SEKTA_CURRENT_GRID || [];
   if (!config?.topics?.length) return;
+
+  const scienceWordList = (value) => String(value || "").trim().split(/\s+/).filter(Boolean);
+  const scienceHeadline = (value, limit = 9) => {
+    const sentence = String(value || "").split(/(?<=[.!?])\s+/)[0] || value;
+    const parts = scienceWordList(sentence);
+    return `${parts.slice(0, limit).join(" ")}${parts.length > limit ? "…" : ""}`;
+  };
+  const sciencePriority = /(тренир|движ|ходьб|мышц|сердц|мотивац|метабол|восстанов|беремен|питан|переедан|ожирен|ии)/i;
+  const scienceTopics = [...scienceLibrary]
+    .sort((a, b) => Number(sciencePriority.test(b.title)) - Number(sciencePriority.test(a.title)))
+    .slice(0, 14)
+    .map((article) => ({
+      id: `science-${article.id}`,
+      label: article.title,
+      theme: "03_тело_спорт_сила_изменения",
+      scienceSource: { title: article.title, url: article.url },
+      hooks: [scienceHeadline(article.title, 11), `Что на самом деле известно про «${scienceHeadline(article.title, 7).toLocaleLowerCase("ru")}»`, `${scienceHeadline(article.title, 8)}: разбор без мифов`],
+      promise: `Развёрнутый разбор по материалам Sex Sport & Science: что известно, где есть ограничения и что можно применить на практике.`,
+      slides: article.paragraphs.slice(0, 8).map((paragraph, index) => ({ role: index < 2 ? "Контекст" : index < 5 ? "Научное объяснение" : "Практический вывод", title: scienceHeadline(paragraph), body: paragraph })),
+    }))
+    .filter((topic) => topic.slides.length >= 6);
+  const topics = [...scienceTopics, ...config.topics];
 
   const ui = {
     form: document.querySelector("#builderControls"),
@@ -151,7 +174,7 @@
   const seriesSceneLabels = { cover: "обложка + плашка", split: "фото + поле", scrim: "фото + scrim", paper: "светлая колонка", quote: "акцентная мысль", window: "фото-окно", clean: "текст на фото", cta: "цветовой финал" };
   const folderLabels = new Map(library.map((item) => [item.folder, item.folderLabel]).filter(([id]) => id));
 
-  let activeTopic = config.topics[0];
+  let activeTopic = topics[0];
   let activeStyle = "clean";
   let activePlacement = "bottom";
   let activeFont = "tempo";
@@ -263,11 +286,13 @@
   }
 
   function ideaPool() {
-    return config.topics.flatMap((topic) => [...topic.hooks, ...(extraHooks[topic.id] || [])].map((hook, index) => ({
+    const toIdeas = (sourceTopics) => sourceTopics.flatMap((topic) => [...topic.hooks, ...(extraHooks[topic.id] || [])].map((hook, index) => ({
       key: `${topic.id}-${index}-${hook}`,
       topic,
       hook,
     })));
+    const scienceIdeas = toIdeas(scienceTopics);
+    return [...scienceIdeas, ...scienceIdeas.map((idea) => ({ ...idea, key: `${idea.key}-science-priority` })), ...toIdeas(config.topics)];
   }
 
   function refreshIdeas({ initial = false } = {}) {
@@ -554,20 +579,65 @@
     return activeTopic.slides;
   }
 
+  function scienceTokens(value) {
+    return new Set(String(value || "").toLocaleLowerCase("ru").split(/[^a-zа-яё0-9]+/i).filter((word) => word.length > 4));
+  }
+
+  function scienceEvidenceFor(slide, index) {
+    if (activeTopic.scienceSource) {
+      const article = scienceLibrary.find((item) => item.url === activeTopic.scienceSource.url);
+      if (article?.paragraphs?.length) return { article, paragraph: article.paragraphs[(index + scriptVariant) % article.paragraphs.length] };
+    }
+    const query = scienceTokens([activeTopic.label, activeTopic.promise, slide.title, slide.body].join(" "));
+    const preferredPatterns = {
+      "return-after-pause": /(тренировочн.*план|мотивац|восстанов)/i,
+      "home-counts": /(тренировочн.*план|виды трениров|кардио)/i,
+      "body-neutrality": /(ожирен|живот|вес|тело)/i,
+      "child-movement": /(родител|мотивац|движ)/i,
+      "community-effect": /(мотивац|тренировочн.*план)/i,
+      "life-now": /(мотивац|беспомощност)/i,
+      "movement-without-result": /(мотивац|виды трениров|кардио)/i,
+      "small-anchors": /(мотивац|беспомощност|тренировочн.*план)/i,
+    };
+    const preferred = preferredPatterns[activeTopic.id];
+    const articlePool = preferred && scienceLibrary.some((article) => preferred.test(article.title)) ? scienceLibrary.filter((article) => preferred.test(article.title)) : scienceLibrary;
+    const ranked = articlePool.flatMap((article) => article.paragraphs.map((paragraph, paragraphIndex) => {
+      const tokens = scienceTokens(`${article.title} ${paragraph}`);
+      let score = 0;
+      query.forEach((token) => { if (tokens.has(token)) score += article.title.toLocaleLowerCase("ru").includes(token) ? 5 : 1; });
+      return { article, paragraph, paragraphIndex, score };
+    })).sort((a, b) => b.score - a.score || a.paragraphIndex - b.paragraphIndex);
+    return ranked[(index + scriptVariant) % Math.min(12, ranked.length)] || null;
+  }
+
+  function developedSlide(slide, index) {
+    const evidence = scienceEvidenceFor(slide, index);
+    const evidenceWords = scienceWordList(evidence?.paragraph || "").slice(0, 58).join(" ");
+    const connective = `Практический вывод здесь лучше проверять по самочувствию и обстоятельствам, а не превращать в универсальное обещание.`;
+    const draft = activeTopic.scienceSource ? [slide.body, connective].join(" ") : [slide.body, evidenceWords, connective].filter(Boolean).join(" ");
+    const sentences = draft.match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.map((sentence) => sentence.trim()).filter(Boolean) || [draft];
+    let body = "";
+    sentences.forEach((sentence) => {
+      if (scienceWordList(`${body} ${sentence}`).length <= 94) body = [body, sentence].filter(Boolean).join(" ");
+    });
+    if (scienceWordList(body).length < 58) body = scienceWordList(draft).slice(0, 94).join(" ").replace(/[,;:]?$/, ".");
+    return { ...slide, body, scienceSource: evidence ? { title: evidence.article.title, url: evidence.article.url } : null };
+  }
+
   function buildSlides() {
     const goal = config.goals[ui.goal.value] || config.goals.save;
     const total = Number(ui.slideCount?.value || 10);
     const requiredMiddle = Math.max(1, total - 2);
     const source = middleSlides();
     const expanded = Array.from({ length: requiredMiddle }, (_, index) => {
-      if (source[index]) return source[index];
+      if (source[index]) return developedSlide(source[index], index);
       const base = source[index % source.length] || { role: "Развитие", title: activeTopic.promise, body: activeTopic.promise };
       const additions = [
         { role: "Пример", title: `Как это выглядит в обычном дне`, body: base.body },
         { role: "Практика", title: `Один шаг, который можно сделать сегодня`, body: activeTopic.promise },
         { role: "Пауза", title: `Не нужно делать всё сразу`, body: base.body },
       ];
-      return additions[(index - source.length) % additions.length];
+      return developedSlide(additions[(index - source.length) % additions.length], index);
     });
     return [
       { role: "Обложка", title: ui.hook.value, body: activeTopic.promise },
@@ -617,7 +687,7 @@
     if (index === total - 1) return { scene: "cta", accent: activeAccent, withPhoto: false, studioScene: "field", studioTemplate: "color-final", studioPalette: paletteForAccent(activeAccent, "accent") };
     const cadence = [
       { scene: "paper", accent: activeAccent, withPhoto: false, studioScene: "paper", studioTemplate: "light-column", studioPalette: paletteForAccent(activeAccent, "neutral") },
-      { scene: "split", accent: activeAccent, withPhoto: true, studioScene: "split", studioTemplate: "side-plaque", studioPalette: paletteForAccent(activeAccent, "accent") },
+      { scene: "scrim", accent: activeAccent, withPhoto: true, studioScene: "photo-dim", studioTemplate: "photo-scrim", studioPalette: paletteForAccent(activeAccent, "dark") },
       { scene: "scrim", accent: activeAccent, withPhoto: true, studioScene: "photo-dim", studioTemplate: "photo-scrim", studioPalette: paletteForAccent(activeAccent, "dark") },
       { scene: "quote", accent: activeAccent, withPhoto: false, studioScene: "field", studioTemplate: "accent-thought", studioPalette: paletteForAccent(activeAccent, "accent") },
       { scene: "window", accent: activeAccent, withPhoto: true, studioScene: "window", studioTemplate: "photo-field", studioPalette: paletteForAccent(activeAccent, "accent") },
@@ -667,7 +737,7 @@
   }
 
   function generateConcept({ preserveHook = false } = {}) {
-    activeTopic = config.topics.find((topic) => topic.id === ui.topic.value) || config.topics[0];
+    activeTopic = topics.find((topic) => topic.id === ui.topic.value) || topics[0];
     const toneHook = { warm: 0, bold: 1, expert: 2 }[ui.tone.value] ?? 0;
     hookIndex = preserveHook ? hookIndex : toneHook % activeTopic.hooks.length;
     if (!preserveHook) ui.hook.value = activeTopic.hooks[hookIndex];
@@ -723,7 +793,8 @@
       objective: goal.label,
       asset: selectedPhoto ? `Выбранная обложка: ${selectedPhoto.fileName}` : "Выбрать фото из медиатеки",
       cta: goal.cta,
-      readiness: "Черновик собран · проверить текст и визуал",
+      readiness: "Научный корпус Sektascience · нужен экспертный ревью текста и визуала",
+      source: "Sex Sport & Science / Sektascience",
       slideCount: Number(ui.slideCount.value),
       longread: longreadFromSlides(),
       photoId: selectedPhoto?.id || null,
@@ -942,7 +1013,7 @@
     }
   }
 
-  ui.topic.innerHTML = config.topics.map((topic) => `<option value="${escapeHtml(topic.id)}">${escapeHtml(topic.label)}</option>`).join("");
+  ui.topic.innerHTML = topics.map((topic) => `<option value="${escapeHtml(topic.id)}">${escapeHtml(topic.label)}${topic.scienceSource ? " · science" : ""}</option>`).join("");
   ui.mediaFolder.innerHTML += [...folderLabels.entries()].map(([id, label]) => `<option value="${escapeHtml(id)}">${escapeHtml(label)}</option>`).join("");
 
   ui.form.addEventListener("submit", (event) => { event.preventDefault(); generateConcept(); });

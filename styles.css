@@ -730,7 +730,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .builder-slide-copy strong { font-family: var(--series-head), sans-serif; font-size: clamp(15px, 10cqw, 43px); font-weight: 780; line-height: .9; letter-spacing: -.018em; }
 .builder-slides[data-case="upper"] .builder-slide-copy strong { text-transform: uppercase; }
 .builder-slides[data-case="lower"] .builder-slide-copy strong { text-transform: lowercase; }
-.builder-slide-copy p { display: -webkit-box; margin: 8px 0 0; overflow: hidden; font-size: clamp(9px, 3.6cqw, 14px); line-height: 1.28; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
+.builder-slide-copy p { display: -webkit-box; margin: 10px 0 0; overflow: hidden; font-size: clamp(12px, 4.4cqw, 18px); line-height: 1.3; -webkit-box-orient: vertical; -webkit-line-clamp: 10; }
 .builder-slide-copy [contenteditable="true"]:focus { border-radius: 3px; outline: 2px solid #fff; outline-offset: 3px; background: rgba(255,255,255,.92); color: #17221f; box-shadow: 0 0 0 5px rgba(23,34,31,.2); }
 .builder-slide footer { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 8px; padding-top: 7px; color: var(--soft); font-size: 10px; line-height: 1.3; }
 .builder-slide footer > span { grid-row: 1 / 3; font: 600 15px/1 Georgia, serif; }
