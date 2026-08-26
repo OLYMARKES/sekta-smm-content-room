@@ -607,7 +607,28 @@
                   </div>
                   <span class="mobile-editor-counter" id="mobileEditorCounter">01 / 01</span>
                 </div>
-                <p class="mobile-editor-inline-hint">Коснитесь заголовка или текста прямо на слайде, чтобы изменить его.</p>
+                <div class="mobile-editor-plaque-toolbar" aria-label="Плашка и положение текста">
+                  <div class="mobile-editor-plaque-head">
+                    <label class="mobile-editor-plaque-toggle"><input id="mobileEditorPlaqueEnabled" type="checkbox"><span>Плашка</span></label>
+                    <div class="mobile-editor-placement" id="mobileEditorPlacement" role="group" aria-label="Положение текста">
+                      <button type="button" data-mobile-placement="top" aria-label="Текст сверху">Сверху</button>
+                      <button type="button" data-mobile-placement="middle" aria-label="Текст по центру">Центр</button>
+                      <button type="button" data-mobile-placement="bottom" aria-label="Текст снизу">Снизу</button>
+                    </div>
+                  </div>
+                  <div class="mobile-editor-plaque-settings" id="mobileEditorPlaqueSettings">
+                    <div class="mobile-editor-plaque-colors" id="mobileEditorPlaqueColors" role="group" aria-label="Цвет плашки">
+                      <button type="button" data-mobile-plaque-color="#62d9a4" style="--swatch:#62d9a4" aria-label="Мятная плашка"></button>
+                      <button type="button" data-mobile-plaque-color="#f481b5" style="--swatch:#f481b5" aria-label="Розовая плашка"></button>
+                      <button type="button" data-mobile-plaque-color="#ffe36a" style="--swatch:#ffe36a" aria-label="Жёлтая плашка"></button>
+                      <button type="button" data-mobile-plaque-color="#17221f" style="--swatch:#17221f" aria-label="Тёмная плашка"></button>
+                      <label class="mobile-editor-plaque-custom" aria-label="Свой цвет плашки"><input id="mobileEditorPlaqueColor" type="color" value="#62d9a4"><span>Свой</span></label>
+                    </div>
+                    <label class="mobile-editor-plaque-range"><span>Прозрачность <output id="mobileEditorPlaqueOpacityValue">100%</output></span><input id="mobileEditorPlaqueOpacity" type="range" min="0" max="100" value="100"></label>
+                    <label class="mobile-editor-plaque-range"><span>Ширина <output id="mobileEditorPlaqueWidthValue">86%</output></span><input id="mobileEditorPlaqueWidth" type="range" min="52" max="92" value="86"></label>
+                  </div>
+                </div>
+                <p class="mobile-editor-inline-hint">Коснитесь текста, чтобы переписать его. Плашка настраивается сразу под слайдом.</p>
                 <div class="mobile-editor-stepper">
                   <button type="button" id="mobileEditorPrev" aria-label="Предыдущий слайд">←</button>
                   <div><strong id="mobileEditorSlideLabel">Обложка</strong><span id="mobileEditorPhotoLabel">предложенное фото</span></div>
@@ -1048,8 +1069,8 @@
   <script src="growth-coach.js?v=20260825-3"></script>
   <script src="production-room.js?v=20260825-2"></script>
   <script src="carousel-builder.js?v=20260826-6"></script>
-  <script src="carousel-studio.js?v=20260826-3"></script>
-  <script src="mobile-editor.js?v=20260826-6"></script>
+  <script src="carousel-studio.js?v=20260826-4"></script>
+  <script src="mobile-editor.js?v=20260826-7"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>

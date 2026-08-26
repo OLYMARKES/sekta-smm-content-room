@@ -6,6 +6,7 @@
   const DRAFT_KEY = "sekta-mobile-editor-draft-v1";
   const tones = ["mint", "pink", "sun"];
   const palettes = ["sekta-mint", "sekta-pink", "sekta-sun"];
+  const toneColors = { mint: "#62d9a4", pink: "#f481b5", sun: "#ffe36a" };
 
   const ui = {
     saveState: document.querySelector("#mobileEditorSaveState"),
@@ -14,6 +15,15 @@
     previewTitle: document.querySelector("#mobileEditorPreviewTitle"),
     previewBody: document.querySelector("#mobileEditorPreviewBody"),
     inlineEditors: [...document.querySelectorAll("[data-mobile-inline]")],
+    plaqueEnabled: document.querySelector("#mobileEditorPlaqueEnabled"),
+    plaqueSettings: document.querySelector("#mobileEditorPlaqueSettings"),
+    plaqueColors: document.querySelector("#mobileEditorPlaqueColors"),
+    plaqueColor: document.querySelector("#mobileEditorPlaqueColor"),
+    plaqueOpacity: document.querySelector("#mobileEditorPlaqueOpacity"),
+    plaqueOpacityValue: document.querySelector("#mobileEditorPlaqueOpacityValue"),
+    plaqueWidth: document.querySelector("#mobileEditorPlaqueWidth"),
+    plaqueWidthValue: document.querySelector("#mobileEditorPlaqueWidthValue"),
+    placement: document.querySelector("#mobileEditorPlacement"),
     miniCanvas: document.querySelector("#mobileEditorMiniCanvas"),
     miniImage: document.querySelector("#mobileEditorMiniImage"),
     miniCounter: document.querySelector("#mobileEditorMiniCounter"),
@@ -46,6 +56,20 @@
 
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
   const words = (value) => String(value || "").trim().split(/\s+/).filter(Boolean);
+  const clamp = (value, min, max) => Math.max(min, Math.min(max, Number(value)));
+  const hexToRgb = (hex) => {
+    const normalized = String(hex || "").replace("#", "").trim();
+    if (!/^[\da-f]{6}$/i.test(normalized)) return { r: 23, g: 34, b: 31 };
+    return { r: parseInt(normalized.slice(0, 2), 16), g: parseInt(normalized.slice(2, 4), 16), b: parseInt(normalized.slice(4, 6), 16) };
+  };
+  const colorWithAlpha = (hex, alpha) => {
+    const { r, g, b } = hexToRgb(hex);
+    return `rgba(${r}, ${g}, ${b}, ${clamp(alpha, 0, 1)})`;
+  };
+  const readableTextColor = (hex) => {
+    const { r, g, b } = hexToRgb(hex);
+    return (r * .299 + g * .587 + b * .114) > 150 ? "#17221f" : "#ffffff";
+  };
   const photoById = (id) => library.find((item) => item.id === id) || null;
   const shuffle = (items) => {
     const next = [...items];
@@ -73,12 +97,18 @@
   }
 
   function normalizeSlide(slide = {}, index = 0) {
+    const tone = tones.includes(slide.tone) ? slide.tone : tones[index % tones.length];
     return {
       id: slide.id || `mobile-slide-${Date.now()}-${index}`,
       title: String(slide.title || ""),
       body: String(slide.body || ""),
       photoId: photoById(slide.photoId)?.id || defaultPhoto()?.id || null,
-      tone: tones.includes(slide.tone) ? slide.tone : tones[index % tones.length],
+      tone,
+      plaqueEnabled: typeof slide.plaqueEnabled === "boolean" ? slide.plaqueEnabled : index === 0,
+      plaqueColor: /^#[\da-f]{6}$/i.test(slide.plaqueColor) ? slide.plaqueColor : toneColors[tone],
+      plaqueOpacity: clamp(slide.plaqueOpacity ?? 1, 0, 1),
+      plaqueWidth: clamp(slide.plaqueWidth ?? 86, 52, 92),
+      placement: ["top", "middle", "bottom"].includes(slide.placement) ? slide.placement : "bottom",
       generatedBody: String(slide.generatedBody ?? ""),
     };
   }
@@ -161,6 +191,8 @@
   function renderSlide() {
     const slide = activeSlide();
     const photo = photoById(slide.photoId) || defaultPhoto();
+    const plaqueFill = colorWithAlpha(slide.plaqueColor, slide.plaqueOpacity);
+    const plaqueText = slide.plaqueEnabled ? readableTextColor(slide.plaqueColor) : "#ffffff";
     ui.image.src = photo?.thumb || "";
     ui.miniImage.src = photo?.thumb || "";
     ui.inlineEditors.forEach((editor) => {
@@ -173,6 +205,31 @@
     ui.photoLabel.textContent = photo?.folderLabel || "выберите фотографию";
     ui.canvas.dataset.tone = slide.tone;
     ui.miniCanvas.dataset.tone = slide.tone;
+    [ui.canvas, ui.miniCanvas].forEach((canvas) => {
+      canvas.dataset.plaque = slide.plaqueEnabled ? "on" : "off";
+      canvas.dataset.placement = slide.placement;
+      canvas.style.setProperty("--mobile-plaque-fill", plaqueFill);
+      canvas.style.setProperty("--mobile-plaque-text", plaqueText);
+      canvas.style.setProperty("--mobile-plaque-width", `${slide.plaqueWidth}%`);
+    });
+    ui.plaqueEnabled.checked = slide.plaqueEnabled;
+    ui.plaqueSettings.classList.toggle("is-disabled", !slide.plaqueEnabled);
+    ui.plaqueSettings.querySelectorAll("input, button").forEach((control) => { control.disabled = !slide.plaqueEnabled; });
+    ui.plaqueColor.value = slide.plaqueColor;
+    ui.plaqueOpacity.value = String(Math.round(slide.plaqueOpacity * 100));
+    ui.plaqueOpacityValue.value = `${Math.round(slide.plaqueOpacity * 100)}%`;
+    ui.plaqueWidth.value = String(Math.round(slide.plaqueWidth));
+    ui.plaqueWidthValue.value = `${Math.round(slide.plaqueWidth)}%`;
+    ui.plaqueColors.querySelectorAll("[data-mobile-plaque-color]").forEach((button) => {
+      const selected = button.dataset.mobilePlaqueColor.toLowerCase() === slide.plaqueColor.toLowerCase();
+      button.classList.toggle("is-active", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+    ui.placement.querySelectorAll("[data-mobile-placement]").forEach((button) => {
+      const selected = button.dataset.mobilePlacement === slide.placement;
+      button.classList.toggle("is-active", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
     ui.slideTitle.value = slide.title;
     ui.slideBody.value = slide.body;
     ui.prev.disabled = state.activeSlide === 0;
@@ -277,7 +334,17 @@
       activeSlide: state.activeSlide,
       openSlides: true,
       slides: state.slides.map((slide, index) => ({ title: slide.title, body: slide.body, role: index === 0 ? "cover" : "longread" })),
-      visualPlan: state.slides.map((slide, index) => ({ template: "text-photo", scene: "photo-clean", palette: palettes[index % palettes.length], photoId: slide.photoId })),
+      visualPlan: state.slides.map((slide, index) => ({
+        template: "photo-scrim",
+        scene: "photo-dim",
+        palette: palettes[index % palettes.length],
+        photoId: slide.photoId,
+        placement: slide.placement,
+        plaqueEnabled: slide.plaqueEnabled,
+        plaqueColor: slide.plaqueColor,
+        plaqueOpacity: slide.plaqueOpacity,
+        plaqueWidth: slide.plaqueWidth,
+      })),
     };
     window.dispatchEvent(new CustomEvent("sekta:post-builder-load", { detail }));
     document.querySelector('.nav-item[data-view="postbuilder"]')?.click();
@@ -301,6 +368,42 @@
     if (!button) return;
     mediaFilter = button.dataset.mobileMedia;
     renderMedia();
+  });
+  ui.plaqueEnabled.addEventListener("change", () => {
+    activeSlide().plaqueEnabled = ui.plaqueEnabled.checked;
+    renderSlide();
+    markChanged(ui.plaqueEnabled.checked ? "Плашка включена для этого слайда." : "Плашка убрана с этого слайда.");
+  });
+  ui.plaqueColors.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-mobile-plaque-color]");
+    if (!button) return;
+    activeSlide().plaqueEnabled = true;
+    activeSlide().plaqueColor = button.dataset.mobilePlaqueColor;
+    renderSlide();
+    markChanged("Цвет плашки сохранён для этого слайда.");
+  });
+  ui.plaqueColor.addEventListener("input", () => {
+    activeSlide().plaqueEnabled = true;
+    activeSlide().plaqueColor = ui.plaqueColor.value;
+    renderSlide();
+    markChanged("Свой цвет плашки сохранён.");
+  });
+  ui.plaqueOpacity.addEventListener("input", () => {
+    activeSlide().plaqueOpacity = clamp(Number(ui.plaqueOpacity.value) / 100, 0, 1);
+    renderSlide();
+    markChanged("Прозрачность плашки сохранена.");
+  });
+  ui.plaqueWidth.addEventListener("input", () => {
+    activeSlide().plaqueWidth = clamp(ui.plaqueWidth.value, 52, 92);
+    renderSlide();
+    markChanged("Ширина плашки сохранена.");
+  });
+  ui.placement.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-mobile-placement]");
+    if (!button) return;
+    activeSlide().placement = button.dataset.mobilePlacement;
+    renderSlide();
+    markChanged("Положение текста сохранено для этого слайда.");
   });
   ui.inlineEditors.forEach((editor) => {
     editor.addEventListener("input", () => {

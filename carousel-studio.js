@@ -1025,13 +1025,22 @@
           if (["top", "middle", "bottom", "left", "right"].includes(visual.placement)) slide.placement = visual.placement;
           if (visual.palette && paletteChoices()[visual.palette]) slide.palette = visual.palette;
           if (visual.photoId && photoById(visual.photoId)) slide.photoId = visual.photoId;
+          const hasTransferredPlaque = typeof visual.plaqueEnabled === "boolean";
+          if (hasTransferredPlaque) {
+            slide.plaqueEnabled = visual.plaqueEnabled;
+            slide.plaqueColor = /^#[\da-f]{6}$/i.test(visual.plaqueColor) ? visual.plaqueColor : "";
+            slide.plaqueOpacity = Math.max(0, Math.min(1, numberOr(visual.plaqueOpacity, 1)));
+            const transferredWidth = Math.max(52, Math.min(92, numberOr(visual.plaqueWidth, slide.titleBoxWidth)));
+            slide.titleBoxWidth = transferredWidth;
+            slide.bodyBoxWidth = Math.max(numberOr(slide.bodyBoxWidth, 78), transferredWidth);
+          }
           if (index > 0) {
             slide.textColor = ["photo-clean", "photo-dim"].includes(slide.scene) ? "#ffffff" : "";
-            slide.titleColor = "";
+            slide.titleColor = slide.plaqueEnabled ? readableTextColor(slide.plaqueColor || paletteFor(slide).background) : "";
             slide.bodyColor = "";
             slide.labelColor = "";
             slide.counterColor = "";
-            slide.plaqueEnabled = false;
+            if (!hasTransferredPlaque) slide.plaqueEnabled = false;
           }
         });
         const usedImportedPhotos = new Set();
