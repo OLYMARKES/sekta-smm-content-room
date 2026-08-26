@@ -977,7 +977,7 @@
       series.font = normalizeFontSystem(idea.font);
       ensureFont(series.font);
     }
-    const requestedSlides = Math.min(20, Math.max(6, Number(idea.slideCount) || 10));
+    const requestedSlides = Math.min(20, Math.max(5, Number(idea.slideCount) || 10));
     ui.slideCount.value = String(requestedSlides);
     const cover = coverSlide();
     cover.title = idea.hook;

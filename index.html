@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260826-1">
+  <link rel="stylesheet" href="styles.css?v=20260826-3">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -28,6 +28,7 @@
         <button class="nav-item is-active" data-view="overview"><span>⌂</span>Обзор</button>
         <button class="nav-item" data-view="builder"><span>▤</span>Идеи и обложки</button>
         <button class="nav-item" data-view="postbuilder"><span>▥</span>Конструктор поста</button>
+        <button class="nav-item" data-view="mobileeditor"><span class="nav-type-mark">М</span>Мобильный редактор</button>
         <button class="nav-item" data-view="growth"><span>↗</span>Банк идей</button>
         <button class="nav-item" data-view="timehop"><span class="nav-type-mark">Т</span>Таймхоп Оли <em id="navTimehopCount">5</em></button>
         <button class="nav-item" data-view="production"><span class="nav-type-mark">М</span>Материалы <em id="navProductionCount">5</em></button>
@@ -573,6 +574,86 @@
           <div class="builder-status" id="builderStatus" role="status" aria-live="polite">Готов к сборке.</div>
         </section>
 
+        <section class="view" data-view-panel="mobileeditor">
+          <div class="mobile-editor-shell">
+            <div class="page-heading compact mobile-editor-heading">
+              <div><h1>Мобильный редактор</h1><p>Быстрый черновик карусели: фото, лонгрид и покадровая проверка без длинной панели настроек.</p></div>
+              <span class="mobile-editor-save-state" id="mobileEditorSaveState"><i></i>черновик сохранён</span>
+            </div>
+
+            <div class="mobile-editor-progress" aria-label="Быстрый переход по редактору">
+              <button class="is-active" type="button" data-mobile-step="media" aria-current="step">Фото</button>
+              <button type="button" data-mobile-step="writing">Текст</button>
+              <button type="button" data-mobile-step="series">Серия</button>
+            </div>
+
+            <div class="mobile-editor-dock" aria-label="Навигация по слайдам">
+              <button type="button" data-mobile-dock="prev" aria-label="Предыдущий слайд">←</button>
+              <button type="button" data-mobile-dock="media">Сменить фото</button>
+              <button type="button" data-mobile-dock="next" aria-label="Следующий слайд">→</button>
+            </div>
+
+            <div class="mobile-editor-workspace">
+              <section class="mobile-editor-stage" id="mobileEditorStage" aria-label="Текущий слайд">
+                <div class="mobile-editor-canvas" id="mobileEditorCanvas" data-tone="mint">
+                  <img id="mobileEditorImage" src="" alt="Предложенная фотография для слайда">
+                  <div class="mobile-editor-scrim"></div>
+                  <span class="mobile-editor-label">@SEKTASCHOOL</span>
+                  <div class="mobile-editor-copy">
+                    <strong id="mobileEditorPreviewTitle">Введите заголовок</strong>
+                    <p id="mobileEditorPreviewBody"></p>
+                  </div>
+                  <span class="mobile-editor-counter" id="mobileEditorCounter">01 / 01</span>
+                </div>
+                <div class="mobile-editor-stepper">
+                  <button type="button" id="mobileEditorPrev" aria-label="Предыдущий слайд">←</button>
+                  <div><strong id="mobileEditorSlideLabel">Обложка</strong><span id="mobileEditorPhotoLabel">предложенное фото</span></div>
+                  <button type="button" id="mobileEditorNext" aria-label="Следующий слайд">→</button>
+                </div>
+                <div class="mobile-editor-rail" id="mobileEditorRail" aria-label="Слайды серии"></div>
+              </section>
+
+              <section class="mobile-editor-controls" id="mobileEditorMediaSection" aria-label="Настройки мобильного черновика">
+                <div class="mobile-editor-media-head">
+                  <div><strong>Фото для этого кадра</strong><span>Сразу показываем сильные вертикальные кадры</span></div>
+                  <button class="button button-secondary" type="button" id="mobileEditorShuffle">Другие фото</button>
+                </div>
+                <div class="mobile-editor-media-filters" id="mobileEditorMediaFilters" role="group" aria-label="Раздел медиатеки">
+                  <button class="is-active" type="button" data-mobile-media="suggested" aria-pressed="true">Предложенные</button>
+                  <button type="button" data-mobile-media="all" aria-pressed="false">Все</button>
+                  <button type="button" data-mobile-media="neuro" aria-pressed="false">Нейрофотосеты</button>
+                  <button type="button" data-mobile-media="camp" aria-pressed="false">Секта-лагерь</button>
+                  <button type="button" data-mobile-media="maternity" aria-pressed="false">Материнство</button>
+                  <button type="button" data-mobile-media="body" aria-pressed="false">Тело</button>
+                  <button type="button" data-mobile-media="olya" aria-pressed="false">Оля</button>
+                </div>
+                <label class="mobile-editor-search"><span>Найти фотографию</span><input id="mobileEditorMediaSearch" type="search" placeholder="портрет, лагерь, тренировка…" autocomplete="off"></label>
+                <div class="mobile-editor-media" id="mobileEditorMedia"></div>
+
+                <div class="mobile-editor-writing" id="mobileEditorWritingSection">
+                  <label><span>Заголовок обложки</span><input id="mobileEditorTitle" type="text" placeholder="О чём эта карусель?"></label>
+                  <label><span>Лонгрид</span><textarea id="mobileEditorLongread" rows="10" placeholder="Вставьте весь текст. Редактор сохранит формулировки и распределит их по слайдам."></textarea></label>
+                  <div class="mobile-editor-split-row">
+                    <label><span>Сколько слайдов</span><select id="mobileEditorSlideCount"><option>5</option><option>6</option><option>7</option><option selected>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></label>
+                    <button class="button button-primary" type="button" id="mobileEditorSplit">Разбить текст</button>
+                  </div>
+                  <p class="mobile-editor-word-count" id="mobileEditorWordCount">0 слов · сначала вставьте лонгрид</p>
+                </div>
+
+                <div class="mobile-editor-slide-copy">
+                  <div><strong>Текст текущего кадра</strong><span>Можно поправить после автоматической разбивки</span></div>
+                  <label><span>Заголовок кадра</span><input id="mobileEditorSlideTitle" type="text" placeholder="Необязательно"></label>
+                  <label><span>Основной текст</span><textarea id="mobileEditorSlideBody" rows="6" placeholder="Текст этого слайда"></textarea></label>
+                </div>
+
+                <button class="button button-secondary mobile-editor-open-full" type="button" id="mobileEditorOpenFull">Продолжить в полном конструкторе →</button>
+                <div class="mobile-editor-status" id="mobileEditorStatus" role="status" aria-live="polite">Выберите фото или вставьте лонгрид.</div>
+              </section>
+            </div>
+
+          </div>
+        </section>
+
         <section class="view" data-view-panel="typography">
           <header class="type-studio-heading">
             <div>
@@ -739,7 +820,7 @@
                 </div>
                 <aside class="carousel-split-settings">
                   <h3>Как разложить</h3>
-                  <label><span>Всего слайдов</span><select id="carouselSlideCount"><option>6</option><option>7</option><option>8</option><option>9</option><option selected>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option></select></label>
+                  <label><span>Всего слайдов</span><select id="carouselSlideCount"><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option selected>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option></select></label>
                   <div class="carousel-split-math" id="carouselSplitMath"><strong>1 + 8 + 1</strong><span>обложка · текст · финал</span></div>
                   <label class="carousel-check"><input id="carouselKeepParagraphs" type="checkbox" checked><span>Сохранять абзацы целиком, когда это возможно</span></label>
                   <label class="carousel-check"><input id="carouselPhotoRhythm" type="checkbox" checked><span>Добавлять фотопаузу после двух текстовых слайдов</span></label>
@@ -945,11 +1026,12 @@
   <script src="data/production-projects.js"></script>
   <script src="data/public-stats.js"></script>
   <script src="type-studio/font-data.js"></script>
-  <script src="app.js?v=20260825-6"></script>
+  <script src="app.js?v=20260826-7"></script>
   <script src="growth-coach.js?v=20260825-3"></script>
   <script src="production-room.js?v=20260825-2"></script>
-  <script src="carousel-builder.js?v=20260826-4"></script>
-  <script src="carousel-studio.js?v=20260826-1"></script>
+  <script src="carousel-builder.js?v=20260826-5"></script>
+  <script src="carousel-studio.js?v=20260826-2"></script>
+  <script src="mobile-editor.js?v=20260826-2"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>

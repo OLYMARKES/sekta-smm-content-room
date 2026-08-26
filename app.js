@@ -9,7 +9,7 @@
   const library = libraryPayload.items || [];
   const driveOriginals = window.SEKTA_DRIVE_ORIGINALS || { root: {}, items: {} };
   const publicStats = window.SEKTA_PUBLIC_STATS || { checkedAt: "", note: "", channels: [] };
-  const viewLabels = { overview: "Рабочий обзор", growth: "Банк идей", timehop: "Таймхоп Оли", production: "Материалы", coach: "Коуч роста", builder: "Идеи и обложки", postbuilder: "Конструктор поста", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
+  const viewLabels = { overview: "Рабочий обзор", growth: "Банк идей", timehop: "Таймхоп Оли", production: "Материалы", coach: "Коуч роста", builder: "Идеи и обложки", postbuilder: "Конструктор поста", mobileeditor: "Мобильный редактор", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
   const statusClass = (status) => status === "Готово" ? "status-ready" : status === "На ревью" || status === "Текст готов" ? "status-review" : "status-shoot";
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
 
@@ -590,6 +590,21 @@
     return many;
   }
 
+  function exportFileDetails(item) {
+    const exportUrl = String(item.exportImage || item.originalUrl || item.thumb || "");
+    const extensionMatch = exportUrl.match(/\.([a-z0-9]+)(?:[?#].*)?$/i);
+    const extension = (extensionMatch?.[1] || "jpg").toLocaleLowerCase("ru");
+    const baseName = String(item.fileName || `sekta-${item.id || "media"}`)
+      .replace(/\.[^.]+$/, "")
+      .replace(/[\\/:*?"<>|]+/g, "-")
+      .trim() || `sekta-${item.id || "media"}`;
+    return {
+      url: exportUrl,
+      extension,
+      fileName: `${baseName}-hq.${extension}`,
+    };
+  }
+
   function renderSandbox() {
     const cells = [...sandbox];
     while (cells.length < 9) cells.push(null);
@@ -618,8 +633,10 @@
     const themes = (item.contentThemes || []).length ? `<div class="media-taxonomy"><span>Темы</span><p>${item.contentThemes.map((tag) => escapeHtml(formatTaxonomy(tag))).join(" · ")}</p></div>` : "";
     const roles = (item.carouselRoles || []).length ? `<div class="media-taxonomy"><span>Роли в карусели</span><p>${item.carouselRoles.map((tag) => escapeHtml(formatTaxonomy(tag))).join(" · ")}</p></div>` : "";
     const category = item.sourceCategory ? ` · ${escapeHtml(formatTaxonomy(item.sourceCategory))}` : "";
+    const exportFile = exportFileDetails(item);
     const driveOriginal = driveOriginals.items?.[item.id];
     const localPathAvailable = Boolean(item.originalUrl);
+    const downloadAction = exportFile.url ? `<a class="button button-primary" href="${escapeHtml(exportFile.url)}" download="${escapeHtml(exportFile.fileName)}" data-download-hq>Скачать HQ · ${escapeHtml(exportFile.extension.toLocaleUpperCase("ru"))}</a>` : "";
     const copyAction = localPathAvailable ? `<button class="button button-secondary" data-copy-path="${escapeHtml(item.originalPath)}">Скопировать путь</button>` : "";
     const driveAction = driveOriginal ? `<a class="button button-secondary" href="${escapeHtml(driveOriginal.url)}" target="_blank" rel="noreferrer">Открыть оригинал в Drive ↗</a>` : "";
     const sourceNote = driveOriginal
@@ -628,7 +645,7 @@
         ? `<div class="path-box" title="${escapeHtml(item.originalPath)}">${escapeHtml(item.originalPath)}</div>`
         : `<div class="path-box">Оригинал ещё переносится в командный архив.</div>`;
     const qualityLabel = item.exportQuality === "source-limited" ? "исходник меньше формата Instagram" : "готово для 1080 × 1350";
-    ui.dialogContent.innerHTML = `<div class="detail-layout"><div class="detail-image"><img src="${escapeHtml(item.thumb)}" alt="${escapeHtml(item.fileName)}"></div><div class="detail-copy"><p class="eyebrow">${escapeHtml(item.folderLabel)}${category}</p><h2>${escapeHtml(item.fileName)}</h2><p>В сетке используется лёгкое превью, а при экспорте конструктор автоматически берёт HQ-копию.</p><div class="meta-list"><div class="meta-row"><span>Размер</span><strong>${item.width} × ${item.height}</strong></div><div class="meta-row"><span>Качество экспорта</span><strong>${qualityLabel}</strong></div><div class="meta-row"><span>Ориентация</span><strong>${orientationLabel(item.orientation)}</strong></div><div class="meta-row"><span>Вес оригинала</span><strong>${item.sizeMb} МБ</strong></div><div class="meta-row"><span>Точные дубли</span><strong>${duplicateText}</strong></div></div>${themes}${roles}<div class="detail-actions"><button class="button button-primary" data-add-media="${item.id}">+ В будущую сетку</button>${driveAction}${copyAction}</div>${sourceNote}</div></div>`;
+    ui.dialogContent.innerHTML = `<div class="detail-layout"><div class="detail-image"><img src="${escapeHtml(item.thumb)}" alt="${escapeHtml(item.fileName)}"></div><div class="detail-copy"><p class="eyebrow">${escapeHtml(item.folderLabel)}${category}</p><h2>${escapeHtml(item.fileName)}</h2><p>В каталоге показывается лёгкое превью. Кнопка «Скачать HQ» отдаёт качественную копию без повторного сжатия; конструкторы используют тот же файл автоматически.</p><div class="meta-list"><div class="meta-row"><span>Размер</span><strong>${item.width} × ${item.height}</strong></div><div class="meta-row"><span>Качество экспорта</span><strong>${qualityLabel}</strong></div><div class="meta-row"><span>Ориентация</span><strong>${orientationLabel(item.orientation)}</strong></div><div class="meta-row"><span>Вес оригинала</span><strong>${item.sizeMb} МБ</strong></div><div class="meta-row"><span>Точные дубли</span><strong>${duplicateText}</strong></div></div>${themes}${roles}<div class="detail-actions">${downloadAction}<button class="button button-secondary" data-add-media="${item.id}">+ В будущую сетку</button>${driveAction}${copyAction}</div>${sourceNote}</div></div>`;
     ui.detailDialog.showModal();
   }
 
@@ -751,6 +768,7 @@
     if (addButton) addMedia(library.find((item) => item.id === addButton.dataset.addMedia));
     const copyButton = event.target.closest("[data-copy-path]");
     if (copyButton) copyPath(copyButton.dataset.copyPath);
+    if (event.target.closest("[data-download-hq]")) toast("HQ-копия скачивается");
     const removeButton = event.target.closest("[data-remove]");
     if (removeButton) {
       sandbox.splice(Number(removeButton.dataset.remove), 1);
