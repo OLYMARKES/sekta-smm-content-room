@@ -31,11 +31,12 @@
     objective: root.querySelector("#momsObjective"),
     generate: root.querySelector("#momsGenerate"),
     reset: root.querySelector("#momsResetGenerator"),
-    refresh: root.querySelector("#momsRefreshIdeas"),
     ideaList: root.querySelector("#momsIdeaList"),
     ideaEmpty: root.querySelector("#momsIdeaEmpty"),
     ideaResult: root.querySelector("#momsIdeaResult"),
     ideaRecipe: root.querySelector("#momsIdeaRecipe"),
+    ideaSentinel: root.querySelector("#momsIdeaSentinel"),
+    ideaLoadLabel: root.querySelector("#momsIdeaLoadLabel"),
   };
 
   function itemText(item) {
@@ -66,6 +67,8 @@
   let visibleMedia = 36;
   let mediaLoading = false;
   let ideaOffset = 0;
+  let visibleIdeas = 6;
+  let ideaLoading = false;
 
   function allMomMedia() {
     return [...uploads, ...mediaOrder];
@@ -193,7 +196,8 @@
     return `<article class="moms-idea-card${position === 0 ? " is-featured" : ""}" data-moms-idea-card="${escapeHtml(idea.id)}"><div class="moms-idea-card-head"><div><span>${escapeHtml(room.formats[idea.format])} · ${escapeHtml(room.stages[idea.stage])}</span><strong>${escapeHtml(sourceLabels)}</strong></div><em>${escapeHtml(idea.account)}</em></div><h3>${escapeHtml(idea.title)}</h3><blockquote>«${escapeHtml(idea.hook)}»</blockquote><p>${escapeHtml(idea.angle)}</p><dl><div><dt>Цель</dt><dd>${escapeHtml(room.objectives[idea.objective])}</dd></div><div><dt>CTA</dt><dd>${escapeHtml(idea.cta)}</dd></div><div><dt>Нужен материал</dt><dd>${escapeHtml(idea.asset)}</dd></div><div><dt>Готовность</dt><dd>${escapeHtml(idea.readiness)}</dd></div></dl>${review ? `<div class="moms-review-gate"><strong>Нужен human review</strong><span>До публикации тему проверяет профильный специалист или редактор.</span></div>` : ""}<div class="moms-idea-actions"><button class="button button-secondary" type="button" data-moms-copy="${escapeHtml(idea.id)}">Скопировать бриф</button><button class="button button-primary" type="button" data-moms-build="${escapeHtml(idea.id)}">В конструктор</button></div></article>`;
   }
 
-  function renderIdeas() {
+  function renderIdeas(reset = false) {
+    if (reset) visibleIdeas = 6;
     const catalog = filteredIdeas();
     if (!catalog.length) {
       ui.ideaList.innerHTML = "";
@@ -201,17 +205,35 @@
       ui.ideaEmpty.hidden = false;
       ui.ideaResult.textContent = "0 тем";
       ui.ideaRecipe.textContent = "измените один из фильтров";
+      ui.ideaSentinel.hidden = true;
       return;
     }
     ideaOffset %= catalog.length;
-    const visible = Array.from({ length: Math.min(6, catalog.length) }, (_, index) => catalog[(ideaOffset + index) % catalog.length]);
+    const ordered = [...catalog.slice(ideaOffset), ...catalog.slice(0, ideaOffset)];
+    const visible = ordered.slice(0, visibleIdeas);
     const sources = selectedSources();
     ui.ideaList.hidden = false;
     ui.ideaEmpty.hidden = true;
     ui.ideaList.innerHTML = visible.map(ideaCard).join("");
-    ui.ideaResult.textContent = `${visible.length} ${plural(visible.length, "тема готова", "темы готовы", "тем готовы")}`;
+    ui.ideaResult.textContent = `${visible.length} из ${catalog.length} ${plural(catalog.length, "темы", "тем", "тем")} в ленте`;
     const stage = ui.stage.value === "all" ? "все этапы" : room.stages[ui.stage.value];
     ui.ideaRecipe.textContent = `${sources.length} ${plural(sources.length, "источник", "источника", "источников")} · ${stage}`;
+    const hasMore = visible.length < ordered.length;
+    ui.ideaSentinel.hidden = !hasMore;
+    ui.ideaSentinel.classList.toggle("is-loading", ideaLoading && hasMore);
+    ui.ideaLoadLabel.textContent = ideaLoading ? "Генерируем следующую пачку тем…" : "Листайте вниз — идеи продолжатся автоматически";
+  }
+
+  function loadMoreIdeas() {
+    if (ideaLoading || ui.ideaSentinel.hidden) return;
+    ideaLoading = true;
+    ui.ideaSentinel.classList.add("is-loading");
+    ui.ideaLoadLabel.textContent = "Генерируем следующую пачку тем…";
+    window.setTimeout(() => {
+      visibleIdeas += 6;
+      ideaLoading = false;
+      renderIdeas();
+    }, 220);
   }
 
   function resetGenerator() {
@@ -220,7 +242,7 @@
     ui.format.value = "all";
     ui.objective.value = "all";
     ideaOffset = 0;
-    renderIdeas();
+    renderIdeas(true);
   }
 
   function briefText(idea) {
@@ -309,10 +331,20 @@
     }, { passive: true });
   }
   ui.uploadInput.addEventListener("change", (event) => addUploads(event.target.files));
-  root.querySelectorAll('input[name="moms-source"]').forEach((input) => input.addEventListener("change", renderIdeas));
-  [ui.stage, ui.format, ui.objective].forEach((control) => control.addEventListener("change", () => { ideaOffset = 0; renderIdeas(); }));
-  ui.generate.addEventListener("click", () => { ideaOffset = Math.floor(Math.random() * Math.max(1, filteredIdeas().length)); renderIdeas(); momsToast("Нейрогенератор собрал новую связку тем"); });
-  ui.refresh.addEventListener("click", () => { ideaOffset += 6; renderIdeas(); });
+  root.querySelectorAll('input[name="moms-source"]').forEach((input) => input.addEventListener("change", () => renderIdeas(true)));
+  [ui.stage, ui.format, ui.objective].forEach((control) => control.addEventListener("change", () => { ideaOffset = 0; renderIdeas(true); }));
+  ui.generate.addEventListener("click", () => { ideaOffset = Math.floor(Math.random() * Math.max(1, filteredIdeas().length)); renderIdeas(true); momsToast("Нейрогенератор собрал новую ленту тем"); });
+  if (ui.ideaSentinel && "IntersectionObserver" in window) {
+    const ideaObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) loadMoreIdeas();
+    }, { rootMargin: "480px 0px" });
+    ideaObserver.observe(ui.ideaSentinel);
+  } else {
+    window.addEventListener("scroll", () => {
+      if (!ui.ideaSentinel || ui.ideaSentinel.hidden) return;
+      if (ui.ideaSentinel.getBoundingClientRect().top < window.innerHeight + 480) loadMoreIdeas();
+    }, { passive: true });
+  }
   ui.reset.addEventListener("click", resetGenerator);
   root.addEventListener("click", (event) => {
     if (event.target.closest("[data-moms-reset]")) resetGenerator();

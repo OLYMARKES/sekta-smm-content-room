@@ -1030,12 +1030,16 @@
                 <label class="moms-generator-field"><span>Этап</span><select id="momsStage"><option value="all">Любой этап</option><option value="pregnancy">Беременность</option><option value="baby">Первый год</option><option value="childhood">Дети постарше</option><option value="identity">Мама и её жизнь</option><option value="family">Партнёрство и семья</option></select></label>
                 <label class="moms-generator-field"><span>Формат</span><select id="momsFormat"><option value="all">Любой формат</option><option value="carousel">Карусель</option><option value="reel">Reel</option><option value="post">Пост</option><option value="stories">Stories</option></select></label>
                 <label class="moms-generator-field"><span>На что работаем</span><select id="momsObjective"><option value="all">Любая цель</option><option value="comments">Комментарии</option><option value="saves">Сохранения</option><option value="trust">Доверие</option><option value="warmth">Теплота</option><option value="reach">Охват</option></select></label>
-                <button class="button button-primary moms-generate" id="momsGenerate" type="button">Сгенерировать 6 тем</button>
+                <button class="button button-primary moms-generate" id="momsGenerate" type="button">Сгенерировать новую ленту</button>
                 <button class="button button-quiet" id="momsResetGenerator" type="button">Сбросить настройки</button>
               </aside>
               <div class="moms-generator-output">
-                <div class="moms-output-head"><div><strong id="momsIdeaResult">6 тем готовы</strong><span id="momsIdeaRecipe">4 источника · все этапы</span></div><button class="button button-secondary" id="momsRefreshIdeas" type="button">Ещё варианты</button></div>
+                <div class="moms-output-head"><div><strong id="momsIdeaResult">6 тем готовы</strong><span id="momsIdeaRecipe">4 источника · все этапы</span></div></div>
                 <div class="moms-idea-list" id="momsIdeaList"></div>
+                <div class="moms-infinite-loader" id="momsIdeaSentinel" role="status" aria-live="polite">
+                  <span class="moms-infinite-spinner" aria-hidden="true"></span>
+                  <span id="momsIdeaLoadLabel">Листайте вниз — идеи продолжатся автоматически</span>
+                </div>
                 <div class="moms-idea-empty" id="momsIdeaEmpty" hidden><strong>Для такой связки пока нет темы</strong><span>Подключите ещё один источник или расширьте этап.</span><button class="button button-secondary" type="button" data-moms-reset>Показать все темы</button></div>
               </div>
             </div>
@@ -1137,7 +1141,7 @@
   <script src="data/moms-room-data.js?v=20260826-1"></script>
   <script src="type-studio/font-data.js"></script>
   <script src="app.js?v=20260826-9"></script>
-  <script src="moms-room.js?v=20260827-1"></script>
+  <script src="moms-room.js?v=20260827-2"></script>
   <script src="growth-coach.js?v=20260825-3"></script>
   <script src="production-room.js?v=20260825-2"></script>
   <script src="carousel-builder.js?v=20260826-6"></script>
