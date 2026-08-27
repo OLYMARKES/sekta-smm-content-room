@@ -22,7 +22,8 @@
     mediaSearch: root.querySelector("#momsMediaSearch"),
     mediaOrientation: root.querySelector("#momsMediaOrientation"),
     mediaShuffle: root.querySelector("#momsMediaShuffle"),
-    mediaMore: root.querySelector("#momsMediaMore"),
+    mediaSentinel: root.querySelector("#momsMediaSentinel"),
+    mediaLoadLabel: root.querySelector("#momsMediaLoadLabel"),
     uploadInput: root.querySelector("#momsUploadInput"),
     uploadState: root.querySelector("#momsUploadState"),
     stage: root.querySelector("#momsStage"),
@@ -63,6 +64,7 @@
   let uploads = [];
   let activeMediaFilter = "all";
   let visibleMedia = 36;
+  let mediaLoading = false;
   let ideaOffset = 0;
 
   function allMomMedia() {
@@ -109,8 +111,23 @@
     const visible = filtered.slice(0, visibleMedia);
     ui.mediaResult.textContent = `${filtered.length} ${plural(filtered.length, "материал", "материала", "материалов")} в этой выдаче`;
     ui.mediaGrid.innerHTML = visible.length ? visible.map(mediaCard).join("") : `<div class="moms-media-empty"><strong>Здесь пока нет подходящих фото</strong><span>Сбросьте фильтр или добавьте материал в мамскую медиатеку.</span></div>`;
-    ui.mediaMore.hidden = visible.length >= filtered.length;
+    const hasMore = visible.length < filtered.length;
+    ui.mediaSentinel.hidden = !hasMore;
+    ui.mediaSentinel.classList.toggle("is-loading", mediaLoading && hasMore);
+    ui.mediaLoadLabel.textContent = mediaLoading ? "Подгружаем следующую пачку фотографий…" : "Листайте вниз — фотографии продолжатся автоматически";
     syncCounts();
+  }
+
+  function loadMoreMedia() {
+    if (mediaLoading || ui.mediaSentinel.hidden) return;
+    mediaLoading = true;
+    ui.mediaSentinel.classList.add("is-loading");
+    ui.mediaLoadLabel.textContent = "Подгружаем следующую пачку фотографий…";
+    window.setTimeout(() => {
+      visibleMedia += 36;
+      mediaLoading = false;
+      renderMedia();
+    }, 220);
   }
 
   function setMediaFilter(kind) {
@@ -280,7 +297,17 @@
     renderMedia(true);
     momsToast("Мамская медиатека перемешана");
   });
-  ui.mediaMore.addEventListener("click", () => { visibleMedia += 36; renderMedia(); });
+  if (ui.mediaSentinel && "IntersectionObserver" in window) {
+    const mediaObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) loadMoreMedia();
+    }, { rootMargin: "560px 0px" });
+    mediaObserver.observe(ui.mediaSentinel);
+  } else {
+    window.addEventListener("scroll", () => {
+      if (!ui.mediaSentinel || ui.mediaSentinel.hidden) return;
+      if (ui.mediaSentinel.getBoundingClientRect().top < window.innerHeight + 560) loadMoreMedia();
+    }, { passive: true });
+  }
   ui.uploadInput.addEventListener("change", (event) => addUploads(event.target.files));
   root.querySelectorAll('input[name="moms-source"]').forEach((input) => input.addEventListener("change", renderIdeas));
   [ui.stage, ui.format, ui.objective].forEach((control) => control.addEventListener("change", () => { ideaOffset = 0; renderIdeas(); }));

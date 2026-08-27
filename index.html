@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260826-6">
+  <link rel="stylesheet" href="styles.css?v=20260827-1">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -1007,7 +1007,10 @@
             </div>
             <div class="moms-result-line"><span id="momsMediaResult">Собираем материалы…</span><span id="momsUploadState">Локальных фото пока нет</span></div>
             <div class="moms-media-grid" id="momsMediaGrid"></div>
-            <button class="button button-secondary moms-load-more" id="momsMediaMore" type="button">Показать ещё</button>
+            <div class="moms-infinite-loader" id="momsMediaSentinel" role="status" aria-live="polite">
+              <span class="moms-infinite-spinner" aria-hidden="true"></span>
+              <span id="momsMediaLoadLabel">Листайте вниз — фотографии продолжатся автоматически</span>
+            </div>
           </section>
 
           <section class="moms-panel" id="momsIdeasPanel" role="tabpanel" aria-labelledby="momsIdeasTab" data-moms-panel="ideas" hidden>
@@ -1134,7 +1137,7 @@
   <script src="data/moms-room-data.js?v=20260826-1"></script>
   <script src="type-studio/font-data.js"></script>
   <script src="app.js?v=20260826-9"></script>
-  <script src="moms-room.js?v=20260826-2"></script>
+  <script src="moms-room.js?v=20260827-1"></script>
   <script src="growth-coach.js?v=20260825-3"></script>
   <script src="production-room.js?v=20260825-2"></script>
   <script src="carousel-builder.js?v=20260826-6"></script>

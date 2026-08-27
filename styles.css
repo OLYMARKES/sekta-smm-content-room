@@ -2481,8 +2481,11 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .moms-media-caption { position: absolute; inset: auto 0 0; display: grid; gap: 2px; padding: 20px 8px 8px; color: #fff; background: linear-gradient(180deg, transparent, rgba(32,20,25,.84)); text-align: left; }
 .moms-media-caption strong { font-size: 9px; text-transform: uppercase; }
 .moms-media-caption small { overflow: hidden; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
-.moms-load-more { display: flex; min-width: 180px; margin: 16px auto 0; }
-.moms-load-more[hidden] { display: none; }
+.moms-infinite-loader { min-height: 72px; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 14px; color: var(--moms-muted); font-size: 9px; }
+.moms-infinite-loader[hidden] { display: none; }
+.moms-infinite-spinner { width: 18px; height: 18px; border: 2px solid #eadde2; border-top-color: #a34c6e; border-radius: 50%; animation: moms-spinner 1s linear infinite; }
+.moms-infinite-loader.is-loading { color: var(--moms-ink); }
+@keyframes moms-spinner { to { transform: rotate(360deg); } }
 .moms-media-empty { grid-column: 1 / -1; min-height: 220px; display: grid; place-items: center; align-content: center; gap: 6px; border: 1px dashed #cdbbc2; border-radius: 12px; color: var(--moms-muted); background: var(--moms-soft); text-align: center; }
 .moms-media-empty strong { color: var(--moms-ink); font-size: 13px; }
 .moms-media-empty span { font-size: 10px; }
@@ -2571,4 +2574,8 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
   .moms-idea-card h3 { font-size: 18px; }
   .moms-idea-actions { grid-template-columns: 1fr; }
   .moms-idea-actions .button { min-height: 42px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moms-infinite-spinner { animation: none; border-color: #a34c6e #eadde2 #eadde2; }
 }
