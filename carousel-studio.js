@@ -9,7 +9,7 @@
   const DRAFT_KEY = "sekta-carousel-studio-draft-v2";
   const SAVED_KEY = "sekta-carousel-studio-series-v1";
   const IMPORT_KEY = "sekta-carousel-studio-taste-import-v1";
-  const MONTAGE_VERSION = 8;
+  const MONTAGE_VERSION = 10;
   const DEFAULT_LONGREAD = document.querySelector("#carouselLongreadText")?.value || "";
   const palettes = {
     ink: { name: "Контрастная", background: "#17221f", foreground: "#ffffff", accent: "#f7f7f2", ink: "#17221f", plaque: "#f7f7f2", plaqueText: "#17221f" },
@@ -90,7 +90,7 @@
     body: canonicalInner,
     final: { ...(visualCanon?.final || {}), template: "color-final", role: "cta", scene: "field", palette: "sekta-sun", placement: "middle", size: 70, bodySize: 30, titleBoxWidth: 82, bodyBoxWidth: 78, plaqueEnabled: false },
   };
-  const quickPaletteIds = ["sekta-sky", "sekta-mint", "sekta-pink", "sekta-sun", "sekta-cream", "sekta-yellow"];
+  const quickPaletteIds = ["sekta-mint", "sekta-pink", "sekta-sun", "ink"];
   const quickLayoutPresets = {
     "light-column": { name: "Светлая колонка", detail: "68 / 28 · ширина 72%", template: "light-column", scene: "paper", placement: "middle", size: 68, bodySize: 28, titleBoxWidth: 72, titleBoxHeight: 31, bodyBoxWidth: 72, bodyBoxHeight: 32 },
     "photo-field": { name: "Фото + поле", detail: "64 / 27 · ширина 78%", template: "photo-field", scene: "window", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 78, titleBoxHeight: 29, bodyBoxWidth: 78, bodyBoxHeight: 20 },
@@ -344,47 +344,13 @@
   const preferredPhoto = () => library.find((item) => item.orientation === "portrait" && item.carouselRoles?.includes("01_обложка_личное_присутствие")) || library.find((item) => item.orientation === "portrait") || library[0] || null;
 
   function fontChoices() {
-    const votes = readJson("olymarkes-cyrillic-font-taste-v1", {});
-    const layoutPrefs = readJson("olymarkes-text-layout-prefs-v1", {});
-    const savedSystems = [...(Array.isArray(tasteBundle.systems) ? tasteBundle.systems : []), ...(readJson("olymarkes-type-system-studio-v1", []) || [])];
-    const selected = [];
-    const add = (family, caseKind = "original", body = "", recipe = "") => {
-      if (!family) return;
-      const normalized = { family, caseKind: caseKind || "original", body: body || companionFor(family), recipe };
-      const identity = [normalized.family, normalized.caseKind, normalized.body].join("|");
-      normalized.key = [normalized.family, normalized.caseKind, normalized.body, normalized.recipe].join("|");
-      if (selected.some((font) => [font.family, font.caseKind, font.body].join("|") === identity)) return;
-      selected.push(normalized);
-    };
-    savedSystems.forEach((system) => {
-      const [family, caseKind, recipe, body] = String(system.key || "").split("|");
-      add(family, caseKind, body, recipe || system.label || "сохранённая система");
-    });
-    const preferredChoice = tasteBundle.layoutPrefs?.choice || layoutPrefs.choice;
-    if (preferredChoice) {
-      const [family, caseKind] = preferredChoice.split("|");
-      add(family, caseKind, tasteBundle.layoutPrefs?.body || layoutPrefs.body);
-    }
-    optimalFontSystems.forEach((font) => add(font.family, font.caseKind, font.body, font.recipe));
-    (tasteBundle.fontLikes || []).forEach((key) => {
-      const split = String(key).lastIndexOf("|");
-      if (split > 0) add(key.slice(0, split), key.slice(split + 1));
-    });
-    builtInLikedFrames.forEach((key) => {
-      const split = key.lastIndexOf("|");
-      add(key.slice(0, split), key.slice(split + 1), "", "из профиля Оли");
-    });
-    Object.entries(votes).forEach(([key, value]) => {
-      if (value !== "like" || !key.includes("|")) return;
-      const split = key.lastIndexOf("|");
-      add(key.slice(0, split), key.slice(split + 1));
-    });
-    if (!selected.length) {
-      add("Onest", "original", "Golos Text", "стартовая система");
-      add("Golos Text", "original", "Golos Text", "стартовая система");
-      add("Literata", "original", "Onest", "стартовая система");
-    }
-    return selected;
+    return [{
+      family: canonType.family,
+      caseKind: canonType.caseKind,
+      body: canonType.body,
+      recipe: "зафиксированный канон #Sekta",
+      key: [canonType.family, canonType.caseKind, canonType.body, "зафиксированный канон #Sekta"].join("|"),
+    }];
   }
 
   function companionFor(family) {
@@ -456,9 +422,12 @@
   }
 
   function paletteChoices() {
-    const choices = { ...palettes };
-    layoutLikeIds().forEach((id) => { choices[`layout-${id}`] = { ...layoutPresets[id], sourceId: id }; });
-    return choices;
+    return {
+      ink: palettes.ink,
+      "sekta-mint": palettes["sekta-mint"],
+      "sekta-pink": palettes["sekta-pink"],
+      "sekta-sun": palettes["sekta-sun"],
+    };
   }
 
   function paletteFor(id) {
@@ -624,9 +593,9 @@
         plaqueColor: slide.plaqueColor || "",
         plaqueOpacity: Math.max(0, Math.min(1, numberOr(slide.plaqueOpacity, 1))),
         titleFontFamily: slide.titleFontFamily || "",
-        titleWeight: numberOr(slide.titleWeight, 800),
-        titleLineHeight: numberOr(slide.titleLineHeight, .96),
-        titleTracking: numberOr(slide.titleTracking, -.035),
+        titleWeight: numberOr(slide.titleWeight, canonType.titleWeight),
+        titleLineHeight: numberOr(slide.titleLineHeight, canonType.titleLineHeight),
+        titleTracking: numberOr(slide.titleTracking, canonType.titleTracking),
         bodyFontFamily: slide.bodyFontFamily || "",
         bodyWeight: numberOr(slide.bodyWeight, 470),
         bodyLineHeight: numberOr(slide.bodyLineHeight, 1.25),
@@ -656,11 +625,11 @@
           visible: layer.visible !== false,
           x: Number(layer.x) || 0,
           y: Number(layer.y) || 0,
-          fontFamily: layer.fontFamily || "",
-          weight: numberOr(layer.weight, 700),
-          size: numberOr(layer.size, 32),
-          lineHeight: numberOr(layer.lineHeight, 1),
-          tracking: numberOr(layer.tracking, 0),
+          fontFamily: layer.fontFamily || canonType.family,
+          weight: numberOr(layer.weight, canonType.titleWeight),
+          size: numberOr(layer.size, 56),
+          lineHeight: numberOr(layer.lineHeight, canonType.titleLineHeight),
+          tracking: numberOr(layer.tracking, canonType.titleTracking),
           width: numberOr(layer.width, 60),
           height: numberOr(layer.height, 18),
           color: layer.color || "",
@@ -877,6 +846,8 @@
 
   function applyMontageGrammar(source) {
     const next = deepClone(source);
+    next.font = normalizeFontSystem({ family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, recipe: "зафиксированный канон #Sekta" });
+    if (!paletteChoices()[next.palette]) next.palette = "ink";
     const photos = rankedSeriesPhotos(next);
     const usedPhotos = new Set();
     next.slides = next.slides.map((slide, index) => {
@@ -1371,27 +1342,25 @@
   }
 
   function layerFontFamilies() {
-    const families = fontChoices().flatMap((font) => [font.family, font.body]);
-    return [...new Set(families.filter(Boolean))];
+    return [canonType.family, canonType.body];
   }
 
   function renderLayerFontOptions(select, slide, target) {
-    const typography = layerTypography(slide, target);
-    const families = layerFontFamilies();
-    if (typography.family && !families.includes(typography.family)) families.unshift(typography.family);
-    select.innerHTML = `<option value="">Из системы · ${escapeHtml(systemFamilyForLayer(slide, target))}</option>${families.map((family) => `<option value="${escapeHtml(family)}">${escapeHtml(family)}</option>`).join("")}`;
-    select.value = typography.family;
+    const systemFamily = systemFamilyForLayer(slide, target);
+    select.innerHTML = `<option value="">Зафиксирован · ${escapeHtml(systemFamily)}</option>`;
+    select.value = "";
+    select.disabled = true;
+    if (select === ui.slideTypeFont) {
+      ui.slideTypeFontPrev.hidden = true;
+      ui.slideTypeFontNext.hidden = true;
+    }
   }
 
   function renderLayerFontSamples(slide, target) {
     if (!ui.slideFontSamples) return;
-    const typography = layerTypography(slide, target);
     const systemFamily = systemFamilyForLayer(slide, target);
-    const families = layerFontFamilies();
-    const currentIndex = Math.max(0, families.indexOf(typography.family || systemFamily));
-    const start = Math.max(0, Math.min(currentIndex - 2, Math.max(0, families.length - 10)));
-    const visibleFamilies = families.slice(start, start + 10);
-    if (!visibleFamilies.includes(systemFamily)) visibleFamilies.unshift(systemFamily);
+    const typography = layerTypography(slide, target);
+    const visibleFamilies = [systemFamily];
     const sample = stripInlineMarkup(layerText(slide, target, series.activeSlide)).trim().replace(/\s+/g, " ").slice(0, 58) || "Пример русского текста";
     ui.slideFontSamples.innerHTML = [...new Set(visibleFamilies)].map((family) => {
       ensureFontFamily(family);
@@ -1631,8 +1600,11 @@
     if (!choices.some((font) => fontSystemKey(font) === activeKey)) choices.unshift(normalizeFontSystem(series.font));
     const familyCount = new Set(choices.map((font) => font.family)).size;
     const savedCount = choices.filter((font) => font.recipe && font.recipe !== "стартовая система").length;
-    const transferredSystem = series.font?.recipe && series.font.recipe !== "стартовая система";
-    ui.fontSummary.textContent = transferredSystem
+    const isCanonicalSystem = series.font?.family === canonType.family && series.font?.body === canonType.body;
+    const transferredSystem = !isCanonicalSystem && series.font?.recipe && series.font.recipe !== "стартовая система";
+    ui.fontSummary.textContent = isCanonicalSystem
+      ? `${canonType.family} × ${canonType.body} · зафиксированный канон обложек и каруселей #Sekta`
+      : transferredSystem
       ? `${series.font.family} × ${series.font.body} · сохранённая пара перенесена вместе с идеей`
       : tasteBundle.importedAt || Object.keys(readJson("olymarkes-cyrillic-font-taste-v1", {})).length
       ? `${familyCount} ${plural(familyCount, "гарнитура", "гарнитуры", "гарнитур")} · ${choices.length} ${plural(choices.length, "вариант", "варианта", "вариантов")} · ${savedCount} сохранённых систем`
@@ -1668,6 +1640,9 @@
     ui.slideFont.innerHTML = `<option value="series">Как во всей серии · ${escapeHtml(series.font.family)}</option>${choices.map((font) => `<option value="${escapeHtml(fontSystemKey(font))}">${escapeHtml(font.family)} · ${font.caseKind === "upper" ? "КАПС" : font.caseKind === "lower" ? "строчные" : "исходный регистр"}</option>`).join("")}`;
     ui.slideFont.value = selectedKey;
     if (ui.slideFont.value !== selectedKey) ui.slideFont.value = "series";
+    ui.slideFont.disabled = true;
+    ui.slideFontPrev.hidden = true;
+    ui.slideFontNext.hidden = true;
     choices.forEach(ensureFont);
   }
 
@@ -2205,11 +2180,11 @@
       visible: true,
       x: 0,
       y: 0,
-      fontFamily: "",
-      weight: 700,
-      size: 32,
-      lineHeight: 1,
-      tracking: 0,
+      fontFamily: canonType.family,
+      weight: canonType.titleWeight,
+      size: 56,
+      lineHeight: canonType.titleLineHeight,
+      tracking: canonType.titleTracking,
       width: 60,
       height: 18,
       color: "",

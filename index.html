@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260828-2">
+  <link rel="stylesheet" href="styles.css?v=20260828-3">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -431,12 +431,12 @@
           <div class="builder-workspace" id="builderWorkspace">
             <section class="panel builder-cover-panel">
               <div class="section-head"><div><h2>Конструктор обложки</h2><p>1080 × 1350 · система #Sekta входит в PNG</p></div><span id="builderCoverStatus">Система #Sekta · плашка</span></div>
-              <div class="builder-system-note"><strong>Выбранное направление</strong><span>PT Sans Narrow · голубой / зелёный / жёлтый / розовый · светлое фото</span></div>
+              <div class="builder-system-note"><strong>Канон обложек #Sekta</strong><span>Geologica × Golos Text · жёлтый / розовый / мятный · фото с затемнением или цветная плашка</span></div>
               <div class="builder-preview-switch" role="tablist" aria-label="Режим примерки обложки">
                 <button class="is-active" type="button" data-builder-preview="cover" role="tab" aria-selected="true">Обложка 4:5</button>
                 <button type="button" data-builder-preview="grid" role="tab" aria-selected="false">В актуальной сетке</button>
               </div>
-              <div class="builder-cover builder-cover-clean is-direct-editing" id="builderCoverPreview" data-placement="bottom" data-font="tempo" data-accent="yellow" data-text-color="accent" aria-label="Редактируемая обложка: фотографию и текстовые элементы можно перетаскивать мышью" aria-describedby="builderDirectHint">
+              <div class="builder-cover builder-cover-clean is-direct-editing" id="builderCoverPreview" data-placement="bottom" data-font="taste" data-taste-case="upper" data-accent="yellow" data-text-color="accent" aria-label="Редактируемая обложка: фотографию и текстовые элементы можно перетаскивать мышью" aria-describedby="builderDirectHint">
                 <img id="builderCoverImage" src="assets/library/lib-e0e929ba56891c.jpg" alt="Выбранная фотография для обложки">
                 <span class="builder-cover-account builder-direct-layer" id="builderCoverAccount" data-builder-layer="account" data-layer-label="аккаунт" tabindex="0">@sektaschool</span>
                 <strong class="builder-direct-layer is-selected-layer" id="builderCoverHeadline" data-builder-layer="headline" data-layer-label="заголовок" tabindex="0">Пропустили пять дней? Ничего не сломалось</strong>
@@ -462,12 +462,12 @@
                   <button class="button button-quiet builder-layer-remove" id="builderLayerRemove" type="button">Удалить элемент</button>
                 </div>
                 <div class="carousel-control-grid builder-layer-controls">
-                  <label><span>Шрифт</span><select id="builderLayerFont"><option value="PT Sans Narrow">PT Sans Narrow</option><option value="Manrope">Manrope</option><option value="Golos Text">Golos Text</option><option value="Commissioner">Commissioner</option><option value="Geologica">Geologica</option><option value="Georgia">Georgia</option></select></label>
-                  <label><span>Вес</span><input id="builderLayerWeight" type="range" min="100" max="900" step="10" value="700"><output id="builderLayerWeightValue">700</output></label>
+                  <label><span>Шрифт зафиксирован</span><select id="builderLayerFont" disabled><option value="Geologica">Geologica · заголовок</option><option value="Golos Text">Golos Text · служебный текст</option></select></label>
+                  <label><span>Насыщенность</span><input id="builderLayerWeight" type="range" min="100" max="900" step="10" value="760"><output id="builderLayerWeightValue">760</output></label>
                   <label><span>Размер</span><input id="builderLayerSize" type="range" min="8" max="132" step="1" value="106"><output id="builderLayerSizeValue">106 px</output></label>
                   <label><span>Ширина строки</span><input id="builderLayerBoxWidth" type="range" min="18" max="96" step="1" value="90"><output id="builderLayerBoxWidthValue">90%</output></label>
-                  <label><span>Интерлиньяж</span><input id="builderLayerLineHeight" type="range" min="0.7" max="1.6" step="0.01" value="0.86"><output id="builderLayerLineHeightValue">0.86</output></label>
-                  <label><span>Трекинг</span><input id="builderLayerTracking" type="range" min="-0.04" max="0.16" step="0.005" value="-0.012"><output id="builderLayerTrackingValue">−0.012 em</output></label>
+                  <label><span>Межстрочное</span><input id="builderLayerLineHeight" type="range" min="0.7" max="1.6" step="0.01" value="0.87"><output id="builderLayerLineHeightValue">0.87</output></label>
+                  <label><span>Расстояние между буквами</span><input id="builderLayerTracking" type="range" min="-0.04" max="0.16" step="0.005" value="-0.026"><output id="builderLayerTrackingValue">−0.026 em</output></label>
                   <label><span>Влево / вправо</span><input id="builderLayerOffsetX" type="range" min="-90" max="90" step="0.5" value="0"><output id="builderLayerOffsetXValue">0%</output></label>
                   <label><span>Вверх / вниз</span><input id="builderLayerOffsetY" type="range" min="-90" max="90" step="0.5" value="0"><output id="builderLayerOffsetYValue">0%</output></label>
                 </div>
@@ -497,18 +497,14 @@
                   <button type="button" class="builder-choice" data-builder-placement="right">Справа</button>
                 </div></fieldset>
 
-                <fieldset class="builder-control-block"><legend>Типографика</legend><div class="builder-choice-row" role="group" aria-label="Типографика">
-                  <button type="button" class="builder-choice is-active" data-builder-font="tempo">PT Sans Narrow · КАПС</button>
-                  <button type="button" class="builder-choice" data-builder-font="grotesk">Гротеск</button>
-                  <button type="button" class="builder-choice" data-builder-font="editorial">Редакционная</button>
-                  <button type="button" class="builder-choice" id="builderTasteFont" data-builder-font="taste" disabled>Из примерочной</button>
+                <fieldset class="builder-control-block"><legend>Типографика зафиксирована</legend><div class="builder-choice-row" role="group" aria-label="Типографика">
+                  <button type="button" class="builder-choice is-active" id="builderTasteFont" data-builder-font="taste">Geologica × Golos Text</button>
                 </div></fieldset>
 
                 <fieldset class="builder-control-block"><legend>Цвет системы</legend><div class="builder-swatch-row" role="group" aria-label="Цвет системы">
-                  <button type="button" class="builder-swatch" data-builder-accent="sky" aria-label="Голубой" style="--swatch:#bde9f6"></button>
-                  <button type="button" class="builder-swatch" data-builder-accent="green" aria-label="Зелёный" style="--swatch:#63dda7"></button>
+                  <button type="button" class="builder-swatch" data-builder-accent="green" aria-label="Мятный" style="--swatch:#62d9a4"></button>
                   <button type="button" class="builder-swatch is-active" data-builder-accent="yellow" aria-label="Жёлтый" style="--swatch:#ffe36a"></button>
-                  <button type="button" class="builder-swatch" data-builder-accent="pink" aria-label="Розовый" style="--swatch:#ff8fbd"></button>
+                  <button type="button" class="builder-swatch" data-builder-accent="pink" aria-label="Розовый" style="--swatch:#f481b5"></button>
                 </div></fieldset>
 
                 <fieldset class="builder-control-block"><legend>Цвет текста</legend><div class="builder-swatch-row" role="group" aria-label="Цвет текста">
@@ -1145,8 +1141,8 @@
   <script src="moms-room.js?v=20260827-2"></script>
   <script src="growth-coach.js?v=20260825-3"></script>
   <script src="production-room.js?v=20260825-2"></script>
-  <script src="carousel-builder.js?v=20260828-1"></script>
-  <script src="carousel-studio.js?v=20260828-1"></script>
+  <script src="carousel-builder.js?v=20260828-2"></script>
+  <script src="carousel-studio.js?v=20260828-2"></script>
   <script src="mobile-editor.js?v=20260828-1"></script>
   <script src="grid-studio.js?v=20260819-1"></script>
 </body>

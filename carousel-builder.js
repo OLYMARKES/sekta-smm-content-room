@@ -173,9 +173,9 @@
   };
 
   const styleLabels = { clean: "текст на фото", plate: "компактная плашка", rail: "вертикальная полоса", footer: "нижняя полоса" };
-  const fontLabels = { tempo: "PT Sans Narrow · КАПС", grotesk: "гротеск", editorial: "редакционная", taste: "из примерочной" };
-  const accentColors = { sky: "#bde9f6", green: "#63dda7", yellow: "#ffe36a", pink: "#ff8fbd" };
-  const accentLabels = { sky: "голубой", green: "зелёный", yellow: "жёлтый", pink: "розовый" };
+  const fontLabels = { taste: `${canonType.family} × ${canonType.body}` };
+  const accentColors = { green: visualCanon?.colors?.mint || "#62d9a4", yellow: visualCanon?.colors?.sun || "#ffe36a", pink: visualCanon?.colors?.pink || "#f481b5" };
+  const accentLabels = { green: "мятный", yellow: "жёлтый", pink: "розовый" };
   const textColors = { white: "#ffffff", ink: "#17221f" };
   const coverLayerOffsetLimit = 90;
   const seriesSystems = [
@@ -207,7 +207,7 @@
   let activeCoverLayer = "headline";
   const coverLayers = {
     headline: { label: "заголовок", visible: true, family: canonType.family, weight: canonType.titleWeight, size: 106, lineHeight: canonType.titleLineHeight, tracking: canonType.titleTracking, x: 0, y: 0, boxWidth: null },
-    subtitle: { label: "подстрочник", visible: true, family: canonType.body, weight: 700, size: 20, lineHeight: 1.08, tracking: .02, x: 0, y: 0, boxWidth: null },
+    subtitle: { label: "подстрочник", visible: true, family: canonType.body, weight: canonType.bodyWeight, size: 20, lineHeight: canonType.bodyLineHeight, tracking: canonType.bodyTracking, x: 0, y: 0, boxWidth: null },
     account: { label: "аккаунт", visible: true, family: canonType.body, weight: 700, size: 22, lineHeight: 1, tracking: .06, x: 0, y: 0, boxWidth: null },
   };
 
@@ -237,7 +237,7 @@
     try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* private mode: keep the current session usable */ }
   }
 
-  const coverSystemKey = "sekta-builder-cover-system-v3";
+  const coverSystemKey = "sekta-builder-cover-system-v4";
   const discoveryStateKey = "sekta-builder-discovery-v1";
   function restoreCoverSystem() {
     const saved = readLocalJson(coverSystemKey, {});
@@ -294,7 +294,7 @@
   function refreshTasteFont(activate = false) {
     tasteFont = { family: canonType.family, caseKind: canonType.caseKind };
     ui.tasteFont.disabled = false;
-    ui.tasteFont.textContent = `${tasteFont.family} · утверждено`;
+    ui.tasteFont.textContent = `${tasteFont.family} × ${canonType.body}`;
     fontLabels.taste = tasteFont.family;
     ensureTasteFont(tasteFont);
     if (activate) activeFont = "taste";
@@ -631,6 +631,24 @@
     });
   }
 
+  function fitHeadlineToCanvas() {
+    const layer = coverLayers.headline;
+    const element = ui.coverHeadline;
+    if (!layer.visible || !element || ui.cover.clientWidth === 0) return;
+    const coverRect = ui.cover.getBoundingClientRect();
+    const accountRect = coverLayers.account.visible ? ui.coverAccount.getBoundingClientRect() : null;
+    const safeTop = Math.max(coverRect.top + coverRect.height * .075, accountRect ? accountRect.bottom + coverRect.height * .025 : 0);
+    const safeBottom = coverRect.bottom - coverRect.height * .075;
+    let attempts = 0;
+    let rect = element.getBoundingClientRect();
+    while ((rect.top < safeTop || rect.bottom > safeBottom || rect.left < coverRect.left || rect.right > coverRect.right) && layer.size > 28 && attempts < 64) {
+      layer.size = Math.max(28, layer.size - 2);
+      element.style.fontSize = `${Math.round(layer.size * 48) / 100}px`;
+      rect = element.getBoundingClientRect();
+      attempts += 1;
+    }
+  }
+
   function updateLayerFromInspector() {
     const layer = coverLayers[activeCoverLayer];
     setLayerText(activeCoverLayer, ui.layerText.value);
@@ -663,6 +681,7 @@
     decorateLayer(ui.coverPromise, ui.subtitle.value);
     decorateLayer(ui.coverAccount, ui.account.value);
     applyCoverLayers();
+    fitHeadlineToCanvas();
     ui.coverStatus.textContent = `#Sekta · ${styleLabels[activeStyle]} · ${accentLabels[activeAccent]}`;
     document.querySelectorAll("[data-builder-style]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderStyle === activeStyle));
     document.querySelectorAll("[data-builder-placement]").forEach((button) => {
@@ -1445,6 +1464,25 @@
 
   narrowWorkspace.addEventListener?.("change", placeQuickControls);
   placeQuickControls();
+
+  if ("ResizeObserver" in window) {
+    const coverObserver = new ResizeObserver(() => {
+      if (!ui.cover.clientWidth) return;
+      applyCoverLayers();
+      fitHeadlineToCanvas();
+      syncLayerInspector();
+      renderGridFitting();
+      saveCoverSystem();
+    });
+    coverObserver.observe(ui.cover);
+  }
+  document.fonts?.ready?.then(() => {
+    if (!ui.cover.clientWidth) return;
+    applyCoverLayers();
+    fitHeadlineToCanvas();
+    syncLayerInspector();
+    renderGridFitting();
+  });
 
   refreshTasteFont(false);
   restoreCoverSystem();

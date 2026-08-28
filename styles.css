@@ -620,7 +620,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .builder-cover[data-font="tempo"] strong { font-family: "PT Sans Narrow", "Arial Narrow", sans-serif; font-weight: 700; line-height: .86; letter-spacing: -.012em; text-transform: uppercase; }
 .builder-cover[data-font="grotesk"] strong { font-family: Avenir, "Helvetica Neue", Arial, sans-serif; font-weight: 850; }
 .builder-cover[data-font="editorial"] strong { font-family: Athelas, "Iowan Old Style", Georgia, serif; font-weight: 700; line-height: .96; letter-spacing: -.025em; text-transform: none; }
-.builder-cover[data-font="taste"] strong { font-family: var(--builder-headline-font), "Golos Text", sans-serif; font-weight: 800; line-height: .96; letter-spacing: -.025em; }
+.builder-cover[data-font="taste"] strong { font-family: var(--builder-headline-font), "Golos Text", sans-serif; font-weight: 760; line-height: .87; letter-spacing: -.026em; }
 .builder-cover[data-font="taste"][data-taste-case="upper"] strong { text-transform: uppercase; }
 .builder-cover[data-font="taste"][data-taste-case="lower"] strong { text-transform: lowercase; }
 .builder-choice:disabled { cursor: not-allowed; opacity: .48; }
@@ -860,7 +860,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .builder-slide-copy { position: absolute; z-index: 2; left: 7%; right: 7%; bottom: 7%; min-width: 0; font-family: var(--series-body), sans-serif; }
 .builder-slide-role { display: block; margin-bottom: 7px; font-size: clamp(9px, 3.4cqw, 12px); font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
 .builder-slide-copy strong, .builder-slide-copy p { display: block; outline: none; overflow-wrap: anywhere; }
-.builder-slide-copy strong { font-family: var(--series-head), sans-serif; font-size: clamp(15px, 10cqw, 43px); font-weight: 780; line-height: .9; letter-spacing: -.018em; }
+.builder-slide-copy strong { font-family: var(--series-head), sans-serif; font-size: clamp(15px, 10cqw, 43px); font-weight: 760; line-height: .87; letter-spacing: -.026em; }
 .builder-slides[data-case="upper"] .builder-slide-copy strong { text-transform: uppercase; }
 .builder-slides[data-case="lower"] .builder-slide-copy strong { text-transform: lowercase; }
 .builder-slide-copy p { display: -webkit-box; margin: 10px 0 0; overflow: hidden; font-size: clamp(12px, 4.4cqw, 18px); line-height: 1.3; -webkit-box-orient: vertical; -webkit-line-clamp: 10; }
