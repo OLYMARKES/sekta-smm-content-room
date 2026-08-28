@@ -1,13 +1,15 @@
 (() => {
   const library = window.SEKTA_LIBRARY?.items || [];
   const scienceLibrary = window.SEKTA_SCIENCE_LIBRARY?.items || [];
+  const visualCanon = window.SEKTA_VISUAL_CANON;
+  const canonType = visualCanon?.type || { family: "Geologica", body: "Golos Text", caseKind: "upper", titleWeight: 760, titleLineHeight: .87, titleTracking: -.026, bodyWeight: 470, bodyLineHeight: 1.25, bodyTracking: 0 };
   const root = document.querySelector('[data-view-panel="postbuilder"]');
   if (!root) return;
 
   const DRAFT_KEY = "sekta-carousel-studio-draft-v2";
   const SAVED_KEY = "sekta-carousel-studio-series-v1";
   const IMPORT_KEY = "sekta-carousel-studio-taste-import-v1";
-  const MONTAGE_VERSION = 7;
+  const MONTAGE_VERSION = 8;
   const DEFAULT_LONGREAD = document.querySelector("#carouselLongreadText")?.value || "";
   const palettes = {
     ink: { name: "Контрастная", background: "#17221f", foreground: "#ffffff", accent: "#f7f7f2", ink: "#17221f", plaque: "#f7f7f2", plaqueText: "#17221f" },
@@ -68,19 +70,25 @@
   const defaultTemplateForScene = {
     paper: "light-column", dark: "color-final", "photo-dim": "photo-scrim", "photo-clean": "text-photo", plate: "cover-plaque", split: "side-plaque", window: "photo-window", field: "accent-thought", quote: "light-column",
   };
+  const canonicalInner = (visualCanon?.inner || [
+    { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "bottom", withPhoto: true },
+    { template: "photo-field", scene: "window", palette: "sekta-pink", placement: "bottom", withPhoto: true },
+    { template: "accent-thought", scene: "field", palette: "sekta-mint", placement: "middle", withPhoto: false },
+  ]).map((recipe) => ({
+    ...recipe,
+    size: recipe.scene === "field" ? 70 : 64,
+    bodySize: recipe.scene === "photo-dim" ? 42 : 31,
+    titleBoxWidth: recipe.scene === "window" ? 78 : 82,
+    titleBoxHeight: recipe.scene === "field" ? 38 : 34,
+    bodyBoxWidth: 84,
+    bodyBoxHeight: recipe.scene === "photo-dim" ? 54 : 40,
+    textColor: recipe.scene === "photo-dim" ? "#ffffff" : "",
+    plaqueEnabled: false,
+  }));
   const montageTemplates = {
-    cover: { template: "text-photo", role: "cover", scene: "photo-clean", palette: "sekta-sky", placement: "bottom", size: 76, bodySize: 24, titleBoxWidth: 72, titleBoxHeight: 30, bodyBoxWidth: 68, bodyBoxHeight: 14, showSeriesLabel: false, showBody: false, showCounter: false, plaqueEnabled: false },
-    body: [
-      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "bottom", size: 68, bodySize: 44, titleBoxWidth: 78, titleBoxHeight: 34, bodyBoxWidth: 84, bodyBoxHeight: 52, textColor: "#ffffff", plaqueEnabled: false },
-      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "middle", size: 66, bodySize: 44, titleBoxWidth: 74, titleBoxHeight: 34, bodyBoxWidth: 84, bodyBoxHeight: 54, textColor: "#ffffff", plaqueEnabled: false },
-      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "top", size: 64, bodySize: 43, titleBoxWidth: 76, titleBoxHeight: 34, bodyBoxWidth: 84, bodyBoxHeight: 52, textColor: "#ffffff", plaqueEnabled: false },
-      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "bottom", size: 72, bodySize: 42, titleBoxWidth: 70, titleBoxHeight: 38, bodyBoxWidth: 84, bodyBoxHeight: 50, textColor: "#ffffff", plaqueEnabled: false },
-      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "middle", size: 64, bodySize: 45, titleBoxWidth: 80, titleBoxHeight: 32, bodyBoxWidth: 84, bodyBoxHeight: 56, textColor: "#ffffff", plaqueEnabled: false },
-      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "top", size: 68, bodySize: 43, titleBoxWidth: 72, titleBoxHeight: 36, bodyBoxWidth: 84, bodyBoxHeight: 52, textColor: "#ffffff", plaqueEnabled: false },
-      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "bottom", size: 66, bodySize: 44, titleBoxWidth: 76, titleBoxHeight: 34, bodyBoxWidth: 84, bodyBoxHeight: 54, textColor: "#ffffff", plaqueEnabled: false },
-      { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "middle", size: 70, bodySize: 42, titleBoxWidth: 72, titleBoxHeight: 38, bodyBoxWidth: 84, bodyBoxHeight: 50, textColor: "#ffffff", plaqueEnabled: false },
-    ],
-    final: { template: "color-final", role: "cta", scene: "field", palette: "sekta-sun", placement: "middle", size: 70, bodySize: 27, titleBoxWidth: 78, bodyBoxWidth: 72 },
+    cover: { template: "text-photo", role: "cover", scene: "photo-clean", palette: "sekta-sun", placement: "bottom", size: 76, bodySize: 24, titleBoxWidth: 86, titleBoxHeight: 42, bodyBoxWidth: 82, bodyBoxHeight: 14, showSeriesLabel: false, showBody: false, showCounter: false, plaqueEnabled: false },
+    body: canonicalInner,
+    final: { ...(visualCanon?.final || {}), template: "color-final", role: "cta", scene: "field", palette: "sekta-sun", placement: "middle", size: 70, bodySize: 30, titleBoxWidth: 82, bodyBoxWidth: 78, plaqueEnabled: false },
   };
   const quickPaletteIds = ["sekta-sky", "sekta-mint", "sekta-pink", "sekta-sun", "sekta-cream", "sekta-yellow"];
   const quickLayoutPresets = {
@@ -394,6 +402,14 @@
 
   function fontPairRecipe(font) {
     const family = font?.family || "Onest";
+    if (family === canonType.family) return {
+      titleWeight: canonType.titleWeight,
+      titleLineHeight: canonType.titleLineHeight,
+      titleTracking: canonType.titleTracking,
+      bodyWeight: canonType.bodyWeight,
+      bodyLineHeight: canonType.bodyLineHeight,
+      bodyTracking: canonType.bodyTracking,
+    };
     const condensed = /PT Sans Narrow|Alumni Sans/i.test(family);
     const editorial = /Alice|Literata|Prata|Cormorant/i.test(family);
     const soft = /Alegreya Sans|Commissioner/i.test(family);
@@ -514,13 +530,13 @@
       plaqueColor: "",
       plaqueOpacity: 1,
       titleFontFamily: "",
-      titleWeight: 800,
-      titleLineHeight: .96,
-      titleTracking: -.035,
+      titleWeight: canonType.titleWeight,
+      titleLineHeight: canonType.titleLineHeight,
+      titleTracking: canonType.titleTracking,
       bodyFontFamily: "",
-      bodyWeight: 470,
-      bodyLineHeight: 1.25,
-      bodyTracking: 0,
+      bodyWeight: canonType.bodyWeight,
+      bodyLineHeight: canonType.bodyLineHeight,
+      bodyTracking: canonType.bodyTracking,
       labelFontFamily: "",
       labelWeight: 750,
       labelSize: 24,
@@ -551,7 +567,7 @@
 
   function defaultSeries() {
     const firstPhoto = preferredPhoto();
-    const firstFont = fontChoices().find((font) => font.family === "PT Sans Narrow") || { family: "PT Sans Narrow", body: "Manrope", caseKind: "upper" };
+    const firstFont = { family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, recipe: "утверждённый канон #Sekta" };
     const series = {
       id: `series-${Date.now()}`,
       name: "Возвращение после паузы",
@@ -564,7 +580,7 @@
       updatedAt: new Date().toISOString(),
       montageVersion: MONTAGE_VERSION,
       slides: [
-        makeSlide({ ...montageTemplates.cover, title: "Пропустили пять дней? Ничего не сломалось", body: "", labelText: "", labelSize: 22, titleWeight: 700, titleLineHeight: .86, titleTracking: -.012, caseKind: "upper", photoId: firstPhoto?.id || null }),
+        makeSlide({ ...montageTemplates.cover, title: "Пропустили пять дней? Ничего не сломалось", body: "", labelText: "", labelSize: 22, titleWeight: canonType.titleWeight, titleLineHeight: canonType.titleLineHeight, titleTracking: canonType.titleTracking, caseKind: canonType.caseKind, photoId: firstPhoto?.id || null }),
         makeSlide({ ...montageTemplates.final, title: "Возвращение не требует наказания", body: "Сохраните, чтобы вернуться к этой мысли в нужный день." }),
       ],
     };
@@ -575,7 +591,7 @@
     if (!candidate || !Array.isArray(candidate.slides) || candidate.slides.length < 2) return defaultSeries();
     return {
       ...candidate,
-      font: normalizeFontSystem(candidate.font?.family ? candidate.font : fontChoices()[0]),
+      font: normalizeFontSystem(candidate.font?.family ? candidate.font : { family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, recipe: "утверждённый канон #Sekta" }),
       palette: paletteChoices()[candidate.palette] ? candidate.palette : "ink",
       longread: candidate.longread || DEFAULT_LONGREAD,
       totalSlides: candidate.slides.length,
@@ -742,6 +758,7 @@
 
   function themedTemplate(template, source = series) {
     const next = { ...template };
+    if (next.palette) return next;
     const system = paletteSystemFor(source);
     if (["paper", "top-plaque"].includes(next.scene) || next.template === "light-column") next.palette = system.neutral;
     else if (["photo-dim", "photo-clean"].includes(next.scene)) next.palette = system.dark;
@@ -799,6 +816,14 @@
     slide.photoFocusY = numberOr(slide.photoFocusY, 38);
     slide.photoFocusX = numberOr(slide.photoFocusX, 50);
     slide.photoScale = Math.max(1, Math.min(1.35, numberOr(slide.photoScale, 1)));
+    slide.font = normalizeFontSystem({ family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, recipe: "утверждённый канон #Sekta" });
+    slide.caseKind = canonType.caseKind;
+    slide.titleWeight = canonType.titleWeight;
+    slide.titleLineHeight = canonType.titleLineHeight;
+    slide.titleTracking = canonType.titleTracking;
+    slide.bodyWeight = canonType.bodyWeight;
+    slide.bodyLineHeight = canonType.bodyLineHeight;
+    slide.bodyTracking = canonType.bodyTracking;
     slide.plaqueEnabled = slide.plaqueEnabled === true;
     slide.layerEffects = {
       ...(slide.layerEffects || {}),
@@ -813,6 +838,7 @@
 
   function splitSeries(source, total, keepParagraphs, photoRhythm) {
     const next = deepClone(source);
+    next.font = normalizeFontSystem({ family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, recipe: "утверждённый канон #Sekta" });
     const cover = makeSlide({ ...montageTemplates.cover, ...(next.slides[0] || {}), photoId: next.slides[0]?.photoId || preferredPhoto()?.id || null });
     const previousFinal = next.slides[next.slides.length - 1];
     const finalSlide = makeSlide({

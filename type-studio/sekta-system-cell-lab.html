@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>#Sekta · Tinder обложек</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="sekta-cover-tinder.css">
+</head>
+<body>
+  <!--
+    THESIS: Один Tinder-кадр объединяет предложение системы, прямую ручную правку и мгновенное сохранение результата в сетку визуального канона #Sekta.
+    OWN-WORLD: Спокойный светлый product shell отступает перед реальной обложкой; цвет живёт внутри постов, а не в интерфейсном декоре.
+    STORY: Получить идею → поправить руками → сохранить или отклонить → увидеть накопленный диапазон → удалить лишнее.
+    FIRST VIEWPORT: Полная 4:5 обложка, три Tinder-действия и четыре быстрых способа заменить одну переменную без ухода от холста.
+    FORM: Локальное развитие прежней примерочной; основной опубликованный конструктор остаётся нетронутым до выбора сетки.
+    FINISH: desktop/mobile QA, detector, independent finish review, then user selection.
+  -->
+  <header class="topbar">
+    <div class="brand"><div class="mark">S</div><div><strong>Tinder обложек #Sekta</strong><span>фотография · цвет · композиция · точная типографика</span></div></div>
+    <div class="status" id="saveStatus">Изменения сохраняются в этом браузере</div>
+  </header>
+  <main>
+    <header class="intro">
+      <div><h1>Собираем новую сетку руками</h1><p>Я предлагаю готовые сочетания. Вы двигаете заголовок, меняете одну переменную и сохраняете только то, что действительно нравится.</p></div>
+      <div class="counter"><strong id="likedCount">0</strong><span>вариантов в вашей сетке</span></div>
+    </header>
+
+    <div class="workspace">
+      <section class="stage" aria-label="Текущая идея обложки">
+        <div class="stage-card">
+          <div class="stage-meta"><div class="idea-title"><strong id="ideaName">Идея 01</strong><span id="ideaMeta">реальная фотография · автокегль</span></div><span class="fit-state" id="fitState">Размер подобран</span></div>
+          <div class="canvas-shell">
+            <article class="post-cell" id="postCell" data-scene="photo" data-case="upper">
+              <img class="post-photo" id="postPhoto" src="../assets/ideal/18_gym.jpg" alt="Фотография для обложки #Sekta">
+              <div class="shade" aria-hidden="true"></div><div class="color-field" aria-hidden="true"></div>
+              <div class="brandline">@SEKTASCHOOL</div>
+              <div class="title-layer" id="titleLayer"><span class="kicker">ВОЗВРАЩЕНИЕ</span><h2 class="headline" id="headline" contenteditable="true" spellcheck="true">Пропустили пять дней? Ничего не сломалось</h2></div>
+              <div class="service" id="service" contenteditable="true" spellcheck="true">Без наказания и нового понедельника</div><span class="index">01 / 10</span>
+            </article>
+          </div>
+          <p class="drag-hint">Тяните заголовок в любую часть обложки. Кликните по тексту, чтобы отредактировать. Свободное место двигает фотографию.</p>
+          <div class="tinder-actions"><button class="action reject" id="rejectButton" type="button">Не моё</button><button class="action like" id="likeButton" type="button">Нравится — сохранить</button><button class="action" id="nextButton" type="button">Следующая идея</button></div>
+        </div>
+      </section>
+
+      <aside class="inspector" aria-label="Настройка текущей идеи">
+        <div class="quick-row">
+          <button class="quick" type="button" data-step="photo"><span>Фото</span><strong id="photoQuick">Следующее</strong></button>
+          <button class="quick" type="button" data-step="palette"><span>Цвет</span><strong id="paletteQuick">Следующий</strong></button>
+          <div class="quick is-fixed" aria-label="Зафиксированный шрифт"><span>Шрифт зафиксирован</span><strong id="pairQuick">Geologica</strong></div>
+          <button class="quick" type="button" data-step="scene"><span>Композиция</span><strong id="sceneQuick">Следующая</strong></button>
+        </div>
+
+        <section class="section">
+          <div class="section-head"><div><h2>Текст и оптимальный размер</h2><p>Автокегль учитывает длину, межстрочное и доступное место.</p></div><button class="small-button" id="autoFitButton" type="button">Подобрать заново</button></div>
+          <textarea id="headlineInput" aria-label="Заголовок обложки"></textarea>
+          <div class="switch-row"><label class="switch"><input type="checkbox" id="autoSizeInput" checked> Всегда подбирать автоматически</label><strong id="effectiveSize">≈ 140 px</strong></div>
+          <div class="range"><div class="range-head"><span>Ручной кегль</span><b id="sizeValue">13.0%</b></div><input id="sizeInput" type="range" min="7" max="18" step="0.1" value="13"></div>
+          <div class="two"><div class="range"><div class="range-head"><span>Ширина блока</span><b id="widthValue">84%</b></div><input id="widthInput" type="range" min="40" max="92" value="84"></div><div class="range"><div class="range-head"><span>Фото крупнее</span><b id="zoomValue">100%</b></div><input id="zoomInput" type="range" min="100" max="175" value="100"></div></div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><div><h2>Предложенные фотографии</h2><p id="photoCategory">Медиатека #Sekta</p></div><button class="small-button" type="button" data-step="photo-page">Другие шесть</button></div>
+          <div class="photo-strip" id="photoStrip"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><div><h2>Цветовая сцена</h2><p>Меняется текст, акцент и поверхность вместе.</p></div></div>
+          <div class="swatches" id="paletteSwatches"></div>
+          <div class="two"><div class="range"><div class="range-head"><span>Затемнение фото</span><b id="shadeValue">56%</b></div><input id="shadeInput" type="range" min="10" max="80" value="56"></div><div class="range"><div class="range-head"><span>Прозрачность плашки</span><b id="plateValue">94%</b></div><input id="plateInput" type="range" min="0" max="100" value="94"></div></div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><div><h2>Точная типографика</h2><p>Одна выбранная гарнитура во всём Tinder. Меняем только характер набора.</p></div></div>
+          <div class="fixed-type"><div><strong id="lockedTypeName">Geologica</strong><span id="lockedTypeCompanion">заголовок · Golos Text для служебного текста</span></div><span class="fixed-type-state">Зафиксировано</span></div>
+          <div class="type-controls">
+            <div class="range"><div class="range-head"><span>Насыщенность</span><b id="weightValue">760</b></div><input id="weightInput" type="range" min="500" max="900" step="10" value="760"></div>
+            <div class="range"><div class="range-head"><span>Межстрочное</span><b id="leadingValue">0.87</b></div><input id="leadingInput" type="range" min="0.78" max="1.08" step="0.01" value="0.87"></div>
+            <div class="range"><div class="range-head"><span>Расстояние между буквами</span><b id="trackingValue">−0.026</b></div><input id="trackingInput" type="range" min="-0.04" max="0.02" step="0.002" value="-0.026"></div>
+          </div>
+          <div class="case-switch" role="group" aria-label="Регистр заголовка"><button class="is-active" type="button" data-title-case="upper">ПРОПИСНЫЕ</button><button type="button" data-title-case="original">Как написано</button></div>
+          <div class="notice" id="notice" role="status" aria-live="polite"></div>
+        </section>
+      </aside>
+    </div>
+
+    <section class="grid-lab" id="gridLab" aria-labelledby="gridLabTitle">
+      <header class="grid-lab-head">
+        <div><h2 id="gridLabTitle">Система на девяти обложках</h2><p>Один шрифт, один кегль и общие поля. Три цветовых акцента держат ритм, а не разбивают ленту на разные стили.</p></div>
+        <div class="grid-lab-status"><strong id="gridSystemName">Geologica × Golos Text</strong><span id="gridSystemReason">6 из 15 сохранений</span></div>
+      </header>
+      <div class="grid-lab-layout">
+        <div class="feed-board"><div class="feed-grid" id="feedGrid" aria-label="Предпросмотр девяти обложек"></div></div>
+        <aside class="grid-controls" aria-label="Настройка системы сетки">
+          <section class="grid-control-block"><h3>Один шрифт на всю сетку</h3><p>Гарнитура зафиксирована. Насыщенность, межстрочное и трекинг применяются ко всей девятке.</p><div class="system-fonts" id="systemFonts"></div></section>
+          <section class="grid-control-block"><h3>Ритм композиции</h3><p>Жёлтый → розовый → мята. В следующей строке последовательность сдвигается на один шаг.</p><div class="rhythm-key"><span><i class="key-dot key-yellow"></i>жёлтый</span><span><i class="key-dot key-plate"></i>розовый</span><span><i class="key-dot key-field"></i>мята</span></div></section>
+          <div class="grid-actions"><button class="action" id="remixGridButton" type="button">Другие фото и тексты</button><button class="action like" id="saveGridButton" type="button">Сохранить эту девятку</button></div>
+          <p class="grid-notice" id="gridNotice" role="status" aria-live="polite"></p>
+          <div class="saved-systems" id="savedSystems"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="saved-section" aria-labelledby="savedTitle">
+      <header class="saved-head"><div><h2 id="savedTitle">Понравившиеся обложки</h2><p>Архив всех 15 решений, из которых собирается система выше.</p></div><div class="saved-tools"><button class="small-button" id="exportButton" type="button">Скачать JSON</button><button class="small-button" id="importButton" type="button">Загрузить JSON</button><input id="importInput" type="file" accept="application/json" hidden></div></header>
+      <div class="saved-grid" id="savedGrid"></div>
+    </section>
+  </main>
+  <script src="../data/library-data.js"></script>
+  <script src="sekta-cover-tinder.js"></script>
+</body>
+</html>

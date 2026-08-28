@@ -2,6 +2,8 @@
   const root = document.querySelector('[data-view-panel="mobileeditor"]');
   if (!root) return;
 
+  const visualCanon = window.SEKTA_VISUAL_CANON;
+  const canonType = visualCanon?.type || { family: "Geologica", body: "Golos Text", caseKind: "upper", titleWeight: 760, titleLineHeight: .87, titleTracking: -.026 };
   const library = (window.SEKTA_LIBRARY?.items || []).filter((item) => item.orientation === "portrait" && !item.isUtility && !/(скрин|screenshot|screen|документ|текст)/i.test([item.fileName, item.sourceCategory].join(" ")));
   const DRAFT_KEY = "sekta-mobile-editor-draft-v1";
   const tones = ["mint", "pink", "sun"];
@@ -339,20 +341,32 @@
       slideCount: state.slides.length,
       longread: state.longread,
       photoId: state.slides[0]?.photoId || null,
+      font: { id: canonType.id || "sekta-geologica", family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, recipe: "утверждённый канон #Sekta" },
       activeSlide: state.activeSlide,
       openSlides: true,
       slides: state.slides.map((slide, index) => ({ title: slide.title, body: slide.body, role: index === 0 ? "cover" : "longread" })),
-      visualPlan: state.slides.map((slide, index) => ({
-        template: "photo-scrim",
-        scene: "photo-dim",
-        palette: palettes[index % palettes.length],
-        photoId: slide.photoId,
-        placement: slide.placement,
-        plaqueEnabled: slide.plaqueEnabled,
-        plaqueColor: slide.plaqueColor,
-        plaqueOpacity: slide.plaqueOpacity,
-        plaqueWidth: slide.plaqueWidth,
-      })),
+      coverDesign: {
+        schema: "sekta-cover-design-v2",
+        template: "imported-cover",
+        style: state.slides[0]?.plaqueEnabled ? "plate" : "clean",
+        scene: state.slides[0]?.plaqueEnabled ? "plate" : "photo-clean",
+        palette: palettes[0],
+        titleText: state.slides[0]?.title || state.title,
+        subtitleText: state.slides[0]?.body || "",
+        labelText: "@sektaschool",
+        placement: state.slides[0]?.placement || "bottom",
+        plaqueEnabled: state.slides[0]?.plaqueEnabled === true,
+        plaqueColor: state.slides[0]?.plaqueColor || toneColors.mint,
+        plaqueOpacity: state.slides[0]?.plaqueOpacity ?? 1,
+        title: { family: canonType.family, weight: canonType.titleWeight, size: 76, lineHeight: canonType.titleLineHeight, tracking: canonType.titleTracking, boxWidth: state.slides[0]?.plaqueWidth || 86, boxHeight: 42, visible: true },
+        body: { family: canonType.body, weight: 470, size: 24, lineHeight: 1.25, tracking: 0, boxWidth: 82, boxHeight: 14, visible: Boolean(state.slides[0]?.body) },
+        label: { family: canonType.body, weight: 700, size: 22, lineHeight: 1, tracking: .06, boxWidth: 52, boxHeight: 8, visible: true },
+      },
+      visualPlan: state.slides.map((slide, index) => {
+        if (index === 0) return { template: "imported-cover", scene: "photo-clean", palette: palettes[0], photoId: slide.photoId, placement: slide.placement, plaqueEnabled: slide.plaqueEnabled, plaqueColor: slide.plaqueColor, plaqueOpacity: slide.plaqueOpacity, plaqueWidth: slide.plaqueWidth };
+        const recipe = visualCanon?.inner?.[(index - 1) % visualCanon.inner.length] || { template: "photo-scrim", scene: "photo-dim", palette: palettes[index % palettes.length], placement: slide.placement, withPhoto: true };
+        return { template: recipe.template, scene: recipe.scene, palette: recipe.palette, photoId: recipe.withPhoto === false ? null : slide.photoId, placement: recipe.placement, plaqueEnabled: false };
+      }),
     };
     window.dispatchEvent(new CustomEvent("sekta:post-builder-load", { detail }));
     document.querySelector('.nav-item[data-view="postbuilder"]')?.click();

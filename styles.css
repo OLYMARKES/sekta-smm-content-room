@@ -741,8 +741,8 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .mobile-editor-copy [contenteditable]:empty::before, .mobile-editor-mini-copy [contenteditable]:empty::before { content: attr(data-placeholder); opacity: .58; }
 .mobile-editor-copy:focus-within, .mobile-editor-mini-copy:focus-within { outline: 2px solid currentColor; outline-offset: 4px; }
 .mobile-editor-copy [contenteditable]:focus, .mobile-editor-mini-copy [contenteditable]:focus { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-.mobile-editor-copy strong { font-family: "PT Sans Narrow", "Arial Narrow", sans-serif; font-size: clamp(30px, 9cqw, 46px); line-height: .88; letter-spacing: -.02em; text-transform: uppercase; }
-.mobile-editor-copy p { margin-top: 9px; font-size: clamp(13px, 3.7cqw, 17px); line-height: 1.28; white-space: pre-line; }
+.mobile-editor-copy strong { font-family: "Geologica", "Golos Text", sans-serif; font-size: clamp(28px, 8.7cqw, 44px); font-weight: 760; line-height: .87; letter-spacing: -.026em; text-transform: uppercase; }
+.mobile-editor-copy p { margin-top: 9px; font-family: "Golos Text", sans-serif; font-size: clamp(13px, 3.7cqw, 17px); line-height: 1.25; white-space: pre-line; }
 .mobile-editor-plaque-toolbar { display: grid; gap: 9px; margin-top: 10px; padding: 10px; border: 1px solid #d5ded9; border-radius: 11px; background: #f7f9f8; }
 .mobile-editor-plaque-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .mobile-editor-plaque-toggle { min-height: 44px; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; cursor: pointer; }
@@ -807,7 +807,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .mobile-editor-mini-canvas[data-placement="middle"] .mobile-editor-mini-copy { top: 50%; bottom: auto; transform: translate(-50%, -50%); }
 .mobile-editor-mini-canvas[data-plaque="off"] .mobile-editor-mini-copy { padding: 0; border-radius: 0; color: #fff; background: transparent; }
 .mobile-editor-mini-copy strong, .mobile-editor-mini-copy p { display: block; margin: 0; overflow-wrap: anywhere; }
-.mobile-editor-mini-copy strong { font-family: "PT Sans Narrow", "Arial Narrow", sans-serif; font-size: clamp(14px, 4.4vw, 20px); line-height: .9; text-transform: uppercase; }
+.mobile-editor-mini-copy strong { font-family: "Geologica", "Golos Text", sans-serif; font-size: clamp(14px, 4.2vw, 19px); font-weight: 760; line-height: .87; letter-spacing: -.026em; text-transform: uppercase; }
 .mobile-editor-mini-copy p { margin-top: 4px; font-size: 9px; line-height: 1.18; white-space: pre-line; }
 .mobile-editor-mini-canvas > span { position: absolute; z-index: 2; right: 7%; bottom: 5%; font-size: 8px; font-weight: 800; }
 .mobile-editor-writing, .mobile-editor-slide-copy { display: grid; gap: 12px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }

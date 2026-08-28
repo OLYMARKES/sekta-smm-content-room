@@ -1,5 +1,7 @@
 (() => {
   const config = window.SEKTA_CAROUSEL_BUILDER;
+  const visualCanon = window.SEKTA_VISUAL_CANON;
+  const canonType = visualCanon?.type || { id: "sekta-geologica", family: "Geologica", body: "Golos Text", caseKind: "upper", titleWeight: 760, titleLineHeight: .87, titleTracking: -.026, bodyWeight: 470, bodyLineHeight: 1.25, bodyTracking: 0 };
   const library = window.SEKTA_LIBRARY?.items || [];
   const scienceLibrary = window.SEKTA_SCIENCE_LIBRARY?.items || [];
   const currentGrid = window.SEKTA_CURRENT_GRID || [];
@@ -177,10 +179,7 @@
   const textColors = { white: "#ffffff", ink: "#17221f" };
   const coverLayerOffsetLimit = 90;
   const seriesSystems = [
-    { id: "tempo", label: "Tempo", family: "PT Sans Narrow", body: "Manrope", caseKind: "upper", note: "узкий капс × спокойный текст" },
-    { id: "soft", label: "Мягкая", family: "Manrope", body: "Golos Text", caseKind: "upper", note: "широкий капс × нейтральный текст" },
-    { id: "editorial", label: "Редакционная", family: "Commissioner", body: "Manrope", caseKind: "upper", note: "характерный заголовок × воздух" },
-    { id: "human", label: "Живая", family: "Geologica", body: "Golos Text", caseKind: "lower", note: "строчные × мягкий ритм" },
+    { id: canonType.id, label: "#Sekta", family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, note: "единая утверждённая система" },
   ];
   const seriesSceneLabels = { cover: "обложка + плашка", split: "фото + поле", scrim: "фото + scrim", paper: "светлая колонка", quote: "акцентная мысль", window: "фото-окно", clean: "текст на фото", cta: "цветовой финал" };
   const folderLabels = new Map(library.map((item) => [item.folder, item.folderLabel]).filter(([id]) => id));
@@ -188,11 +187,11 @@
   let activeTopic = topics[0];
   let activeStyle = "clean";
   let activePlacement = "bottom";
-  let activeFont = "tempo";
+  let activeFont = "taste";
   let activeAccent = "yellow";
   let activeTextColor = "accent";
   let activePreview = "cover";
-  let tasteFont = null;
+  let tasteFont = { family: canonType.family, caseKind: canonType.caseKind };
   let hookIndex = 0;
   let scriptVariant = 0;
   let selectedIdeaKey = "";
@@ -204,12 +203,12 @@
   let mediaRandomized = false;
   let mediaPool = [];
   let selectedPhoto = null;
-  let activeSeriesSystem = "tempo";
+  let activeSeriesSystem = canonType.id;
   let activeCoverLayer = "headline";
   const coverLayers = {
-    headline: { label: "заголовок", visible: true, family: "PT Sans Narrow", weight: 700, size: 106, lineHeight: .86, tracking: -.012, x: 0, y: 0, boxWidth: null },
-    subtitle: { label: "подстрочник", visible: true, family: "Manrope", weight: 800, size: 20, lineHeight: 1, tracking: .08, x: 0, y: 0, boxWidth: null },
-    account: { label: "аккаунт", visible: true, family: "Manrope", weight: 800, size: 22, lineHeight: 1, tracking: .06, x: 0, y: 0, boxWidth: null },
+    headline: { label: "заголовок", visible: true, family: canonType.family, weight: canonType.titleWeight, size: 106, lineHeight: canonType.titleLineHeight, tracking: canonType.titleTracking, x: 0, y: 0, boxWidth: null },
+    subtitle: { label: "подстрочник", visible: true, family: canonType.body, weight: 700, size: 20, lineHeight: 1.08, tracking: .02, x: 0, y: 0, boxWidth: null },
+    account: { label: "аккаунт", visible: true, family: canonType.body, weight: 700, size: 22, lineHeight: 1, tracking: .06, x: 0, y: 0, boxWidth: null },
   };
 
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
@@ -244,17 +243,20 @@
     const saved = readLocalJson(coverSystemKey, {});
     if (["clean", "plate", "rail", "footer"].includes(saved.style)) activeStyle = saved.style;
     if (["bottom", "middle", "left", "right"].includes(saved.placement)) activePlacement = saved.placement;
-    if (["tempo", "grotesk", "editorial", "taste"].includes(saved.font) && (saved.font !== "taste" || tasteFont)) activeFont = saved.font;
+    activeFont = "taste";
     if (accentColors[saved.accent]) activeAccent = saved.accent;
     if (["auto", "ink", "white", "accent"].includes(saved.textColor)) activeTextColor = saved.textColor;
     if (Number.isFinite(Number(saved.focusX))) ui.focusX.value = Math.max(0, Math.min(100, Number(saved.focusX)));
     if (Number.isFinite(Number(saved.focusY))) ui.focusY.value = Math.max(0, Math.min(100, Number(saved.focusY)));
     Object.entries(saved.layers || {}).forEach(([key, values]) => {
       if (!coverLayers[key] || !values || typeof values !== "object") return;
-      ["visible", "family", "weight", "size", "lineHeight", "tracking", "x", "y", "boxWidth"].forEach((property) => {
+      ["visible", "size", "x", "y", "boxWidth"].forEach((property) => {
         if (values[property] !== undefined) coverLayers[key][property] = values[property];
       });
     });
+    Object.assign(coverLayers.headline, { family: canonType.family, weight: canonType.titleWeight, lineHeight: canonType.titleLineHeight, tracking: canonType.titleTracking });
+    Object.assign(coverLayers.subtitle, { family: canonType.body });
+    Object.assign(coverLayers.account, { family: canonType.body });
   }
 
   function saveCoverSystem() {
@@ -290,10 +292,9 @@
   }
 
   function refreshTasteFont(activate = false) {
-    tasteFont = selectedTasteFont();
-    ui.tasteFont.disabled = !tasteFont;
-    ui.tasteFont.textContent = tasteFont ? `${tasteFont.family} · ${tasteFont.caseKind === "upper" ? "КАПС" : "строчные"}` : "Из примерочной";
-    if (!tasteFont) return false;
+    tasteFont = { family: canonType.family, caseKind: canonType.caseKind };
+    ui.tasteFont.disabled = false;
+    ui.tasteFont.textContent = `${tasteFont.family} · утверждено`;
     fontLabels.taste = tasteFont.family;
     ensureTasteFont(tasteFont);
     if (activate) activeFont = "taste";
@@ -821,17 +822,10 @@
 
   function visualPlanFor(index, total) {
     if (index === 0) return { scene: "cover", accent: activeAccent, withPhoto: true, studioScene: "photo-clean", studioTemplate: "imported-cover", studioPalette: paletteForAccent(activeAccent, "accent") };
-    if (index === total - 1) return { scene: "cta", accent: activeAccent, withPhoto: false, studioScene: "field", studioTemplate: "color-final", studioPalette: paletteForAccent(activeAccent, "accent") };
-    const cadence = ["bottom", "middle", "top", "bottom", "middle", "top"].map((placement) => ({
-      scene: "scrim",
-      accent: activeAccent,
-      withPhoto: true,
-      studioScene: "photo-dim",
-      studioTemplate: "photo-scrim",
-      studioPalette: paletteForAccent(activeAccent, "dark"),
-      studioPlacement: placement,
-    }));
-    return cadence[(index - 1) % cadence.length];
+    const recipe = index === total - 1 ? visualCanon?.final : visualCanon?.inner?.[(index - 1) % visualCanon.inner.length];
+    if (!recipe) return { scene: "scrim", accent: activeAccent, withPhoto: true, studioScene: "photo-dim", studioTemplate: "photo-scrim", studioPalette: "ink", studioPlacement: "bottom" };
+    const previewScene = recipe.scene === "window" ? "split" : recipe.scene === "field" ? (index === total - 1 ? "cta" : "quote") : "scrim";
+    return { scene: previewScene, accent: recipe.accent, withPhoto: recipe.withPhoto, studioScene: recipe.scene, studioTemplate: recipe.template, studioPalette: recipe.palette, studioPlacement: recipe.placement, plaqueEnabled: false };
   }
 
   function photoForSlide(index, plan, photos) {
@@ -915,7 +909,7 @@
     const goal = config.goals[ui.goal.value] || config.goals.save;
     const rows = [...ui.slides.querySelectorAll(".builder-slide")];
     const coverColors = resolvedCoverLayerColors();
-    const coverCase = activeFont === "tempo" ? "upper" : activeFont === "taste" ? tasteFont?.caseKind || "original" : "original";
+    const coverCase = canonType.caseKind;
     const coverBox = activeStyle === "rail"
       ? { titleWidth: 34, titleHeight: 62, bodyWidth: 34, bodyHeight: 12 }
       : activeStyle === "footer"
@@ -936,7 +930,7 @@
       slideCount: Number(ui.slideCount.value),
       longread: longreadFromSlides(),
       photoId: selectedPhoto?.id || null,
-      font: { ...selectedSeriesSystem(), recipe: "сохранённая кириллическая пара" },
+      font: { ...selectedSeriesSystem(), recipe: "утверждённый канон #Sekta" },
       coverDesign: {
         schema: "sekta-cover-design-v2",
         template: "imported-cover",
@@ -966,7 +960,7 @@
         title: slide.querySelector(".builder-slide-copy strong")?.textContent.trim() || "",
         body: slide.querySelector(".builder-slide-copy p")?.textContent.trim() || "",
       })),
-      visualPlan: rows.map((slide) => ({ scene: slide.dataset.studioScene, template: slide.dataset.studioTemplate, palette: slide.dataset.studioPalette, placement: slide.dataset.studioPlacement, photoId: slide.dataset.photoId || null })),
+      visualPlan: rows.map((slide) => ({ scene: slide.dataset.studioScene, template: slide.dataset.studioTemplate, palette: slide.dataset.studioPalette, placement: slide.dataset.studioPlacement, photoId: slide.dataset.photoId || null, plaqueEnabled: false })),
       activeSlide,
       openSlides: true,
     };
@@ -1354,13 +1348,11 @@
   document.querySelectorAll("[data-builder-preview]").forEach((button) => button.addEventListener("click", () => setPreviewMode(button.dataset.builderPreview)));
   document.querySelectorAll("[data-builder-placement]").forEach((button) => button.addEventListener("click", () => { activePlacement = button.dataset.builderPlacement; renderCover(); }));
   document.querySelectorAll("[data-builder-font]").forEach((button) => button.addEventListener("click", () => {
-    activeFont = button.dataset.builderFont;
+    activeFont = "taste";
     const layer = coverLayers.headline;
-    if (activeFont === "tempo") Object.assign(layer, { family: "PT Sans Narrow", weight: 700, lineHeight: .86, tracking: -.012 });
-    if (activeFont === "grotesk") Object.assign(layer, { family: "Manrope", weight: 850, lineHeight: .93, tracking: -.04 });
-    if (activeFont === "editorial") Object.assign(layer, { family: "Georgia", weight: 700, lineHeight: 1.03, tracking: -.025 });
-    if (activeFont === "taste" && tasteFont) Object.assign(layer, { family: tasteFont.family, weight: 800, lineHeight: .96, tracking: -.025 });
+    Object.assign(layer, { family: canonType.family, weight: canonType.titleWeight, lineHeight: canonType.titleLineHeight, tracking: canonType.titleTracking });
     renderCover();
+    setStatus(`${canonType.family} × ${canonType.body} — единый шрифтовой канон #Sekta.`);
   }));
   window.addEventListener("sekta:apply-type-taste", () => {
     if (!refreshTasteFont(true)) return setStatus("Сначала отметьте хотя бы один шрифтовой кадр как понравившийся.");
@@ -1433,12 +1425,9 @@
     else if (direction.placement === "top") activePlacement = "middle";
     if (accentColors[direction.accent]) activeAccent = direction.accent;
     if (["auto", "ink", "white", "accent"].includes(direction.textColor)) activeTextColor = direction.textColor;
-    if (fontLabels[direction.font]) activeFont = direction.font === "taste" && !tasteFont ? "grotesk" : direction.font;
+    activeFont = "taste";
     const layer = coverLayers.headline;
-    if (activeFont === "tempo") Object.assign(layer, { family: "PT Sans Narrow", weight: 700, lineHeight: .86, tracking: -.012 });
-    if (activeFont === "grotesk") Object.assign(layer, { family: "Manrope", weight: 850, lineHeight: .93, tracking: -.04 });
-    if (activeFont === "editorial") Object.assign(layer, { family: "Georgia", weight: 700, lineHeight: 1.03, tracking: -.025 });
-    if (activeFont === "taste" && tasteFont) Object.assign(layer, { family: tasteFont.family, weight: 800, lineHeight: .96, tracking: -.025 });
+    Object.assign(layer, { family: canonType.family, weight: canonType.titleWeight, lineHeight: canonType.titleLineHeight, tracking: canonType.titleTracking });
     renderCover();
     saveCoverSystem();
     setStatus(`Применено направление: ${styleLabels[activeStyle]} · ${fontLabels[activeFont]} · ${accentLabels[activeAccent]}.`);
