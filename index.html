@@ -987,7 +987,7 @@
           <section class="moms-panel is-active" id="momsMediaPanel" role="tabpanel" aria-labelledby="momsMediaTab" data-moms-panel="media">
             <div class="moms-media-bar">
               <div><h2>Мамская медиатека</h2><p>Беременность, дети, семейные сцены и мама в кадре — в отдельной рабочей выдаче.</p></div>
-              <label class="button button-primary moms-upload-button">+ Добавить фото<input id="momsUploadInput" type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
+              <label class="button button-primary moms-upload-button">+ Добавить фото / видео<input id="momsUploadInput" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/webm" multiple></label>
             </div>
             <div class="moms-media-summary" aria-label="Состав мамской медиатеки">
               <button class="is-active" type="button" data-moms-media-filter="all" aria-pressed="true"><strong id="momsCountAll">—</strong><span>Все фото</span></button>
@@ -1001,7 +1001,7 @@
               <select id="momsMediaOrientation" aria-label="Ориентация мамских фото"><option value="all">Любая ориентация</option><option value="portrait">Вертикальные</option><option value="landscape">Горизонтальные</option><option value="square">Квадратные</option></select>
               <button class="button button-secondary" id="momsMediaShuffle" type="button">Перемешать</button>
             </div>
-            <div class="moms-result-line"><span id="momsMediaResult">Собираем материалы…</span><span id="momsUploadState">Локальных фото пока нет</span></div>
+            <div class="moms-result-line"><span id="momsMediaResult">Собираем материалы…</span><span id="momsUploadState">Локальных исходников пока нет</span></div>
             <div class="moms-media-grid" id="momsMediaGrid"></div>
             <div class="moms-infinite-loader" id="momsMediaSentinel" role="status" aria-live="polite">
               <span class="moms-infinite-spinner" aria-hidden="true"></span>
