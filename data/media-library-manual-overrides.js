@@ -1,0 +1,1 @@
+window.MEDIA_LIBRARY_MANUAL_OVERRIDES={"version":1,"updatedAt":"2026-08-27T10:04:16.035Z","records":{"19bb1e1a43b2be":{"people":["Вера"],"updatedAt":"2026-08-27T10:04:16.035Z","source":"smm-content-room"}}};
