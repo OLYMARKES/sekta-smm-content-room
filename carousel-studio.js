@@ -530,6 +530,7 @@
       coverStyle: "",
       coverAccent: "",
       coverAccentColor: "",
+      coverDim: .42,
       accentColor: "",
       transferredCover: false,
       savedAt: null,
@@ -621,6 +622,7 @@
         coverStyle: ["clean", "plate", "rail", "footer"].includes(slide.coverStyle) ? slide.coverStyle : "",
         coverAccent: ["sky", "green", "yellow", "pink"].includes(slide.coverAccent) ? slide.coverAccent : "",
         coverAccentColor: slide.coverAccentColor || "",
+        coverDim: Math.max(0, Math.min(.72, numberOr(slide.coverDim, .42))),
         accentColor: slide.accentColor || "",
         transferredCover: slide.transferredCover === true,
         customLayers: Array.isArray(slide.customLayers) ? slide.customLayers.map((layer) => ({
@@ -1058,6 +1060,7 @@
         target.coverStyle = idea.coverDesign.style || "clean";
         target.coverAccent = idea.coverDesign.accent || "";
         target.coverAccentColor = idea.coverDesign.accentColor || "";
+        target.coverDim = Math.max(0, Math.min(.72, numberOr(idea.coverDesign.photoDim, target.coverStyle === "clean" ? .42 : .2)));
         target.scene = transferred ? "photo-clean" : sceneLabels[idea.coverDesign.scene] ? idea.coverDesign.scene : target.scene;
         target.palette = paletteChoices()[idea.coverDesign.palette] ? idea.coverDesign.palette : target.palette;
         target.title = idea.coverDesign.titleText ?? target.title;
@@ -1570,6 +1573,7 @@
     element.style.setProperty("--carousel-plaque-opacity", String(Math.max(0, Math.min(1, numberOr(slide.plaqueOpacity, 1)))));
     element.style.setProperty("--carousel-plaque-fill", colorWithAlpha(slide.plaqueColor || palette.background, slide.plaqueOpacity));
     element.style.setProperty("--carousel-cover-accent", slide.coverAccentColor || palette.accent);
+    element.style.setProperty("--carousel-cover-dim", String(Math.max(0, Math.min(.72, numberOr(slide.coverDim, .42)))));
     applyLayerVariables(element, slide);
     const image = photo && !["paper", "field", "dark", "quote"].includes(slide.scene)
       ? `<img class="carousel-render-photo" data-carousel-photo-layer src="${escapeHtml(photo.thumb)}" alt="" draggable="false" style="object-position:${numberOr(slide.photoFocusX, 50)}% ${numberOr(slide.photoFocusY, 50)}%;transform:scale(${Math.max(1, Math.min(2.2, numberOr(slide.photoScale, 1)))})">`
@@ -2801,18 +2805,11 @@
       }
     }
     if (importedCover) {
-      const horizontalShade = slide.coverStyle === "plate" || slide.coverStyle === "rail" || slide.coverStyle === "footer";
-      const shade = horizontalShade ? context.createLinearGradient(0, 0, 820, 0) : context.createLinearGradient(0, 620, 0, 1350);
-      shade.addColorStop(0, horizontalShade ? "rgba(5,12,16,.18)" : "rgba(5,12,16,0)");
-      shade.addColorStop(1, horizontalShade ? "rgba(5,12,16,0)" : "rgba(5,12,16,.34)");
-      context.fillStyle = shade;
+      context.fillStyle = `rgba(5,12,16,${Math.max(0, Math.min(.72, numberOr(slide.coverDim, .42)))})`;
       context.fillRect(0, 0, 1080, 1350);
       if (slide.coverStyle === "rail") {
         context.fillStyle = slide.coverAccentColor || accentColor;
         context.fillRect(0, 0, 454, 1350);
-      } else if (slide.coverStyle === "footer") {
-        context.fillStyle = slide.coverAccentColor || accentColor;
-        context.fillRect(0, 932, 1080, 418);
       }
     }
     if (slide.template === "side-plaque") {

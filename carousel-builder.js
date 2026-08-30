@@ -88,6 +88,8 @@
     liveGrid: document.querySelector("#builderLiveGrid"),
     focusX: document.querySelector("#builderFocusX"),
     focusY: document.querySelector("#builderFocusY"),
+    photoDim: document.querySelector("#builderPhotoDim"),
+    photoDimValue: document.querySelector("#builderPhotoDimValue"),
     slides: document.querySelector("#builderSlides"),
     typeSystems: document.querySelector("#builderTypeSystems"),
     refreshScript: document.querySelector("#builderRefreshScript"),
@@ -172,7 +174,12 @@
     ],
   };
 
-  const styleLabels = { clean: "текст на фото", plate: "компактная плашка", rail: "вертикальная полоса", footer: "нижняя полоса" };
+  const styleLabels = { clean: "белый текст на затемнённом фото", plate: "цветная плашка", rail: "вертикальная полоса", footer: "тёмная плашка" };
+  const coverPresets = {
+    clean: { dim: 42, textColor: "auto", placement: "bottom" },
+    plate: { dim: 18, textColor: "auto", placement: "bottom" },
+    footer: { dim: 24, textColor: "auto", placement: "bottom" },
+  };
   const fontLabels = { taste: `${canonType.family} × ${canonType.body}` };
   const accentColors = { green: visualCanon?.colors?.mint || "#62d9a4", yellow: visualCanon?.colors?.sun || "#ffe36a", pink: visualCanon?.colors?.pink || "#f481b5" };
   const accentLabels = { green: "мятный", yellow: "жёлтый", pink: "розовый" };
@@ -189,7 +196,7 @@
   let activePlacement = "bottom";
   let activeFont = "taste";
   let activeAccent = "yellow";
-  let activeTextColor = "accent";
+  let activeTextColor = "auto";
   let activePreview = "cover";
   let tasteFont = { family: canonType.family, caseKind: canonType.caseKind };
   let hookIndex = 0;
@@ -237,7 +244,7 @@
     try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* private mode: keep the current session usable */ }
   }
 
-  const coverSystemKey = "sekta-builder-cover-system-v4";
+  const coverSystemKey = "sekta-builder-cover-system-v5";
   const discoveryStateKey = "sekta-builder-discovery-v1";
   function restoreCoverSystem() {
     const saved = readLocalJson(coverSystemKey, {});
@@ -248,6 +255,7 @@
     if (["auto", "ink", "white", "accent"].includes(saved.textColor)) activeTextColor = saved.textColor;
     if (Number.isFinite(Number(saved.focusX))) ui.focusX.value = Math.max(0, Math.min(100, Number(saved.focusX)));
     if (Number.isFinite(Number(saved.focusY))) ui.focusY.value = Math.max(0, Math.min(100, Number(saved.focusY)));
+    if (Number.isFinite(Number(saved.photoDim))) ui.photoDim.value = Math.max(0, Math.min(72, Number(saved.photoDim)));
     Object.entries(saved.layers || {}).forEach(([key, values]) => {
       if (!coverLayers[key] || !values || typeof values !== "object") return;
       ["visible", "size", "preferredSize", "x", "y", "boxWidth"].forEach((property) => {
@@ -268,6 +276,7 @@
       textColor: activeTextColor,
       focusX: Number(ui.focusX.value),
       focusY: Number(ui.focusY.value),
+      photoDim: Number(ui.photoDim.value),
       layers: Object.fromEntries(Object.entries(coverLayers).map(([key, layer]) => [key, { ...layer }])),
     });
   }
@@ -697,6 +706,8 @@
     ui.cover.dataset.textColor = activeTextColor;
     ui.cover.style.setProperty("--focus-x", `${ui.focusX.value}%`);
     ui.cover.style.setProperty("--focus-y", `${ui.focusY.value}%`);
+    ui.cover.style.setProperty("--builder-dim", (Number(ui.photoDim.value) / 100).toFixed(2));
+    ui.photoDimValue.textContent = `${ui.photoDim.value}%`;
     ui.coverImage.src = selectedPhoto?.thumb || "";
     decorateLayer(ui.coverHeadline, ui.hook.value);
     decorateLayer(ui.coverPromise, ui.subtitle.value);
@@ -727,7 +738,7 @@
       const style = `--builder-layer-x:${layer.x}cqw;--builder-layer-y:${layer.y * 1.25}cqw;${customWidth ? `--builder-layer-width:${layer.boxWidth}%;` : ""}font-family:'${escapeHtml(layer.family)}',sans-serif;font-weight:${layer.weight};font-size:${Math.round(layer.size * .144)}px;line-height:${layer.lineHeight};letter-spacing:${layer.tracking}em`;
       return `<${tag} class="${className}${customWidth ? " has-custom-width" : ""}" style="${style}">${escapeHtml(text)}</${tag}>`;
     };
-    const draft = `<div class="builder-grid-cell is-draft"><div class="builder-grid-draft builder-cover builder-cover-${activeStyle}" data-placement="${escapeHtml(activePlacement)}" data-font="${escapeHtml(activeFont)}" data-accent="${escapeHtml(activeAccent)}" data-taste-case="${escapeHtml(tasteFont?.caseKind || "lower")}" data-text-color="${escapeHtml(activeTextColor)}" style="--builder-accent:${accentColors[activeAccent]};--builder-headline-font:${tasteFont ? `'${escapeHtml(tasteFont.family)}'` : `'Golos Text'`};--focus-x:${ui.focusX.value}%;--focus-y:${ui.focusY.value}%"><img src="${escapeHtml(selectedPhoto?.thumb || "")}" alt="">${layerMarkup("account", "span", "builder-cover-account", ui.account.value)}${layerMarkup("headline", "strong", "", ui.hook.value)}${layerMarkup("subtitle", "small", "", ui.subtitle.value)}</div><span class="builder-grid-new">NEW</span></div>`;
+    const draft = `<div class="builder-grid-cell is-draft"><div class="builder-grid-draft builder-cover builder-cover-${activeStyle}" data-placement="${escapeHtml(activePlacement)}" data-font="${escapeHtml(activeFont)}" data-accent="${escapeHtml(activeAccent)}" data-taste-case="${escapeHtml(tasteFont?.caseKind || "lower")}" data-text-color="${escapeHtml(activeTextColor)}" style="--builder-accent:${accentColors[activeAccent]};--builder-headline-font:${tasteFont ? `'${escapeHtml(tasteFont.family)}'` : `'Golos Text'`};--focus-x:${ui.focusX.value}%;--focus-y:${ui.focusY.value}%;--builder-dim:${(Number(ui.photoDim.value) / 100).toFixed(2)}"><img src="${escapeHtml(selectedPhoto?.thumb || "")}" alt="">${layerMarkup("account", "span", "builder-cover-account", ui.account.value)}${layerMarkup("headline", "strong", "", ui.hook.value)}${layerMarkup("subtitle", "small", "", ui.subtitle.value)}</div><span class="builder-grid-new">NEW</span></div>`;
     const existing = currentGrid.slice(0, 8).map((item) => `<div class="builder-grid-cell"><img src="${escapeHtml(item.image)}" alt="" loading="lazy"><span class="builder-grid-kind">${item.pinned ? "◆" : item.type === "Reel" ? "▶" : "▣"}</span></div>`).join("");
     ui.liveGrid.innerHTML = draft + existing;
   }
@@ -850,8 +861,8 @@
   function resolvedCoverLayerColors() {
     const accent = accentColors[activeAccent];
     const explicit = activeTextColor === "white" ? "#ffffff" : activeTextColor === "ink" ? "#17221f" : activeTextColor === "accent" ? accent : "";
-    const surfaceText = explicit || (activeStyle === "clean" ? accent : "#101a1e");
-    const account = explicit || (activeStyle === "rail" ? "#101a1e" : "#ffffff");
+    const surfaceText = explicit || (activeStyle === "plate" ? "#101a1e" : "#ffffff");
+    const account = explicit || "#ffffff";
     return { title: surfaceText, body: surfaceText, label: account };
   }
 
@@ -953,7 +964,7 @@
     const coverBox = activeStyle === "rail"
       ? { titleWidth: 34, titleHeight: 62, bodyWidth: 34, bodyHeight: 12 }
       : activeStyle === "footer"
-        ? { titleWidth: 91, titleHeight: 24, bodyWidth: 91, bodyHeight: 8 }
+        ? { titleWidth: 72, titleHeight: 48, bodyWidth: 90, bodyHeight: 8 }
         : activeStyle === "plate"
           ? { titleWidth: 62, titleHeight: 58, bodyWidth: 90, bodyHeight: 8 }
           : { titleWidth: 91, titleHeight: 55, bodyWidth: 90, bodyHeight: 8 };
@@ -975,7 +986,7 @@
         schema: "sekta-cover-design-v2",
         template: "imported-cover",
         style: activeStyle,
-        scene: activeStyle === "clean" ? "photo-clean" : activeStyle === "plate" ? "plate" : "photo-dim",
+        scene: activeStyle === "plate" ? "plate" : "photo-dim",
         palette: paletteForAccent(activeAccent, "accent"),
         accent: activeAccent,
         accentColor: accentColors[activeAccent],
@@ -985,11 +996,12 @@
         placement: activePlacement,
         focusX: Number(ui.focusX.value),
         focusY: Number(ui.focusY.value),
+        photoDim: Number(ui.photoDim.value) / 100,
         photoScale: 1,
         caseKind: coverCase,
         textColor: coverColors.title,
-        plaqueEnabled: activeStyle === "plate",
-        plaqueColor: accentColors[activeAccent],
+        plaqueEnabled: activeStyle === "plate" || activeStyle === "footer",
+        plaqueColor: activeStyle === "footer" ? "#17221f" : accentColors[activeAccent],
         plaqueOpacity: 1,
         title: { ...coverLayers.headline, color: coverColors.title, boxWidth: measuredLayerBoxWidth("headline") || coverBox.titleWidth, boxHeight: coverBox.titleHeight },
         body: { ...coverLayers.subtitle, color: coverColors.body, boxWidth: measuredLayerBoxWidth("subtitle") || coverBox.bodyWidth, boxHeight: coverBox.bodyHeight },
@@ -1077,12 +1089,7 @@
     try { await Promise.all(Object.values(coverLayers).map((layer) => document.fonts.load(`${layer.weight} ${layer.size * scale}px "${layer.family}"`))); } catch {}
     drawCoverImage(context, image, 0, 0, width, height);
 
-    const gradient = activeStyle === "clean"
-      ? context.createLinearGradient(0, height * .36, 0, height)
-      : context.createLinearGradient(0, height * .2, width * .7, height);
-    gradient.addColorStop(0, "rgba(5,12,16,0)");
-    gradient.addColorStop(1, activeStyle === "clean" ? "rgba(5,12,16,.34)" : "rgba(5,12,16,.18)");
-    context.fillStyle = gradient;
+    context.fillStyle = `rgba(5,12,16,${Math.max(0, Math.min(.72, Number(ui.photoDim.value) / 100))})`;
     context.fillRect(0, 0, width, height);
 
     let maxWidth = width * Math.min(.96, measuredLayerBoxWidth("headline") / 100);
@@ -1109,7 +1116,7 @@
     const startYBase = activeStyle === "rail"
       ? height / 2 - ((lines.length - 1) * lineHeight) / 2
       : activeStyle === "footer"
-        ? height - footerHeight + 62 * scale + fontSize * .72
+        ? height - textBlockHeight - 190 * scale
         : activePlacement === "middle"
           ? height / 2 - ((lines.length - 1) * lineHeight) / 2
           : height - textBlockHeight - 118 * scale;
@@ -1118,7 +1125,13 @@
 
     context.fillStyle = accentColors[activeAccent];
     if (activeStyle === "rail") context.fillRect(0, 0, width * .42, height);
-    if (activeStyle === "footer") context.fillRect(0, height - footerHeight, width, footerHeight);
+    if (activeStyle === "footer") {
+      const measuredWidth = Math.max(...lines.map((line) => context.measureText(line).width));
+      const plateWidth = Math.min(maxWidth, measuredWidth) + 48 * scale;
+      const plateX = activePlacement === "right" ? x - plateWidth + 24 * scale : activePlacement === "middle" ? x - plateWidth / 2 : x - 24 * scale;
+      context.fillStyle = "#17221f";
+      roundedRect(context, plateX, startY - fontSize * .8, plateWidth, textBlockHeight + 34 * scale, 18 * scale);
+    }
     if (activeStyle === "plate") {
       const measuredWidth = Math.max(...lines.map((line) => context.measureText(line).width));
       const plateWidth = Math.min(maxWidth, measuredWidth) + 48 * scale;
@@ -1126,7 +1139,7 @@
       context.fillRect(plateX, startY - fontSize * .8, plateWidth, textBlockHeight + 34 * scale);
     }
 
-    const automaticColor = activeStyle === "clean" ? accentColors[activeAccent] : "#101a1e";
+    const automaticColor = activeStyle === "plate" ? "#101a1e" : "#ffffff";
     const headlineColor = activeTextColor === "auto" ? automaticColor : activeTextColor === "accent" ? accentColors[activeAccent] : textColors[activeTextColor];
     context.fillStyle = headlineColor;
     context.textBaseline = "alphabetic";
@@ -1382,8 +1395,12 @@
   });
   document.querySelectorAll("[data-builder-style]").forEach((button) => button.addEventListener("click", () => {
     activeStyle = button.dataset.builderStyle;
-    if (activeStyle === "rail") activePlacement = "left";
-    if (activeStyle === "footer") activePlacement = "bottom";
+    const preset = coverPresets[activeStyle];
+    if (preset) {
+      activePlacement = preset.placement;
+      activeTextColor = preset.textColor;
+      ui.photoDim.value = String(preset.dim);
+    }
     renderCover();
   }));
   document.querySelectorAll("[data-builder-preview]").forEach((button) => button.addEventListener("click", () => setPreviewMode(button.dataset.builderPreview)));
@@ -1414,6 +1431,7 @@
   });
   ui.focusX.addEventListener("input", renderCover);
   ui.focusY.addEventListener("input", renderCover);
+  ui.photoDim.addEventListener("input", renderCover);
   ui.slides.addEventListener("input", updateWordCount);
   ui.refreshScript.addEventListener("click", () => {
     scriptVariant = (scriptVariant + 1) % 3;

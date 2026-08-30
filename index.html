@@ -436,7 +436,7 @@
                 <button class="is-active" type="button" data-builder-preview="cover" role="tab" aria-selected="true">Обложка 4:5</button>
                 <button type="button" data-builder-preview="grid" role="tab" aria-selected="false">В актуальной сетке</button>
               </div>
-              <div class="builder-cover builder-cover-clean is-direct-editing" id="builderCoverPreview" data-placement="bottom" data-font="taste" data-taste-case="upper" data-accent="yellow" data-text-color="accent" aria-label="Редактируемая обложка: фотографию и текстовые элементы можно перетаскивать мышью" aria-describedby="builderDirectHint">
+              <div class="builder-cover builder-cover-clean is-direct-editing" id="builderCoverPreview" data-placement="bottom" data-font="taste" data-taste-case="upper" data-accent="yellow" data-text-color="auto" aria-label="Редактируемая обложка: фотографию и текстовые элементы можно перетаскивать мышью" aria-describedby="builderDirectHint">
                 <img id="builderCoverImage" src="assets/library/lib-e0e929ba56891c.jpg" alt="Выбранная фотография для обложки">
                 <span class="builder-cover-account builder-direct-layer" id="builderCoverAccount" data-builder-layer="account" data-layer-label="аккаунт" tabindex="0">@sektaschool</span>
                 <strong class="builder-direct-layer is-selected-layer" id="builderCoverHeadline" data-builder-layer="headline" data-layer-label="заголовок" tabindex="0">Пропустили пять дней? Ничего не сломалось</strong>
@@ -483,11 +483,10 @@
             <aside class="panel builder-media-panel">
               <div class="builder-design-controls">
                 <div class="builder-quick-controls-head"><strong>Быстрые настройки обложки</strong><span>Меняйте — результат сразу виден слева</span></div>
-                <fieldset class="builder-control-block builder-control-wide"><legend>Композиция</legend><div class="builder-choice-row" role="group" aria-label="Композиция обложки">
-                  <button type="button" class="builder-choice is-active" data-builder-style="clean">Текст на фото</button>
-                  <button type="button" class="builder-choice" data-builder-style="plate">Плашка</button>
-                  <button type="button" class="builder-choice" data-builder-style="rail">Вертикальная полоса</button>
-                  <button type="button" class="builder-choice" data-builder-style="footer">Нижняя полоса</button>
+                <fieldset class="builder-control-block builder-control-wide"><legend>Три готовые обложки</legend><div class="builder-cover-presets" role="group" aria-label="Готовый вид обложки">
+                  <button type="button" class="builder-cover-preset is-active" data-builder-style="clean"><span class="builder-preset-preview is-dim"><i>Белый заголовок</i></span><strong>Белый на фото</strong><small>Фото затемнено · без плашки</small></button>
+                  <button type="button" class="builder-cover-preset" data-builder-style="plate"><span class="builder-preset-preview is-accent"><i>Контрастный заголовок</i></span><strong>Цветная плашка</strong><small>Цвет системы · тёмный текст</small></button>
+                  <button type="button" class="builder-cover-preset" data-builder-style="footer"><span class="builder-preset-preview is-contrast"><i>Белый заголовок</i></span><strong>Тёмная плашка</strong><small>Тёмная поверхность · белый текст</small></button>
                 </div></fieldset>
 
                 <fieldset class="builder-control-block"><legend>Размещение</legend><div class="builder-choice-row" role="group" aria-label="Размещение текста">
@@ -514,7 +513,8 @@
                   <button type="button" class="builder-swatch is-active" data-builder-text-color="accent" aria-label="Цвет системы" style="--swatch:linear-gradient(135deg,#62d9a4 0 33%,#ffe36a 33% 66%,#f481b5 66%)"></button>
                 </div></fieldset>
 
-                <fieldset class="builder-control-block builder-focus-control"><legend>Фокус фотографии</legend><label><span>По горизонтали</span><input id="builderFocusX" type="range" min="0" max="100" value="50"></label><label><span>По вертикали</span><input id="builderFocusY" type="range" min="0" max="100" value="50"></label></fieldset>
+                <fieldset class="builder-control-block builder-dim-control"><legend>Затемнение фотографии</legend><label><span>Светлее</span><input id="builderPhotoDim" type="range" min="0" max="72" value="42"><span>Темнее</span></label><output id="builderPhotoDimValue">42%</output></fieldset>
+                <div class="builder-hidden-controls" aria-hidden="true"><input id="builderFocusX" type="range" min="0" max="100" value="50" tabindex="-1"><input id="builderFocusY" type="range" min="0" max="100" value="50" tabindex="-1"></div>
               </div>
               <div class="builder-media-head"><div><h2>Медиатека для обложки</h2><p id="builderMediaCount">Свежая подборка при каждой загрузке</p></div><button class="button button-secondary" id="builderExpandMedia" type="button" aria-expanded="false">Развернуть</button></div>
               <div class="builder-media-toolbar">
