@@ -103,9 +103,9 @@
 
   function mediaCard(item) {
     const kinds = item.momsKinds.map((kind) => ({ pregnancy: "беременность", children: "с детьми", family: "семья", mother: "мама" })[kind]).filter(Boolean);
-    const existingAttrs = item.localMomUpload ? `data-moms-upload-id="${escapeHtml(item.id)}"` : `data-media-id="${escapeHtml(item.id)}"`;
-    const quality = item.exportQuality === "source" ? "HQ" : item.localMomUpload ? "локально" : "превью";
-    return `<button class="moms-media-card" type="button" ${existingAttrs} aria-label="${escapeHtml(item.fileName)}"><img src="${escapeHtml(item.thumb)}" alt="" loading="lazy"><span class="moms-media-quality">${escapeHtml(quality)}</span><span class="moms-media-caption"><strong>${escapeHtml(kinds[0] || "материнство")}</strong><small>${escapeHtml(item.fileName)}</small></span></button>`;
+    const quality = item.isVideoSource ? "video" : item.exportQuality === "source" || item.exportQuality === "instagram-ready" ? "HQ" : item.localMomUpload ? "локально" : "превью";
+    const size = item.width && item.height ? `${item.width}×${item.height}` : "";
+    return `<button class="moms-media-card" type="button" data-media-id="${escapeHtml(item.id)}" aria-label="${escapeHtml(item.fileName)}"><img src="${escapeHtml(item.thumb)}" alt="" loading="lazy"><span class="moms-media-quality">${escapeHtml(quality)}</span>${item.isVideoSource ? `<span class="moms-media-video" aria-hidden="true">▶</span>` : ""}<span class="moms-media-caption"><strong>${escapeHtml(kinds[0] || "материнство")}</strong><small>${escapeHtml([item.fileName, size].filter(Boolean).join(" · "))}</small></span></button>`;
   }
 
   function renderMedia(reset = false) {
@@ -143,32 +143,94 @@
     renderMedia(true);
   }
 
-  function addUploads(fileList) {
-    const files = [...fileList].filter((file) => file.type.startsWith("image/"));
-    if (!files.length) return;
-    const added = files.map((file, index) => {
-      const thumb = URL.createObjectURL(file);
-      return {
-        id: `mom-upload-${Date.now()}-${index}`,
-        fileName: file.name,
-        folderLabel: "Мамская медиатека · локально",
-        sourceCategory: "локальное добавление",
-        sourceFolder: "mom-uploads",
-        contentThemes: ["материнство", "семья", "дети"],
-        carouselRoles: ["живой кадр"],
-        collections: ["maternity"],
-        momsKinds: ["mother", "family"],
-        orientation: "portrait",
-        exportQuality: "source",
-        thumb,
-        localMomUpload: true,
-      };
+  function imageDimensions(url) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve({ width: image.naturalWidth, height: image.naturalHeight });
+      image.onerror = reject;
+      image.src = url;
     });
+  }
+
+  function videoPoster(file) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const video = document.createElement("video");
+      const cleanup = () => URL.revokeObjectURL(url);
+      video.muted = true;
+      video.playsInline = true;
+      video.preload = "metadata";
+      video.onloadedmetadata = () => {
+        video.currentTime = Math.min(1, Math.max(0, (video.duration || 1) * .12));
+      };
+      video.onseeked = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth || 1080;
+        canvas.height = video.videoHeight || 1350;
+        canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+        const poster = canvas.toDataURL("image/jpeg", .92);
+        cleanup();
+        resolve({ thumb: poster, originalUrl: poster, width: canvas.width, height: canvas.height });
+      };
+      video.onerror = () => {
+        cleanup();
+        reject(new Error("video poster failed"));
+      };
+      video.src = url;
+    });
+  }
+
+  async function addUploads(fileList) {
+    const files = [...fileList].filter((file) => file.type.startsWith("image/") || file.type.startsWith("video/"));
+    if (!files.length) return momsToast("Выберите фото или видео для мамской медиатеки");
+    ui.uploadState.textContent = `Добавляем ${files.length}…`;
+    const added = [];
+    for (const [index, file] of files.entries()) {
+      try {
+        const isVideo = file.type.startsWith("video/");
+        const media = isVideo ? await videoPoster(file) : await (async () => {
+          const thumb = URL.createObjectURL(file);
+          const dimensions = await imageDimensions(thumb);
+          return { thumb, originalUrl: thumb, ...dimensions };
+        })();
+        added.push({
+          id: `mom-upload-${Date.now()}-${index}`,
+          fileName: file.name,
+          folderLabel: "Мамская медиатека · локально",
+          sourceCategory: isVideo ? "локальное видео" : "локальное фото",
+          sourceFolder: "mom-uploads",
+          originalPath: file.name,
+          originalUrl: media.originalUrl,
+          contentThemes: ["материнство", "семья", "дети"],
+          carouselRoles: [isVideo ? "кадр из видео" : "живой кадр"],
+          collections: ["maternity"],
+          duplicates: [],
+          momsKinds: ["mother", "family"],
+          orientation: media.width > media.height ? "landscape" : media.width < media.height ? "portrait" : "square",
+          exportQuality: isVideo ? "video-poster" : "source",
+          sizeMb: Number((file.size / 1024 / 1024).toFixed(1)),
+          width: media.width,
+          height: media.height,
+          thumb: media.thumb,
+          exportImage: media.originalUrl,
+          localMomUpload: true,
+          isVideoSource: isVideo,
+        });
+      } catch {
+        momsToast(`Не смог прочитать ${file.name}`);
+      }
+    }
+    if (!added.length) {
+      ui.uploadState.textContent = "Локальных исходников пока нет";
+      return;
+    }
     uploads = [...added, ...uploads];
+    library.unshift(...added);
     ui.uploadInput.value = "";
     ui.uploadState.textContent = `Локально добавлено: ${uploads.length}`;
     setMediaFilter("all");
-    momsToast(`${files.length} ${plural(files.length, "фото добавлено", "фото добавлены", "фото добавлены")} только в мамскую медиатеку`);
+    window.dispatchEvent(new CustomEvent("sekta:library-updated"));
+    momsToast(`${added.length} ${plural(added.length, "исходник добавлен", "исходника добавлены", "исходников добавлено")} только в мамскую медиатеку`);
   }
 
   function selectedSources() {
@@ -352,8 +414,6 @@
     if (copy) copyBrief(room.ideas.find((idea) => idea.id === copy.dataset.momsCopy));
     const build = event.target.closest("[data-moms-build]");
     if (build) openInBuilder(room.ideas.find((idea) => idea.id === build.dataset.momsBuild));
-    const upload = event.target.closest("[data-moms-upload-id]");
-    if (upload) momsToast("Локальное фото уже доступно в этой мамской медиатеке");
   });
 
   renderMedia();
