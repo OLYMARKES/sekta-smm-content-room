@@ -573,7 +573,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .builder-preview-switch button:hover { color: var(--ink); }
 .builder-preview-switch button.is-active { color: #fff; background: #24483e; }
 .builder-preview-switch button:focus-visible { outline: 3px solid rgba(49,85,228,.22); outline-offset: 2px; }
-.builder-cover { --builder-accent: #62d9a4; position: relative; width: min(100%, 470px); aspect-ratio: 4 / 5; margin: 0 auto 16px; overflow: hidden; isolation: isolate; color: #fff; background: #17221f; border-radius: 10px; box-shadow: 0 14px 34px rgba(19,31,27,.12); }
+.builder-cover { --builder-accent: #62d9a4; position: relative; width: min(100%, 470px); aspect-ratio: 4 / 5; margin: 0 auto 16px; overflow: hidden; isolation: isolate; container-type: inline-size; color: #fff; background: #17221f; border-radius: 10px; box-shadow: 0 14px 34px rgba(19,31,27,.12); }
 .builder-cover[data-accent="green"] { --builder-accent: #62d9a4; }
 .builder-cover[data-accent="yellow"] { --builder-accent: #ffe36a; }
 .builder-cover[data-accent="pink"] { --builder-accent: #f481b5; }

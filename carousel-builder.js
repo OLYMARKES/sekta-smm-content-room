@@ -176,9 +176,9 @@
 
   const styleLabels = { clean: "белый текст на затемнённом фото", plate: "цветная плашка", rail: "вертикальная полоса", footer: "тёмная плашка" };
   const coverPresets = {
-    clean: { dim: 42, textColor: "auto", placement: "bottom" },
-    plate: { dim: 18, textColor: "auto", placement: "bottom" },
-    footer: { dim: 24, textColor: "auto", placement: "bottom" },
+    clean: { dim: 42, textColor: "auto", placement: "bottom", titleWidth: 78 },
+    plate: { dim: 18, textColor: "auto", placement: "bottom", titleWidth: 62 },
+    footer: { dim: 24, textColor: "auto", placement: "bottom", titleWidth: 72 },
   };
   const fontLabels = { taste: `${canonType.family} × ${canonType.body}` };
   const accentColors = { green: visualCanon?.colors?.mint || "#62d9a4", yellow: visualCanon?.colors?.sun || "#ffe36a", pink: visualCanon?.colors?.pink || "#f481b5" };
@@ -213,7 +213,7 @@
   let activeSeriesSystem = canonType.id;
   let activeCoverLayer = "headline";
   const coverLayers = {
-    headline: { label: "заголовок", visible: true, family: canonType.family, weight: canonType.titleWeight, size: 106, preferredSize: 106, lineHeight: canonType.titleLineHeight, tracking: canonType.titleTracking, x: 0, y: 0, boxWidth: null },
+    headline: { label: "заголовок", visible: true, family: canonType.family, weight: canonType.titleWeight, size: 106, preferredSize: 106, lineHeight: canonType.titleLineHeight, tracking: canonType.titleTracking, x: 0, y: 0, boxWidth: 78 },
     subtitle: { label: "подстрочник", visible: true, family: canonType.body, weight: canonType.bodyWeight, size: 20, lineHeight: canonType.bodyLineHeight, tracking: canonType.bodyTracking, x: 0, y: 0, boxWidth: null },
     account: { label: "аккаунт", visible: true, family: canonType.body, weight: 700, size: 22, lineHeight: 1, tracking: .06, x: 0, y: 0, boxWidth: null },
   };
@@ -246,6 +246,12 @@
 
   const coverSystemKey = "sekta-builder-cover-system-v5";
   const discoveryStateKey = "sekta-builder-discovery-v1";
+  function suggestedHeadlineWidth(style = activeStyle, placement = activePlacement) {
+    if (style === "plate") return 62;
+    if (style === "footer") return 72;
+    if (["left", "right"].includes(placement)) return 56;
+    return 78;
+  }
   function restoreCoverSystem() {
     const saved = readLocalJson(coverSystemKey, {});
     if (["clean", "plate", "rail", "footer"].includes(saved.style)) activeStyle = saved.style;
@@ -263,6 +269,7 @@
       });
     });
     Object.assign(coverLayers.headline, { family: canonType.family, weight: canonType.titleWeight, lineHeight: canonType.titleLineHeight, tracking: canonType.titleTracking });
+    if (!hasLayerBoxWidth(coverLayers.headline)) coverLayers.headline.boxWidth = suggestedHeadlineWidth();
     Object.assign(coverLayers.subtitle, { family: canonType.body });
     Object.assign(coverLayers.account, { family: canonType.body });
   }
@@ -1242,11 +1249,6 @@
     const key = element.dataset.builderLayer;
     activeCoverLayer = key;
     const layer = coverLayers[key];
-    if (window.matchMedia("(pointer: coarse)").matches && !resizeHandle && !dragHandle) {
-      syncLayerInspector();
-      applyCoverLayers();
-      return;
-    }
     const rect = ui.cover.getBoundingClientRect();
     const layerRect = element.getBoundingClientRect();
     const kind = resizeHandle ? "resize" : "layer";
@@ -1338,7 +1340,7 @@
     setStatus(kind === "photo"
       ? moved ? "Кадрирование фотографии изменено и сохранено." : "Фотография выбрана; потяните её за свободное место."
       : kind === "resize" ? moved ? `${label}: размер и ширина сохранены.` : `${label} выбран.`
-        : moved ? `${label} перемещён мышкой.` : `${label} выбран.`);
+        : moved ? `${label} перемещён.` : `${label} выбран.`);
   };
   ui.cover.addEventListener("pointerup", finishCoverDrag);
   ui.cover.addEventListener("pointercancel", finishCoverDrag);
@@ -1400,11 +1402,16 @@
       activePlacement = preset.placement;
       activeTextColor = preset.textColor;
       ui.photoDim.value = String(preset.dim);
+      coverLayers.headline.boxWidth = preset.titleWidth;
     }
     renderCover();
   }));
   document.querySelectorAll("[data-builder-preview]").forEach((button) => button.addEventListener("click", () => setPreviewMode(button.dataset.builderPreview)));
-  document.querySelectorAll("[data-builder-placement]").forEach((button) => button.addEventListener("click", () => { activePlacement = button.dataset.builderPlacement; renderCover(); }));
+  document.querySelectorAll("[data-builder-placement]").forEach((button) => button.addEventListener("click", () => {
+    activePlacement = button.dataset.builderPlacement;
+    coverLayers.headline.boxWidth = suggestedHeadlineWidth();
+    renderCover();
+  }));
   document.querySelectorAll("[data-builder-font]").forEach((button) => button.addEventListener("click", () => {
     activeFont = "taste";
     const layer = coverLayers.headline;
