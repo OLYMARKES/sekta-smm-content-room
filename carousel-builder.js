@@ -865,7 +865,7 @@
     const recipe = index === total - 1 ? visualCanon?.final : visualCanon?.inner?.[(index - 1) % visualCanon.inner.length];
     if (!recipe) return { scene: "scrim", accent: activeAccent, withPhoto: true, studioScene: "photo-dim", studioTemplate: "photo-scrim", studioPalette: "ink", studioPlacement: "bottom" };
     const previewScene = recipe.scene === "window" ? "split" : recipe.scene === "field" ? (index === total - 1 ? "cta" : "quote") : "scrim";
-    return { scene: previewScene, accent: recipe.accent, withPhoto: recipe.withPhoto, studioScene: recipe.scene, studioTemplate: recipe.template, studioPalette: recipe.palette, studioPlacement: recipe.placement, plaqueEnabled: false };
+    return { scene: previewScene, accent: recipe.accent, withPhoto: recipe.withPhoto, studioScene: recipe.scene, studioTemplate: recipe.template, studioPalette: recipe.palette, studioPlacement: recipe.placement, studioAccentColor: accentColors[recipe.accent] || "", plaqueEnabled: false };
   }
 
   function photoForSlide(index, plan, photos) {
@@ -885,7 +885,7 @@
       const plan = visualPlanFor(index, slides.length);
       const photo = photoForSlide(index, plan, slideMedia);
       const image = photo ? `<img class="builder-slide-photo" src="${escapeHtml(photo.thumb)}" alt="" loading="lazy">` : "";
-      return `<article class="builder-slide scene-${plan.scene}" data-builder-slide="${index + 1}" data-photo-id="${escapeHtml(photo?.id || "")}" data-studio-scene="${plan.studioScene}" data-studio-template="${plan.studioTemplate}" data-studio-palette="${plan.studioPalette}" data-studio-placement="${plan.studioPlacement || "bottom"}" style="--slide-accent:${accentColors[plan.accent]}"><div class="builder-slide-canvas">${image}<div class="builder-slide-scrim"></div><span class="builder-slide-account">#SEKTA · ${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="true" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="true" spellcheck="true">${escapeHtml(slide.body)}</p></div></div><footer><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(seriesSceneLabels[plan.scene])}</strong>${photo ? `<small>${escapeHtml(photo.fileName)}</small>` : ""}<button type="button" class="builder-slide-edit" data-edit-builder-slide="${index}">Текст · фото · шрифт</button></footer></article>`;
+      return `<article class="builder-slide scene-${plan.scene}" data-builder-slide="${index + 1}" data-photo-id="${escapeHtml(photo?.id || "")}" data-studio-scene="${plan.studioScene}" data-studio-template="${plan.studioTemplate}" data-studio-palette="${plan.studioPalette}" data-studio-placement="${plan.studioPlacement || "bottom"}" data-studio-accent-color="${escapeHtml(plan.studioAccentColor || "")}" style="--slide-accent:${accentColors[plan.accent]}"><div class="builder-slide-canvas">${image}<div class="builder-slide-scrim"></div><span class="builder-slide-account">#SEKTA · ${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="true" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="true" spellcheck="true">${escapeHtml(slide.body)}</p></div></div><footer><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(seriesSceneLabels[plan.scene])}</strong>${photo ? `<small>${escapeHtml(photo.fileName)}</small>` : ""}<button type="button" class="builder-slide-edit" data-edit-builder-slide="${index}">Текст · фото · шрифт</button></footer></article>`;
     }).join("");
     const count = Number(ui.slideCount?.value || 10);
     ui.scriptTitle.textContent = `Карусель · ${count} ${plural(count, "слайд", "слайда", "слайдов")}`;
@@ -1000,7 +1000,7 @@
         title: slide.querySelector(".builder-slide-copy strong")?.textContent.trim() || "",
         body: slide.querySelector(".builder-slide-copy p")?.textContent.trim() || "",
       })),
-      visualPlan: rows.map((slide) => ({ scene: slide.dataset.studioScene, template: slide.dataset.studioTemplate, palette: slide.dataset.studioPalette, placement: slide.dataset.studioPlacement, photoId: slide.dataset.photoId || null, plaqueEnabled: false })),
+      visualPlan: rows.map((slide) => ({ scene: slide.dataset.studioScene, template: slide.dataset.studioTemplate, palette: slide.dataset.studioPalette, placement: slide.dataset.studioPlacement, photoId: slide.dataset.photoId || null, accentColor: slide.dataset.studioAccentColor || "", plaqueEnabled: false })),
       activeSlide,
       openSlides: true,
     };

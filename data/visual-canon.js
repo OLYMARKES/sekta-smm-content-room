@@ -1,5 +1,5 @@
 window.SEKTA_VISUAL_CANON = Object.freeze({
-  version: 1,
+  version: 2,
   type: Object.freeze({
     id: "sekta-geologica",
     family: "Geologica",
@@ -35,13 +35,13 @@ window.SEKTA_VISUAL_CANON = Object.freeze({
   }),
   inner: Object.freeze([
     Object.freeze({ scene: "photo-dim", template: "photo-scrim", placement: "bottom", palette: "ink", accent: "yellow", withPhoto: true }),
-    Object.freeze({ scene: "window", template: "photo-field", placement: "bottom", palette: "sekta-pink", accent: "pink", withPhoto: true }),
-    Object.freeze({ scene: "photo-dim", template: "photo-scrim", placement: "middle", palette: "ink", accent: "green", withPhoto: true }),
-    Object.freeze({ scene: "field", template: "accent-thought", placement: "middle", palette: "sekta-mint", accent: "green", withPhoto: false }),
-    Object.freeze({ scene: "photo-dim", template: "photo-scrim", placement: "top", palette: "ink", accent: "yellow", withPhoto: true }),
-    Object.freeze({ scene: "window", template: "photo-field", placement: "bottom", palette: "sekta-sun", accent: "yellow", withPhoto: true }),
-    Object.freeze({ scene: "photo-dim", template: "photo-scrim", placement: "bottom", palette: "ink", accent: "pink", withPhoto: true }),
-    Object.freeze({ scene: "field", template: "accent-thought", placement: "middle", palette: "sekta-pink", accent: "pink", withPhoto: false }),
+    Object.freeze({ scene: "photo-dim", template: "photo-scrim", placement: "middle", palette: "ink", accent: "pink", withPhoto: true }),
+    Object.freeze({ scene: "field", template: "accent-thought", placement: "middle", palette: "sekta-mint", accent: "yellow", withPhoto: false }),
+    Object.freeze({ scene: "photo-dim", template: "photo-scrim", placement: "top", palette: "ink", accent: "green", withPhoto: true }),
+    Object.freeze({ scene: "photo-dim", template: "photo-scrim", placement: "bottom", palette: "ink", accent: "yellow", withPhoto: true }),
+    Object.freeze({ scene: "field", template: "accent-thought", placement: "middle", palette: "sekta-pink", accent: "green", withPhoto: false }),
+    Object.freeze({ scene: "photo-dim", template: "photo-scrim", placement: "middle", palette: "ink", accent: "pink", withPhoto: true }),
+    Object.freeze({ scene: "photo-dim", template: "photo-scrim", placement: "bottom", palette: "ink", accent: "yellow", withPhoto: true }),
   ]),
-  final: Object.freeze({ scene: "field", template: "color-final", placement: "middle", palette: "sekta-sun", accent: "yellow", withPhoto: false }),
+  final: Object.freeze({ scene: "field", template: "color-final", placement: "middle", palette: "sekta-mint", accent: "pink", withPhoto: false }),
 });

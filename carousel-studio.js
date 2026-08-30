@@ -9,7 +9,7 @@
   const DRAFT_KEY = "sekta-carousel-studio-draft-v2";
   const SAVED_KEY = "sekta-carousel-studio-series-v1";
   const IMPORT_KEY = "sekta-carousel-studio-taste-import-v1";
-  const MONTAGE_VERSION = 10;
+  const MONTAGE_VERSION = 11;
   const DEFAULT_LONGREAD = document.querySelector("#carouselLongreadText")?.value || "";
   const palettes = {
     ink: { name: "Контрастная", background: "#17221f", foreground: "#ffffff", accent: "#f7f7f2", ink: "#17221f", plaque: "#f7f7f2", plaqueText: "#17221f" },
@@ -70,9 +70,10 @@
   const defaultTemplateForScene = {
     paper: "light-column", dark: "color-final", "photo-dim": "photo-scrim", "photo-clean": "text-photo", plate: "cover-plaque", split: "side-plaque", window: "photo-window", field: "accent-thought", quote: "light-column",
   };
+  const canonAccentColor = (accent) => visualCanon?.accents?.find((item) => item.id === accent)?.color || "";
   const canonicalInner = (visualCanon?.inner || [
     { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "bottom", withPhoto: true },
-    { template: "photo-field", scene: "window", palette: "sekta-pink", placement: "bottom", withPhoto: true },
+    { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "middle", withPhoto: true },
     { template: "accent-thought", scene: "field", palette: "sekta-mint", placement: "middle", withPhoto: false },
   ]).map((recipe) => ({
     ...recipe,
@@ -83,12 +84,13 @@
     bodyBoxWidth: 84,
     bodyBoxHeight: recipe.scene === "photo-dim" ? 54 : 40,
     textColor: recipe.scene === "photo-dim" ? "#ffffff" : "",
+    accentColor: canonAccentColor(recipe.accent),
     plaqueEnabled: false,
   }));
   const montageTemplates = {
     cover: { template: "text-photo", role: "cover", scene: "photo-clean", palette: "sekta-sun", placement: "bottom", size: 76, bodySize: 24, titleBoxWidth: 86, titleBoxHeight: 42, bodyBoxWidth: 82, bodyBoxHeight: 14, showSeriesLabel: false, showBody: false, showCounter: false, plaqueEnabled: false },
     body: canonicalInner,
-    final: { ...(visualCanon?.final || {}), template: "color-final", role: "cta", scene: "field", palette: "sekta-sun", placement: "middle", size: 70, bodySize: 30, titleBoxWidth: 82, bodyBoxWidth: 78, plaqueEnabled: false },
+    final: { ...(visualCanon?.final || {}), template: "color-final", role: "cta", scene: "field", palette: visualCanon?.final?.palette || "sekta-mint", placement: "middle", size: 70, bodySize: 30, titleBoxWidth: 82, bodyBoxWidth: 78, accentColor: canonAccentColor(visualCanon?.final?.accent), plaqueEnabled: false },
   };
   const quickPaletteIds = ["sekta-mint", "sekta-pink", "sekta-sun", "ink"];
   const quickLayoutPresets = {
@@ -528,6 +530,7 @@
       coverStyle: "",
       coverAccent: "",
       coverAccentColor: "",
+      accentColor: "",
       transferredCover: false,
       savedAt: null,
       ...overrides,
@@ -618,6 +621,7 @@
         coverStyle: ["clean", "plate", "rail", "footer"].includes(slide.coverStyle) ? slide.coverStyle : "",
         coverAccent: ["sky", "green", "yellow", "pink"].includes(slide.coverAccent) ? slide.coverAccent : "",
         coverAccentColor: slide.coverAccentColor || "",
+        accentColor: slide.accentColor || "",
         transferredCover: slide.transferredCover === true,
         customLayers: Array.isArray(slide.customLayers) ? slide.customLayers.map((layer) => ({
           id: layer.id || `custom-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
@@ -710,7 +714,7 @@
     if (firstSentence && words(firstSentence).length <= 10) {
       return { title: firstSentence, body: clean.slice(firstSentence.length).trim() };
     }
-    return { title: `${allWords.slice(0, 7).join(" ")}…`, body: clean };
+    return { title: `${allWords.slice(0, 7).join(" ")}…`, body: allWords.slice(7).join(" ") };
   }
 
   const accentPaletteSystems = {
@@ -762,7 +766,7 @@
     const definition = templateDefinitions[slide.template];
     const needsPhoto = definition?.usesPhoto === true;
     const currentPhoto = photoById(slide.photoId);
-    if (needsPhoto && (!currentPhoto || mediaLooksLikeDocument(currentPhoto))) {
+    if (needsPhoto && (!currentPhoto || mediaLooksLikeDocument(currentPhoto) || usedPhotos.has(currentPhoto.id))) {
       const replacement = rankedSeriesPhotos(source).find((item) => !usedPhotos.has(item.id));
       if (replacement) slide.photoId = replacement.id;
       else Object.assign(slide, themedTemplate(montageTemplates.body[0], source), { photoId: null });
@@ -794,6 +798,7 @@
     slide.bodyLineHeight = canonType.bodyLineHeight;
     slide.bodyTracking = canonType.bodyTracking;
     slide.plaqueEnabled = slide.plaqueEnabled === true;
+    slide.accentColor = slide.accentColor || canonAccentColor(canonicalInner[(Math.max(1, index) - 1) % canonicalInner.length]?.accent);
     slide.layerEffects = {
       ...(slide.layerEffects || {}),
       title: { ...(slide.layerEffects?.title || {}), shadowOpacity: 0 },
@@ -1021,6 +1026,7 @@
           if (visual.scene && sceneLabels[visual.scene]) slide.scene = visual.scene;
           if (["top", "middle", "bottom", "left", "right"].includes(visual.placement)) slide.placement = visual.placement;
           if (visual.palette && paletteChoices()[visual.palette]) slide.palette = visual.palette;
+          if (/^#[\da-f]{6}$/i.test(visual.accentColor || "")) slide.accentColor = visual.accentColor;
           if (visual.photoId && photoById(visual.photoId)) slide.photoId = visual.photoId;
           const hasTransferredPlaque = typeof visual.plaqueEnabled === "boolean";
           if (hasTransferredPlaque) {
@@ -1438,7 +1444,7 @@
 
   function applyLayerVariables(element, slide) {
     const set = (name, value) => element.style.setProperty(name, value);
-    const previewSize = (value) => Math.round(Math.max(8, value) * 48) / 100;
+    const previewSize = (value) => Math.round(Math.max(8, value) * 100 / 10.8) / 100;
     const titleType = layerTypography(slide, "title");
     const bodyType = layerTypography(slide, "body");
     const labelType = layerTypography(slide, "label");
@@ -1464,7 +1470,7 @@
     set("--carousel-counter-y", `${(Number(slide.counterOffsetY) || 0) * 1.25}cqw`);
     set("--carousel-title-font", `"${titleType.resolvedFamily}"`);
     set("--carousel-title-weight", titleType.weight);
-    set("--carousel-title-size", `${previewSize(titleType.size)}px`);
+    set("--carousel-title-size", `${previewSize(titleType.size)}cqw`);
     set("--carousel-title-line", titleType.lineHeight);
     set("--carousel-title-tracking", `${titleType.tracking}em`);
     set("--carousel-title-width", `${titleBox.width}cqw`);
@@ -1472,7 +1478,7 @@
     set("--carousel-title-color", resolvedLayerColor(slide, "title"));
     set("--carousel-body-font", `"${bodyType.resolvedFamily}"`);
     set("--carousel-body-weight", bodyType.weight);
-    set("--carousel-body-size", `${previewSize(bodyType.size)}px`);
+    set("--carousel-body-size", `${previewSize(bodyType.size)}cqw`);
     set("--carousel-body-line", bodyType.lineHeight);
     set("--carousel-body-tracking", `${bodyType.tracking}em`);
     set("--carousel-body-width", `${bodyBox.width}cqw`);
@@ -1480,7 +1486,7 @@
     set("--carousel-body-color", resolvedLayerColor(slide, "body"));
     set("--carousel-label-font", `"${labelType.resolvedFamily}"`);
     set("--carousel-label-weight", labelType.weight);
-    set("--carousel-label-size", `${previewSize(labelType.size)}px`);
+    set("--carousel-label-size", `${previewSize(labelType.size)}cqw`);
     set("--carousel-label-line", labelType.lineHeight);
     set("--carousel-label-tracking", `${labelType.tracking}em`);
     set("--carousel-label-width", `${labelBox.width}cqw`);
@@ -1488,7 +1494,7 @@
     set("--carousel-label-color", resolvedLayerColor(slide, "label"));
     set("--carousel-counter-font", `"${counterType.resolvedFamily}"`);
     set("--carousel-counter-weight", counterType.weight);
-    set("--carousel-counter-size", `${previewSize(counterType.size)}px`);
+    set("--carousel-counter-size", `${previewSize(counterType.size)}cqw`);
     set("--carousel-counter-line", counterType.lineHeight);
     set("--carousel-counter-tracking", `${counterType.tracking}em`);
     set("--carousel-counter-width", `${counterBox.width}cqw`);
@@ -1558,14 +1564,12 @@
     element.style.setProperty("--carousel-body-font", `"${slideFont.body || companionFor(slideFont.family)}"`);
     element.style.setProperty("--carousel-bg", slide.backgroundColor || palette.background);
     element.style.setProperty("--carousel-fg", slideForeground(slide));
-    element.style.setProperty("--carousel-accent", palette.accent);
+    element.style.setProperty("--carousel-accent", slide.accentColor || palette.accent);
     element.style.setProperty("--carousel-ink", palette.ink);
     element.style.setProperty("--carousel-plaque-color", slide.plaqueColor || palette.background);
     element.style.setProperty("--carousel-plaque-opacity", String(Math.max(0, Math.min(1, numberOr(slide.plaqueOpacity, 1)))));
     element.style.setProperty("--carousel-plaque-fill", colorWithAlpha(slide.plaqueColor || palette.background, slide.plaqueOpacity));
     element.style.setProperty("--carousel-cover-accent", slide.coverAccentColor || palette.accent);
-    element.style.setProperty("--carousel-title-size", `${Math.max(24, Math.round((slide.size || 46) * .48))}px`);
-    element.style.setProperty("--carousel-body-size", `${Math.max(12, Math.min(31, Math.round((slide.bodySize || 34) * .48)))}px`);
     applyLayerVariables(element, slide);
     const image = photo && !["paper", "field", "dark", "quote"].includes(slide.scene)
       ? `<img class="carousel-render-photo" data-carousel-photo-layer src="${escapeHtml(photo.thumb)}" alt="" draggable="false" style="object-position:${numberOr(slide.photoFocusX, 50)}% ${numberOr(slide.photoFocusY, 50)}%;transform:scale(${Math.max(1, Math.min(2.2, numberOr(slide.photoScale, 1)))})">`
@@ -1585,7 +1589,7 @@
       ensureFontFamily(type.resolvedFamily);
       const box = layerBox(slide, target);
       const effects = layerEffectCss(slide, target);
-      const style = `--custom-x:${Number(layer.x) || 0}cqw;--custom-y:${(Number(layer.y) || 0) * 1.25}cqw;width:${box.width}cqw;max-height:${box.height * 1.25}cqw;color:${resolvedLayerColor(slide, target)};font-family:'${escapeHtml(type.resolvedFamily)}',sans-serif;font-weight:${type.weight};font-size:${Math.round(type.size * 48) / 100}px;line-height:${type.lineHeight};letter-spacing:${type.tracking}em;text-shadow:${effects.shadow};-webkit-text-stroke:${effects.strokeWidth} ${effects.strokeColor};paint-order:stroke fill`;
+      const style = `--custom-x:${Number(layer.x) || 0}cqw;--custom-y:${(Number(layer.y) || 0) * 1.25}cqw;width:${box.width}cqw;max-height:${box.height * 1.25}cqw;color:${resolvedLayerColor(slide, target)};font-family:'${escapeHtml(type.resolvedFamily)}',sans-serif;font-weight:${type.weight};font-size:${Math.round(type.size * 100 / 10.8) / 100}cqw;line-height:${type.lineHeight};letter-spacing:${type.tracking}em;text-shadow:${effects.shadow};-webkit-text-stroke:${effects.strokeWidth} ${effects.strokeColor};paint-order:stroke fill`;
       return `<div class="carousel-render-custom${directEditing ? ` carousel-direct-layer${selectedLayer === target ? " is-selected-layer" : ""}` : ""}" style="${style}" data-carousel-fit-layer="${escapeHtml(target)}"${directEditing ? ` data-carousel-layer="${escapeHtml(target)}" data-layer-label="текстовый блок"` : ""}><span class="carousel-layer-text"${inlineEditorAttributes(directEditing, target, "текстовый блок")}>${escapeHtml(layer.text)}</span>${layerEditingControls(directEditing, selectedLayer, target, slide)}</div>`;
     }).join("");
     const geometry = `<div class="carousel-render-geometry" data-serial="${String(index + 1).padStart(2, "0")}" aria-hidden="true"></div>`;
@@ -1843,6 +1847,7 @@
     slide.labelColor = "";
     slide.counterColor = "";
     slide.plaqueColor = "";
+    slide.accentColor = "";
     (slide.customLayers || []).forEach((layer) => { layer.color = ""; });
   }
 
@@ -1859,6 +1864,7 @@
     const plaqueWasEnabled = slide.plaqueEnabled === true;
     slide.palette = id;
     resetSlidePaletteOverrides(slide);
+    slide.accentColor = palette.accent;
     const textOverPhoto = ["photo-clean", "photo-dim", "plate"].includes(slide.scene);
     const plaqueColor = palette.plaque || (textOverPhoto ? palette.background : palette.accent);
     const canvasTextColor = textOverPhoto ? "#ffffff" : readableTextColor(slide.backgroundColor || palette.background);
@@ -1874,7 +1880,7 @@
   }
 
   function applyQuickLayoutData(slide, preset, resetOffsets = true) {
-    ["template", "scene", "placement", "size", "bodySize", "titleBoxWidth", "titleBoxHeight", "bodyBoxWidth", "bodyBoxHeight"].forEach((key) => {
+    ["template", "scene", "placement", "size", "bodySize", "titleBoxWidth", "titleBoxHeight", "bodyBoxWidth", "bodyBoxHeight", "accentColor"].forEach((key) => {
       if (preset[key] !== undefined) slide[key] = preset[key];
     });
     if (resetOffsets) {
@@ -1918,6 +1924,7 @@
     applyQuickLayoutData(slide, proposal);
     if (proposal.palette) slide.palette = proposal.palette;
     resetSlidePaletteOverrides(slide);
+    if (proposal.accentColor) slide.accentColor = proposal.accentColor;
     if (proposal.textColor) slide.textColor = proposal.textColor;
     slide.plaqueEnabled = proposal.plaqueEnabled === true;
     slide.savedAt = null;
@@ -2490,7 +2497,7 @@
         if (isCustomTarget(drag.layer)) {
           drag.element.style.width = `${nextBox.width}cqw`;
           drag.element.style.maxHeight = `${nextBox.height * 1.25}cqw`;
-          drag.element.style.fontSize = `${Math.round(layerTypography(slide, drag.layer).size * 48) / 100}px`;
+          drag.element.style.fontSize = `${Math.round(layerTypography(slide, drag.layer).size * 100 / 10.8) / 100}cqw`;
           drag.element.style.setProperty("--custom-x", `${x}cqw`);
           drag.element.style.setProperty("--custom-y", `${drag.originY * 1.25}cqw`);
         } else applyLayerVariables(canvas, slide);
@@ -2768,6 +2775,7 @@
     const importedCover = slide.template === "imported-cover";
     const usesPhoto = photo && !["paper", "field", "dark", "quote"].includes(slide.scene);
     const surfaceColor = slide.backgroundColor || palette.background;
+    const accentColor = slide.accentColor || palette.accent;
     context.fillStyle = surfaceColor;
     context.fillRect(0, 0, 1080, 1350);
     if (usesPhoto) {
@@ -2800,31 +2808,31 @@
       context.fillStyle = shade;
       context.fillRect(0, 0, 1080, 1350);
       if (slide.coverStyle === "rail") {
-        context.fillStyle = slide.coverAccentColor || palette.accent;
+        context.fillStyle = slide.coverAccentColor || accentColor;
         context.fillRect(0, 0, 454, 1350);
       } else if (slide.coverStyle === "footer") {
-        context.fillStyle = slide.coverAccentColor || palette.accent;
+        context.fillStyle = slide.coverAccentColor || accentColor;
         context.fillRect(0, 932, 1080, 418);
       }
     }
     if (slide.template === "side-plaque") {
       context.fillStyle = surfaceColor;
       context.fillRect(0, 0, 626, 1350);
-      context.fillStyle = palette.accent;
+      context.fillStyle = accentColor;
       context.fillRect(76, 214, 174, 18);
     } else if (slide.template === "top-plaque") {
       context.fillStyle = surfaceColor;
       context.fillRect(0, 0, 1080, 594);
-      context.fillStyle = palette.accent;
+      context.fillStyle = accentColor;
       context.fillRect(76, 574, 280, 20);
     } else if (slide.template === "light-column") {
-      context.fillStyle = palette.accent;
+      context.fillStyle = accentColor;
       context.fillRect(1004, 0, 76, 1350);
     } else if (slide.template === "accent-thought") {
-      context.fillStyle = palette.accent;
+      context.fillStyle = accentColor;
       context.fillRect(86, 214, 194, 20);
     } else if (slide.template === "color-final") {
-      context.fillStyle = palette.accent;
+      context.fillStyle = accentColor;
       context.fillRect(0, 1188, 1080, 162);
     }
     drawCanvasTexture(context, slide.texture);
@@ -2875,6 +2883,14 @@
     else if (slide.template === "photo-window") startY = 785;
     else if (slide.template === "side-plaque") startY = Math.max(310, (1350 - blockHeight) / 2);
     else if (slide.template === "top-plaque") startY = Math.max(120, (540 - blockHeight) / 2);
+    if (slide.template === "photo-scrim") {
+      context.save();
+      context.fillStyle = accentColor;
+      context.beginPath();
+      context.roundRect(100, Math.max(88, startY - 54), 194, 18, 9);
+      context.fill();
+      context.restore();
+    }
     if (slide.plaqueEnabled) {
       const plaquePaddingX = 22;
       const plaquePaddingY = 18;
