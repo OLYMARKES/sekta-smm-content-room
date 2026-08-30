@@ -206,7 +206,7 @@
   let activeSeriesSystem = canonType.id;
   let activeCoverLayer = "headline";
   const coverLayers = {
-    headline: { label: "заголовок", visible: true, family: canonType.family, weight: canonType.titleWeight, size: 106, lineHeight: canonType.titleLineHeight, tracking: canonType.titleTracking, x: 0, y: 0, boxWidth: null },
+    headline: { label: "заголовок", visible: true, family: canonType.family, weight: canonType.titleWeight, size: 106, preferredSize: 106, lineHeight: canonType.titleLineHeight, tracking: canonType.titleTracking, x: 0, y: 0, boxWidth: null },
     subtitle: { label: "подстрочник", visible: true, family: canonType.body, weight: canonType.bodyWeight, size: 20, lineHeight: canonType.bodyLineHeight, tracking: canonType.bodyTracking, x: 0, y: 0, boxWidth: null },
     account: { label: "аккаунт", visible: true, family: canonType.body, weight: 700, size: 22, lineHeight: 1, tracking: .06, x: 0, y: 0, boxWidth: null },
   };
@@ -250,7 +250,7 @@
     if (Number.isFinite(Number(saved.focusY))) ui.focusY.value = Math.max(0, Math.min(100, Number(saved.focusY)));
     Object.entries(saved.layers || {}).forEach(([key, values]) => {
       if (!coverLayers[key] || !values || typeof values !== "object") return;
-      ["visible", "size", "x", "y", "boxWidth"].forEach((property) => {
+      ["visible", "size", "preferredSize", "x", "y", "boxWidth"].forEach((property) => {
         if (values[property] !== undefined) coverLayers[key][property] = values[property];
       });
     });
@@ -637,24 +637,45 @@
     if (!layer.visible || !element || ui.cover.clientWidth === 0) return;
     const coverRect = ui.cover.getBoundingClientRect();
     const accountRect = coverLayers.account.visible ? ui.coverAccount.getBoundingClientRect() : null;
+    const safeLeft = coverRect.left + coverRect.width * .047;
+    const safeRight = coverRect.right - coverRect.width * .047;
     const safeTop = Math.max(coverRect.top + coverRect.height * .075, accountRect ? accountRect.bottom + coverRect.height * .025 : 0);
     const safeBottom = coverRect.bottom - coverRect.height * .075;
+    layer.size = Math.max(28, Math.min(132, Number(layer.preferredSize) || Number(layer.size) || 106));
+    element.style.fontSize = `${Math.round(layer.size * 48) / 100}px`;
     let attempts = 0;
     let rect = element.getBoundingClientRect();
-    while ((rect.top < safeTop || rect.bottom > safeBottom || rect.left < coverRect.left || rect.right > coverRect.right) && layer.size > 28 && attempts < 64) {
+    const safeWidth = safeRight - safeLeft;
+    const safeHeight = safeBottom - safeTop;
+    const renderedLineCount = () => {
+      const fontSize = parseFloat(getComputedStyle(element).fontSize) || 1;
+      return Math.max(1, Math.round(element.getBoundingClientRect().height / (fontSize * layer.lineHeight)));
+    };
+    while ((rect.width > safeWidth || rect.height > safeHeight || renderedLineCount() > 5) && layer.size > 28 && attempts < 64) {
       layer.size = Math.max(28, layer.size - 2);
       element.style.fontSize = `${Math.round(layer.size * 48) / 100}px`;
       rect = element.getBoundingClientRect();
       attempts += 1;
     }
+    for (let pass = 0; pass < 3; pass += 1) {
+      rect = element.getBoundingClientRect();
+      const shiftX = rect.left < safeLeft ? safeLeft - rect.left : rect.right > safeRight ? safeRight - rect.right : 0;
+      const shiftY = rect.top < safeTop ? safeTop - rect.top : rect.bottom > safeBottom ? safeBottom - rect.bottom : 0;
+      if (Math.abs(shiftX) < .5 && Math.abs(shiftY) < .5) break;
+      layer.x = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, Math.round((layer.x + shiftX / coverRect.width * 100) * 10) / 10));
+      layer.y = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, Math.round((layer.y + shiftY / coverRect.height * 100) * 10) / 10));
+      element.style.setProperty("--builder-layer-x", `${layer.x}cqw`);
+      element.style.setProperty("--builder-layer-y", `${layer.y * 1.25}cqw`);
+    }
   }
 
-  function updateLayerFromInspector() {
+  function updateLayerFromInspector(event) {
     const layer = coverLayers[activeCoverLayer];
     setLayerText(activeCoverLayer, ui.layerText.value);
     layer.family = ui.layerFont.value;
     layer.weight = Number(ui.layerWeight.value);
     layer.size = Number(ui.layerSize.value);
+    if (event?.target === ui.layerSize && activeCoverLayer === "headline") layer.preferredSize = layer.size;
     layer.boxWidth = Number(ui.layerBoxWidth.value);
     layer.lineHeight = Number(ui.layerLineHeight.value);
     layer.tracking = Number(ui.layerTracking.value);
@@ -1273,6 +1294,7 @@
         const size = Math.max(8, Math.min(132, coverDrag.size * scale));
         layer.boxWidth = Math.round(boxWidth * 10) / 10;
         layer.size = Math.round(size);
+        if (coverDrag.key === "headline") layer.preferredSize = layer.size;
         if (direction.includes("w")) layer.x = Math.max(-coverLayerOffsetLimit, Math.min(coverLayerOffsetLimit, coverDrag.x - (boxWidth - coverDrag.boxWidth)));
         if (direction.includes("n")) {
           const heightDelta = coverDrag.layerHeight * (scale - 1) / coverDrag.height * 100;
