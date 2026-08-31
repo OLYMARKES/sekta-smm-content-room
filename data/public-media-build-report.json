@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-31T09:04:56.334Z",
+  "generatedAt": "2026-08-31T13:08:13.042Z",
   "publicMaterials": 2151,
   "excludedNotPublic": 27,
   "basicMaterials": 70,
   "basicNeuroPhotos": 67,
   "previews": 2151,
-  "sha256": "0b9d8bb88c9adf853bf09b79b4e85e272cd0533cc6cc39a76b558bc76168e164",
-  "syncApp": true
+  "sha256": "de84680df891d4718843a9b4eaa4f88d681842d516860f193c14b7aac050fb9c",
+  "syncApp": false
 }
