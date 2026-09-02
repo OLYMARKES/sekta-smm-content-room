@@ -1,18 +1,28 @@
 (() => {
   const library = window.SEKTA_LIBRARY?.items || [];
-  const root = document.querySelector('[data-view-panel="typography"]');
+  const scienceLibrary = window.SEKTA_SCIENCE_LIBRARY?.items || [];
+  const visualCanon = window.SEKTA_VISUAL_CANON;
+  const canonType = visualCanon?.type || { family: "Geologica", body: "Golos Text", caseKind: "upper", titleWeight: 760, titleLineHeight: .87, titleTracking: -.026, bodyWeight: 470, bodyLineHeight: 1.25, bodyTracking: 0 };
+  const root = document.querySelector('[data-view-panel="postbuilder"]');
   if (!root) return;
 
-  const DRAFT_KEY = "sekta-carousel-studio-draft-v1";
+  const DRAFT_KEY = "sekta-carousel-studio-draft-v2";
   const SAVED_KEY = "sekta-carousel-studio-series-v1";
   const IMPORT_KEY = "sekta-carousel-studio-taste-import-v1";
+  const MONTAGE_VERSION = 11;
   const DEFAULT_LONGREAD = document.querySelector("#carouselLongreadText")?.value || "";
   const palettes = {
-    ink: { name: "Контрастная", background: "#17221f", foreground: "#ffffff", accent: "#f7f7f2", ink: "#17221f" },
-    pink: { name: "Розовая", background: "#f35ba7", foreground: "#17221f", accent: "#ffffff", ink: "#17221f" },
-    blue: { name: "Синяя", background: "#3155e4", foreground: "#ffffff", accent: "#dce5ff", ink: "#17211e" },
-    lime: { name: "Лайм", background: "#d4f04a", foreground: "#17221f", accent: "#ffffff", ink: "#17221f" },
-    paper: { name: "Бумага", background: "#fff7e6", foreground: "#5b493b", accent: "#f35ba7", ink: "#392f29" },
+    ink: { name: "Контрастная", background: "#17221f", foreground: "#ffffff", accent: "#f7f7f2", ink: "#17221f", plaque: "#f7f7f2", plaqueText: "#17221f" },
+    pink: { name: "Розовая", background: "#f35ba7", foreground: "#17221f", accent: "#ffffff", ink: "#17221f", plaque: "#ffffff", plaqueText: "#17221f" },
+    blue: { name: "Синяя", background: "#3155e4", foreground: "#ffffff", accent: "#dce5ff", ink: "#17211e", plaque: "#dce5ff", plaqueText: "#17211e" },
+    lime: { name: "Лайм", background: "#d4f04a", foreground: "#17221f", accent: "#ffffff", ink: "#17221f", plaque: "#17221f", plaqueText: "#ffffff" },
+    paper: { name: "Бумага", background: "#fff7e6", foreground: "#5b493b", accent: "#f35ba7", ink: "#392f29", plaque: "#f35ba7", plaqueText: "#17221f" },
+    "sekta-yellow": { name: "#Sekta · жёлтый", background: "#17221f", foreground: "#ffe36a", accent: "#ffffff", ink: "#17221f", plaque: "#ffe36a", plaqueText: "#17221f" },
+    "sekta-cream": { name: "#Sekta · молочный", background: "#fbf7ef", foreground: "#17221f", accent: "#ffe36a", ink: "#17221f", plaque: "#17221f", plaqueText: "#fbf7ef" },
+    "sekta-sky": { name: "#Sekta · голубой", background: "#c8edf2", foreground: "#17221f", accent: "#ffffff", ink: "#17221f", plaque: "#ffe36a", plaqueText: "#17221f" },
+    "sekta-mint": { name: "#Sekta · мятный", background: "#62d9a4", foreground: "#17221f", accent: "#fbf7ef", ink: "#17221f", plaque: "#17221f", plaqueText: "#ffffff" },
+    "sekta-pink": { name: "#Sekta · розовый", background: "#f481b5", foreground: "#17221f", accent: "#fbf7ef", ink: "#17221f", plaque: "#c8edf2", plaqueText: "#17221f" },
+    "sekta-sun": { name: "#Sekta · солнечный", background: "#ffe36a", foreground: "#17221f", accent: "#f481b5", ink: "#17221f", plaque: "#f481b5", plaqueText: "#17221f" },
   };
   const layoutPresets = {
     "paper-column": { name: "Бумажная колонка", role: "longread", scene: "paper", background: "#f3f1e9", foreground: "#171814", accent: "#e9a692", ink: "#171814" },
@@ -44,6 +54,53 @@
     quote: "Цитатная",
   };
   const roleLabels = { cover: "Обложка", longread: "Лонгрид", quote: "Цитата", proof: "Фото-доказательство", pause: "Фотопауза", cta: "Финал / CTA" };
+  const templateDefinitions = {
+    "imported-cover": { name: "Обложка из конструктора", scene: "photo-clean", placement: "bottom", usesPhoto: true, plaque: false },
+    "cover-plaque": { name: "Фото + нижняя плашка", scene: "photo-clean", placement: "bottom", usesPhoto: true, plaque: true },
+    "light-column": { name: "Колонка + боковая полоса", scene: "paper", placement: "middle", usesPhoto: false },
+    "photo-field": { name: "Фото сверху + поле снизу", scene: "window", placement: "bottom", usesPhoto: true },
+    "side-plaque": { name: "Фото + боковая плашка", scene: "split", placement: "middle", usesPhoto: true },
+    "top-plaque": { name: "Фото + верхняя плашка", scene: "plate", placement: "top", usesPhoto: true },
+    "photo-window": { name: "Фото-окно + поле", scene: "window", placement: "bottom", usesPhoto: true },
+    "photo-scrim": { name: "Фото + scrim", scene: "photo-dim", placement: "bottom", usesPhoto: true },
+    "text-photo": { name: "Текст на фото", scene: "photo-clean", placement: "bottom", usesPhoto: true },
+    "accent-thought": { name: "Акцентный тезис", scene: "field", placement: "middle", usesPhoto: false },
+    "color-final": { name: "Цветовой финал", scene: "field", placement: "middle", usesPhoto: false },
+  };
+  const defaultTemplateForScene = {
+    paper: "light-column", dark: "color-final", "photo-dim": "photo-scrim", "photo-clean": "text-photo", plate: "cover-plaque", split: "side-plaque", window: "photo-window", field: "accent-thought", quote: "light-column",
+  };
+  const canonAccentColor = (accent) => visualCanon?.accents?.find((item) => item.id === accent)?.color || "";
+  const canonicalInner = (visualCanon?.inner || [
+    { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "bottom", withPhoto: true },
+    { template: "photo-scrim", scene: "photo-dim", palette: "ink", placement: "middle", withPhoto: true },
+    { template: "accent-thought", scene: "field", palette: "sekta-mint", placement: "middle", withPhoto: false },
+  ]).map((recipe) => ({
+    ...recipe,
+    size: recipe.scene === "field" ? 70 : 64,
+    bodySize: recipe.scene === "photo-dim" ? 42 : 31,
+    titleBoxWidth: recipe.scene === "window" ? 78 : 82,
+    titleBoxHeight: recipe.scene === "field" ? 38 : 34,
+    bodyBoxWidth: 84,
+    bodyBoxHeight: recipe.scene === "photo-dim" ? 54 : 40,
+    textColor: recipe.scene === "photo-dim" ? "#ffffff" : "",
+    accentColor: canonAccentColor(recipe.accent),
+    plaqueEnabled: false,
+  }));
+  const montageTemplates = {
+    cover: { template: "text-photo", role: "cover", scene: "photo-clean", palette: "sekta-sun", placement: "bottom", size: 76, bodySize: 24, titleBoxWidth: 86, titleBoxHeight: 42, bodyBoxWidth: 82, bodyBoxHeight: 14, showSeriesLabel: false, showBody: false, showCounter: false, plaqueEnabled: false },
+    body: canonicalInner,
+    final: { ...(visualCanon?.final || {}), template: "color-final", role: "cta", scene: "field", palette: visualCanon?.final?.palette || "sekta-mint", placement: "middle", size: 70, bodySize: 30, titleBoxWidth: 82, bodyBoxWidth: 78, accentColor: canonAccentColor(visualCanon?.final?.accent), plaqueEnabled: false },
+  };
+  const quickPaletteIds = ["sekta-mint", "sekta-pink", "sekta-sun", "ink"];
+  const quickLayoutPresets = {
+    "light-column": { name: "Светлая колонка", detail: "68 / 28 · ширина 72%", template: "light-column", scene: "paper", placement: "middle", size: 68, bodySize: 28, titleBoxWidth: 72, titleBoxHeight: 31, bodyBoxWidth: 72, bodyBoxHeight: 32 },
+    "photo-field": { name: "Фото + поле", detail: "64 / 27 · ширина 78%", template: "photo-field", scene: "window", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 78, titleBoxHeight: 29, bodyBoxWidth: 78, bodyBoxHeight: 20 },
+    "side-plaque": { name: "Боковое поле", detail: "60 / 26 · ширина 46%", template: "side-plaque", scene: "split", placement: "middle", size: 60, bodySize: 26, titleBoxWidth: 46, titleBoxHeight: 34, bodyBoxWidth: 46, bodyBoxHeight: 30 },
+    "accent-thought": { name: "Крупный тезис", detail: "74 / 26 · ширина 80%", template: "accent-thought", scene: "field", placement: "middle", size: 74, bodySize: 26, titleBoxWidth: 80, titleBoxHeight: 36, bodyBoxWidth: 76, bodyBoxHeight: 26 },
+    "photo-scrim": { name: "Фото + затемнение", detail: "68 / 44 · ширина 84%", template: "photo-scrim", scene: "photo-dim", placement: "bottom", size: 68, bodySize: 44, titleBoxWidth: 78, titleBoxHeight: 34, bodyBoxWidth: 84, bodyBoxHeight: 52, textColor: "#ffffff", plaqueEnabled: false },
+    "text-photo": { name: "Текст на фото", detail: "64 / 27 · ширина 80%", template: "text-photo", scene: "photo-clean", placement: "bottom", size: 64, bodySize: 27, titleBoxWidth: 80, titleBoxHeight: 31, bodyBoxWidth: 78, bodyBoxHeight: 22 },
+  };
 
   const ui = {
     saveState: document.querySelector("#carouselSaveState"),
@@ -59,13 +116,55 @@
     coverCanvas: document.querySelector("#carouselCoverCanvas"),
     coverTitle: document.querySelector("#carouselCoverTitle"),
     coverSubtitle: document.querySelector("#carouselCoverSubtitle"),
-    coverSize: document.querySelector("#carouselCoverSize"),
-    coverSizeValue: document.querySelector("#carouselCoverSizeValue"),
+    coverLayerText: document.querySelector("#carouselCoverLayerText"),
+    coverLayerVisible: document.querySelector("#carouselCoverLayerVisible"),
+    coverLayerRemove: document.querySelector("#carouselCoverLayerRemove"),
+    coverLayerAdd: document.querySelector("#carouselCoverLayerAdd"),
+    coverTypeLayerLabel: document.querySelector("#carouselCoverTypeLayerLabel"),
+    coverTypeFont: document.querySelector("#carouselCoverTypeFont"),
+    coverLayerColor: document.querySelector("#carouselCoverLayerColor"),
+    coverLayerColorValue: document.querySelector("#carouselCoverLayerColorValue"),
+    coverLayerColorReset: document.querySelector("#carouselCoverLayerColorReset"),
+    coverShadowOpacity: document.querySelector("#carouselCoverShadowOpacity"),
+    coverShadowOpacityValue: document.querySelector("#carouselCoverShadowOpacityValue"),
+    coverShadowColor: document.querySelector("#carouselCoverShadowColor"),
+    coverShadowReset: document.querySelector("#carouselCoverShadowReset"),
+    coverPlaqueEnabled: document.querySelector("#carouselCoverPlaqueEnabled"),
+    coverPlaqueSettings: document.querySelector("#carouselCoverPlaqueSettings"),
+    coverPlaqueColor: document.querySelector("#carouselCoverPlaqueColor"),
+    coverPlaqueColorValue: document.querySelector("#carouselCoverPlaqueColorValue"),
+    coverPlaqueColorReset: document.querySelector("#carouselCoverPlaqueColorReset"),
+    coverPlaqueOpacity: document.querySelector("#carouselCoverPlaqueOpacity"),
+    coverPlaqueOpacityValue: document.querySelector("#carouselCoverPlaqueOpacityValue"),
+    coverOutlineWidth: document.querySelector("#carouselCoverOutlineWidth"),
+    coverOutlineWidthValue: document.querySelector("#carouselCoverOutlineWidthValue"),
+    coverOutlineColor: document.querySelector("#carouselCoverOutlineColor"),
+    coverTypeWeight: document.querySelector("#carouselCoverTypeWeight"),
+    coverTypeWeightValue: document.querySelector("#carouselCoverTypeWeightValue"),
+    coverTypeSize: document.querySelector("#carouselCoverTypeSize"),
+    coverTypeSizeValue: document.querySelector("#carouselCoverTypeSizeValue"),
+    coverBoxWidth: document.querySelector("#carouselCoverBoxWidth"),
+    coverBoxWidthValue: document.querySelector("#carouselCoverBoxWidthValue"),
+    coverBoxHeight: document.querySelector("#carouselCoverBoxHeight"),
+    coverBoxHeightValue: document.querySelector("#carouselCoverBoxHeightValue"),
+    coverTypeLineHeight: document.querySelector("#carouselCoverTypeLineHeight"),
+    coverTypeLineHeightValue: document.querySelector("#carouselCoverTypeLineHeightValue"),
+    coverTypeTracking: document.querySelector("#carouselCoverTypeTracking"),
+    coverTypeTrackingValue: document.querySelector("#carouselCoverTypeTrackingValue"),
     coverPlacement: document.querySelector("#carouselCoverPlacement"),
     coverAlign: document.querySelector("#carouselCoverAlign"),
     coverCase: document.querySelector("#carouselCoverCase"),
+    coverShowLabel: document.querySelector("#carouselCoverShowLabel"),
+    coverMoveTarget: document.querySelector("#carouselCoverMoveTarget"),
+    coverOffsetX: document.querySelector("#carouselCoverOffsetX"),
+    coverOffsetXValue: document.querySelector("#carouselCoverOffsetXValue"),
+    coverOffsetY: document.querySelector("#carouselCoverOffsetY"),
+    coverOffsetYValue: document.querySelector("#carouselCoverOffsetYValue"),
+    gridPreview: document.querySelector("#carouselGridPreview"),
+    gridCells: document.querySelector("#carouselGridCells"),
     coverMedia: document.querySelector("#carouselCoverMedia"),
     coverMediaSearch: document.querySelector("#carouselCoverMediaSearch"),
+    coverCollection: document.querySelector("#carouselCoverCollection"),
     coverPhotoName: document.querySelector("#carouselCoverPhotoName"),
     saveCover: document.querySelector("#carouselSaveCover"),
     downloadCover: document.querySelector("#carouselDownloadSlide"),
@@ -84,13 +183,82 @@
     activeMeta: document.querySelector("#carouselActiveMeta"),
     slideTitle: document.querySelector("#carouselSlideTitle"),
     slideBody: document.querySelector("#carouselSlideBody"),
+    slideLayerText: document.querySelector("#carouselSlideLayerText"),
+    slideLayerVisible: document.querySelector("#carouselSlideLayerVisible"),
+    slideLayerRemove: document.querySelector("#carouselSlideLayerRemove"),
+    slideLayerAdd: document.querySelector("#carouselSlideLayerAdd"),
+    bodyBold: document.querySelector("#carouselBodyBold"),
+    slideShowLabel: document.querySelector("#carouselSlideShowLabel"),
+    slideMoveTarget: document.querySelector("#carouselSlideMoveTarget"),
     slideRole: document.querySelector("#carouselSlideRole"),
+    slideTemplate: document.querySelector("#carouselSlideTemplate"),
     slideScene: document.querySelector("#carouselSlideScene"),
     slidePalette: document.querySelector("#carouselSlidePalette"),
-    slideSize: document.querySelector("#carouselSlideSize"),
-    slideSizeValue: document.querySelector("#carouselSlideSizeValue"),
+    slideFont: document.querySelector("#carouselSlideFont"),
+    slideFontPrev: document.querySelector("#carouselSlideFontPrev"),
+    slideFontNext: document.querySelector("#carouselSlideFontNext"),
+    slideBackgroundColor: document.querySelector("#carouselSlideBackgroundColor"),
+    slideBackgroundColorValue: document.querySelector("#carouselSlideBackgroundColorValue"),
+    slideBackgroundColorReset: document.querySelector("#carouselSlideBackgroundColorReset"),
+    slideTexture: document.querySelector("#carouselSlideTexture"),
+    slidePlaqueEnabled: document.querySelector("#carouselSlidePlaqueEnabled"),
+    slidePlaqueSettings: document.querySelector("#carouselSlidePlaqueSettings"),
+    slidePlaqueColor: document.querySelector("#carouselSlidePlaqueColor"),
+    slidePlaqueColorValue: document.querySelector("#carouselSlidePlaqueColorValue"),
+    slidePlaqueColorReset: document.querySelector("#carouselSlidePlaqueColorReset"),
+    slidePlaqueOpacity: document.querySelector("#carouselSlidePlaqueOpacity"),
+    slidePlaqueOpacityValue: document.querySelector("#carouselSlidePlaqueOpacityValue"),
+    slidePhotoScale: document.querySelector("#carouselSlidePhotoScale"),
+    slidePhotoScaleValue: document.querySelector("#carouselSlidePhotoScaleValue"),
+    slidePhotoFocusX: document.querySelector("#carouselSlidePhotoFocusX"),
+    slidePhotoFocusXValue: document.querySelector("#carouselSlidePhotoFocusXValue"),
+    slidePhotoFocusY: document.querySelector("#carouselSlidePhotoFocusY"),
+    slidePhotoFocusYValue: document.querySelector("#carouselSlidePhotoFocusYValue"),
+    quickPalettePresets: document.querySelector("#carouselQuickPalettePresets"),
+    quickLayoutPresets: document.querySelector("#carouselQuickLayoutPresets"),
+    suggestSlideStyle: document.querySelector("#carouselSuggestSlideStyle"),
+    quickSlideMedia: document.querySelector("#carouselQuickSlideMedia"),
+    quickPhotoName: document.querySelector("#carouselQuickPhotoName"),
+    quickBrowsePhotos: document.querySelector("#carouselQuickBrowsePhotos"),
+    quickRemovePhoto: document.querySelector("#carouselQuickRemovePhoto"),
+    applyAppearanceToSeries: document.querySelector("#carouselApplyAppearanceToSeries"),
+    slideTypeLayerLabel: document.querySelector("#carouselSlideTypeLayerLabel"),
+    slideTypeFont: document.querySelector("#carouselSlideTypeFont"),
+    slideTypeFontPrev: document.querySelector("#carouselSlideTypeFontPrev"),
+    slideTypeFontNext: document.querySelector("#carouselSlideTypeFontNext"),
+    slideFontSamples: document.querySelector("#carouselSlideFontSamples"),
+    slideLayerColor: document.querySelector("#carouselSlideLayerColor"),
+    slideLayerColorValue: document.querySelector("#carouselSlideLayerColorValue"),
+    slideLayerColorReset: document.querySelector("#carouselSlideLayerColorReset"),
+    slideShadowOpacity: document.querySelector("#carouselSlideShadowOpacity"),
+    slideShadowOpacityValue: document.querySelector("#carouselSlideShadowOpacityValue"),
+    slideShadowColor: document.querySelector("#carouselSlideShadowColor"),
+    slideShadowReset: document.querySelector("#carouselSlideShadowReset"),
+    slideOutlineWidth: document.querySelector("#carouselSlideOutlineWidth"),
+    slideOutlineWidthValue: document.querySelector("#carouselSlideOutlineWidthValue"),
+    slideOutlineColor: document.querySelector("#carouselSlideOutlineColor"),
+    slideTypeWeight: document.querySelector("#carouselSlideTypeWeight"),
+    slideTypeWeightValue: document.querySelector("#carouselSlideTypeWeightValue"),
+    slideTypeSize: document.querySelector("#carouselSlideTypeSize"),
+    slideTypeSizeValue: document.querySelector("#carouselSlideTypeSizeValue"),
+    slideBoxWidth: document.querySelector("#carouselSlideBoxWidth"),
+    slideBoxWidthValue: document.querySelector("#carouselSlideBoxWidthValue"),
+    slideBoxHeight: document.querySelector("#carouselSlideBoxHeight"),
+    slideBoxHeightValue: document.querySelector("#carouselSlideBoxHeightValue"),
+    slideTypeLineHeight: document.querySelector("#carouselSlideTypeLineHeight"),
+    slideTypeLineHeightValue: document.querySelector("#carouselSlideTypeLineHeightValue"),
+    slideTypeTracking: document.querySelector("#carouselSlideTypeTracking"),
+    slideTypeTrackingValue: document.querySelector("#carouselSlideTypeTrackingValue"),
+    slidePlacement: document.querySelector("#carouselSlidePlacement"),
     slideAlign: document.querySelector("#carouselSlideAlign"),
+    slideOffsetX: document.querySelector("#carouselSlideOffsetX"),
+    slideOffsetXValue: document.querySelector("#carouselSlideOffsetXValue"),
+    slideOffsetY: document.querySelector("#carouselSlideOffsetY"),
+    slideOffsetYValue: document.querySelector("#carouselSlideOffsetYValue"),
     slideMedia: document.querySelector("#carouselSlideMedia"),
+    slideMediaSearch: document.querySelector("#carouselSlideMediaSearch"),
+    slideCollection: document.querySelector("#carouselSlideCollection"),
+    shuffleSlideMedia: document.querySelector("#carouselShuffleSlideMedia"),
     slidePhotoName: document.querySelector("#carouselSlidePhotoName"),
     removePhoto: document.querySelector("#carouselRemovePhoto"),
     saveSlide: document.querySelector("#carouselSaveSlide"),
@@ -98,9 +266,20 @@
     duplicateSlide: document.querySelector("#carouselDuplicateSlide"),
     savedSeries: document.querySelector("#carouselSavedSeries"),
     exportSeries: document.querySelector("#carouselExportSeries"),
+    sourceTitle: document.querySelector("#postSourceTitle"),
+    sourceHook: document.querySelector("#postSourceHook"),
+    sourceObjective: document.querySelector("#postSourceObjective"),
+    sourceAsset: document.querySelector("#postSourceAsset"),
+    sourceCta: document.querySelector("#postSourceCta"),
+    sourceReadiness: document.querySelector("#postSourceReadiness"),
+    generateLongread: document.querySelector("#carouselGenerateLongread"),
+    regenerateLongread: document.querySelector("#carouselRegenerateLongread"),
+    longreadDraftState: document.querySelector("#carouselLongreadDraftState"),
   };
 
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
+  const inlineMarkupHtml = (value) => escapeHtml(value).replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>");
+  const stripInlineMarkup = (value) => String(value || "").replace(/\*\*([^*]+)\*\*/g, "$1");
   const readJson = (key, fallback) => {
     try {
       const parsed = JSON.parse(localStorage.getItem(key));
@@ -128,6 +307,33 @@
   }
   const importedOnLoad = consumeTasteImport();
   const deepClone = (value) => JSON.parse(JSON.stringify(value));
+  const shuffle = (items) => {
+    const result = [...items];
+    for (let index = result.length - 1; index > 0; index -= 1) {
+      const target = Math.floor(Math.random() * (index + 1));
+      [result[index], result[target]] = [result[target], result[index]];
+    }
+    return result;
+  };
+  const builtInLikedFrames = [
+    "Akt|lower", "Akt|upper", "Alegreya Sans|lower", "Alegreya Sans|upper", "Alice|lower",
+    "Alumni Sans|lower", "Alumni Sans|upper", "Comfortaa|lower", "Commissioner|lower", "Commissioner|upper",
+    "Geologica|lower", "Geologica|upper", "Golos Text|lower", "Golos Text|upper", "Manrope|lower", "Manrope|upper",
+    "PT Sans Narrow|lower", "PT Sans Narrow|upper", "Rubik|lower", "Rubik|upper",
+  ];
+  const optimalFontSystems = [
+    { family: "PT Sans Narrow", caseKind: "upper", body: "Manrope", recipe: "контрастная обложка" },
+    { family: "Geologica", caseKind: "lower", body: "Golos Text", recipe: "мягкий современный" },
+    { family: "Commissioner", caseKind: "lower", body: "Manrope", recipe: "редакционный гротеск" },
+    { family: "Golos Text", caseKind: "lower", body: "Golos Text", recipe: "спокойный лонгрид" },
+    { family: "Manrope", caseKind: "lower", body: "Golos Text", recipe: "чистая универсальная" },
+    { family: "Alumni Sans", caseKind: "upper", body: "Manrope", recipe: "узкий плакатный" },
+    { family: "Alegreya Sans", caseKind: "lower", body: "Golos Text", recipe: "живой гуманистический" },
+    { family: "Alice", caseKind: "lower", body: "Manrope", recipe: "мягкий editorial" },
+  ];
+  let slideMediaOrder = [...library];
+  let coverMediaLimit = 48;
+  let slideMediaLimit = 48;
   const words = (value) => String(value || "").trim().split(/\s+/).filter(Boolean);
   const plural = (number, one, few, many) => {
     const mod10 = number % 10;
@@ -140,47 +346,59 @@
   const preferredPhoto = () => library.find((item) => item.orientation === "portrait" && item.carouselRoles?.includes("01_обложка_личное_присутствие")) || library.find((item) => item.orientation === "portrait") || library[0] || null;
 
   function fontChoices() {
-    const votes = readJson("olymarkes-cyrillic-font-taste-v1", {});
-    const layoutPrefs = readJson("olymarkes-text-layout-prefs-v1", {});
-    const savedSystems = [...(Array.isArray(tasteBundle.systems) ? tasteBundle.systems : []), ...(readJson("olymarkes-type-system-studio-v1", []) || [])];
-    const selected = [];
-    const add = (family, caseKind = "original", body = "", recipe = "") => {
-      if (!family) return;
-      const normalized = { family, caseKind: caseKind || "original", body: body || companionFor(family), recipe };
-      normalized.key = [normalized.family, normalized.caseKind, normalized.body, normalized.recipe].join("|");
-      if (selected.some((font) => font.key === normalized.key)) return;
-      selected.push(normalized);
-    };
-    savedSystems.forEach((system) => {
-      const [family, caseKind, recipe, body] = String(system.key || "").split("|");
-      add(family, caseKind, body, recipe || system.label || "сохранённая система");
-    });
-    const preferredChoice = tasteBundle.layoutPrefs?.choice || layoutPrefs.choice;
-    if (preferredChoice) {
-      const [family, caseKind] = preferredChoice.split("|");
-      add(family, caseKind, tasteBundle.layoutPrefs?.body || layoutPrefs.body);
-    }
-    (tasteBundle.fontLikes || []).forEach((key) => {
-      const split = String(key).lastIndexOf("|");
-      if (split > 0) add(key.slice(0, split), key.slice(split + 1));
-    });
-    Object.entries(votes).forEach(([key, value]) => {
-      if (value !== "like" || !key.includes("|")) return;
-      const split = key.lastIndexOf("|");
-      add(key.slice(0, split), key.slice(split + 1));
-    });
-    if (!selected.length) {
-      add("Onest", "original", "Golos Text", "стартовая система");
-      add("Golos Text", "original", "Golos Text", "стартовая система");
-      add("Literata", "original", "Onest", "стартовая система");
-    }
-    return selected;
+    return [{
+      family: canonType.family,
+      caseKind: canonType.caseKind,
+      body: canonType.body,
+      recipe: "зафиксированный канон #Sekta",
+      key: [canonType.family, canonType.caseKind, canonType.body, "зафиксированный канон #Sekta"].join("|"),
+    }];
   }
 
   function companionFor(family) {
+    const optimalCompanions = {
+      "PT Sans Narrow": "Manrope", "Alumni Sans": "Manrope", "Akt": "Manrope", "Alice": "Manrope",
+      "Commissioner": "Manrope", "Comfortaa": "Manrope", "Geologica": "Golos Text", "Golos Text": "Golos Text",
+      "Manrope": "Golos Text", "Rubik": "Golos Text", "Alegreya Sans": "Golos Text", "Literata": "Onest",
+      "Prata": "Golos Text", "Cormorant": "Golos Text",
+    };
+    if (optimalCompanions[family]) return optimalCompanions[family];
     const font = (window.CYRILLIC_FONT_DATA || []).find((item) => item.family === family);
-    if (!font) return family === "Literata" ? "Onest" : "Literata";
-    return ["Serif"].includes(font.category) ? "Onest" : "Literata";
+    if (!font) return "Golos Text";
+    return ["Serif"].includes(font.category) ? "Golos Text" : "Manrope";
+  }
+
+  function fontPairRecipe(font) {
+    const family = font?.family || "Onest";
+    if (family === canonType.family) return {
+      titleWeight: canonType.titleWeight,
+      titleLineHeight: canonType.titleLineHeight,
+      titleTracking: canonType.titleTracking,
+      bodyWeight: canonType.bodyWeight,
+      bodyLineHeight: canonType.bodyLineHeight,
+      bodyTracking: canonType.bodyTracking,
+    };
+    const condensed = /PT Sans Narrow|Alumni Sans/i.test(family);
+    const editorial = /Alice|Literata|Prata|Cormorant/i.test(family);
+    const soft = /Alegreya Sans|Commissioner/i.test(family);
+    return {
+      titleWeight: editorial ? 700 : condensed ? 700 : 800,
+      titleLineHeight: condensed ? .88 : editorial ? .98 : soft ? .96 : .93,
+      titleTracking: condensed ? -.012 : editorial ? -.022 : soft ? -.018 : -.03,
+      bodyWeight: 470,
+      bodyLineHeight: 1.25,
+      bodyTracking: 0,
+    };
+  }
+
+  function applyFontSystemTypography(slide, font) {
+    const recipe = fontPairRecipe(font);
+    slide.font = null;
+    slide.titleFontFamily = "";
+    slide.bodyFontFamily = "";
+    slide.caseKind = font.caseKind || "original";
+    Object.assign(slide, recipe);
+    slide.savedAt = null;
   }
 
   function ensureFontFamily(family) {
@@ -206,9 +424,12 @@
   }
 
   function paletteChoices() {
-    const choices = { ...palettes };
-    layoutLikeIds().forEach((id) => { choices[`layout-${id}`] = { ...layoutPresets[id], sourceId: id }; });
-    return choices;
+    return {
+      ink: palettes.ink,
+      "sekta-mint": palettes["sekta-mint"],
+      "sekta-pink": palettes["sekta-pink"],
+      "sekta-sun": palettes["sekta-sun"],
+    };
   }
 
   function paletteFor(id) {
@@ -230,19 +451,88 @@
     return normalized;
   }
 
+  function numberOr(value, fallback) {
+    const number = Number(value);
+    return Number.isFinite(number) ? number : fallback;
+  }
+
   function makeSlide(overrides = {}) {
     return {
       id: `slide-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
       role: "longread",
       title: "",
       body: "",
+      template: "",
       scene: "paper",
       palette: "ink",
       size: 46,
+      bodySize: 34,
       align: "left",
       placement: "middle",
+      showSeriesLabel: true,
+      showTitle: true,
+      showBody: true,
+      showCounter: true,
+      labelText: "",
+      counterText: "",
+      customLayers: [],
+      titleOffsetX: 0,
+      titleOffsetY: 0,
+      bodyOffsetX: 0,
+      bodyOffsetY: 0,
+      labelOffsetX: 0,
+      labelOffsetY: 0,
+      counterOffsetX: 0,
+      counterOffsetY: 0,
+      titleBoxWidth: 80,
+      titleBoxHeight: 30,
+      bodyBoxWidth: 80,
+      bodyBoxHeight: 44,
+      labelBoxWidth: 52,
+      labelBoxHeight: 8,
+      counterBoxWidth: 22,
+      counterBoxHeight: 8,
+      titleColor: "",
+      bodyColor: "",
+      labelColor: "",
+      counterColor: "",
+      layerEffects: {},
+      plaqueEnabled: false,
+      plaqueColor: "",
+      plaqueOpacity: 1,
+      titleFontFamily: "",
+      titleWeight: canonType.titleWeight,
+      titleLineHeight: canonType.titleLineHeight,
+      titleTracking: canonType.titleTracking,
+      bodyFontFamily: "",
+      bodyWeight: canonType.bodyWeight,
+      bodyLineHeight: canonType.bodyLineHeight,
+      bodyTracking: canonType.bodyTracking,
+      labelFontFamily: "",
+      labelWeight: 750,
+      labelSize: 24,
+      labelLineHeight: 1,
+      labelTracking: .06,
+      counterFontFamily: "",
+      counterWeight: 750,
+      counterSize: 24,
+      counterLineHeight: 1,
+      counterTracking: .08,
       caseKind: "original",
+      font: null,
       photoId: null,
+      photoFocusX: 50,
+      photoFocusY: 50,
+      photoScale: 1,
+      backgroundColor: "",
+      texture: "none",
+      textColor: "",
+      coverStyle: "",
+      coverAccent: "",
+      coverAccentColor: "",
+      coverDim: .42,
+      accentColor: "",
+      transferredCover: false,
       savedAt: null,
       ...overrides,
     };
@@ -250,7 +540,7 @@
 
   function defaultSeries() {
     const firstPhoto = preferredPhoto();
-    const firstFont = fontChoices()[0] || { family: "Onest", caseKind: "original" };
+    const firstFont = { family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, recipe: "утверждённый канон #Sekta" };
     const series = {
       id: `series-${Date.now()}`,
       name: "Возвращение после паузы",
@@ -261,9 +551,10 @@
       activeSlide: 0,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      montageVersion: MONTAGE_VERSION,
       slides: [
-        makeSlide({ role: "cover", title: "Пропустили пять дней? Ничего не сломалось", body: "10 слайдов · сохрани", scene: "photo-dim", palette: "ink", size: 88, placement: "bottom", photoId: firstPhoto?.id || null }),
-        makeSlide({ role: "cta", title: "Возвращение не требует наказания", body: "Сохраните, чтобы вернуться к этой мысли в нужный день.", scene: "field", palette: "lime", size: 58 }),
+        makeSlide({ ...montageTemplates.cover, title: "Пропустили пять дней? Ничего не сломалось", body: "", labelText: "", labelSize: 22, titleWeight: canonType.titleWeight, titleLineHeight: canonType.titleLineHeight, titleTracking: canonType.titleTracking, caseKind: canonType.caseKind, photoId: firstPhoto?.id || null }),
+        makeSlide({ ...montageTemplates.final, title: "Возвращение не требует наказания", body: "Сохраните, чтобы вернуться к этой мысли в нужный день." }),
       ],
     };
     return splitSeries(series, 10, true, true);
@@ -273,12 +564,84 @@
     if (!candidate || !Array.isArray(candidate.slides) || candidate.slides.length < 2) return defaultSeries();
     return {
       ...candidate,
-      font: normalizeFontSystem(candidate.font?.family ? candidate.font : fontChoices()[0]),
+      font: normalizeFontSystem(candidate.font?.family ? candidate.font : { family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, recipe: "утверждённый канон #Sekta" }),
       palette: paletteChoices()[candidate.palette] ? candidate.palette : "ink",
       longread: candidate.longread || DEFAULT_LONGREAD,
       totalSlides: candidate.slides.length,
       activeSlide: Math.min(Math.max(Number(candidate.activeSlide) || 0, 0), candidate.slides.length - 1),
-      slides: candidate.slides.map((slide) => makeSlide(slide)),
+      slides: candidate.slides.map((slide) => makeSlide({
+        ...slide,
+        showSeriesLabel: slide.showSeriesLabel !== false,
+        titleOffsetX: Number(slide.titleOffsetX ?? slide.offsetX) || 0,
+        titleOffsetY: Number(slide.titleOffsetY ?? slide.offsetY) || 0,
+        bodyOffsetX: Number(slide.bodyOffsetX ?? slide.offsetX) || 0,
+        bodyOffsetY: Number(slide.bodyOffsetY ?? slide.offsetY) || 0,
+        labelOffsetX: Number(slide.labelOffsetX) || 0,
+        labelOffsetY: Number(slide.labelOffsetY) || 0,
+        counterOffsetX: Number(slide.counterOffsetX) || 0,
+        counterOffsetY: Number(slide.counterOffsetY) || 0,
+        titleBoxWidth: numberOr(slide.titleBoxWidth, 80),
+        titleBoxHeight: numberOr(slide.titleBoxHeight, slide.role === "cover" ? 38 : 30),
+        bodyBoxWidth: numberOr(slide.bodyBoxWidth, 80),
+        bodyBoxHeight: numberOr(slide.bodyBoxHeight, slide.role === "cover" ? 12 : 44),
+        labelBoxWidth: numberOr(slide.labelBoxWidth, 52),
+        labelBoxHeight: numberOr(slide.labelBoxHeight, 8),
+        counterBoxWidth: numberOr(slide.counterBoxWidth, 22),
+        counterBoxHeight: numberOr(slide.counterBoxHeight, 8),
+        titleColor: slide.titleColor || "",
+        bodyColor: slide.bodyColor || "",
+        labelColor: slide.labelColor || "",
+        counterColor: slide.counterColor || "",
+        layerEffects: slide.layerEffects && typeof slide.layerEffects === "object" ? deepClone(slide.layerEffects) : {},
+        plaqueEnabled: slide.plaqueEnabled === true,
+        plaqueColor: slide.plaqueColor || "",
+        plaqueOpacity: Math.max(0, Math.min(1, numberOr(slide.plaqueOpacity, 1))),
+        titleFontFamily: slide.titleFontFamily || "",
+        titleWeight: numberOr(slide.titleWeight, canonType.titleWeight),
+        titleLineHeight: numberOr(slide.titleLineHeight, canonType.titleLineHeight),
+        titleTracking: numberOr(slide.titleTracking, canonType.titleTracking),
+        bodyFontFamily: slide.bodyFontFamily || "",
+        bodyWeight: numberOr(slide.bodyWeight, 470),
+        bodyLineHeight: numberOr(slide.bodyLineHeight, 1.25),
+        bodyTracking: numberOr(slide.bodyTracking, 0),
+        labelFontFamily: slide.labelFontFamily || "",
+        labelWeight: numberOr(slide.labelWeight, 750),
+        labelSize: numberOr(slide.labelSize, 24),
+        labelLineHeight: numberOr(slide.labelLineHeight, 1),
+        labelTracking: numberOr(slide.labelTracking, .06),
+        counterFontFamily: slide.counterFontFamily || "",
+        counterWeight: numberOr(slide.counterWeight, 750),
+        counterSize: numberOr(slide.counterSize, 24),
+        counterLineHeight: numberOr(slide.counterLineHeight, 1),
+        counterTracking: numberOr(slide.counterTracking, .08),
+        photoFocusX: numberOr(slide.photoFocusX, 50),
+        photoFocusY: numberOr(slide.photoFocusY, 50),
+        photoScale: Math.max(1, Math.min(2.2, numberOr(slide.photoScale, 1))),
+        backgroundColor: slide.backgroundColor || "",
+        texture: ["none", "paper", "grain", "dots"].includes(slide.texture) ? slide.texture : "none",
+        coverStyle: ["clean", "plate", "rail", "footer"].includes(slide.coverStyle) ? slide.coverStyle : "",
+        coverAccent: ["sky", "green", "yellow", "pink"].includes(slide.coverAccent) ? slide.coverAccent : "",
+        coverAccentColor: slide.coverAccentColor || "",
+        coverDim: Math.max(0, Math.min(.72, numberOr(slide.coverDim, .42))),
+        accentColor: slide.accentColor || "",
+        transferredCover: slide.transferredCover === true,
+        customLayers: Array.isArray(slide.customLayers) ? slide.customLayers.map((layer) => ({
+          id: layer.id || `custom-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+          text: layer.text || "Новый текст",
+          visible: layer.visible !== false,
+          x: Number(layer.x) || 0,
+          y: Number(layer.y) || 0,
+          fontFamily: layer.fontFamily || canonType.family,
+          weight: numberOr(layer.weight, canonType.titleWeight),
+          size: numberOr(layer.size, 56),
+          lineHeight: numberOr(layer.lineHeight, canonType.titleLineHeight),
+          tracking: numberOr(layer.tracking, canonType.titleTracking),
+          width: numberOr(layer.width, 60),
+          height: numberOr(layer.height, 18),
+          color: layer.color || "",
+        })) : [],
+        font: slide.font?.family ? normalizeFontSystem(slide.font) : null,
+      })),
     };
   }
 
@@ -345,37 +708,411 @@
     return chunks;
   }
 
+  function editorialCopy(text) {
+    const clean = String(text || "").trim();
+    const allWords = words(clean);
+    if (allWords.length <= 12) return { title: clean, body: "" };
+    const firstSentence = clean.match(/^[^.!?…]+[.!?…]+/)?.[0]?.trim() || "";
+    if (firstSentence && words(firstSentence).length <= 10) {
+      return { title: firstSentence, body: clean.slice(firstSentence.length).trim() };
+    }
+    return { title: `${allWords.slice(0, 7).join(" ")}…`, body: allWords.slice(7).join(" ") };
+  }
+
+  const accentPaletteSystems = {
+    sky: { accent: "sekta-sky", neutral: "sekta-cream", dark: "ink" },
+    green: { accent: "sekta-mint", neutral: "sekta-cream", dark: "ink" },
+    yellow: { accent: "sekta-sun", neutral: "sekta-cream", dark: "sekta-yellow" },
+    pink: { accent: "sekta-pink", neutral: "sekta-cream", dark: "ink" },
+  };
+
+  function paletteSystemFor(source = series) {
+    const accent = source.coverAccent || source.idea?.coverDesign?.accent || "yellow";
+    return accentPaletteSystems[accent] || accentPaletteSystems.yellow;
+  }
+
+  function themedTemplate(template, source = series) {
+    const next = { ...template };
+    if (next.palette) return next;
+    const system = paletteSystemFor(source);
+    if (["paper", "top-plaque"].includes(next.scene) || next.template === "light-column") next.palette = system.neutral;
+    else if (["photo-dim", "photo-clean"].includes(next.scene)) next.palette = system.dark;
+    else next.palette = system.accent;
+    return next;
+  }
+
+  function mediaLooksLikeDocument(item) {
+    const haystack = [item?.fileName, item?.folderLabel, item?.sourceCategory, ...(item?.contentThemes || []), ...(item?.carouselRoles || [])].join(" ").toLocaleLowerCase("ru");
+    return /(скрин|снимок экрана|screenshot|screen ?shot|conference|конференц|article|статья|pdf|документ)/.test(haystack);
+  }
+
+  function seriesPhotoScore(item, source = series) {
+    if (!item || item.orientation !== "portrait") return -1000;
+    const theme = source.idea?.theme || source.idea?.direction?.theme || "";
+    const themeMatch = theme && item.contentThemes?.includes(theme) ? 8 : 0;
+    const role = item.carouselRoles?.includes("02_действие_и_доказательство") ? 3 : item.carouselRoles?.includes("01_обложка_личное_присутствие") ? 2 : 0;
+    const portrait = item.collections?.includes("olya") ? 2 : 0;
+    const documentPenalty = mediaLooksLikeDocument(item) ? -30 : 0;
+    const beforePenalty = item.sourceFolder === "тело ДО" ? -8 : 0;
+    return themeMatch + role + portrait + Number(item.agentScore || 0) + documentPenalty + beforePenalty;
+  }
+
+  function rankedSeriesPhotos(source = series) {
+    return library
+      .filter((item) => item.orientation === "portrait" && !mediaLooksLikeDocument(item))
+      .sort((a, b) => seriesPhotoScore(b, source) - seriesPhotoScore(a, source));
+  }
+
+  function ensureGeneratedSlideIntegrity(slide, index, source = series, usedPhotos = new Set()) {
+    if (slide.transferredCover) return slide;
+    const definition = templateDefinitions[slide.template];
+    const needsPhoto = definition?.usesPhoto === true;
+    const currentPhoto = photoById(slide.photoId);
+    if (needsPhoto && (!currentPhoto || mediaLooksLikeDocument(currentPhoto) || usedPhotos.has(currentPhoto.id))) {
+      const replacement = rankedSeriesPhotos(source).find((item) => !usedPhotos.has(item.id));
+      if (replacement) slide.photoId = replacement.id;
+      else Object.assign(slide, themedTemplate(montageTemplates.body[0], source), { photoId: null });
+    }
+    if (slide.photoId) usedPhotos.add(slide.photoId);
+    if (!templateDefinitions[slide.template]?.usesPhoto) slide.photoId = null;
+
+    const titleWords = words(slide.title).length;
+    const bodyWords = words(slide.body).length;
+    slide.showTitle = titleWords > 0;
+    slide.showBody = bodyWords > 0;
+    if (slide.role === "longread") slide.showSeriesLabel = false;
+    slide.size = bodyWords > 55
+      ? titleWords > 8 ? 48 : titleWords > 5 ? 52 : 56
+      : Math.max(titleWords > 10 ? 52 : 58, numberOr(slide.size, 60));
+    slide.bodySize = Math.max(bodyWords > 100 ? 34 : bodyWords > 78 ? 36 : bodyWords > 55 ? 38 : 40, numberOr(slide.bodySize, 38));
+    slide.titleBoxHeight = Math.max(numberOr(slide.titleBoxHeight, 30), titleWords > 10 ? 36 : 28);
+    slide.bodyBoxWidth = Math.max(numberOr(slide.bodyBoxWidth, 78), bodyWords > 55 ? 84 : 78);
+    slide.bodyBoxHeight = Math.max(numberOr(slide.bodyBoxHeight, 38), bodyWords > 100 ? 74 : bodyWords > 78 ? 72 : bodyWords > 55 ? 64 : 42);
+    slide.photoFocusY = numberOr(slide.photoFocusY, 38);
+    slide.photoFocusX = numberOr(slide.photoFocusX, 50);
+    slide.photoScale = Math.max(1, Math.min(1.35, numberOr(slide.photoScale, 1)));
+    slide.font = normalizeFontSystem({ family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, recipe: "утверждённый канон #Sekta" });
+    slide.caseKind = canonType.caseKind;
+    slide.titleWeight = canonType.titleWeight;
+    slide.titleLineHeight = canonType.titleLineHeight;
+    slide.titleTracking = canonType.titleTracking;
+    slide.bodyWeight = canonType.bodyWeight;
+    slide.bodyLineHeight = canonType.bodyLineHeight;
+    slide.bodyTracking = canonType.bodyTracking;
+    slide.plaqueEnabled = slide.plaqueEnabled === true;
+    slide.accentColor = slide.accentColor || canonAccentColor(canonicalInner[(Math.max(1, index) - 1) % canonicalInner.length]?.accent);
+    slide.layerEffects = {
+      ...(slide.layerEffects || {}),
+      title: { ...(slide.layerEffects?.title || {}), shadowOpacity: 0 },
+      body: { ...(slide.layerEffects?.body || {}), shadowOpacity: 0 },
+      label: { ...(slide.layerEffects?.label || {}), shadowOpacity: 0 },
+      counter: { ...(slide.layerEffects?.counter || {}), shadowOpacity: 0 },
+    };
+    slide.validation = { generated: true, index, missingPhoto: needsPhoto && !slide.photoId };
+    return slide;
+  }
+
   function splitSeries(source, total, keepParagraphs, photoRhythm) {
     const next = deepClone(source);
-    const cover = next.slides[0] || makeSlide({ role: "cover" });
+    next.font = normalizeFontSystem({ family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, recipe: "утверждённый канон #Sekta" });
+    const cover = makeSlide({ ...montageTemplates.cover, ...(next.slides[0] || {}), photoId: next.slides[0]?.photoId || preferredPhoto()?.id || null });
     const previousFinal = next.slides[next.slides.length - 1];
-    const finalSlide = previousFinal?.role === "cta" ? previousFinal : makeSlide({ role: "cta", title: "Сохраните эту мысль", body: "Вернитесь к ней, когда снова захочется начать с наказания.", scene: "field", palette: "lime", size: 58 });
-    const chunks = distributeText(next.longread, total - 2, keepParagraphs);
-    const photos = library.filter((item) => item.orientation === "portrait").slice(0, Math.max(1, chunks.length));
-    const bodySlides = chunks.map((body, index) => {
-      const withPhoto = photoRhythm && index % 3 === 2;
-      const scenes = ["paper", "field", "quote", "dark"];
-      return makeSlide({
-        role: index % 4 === 2 ? "quote" : "longread",
-        body,
-        scene: withPhoto ? "photo-dim" : scenes[index % scenes.length],
-        palette: index % 4 === 1 ? next.palette : index % 4 === 2 ? "paper" : next.palette,
-        size: words(body).length > 70 ? 34 : words(body).length > 48 ? 38 : 44,
-        photoId: withPhoto ? photos[index % photos.length]?.id || null : null,
-      });
+    const finalSlide = makeSlide({
+      ...themedTemplate(montageTemplates.final, next),
+      ...(previousFinal?.role === "cta" ? previousFinal : { title: "Сохраните эту мысль", body: "Вернитесь к ней, когда снова захочется начать с наказания." }),
     });
+    const chunks = distributeText(next.longread, total - 2, keepParagraphs);
+    const photos = rankedSeriesPhotos(next);
+    const usedPhotos = new Set([cover.photoId].filter(Boolean));
+    const bodySlides = chunks.map((body, index) => {
+      const copy = editorialCopy(body);
+      const template = themedTemplate(montageTemplates.body[index % montageTemplates.body.length], next);
+      const templateUsesPhoto = templateDefinitions[template.template]?.usesPhoto === true;
+      const effectiveTemplate = templateUsesPhoto && !photoRhythm ? themedTemplate(montageTemplates.body[0], next) : template;
+      const slide = makeSlide({
+        ...effectiveTemplate,
+        role: "longread",
+        title: copy.title,
+        body: copy.body,
+        photoId: templateUsesPhoto && photos.length
+          ? photoRhythm
+            ? photos.find((item) => !usedPhotos.has(item.id))?.id || photos[index % photos.length].id
+            : cover.photoId || photos[0].id
+          : null,
+      });
+      return ensureGeneratedSlideIntegrity(slide, index + 1, next, usedPhotos);
+    });
+    ensureGeneratedSlideIntegrity(finalSlide, total - 1, next, usedPhotos);
     next.slides = [cover, ...bodySlides, finalSlide];
+    next.montageVersion = MONTAGE_VERSION;
     next.totalSlides = next.slides.length;
     next.activeSlide = Math.min(next.activeSlide || 0, next.slides.length - 1);
     next.updatedAt = new Date().toISOString();
     return next;
   }
 
+  function applyMontageGrammar(source) {
+    const next = deepClone(source);
+    next.font = normalizeFontSystem({ family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, recipe: "зафиксированный канон #Sekta" });
+    if (!paletteChoices()[next.palette]) next.palette = "ink";
+    const photos = rankedSeriesPhotos(next);
+    const usedPhotos = new Set();
+    next.slides = next.slides.map((slide, index) => {
+      const isCover = index === 0;
+      const isFinal = index === next.slides.length - 1;
+      if (slide.savedAt) return makeSlide({ ...slide });
+      if (isCover && slide.transferredCover) return makeSlide({ ...slide, savedAt: null });
+      const template = isCover ? montageTemplates.cover : themedTemplate(isFinal ? montageTemplates.final : montageTemplates.body[(index - 1) % montageTemplates.body.length], next);
+      const templateUsesPhoto = isCover || templateDefinitions[template.template]?.usesPhoto === true;
+      const copy = !isCover && !isFinal && !slide.title ? editorialCopy(slide.body) : null;
+      const migrated = makeSlide({
+        ...slide,
+        ...template,
+        title: copy?.title || slide.title,
+        body: copy ? copy.body : slide.body,
+        labelText: slide.labelText,
+        photoId: templateUsesPhoto ? slide.photoId || photos[(index - 1 + photos.length) % Math.max(1, photos.length)]?.id || preferredPhoto()?.id || null : null,
+        savedAt: null,
+      });
+      return ensureGeneratedSlideIntegrity(migrated, index, next, usedPhotos);
+    });
+    next.montageVersion = MONTAGE_VERSION;
+    next.updatedAt = new Date().toISOString();
+    return next;
+  }
+
   let series = normalizeSeries(readJson(DRAFT_KEY, null));
+  if (series.montageVersion !== MONTAGE_VERSION) series = applyMontageGrammar(series);
   let savedSeries = readJson(SAVED_KEY, []);
+  let coverMoveTarget = "title";
+  let slideMoveTarget = "body";
   if (!Array.isArray(savedSeries)) savedSeries = [];
   let activeStage = "cover";
+  let generationVariant = 0;
   let saveTimer;
+
+  const fallbackIdea = { id: "post-1", kind: "post", title: "Возвращение без наказания", hook: "Пауза не обнуляет навык возвращаться", objective: "Теплота", asset: "Домашние фото или спокойный портрет", cta: "Рассказать, как вы возвращаетесь", readiness: "Текст + фото" };
+
+  function activeIdea() {
+    return series.idea || fallbackIdea;
+  }
+
+  function renderSource() {
+    const idea = activeIdea();
+    ui.sourceTitle.textContent = idea.title;
+    ui.sourceHook.textContent = idea.hook;
+    ui.sourceObjective.textContent = idea.objective;
+    ui.sourceAsset.textContent = idea.asset;
+    ui.sourceCta.textContent = idea.cta;
+    ui.sourceReadiness.textContent = idea.readiness;
+    document.querySelector("#postSourceBar")?.classList.toggle("needs-review", /ревью|специалист|методическ|эксперт/i.test(idea.readiness));
+  }
+
+  function generatedLongread(idea, variant = 0) {
+    const tokenize = (value) => new Set(String(value || "").toLocaleLowerCase("ru").split(/[^a-zа-яё0-9]+/i).filter((word) => word.length > 4));
+    const query = tokenize([idea.title, idea.hook, idea.objective, idea.asset].join(" "));
+    const ranked = scienceLibrary.flatMap((article) => article.paragraphs.map((paragraph, paragraphIndex) => {
+      const tokens = tokenize(`${article.title} ${paragraph}`);
+      let score = 0;
+      query.forEach((token) => { if (tokens.has(token)) score += article.title.toLocaleLowerCase("ru").includes(token) ? 5 : 1; });
+      return { article, paragraph, paragraphIndex, score };
+    })).sort((a, b) => b.score - a.score || a.paragraphIndex - b.paragraphIndex);
+    const evidence = ranked.slice(variant % 4).filter((item, index, items) => items.findIndex((candidate) => candidate.article.id === item.article.id) === index).slice(0, 8);
+    const fallback = `В материалах Sektascience эта тема рассматривается не как вопрос силы воли, а как связь поведения, среды, самочувствия и доступного человеку действия.`;
+    const bridges = [
+      `Это задаёт важную рамку: сначала нужно понять условия, а уже потом оценивать результат или искать «правильное» поведение.`,
+      `Практический смысл здесь не в обещании быстрого эффекта, а в выборе шага, который соответствует реальной нагрузке и может повторяться.`,
+      `Так личный опыт не противопоставляется данным: он помогает уточнить, как общий принцип работает именно в ваших обстоятельствах.`,
+      `Важно удерживать ограничения: одна закономерность не объясняет всё, а наблюдение не заменяет медицинскую консультацию, когда она нужна.`,
+    ];
+    return Array.from({ length: 8 }, (_, index) => {
+      const item = evidence[index] || ranked[(index + variant) % Math.max(1, ranked.length)];
+      const excerpt = words(item?.paragraph || fallback).slice(0, 62).join(" ");
+      const opening = index === 0 ? `${idea.hook.replace(/[.!?…]+$/, "")}. Начнём не с совета, а с того, что известно по материалам Sex Sport & Science.` : "";
+      const closing = index === 7 ? `Из этого можно собрать не жёсткое правило, а рабочий эксперимент: ${idea.cta.toLocaleLowerCase("ru")}. Перед публикацией научные и медицинские формулировки нужно проверить с экспертом.` : bridges[(index + variant) % bridges.length];
+      return [opening, excerpt, closing].filter(Boolean).join(" ");
+    }).join("\n\n");
+  }
+
+  function generateFromIdea(advance = false) {
+    if (advance) generationVariant += 1;
+    const idea = activeIdea();
+    series.longread = generatedLongread(idea, generationVariant);
+    ui.longread.value = series.longread;
+    series = splitSeries(series, Number(ui.slideCount.value || 10), ui.keepParagraphs.checked, ui.photoRhythm.checked);
+    ui.longreadDraftState.textContent = `Черновик ${generationVariant + 1} · требует редакторской проверки`;
+    renderAll();
+    markChanged();
+    setStatus(`Лонгрид по теме «${idea.title}» создан. Его можно править перед разбиением.`);
+  }
+
+  function applyIdeaDirection(idea) {
+    const direction = idea?.direction;
+    if (!direction?.cover || !Array.isArray(direction.sequence) || !direction.sequence.length) return false;
+    if (direction.font?.family) {
+      series.font = normalizeFontSystem(direction.font);
+      ensureFont(series.font);
+    }
+    if (paletteChoices()[direction.palette]) series.palette = direction.palette;
+    const portraitPhotos = library.filter((item) => item.orientation === "portrait");
+    const directionPhotos = new Set();
+    series.slides.forEach((slide, index) => {
+      const isCover = index === 0;
+      const isFinal = index === series.slides.length - 1;
+      if (isCover && slide.transferredCover) return;
+      const spec = isCover ? direction.cover : isFinal ? direction.final : direction.sequence[(index - 1) % direction.sequence.length];
+      if (!spec) return;
+      const preserved = { title: slide.title, body: slide.body, role: slide.role, labelText: slide.labelText, showSeriesLabel: slide.showSeriesLabel, showTitle: slide.showTitle, showBody: slide.showBody, showCounter: slide.showCounter };
+      Object.assign(slide, spec, preserved, {
+        textColor: spec.textColor || "",
+        plaqueEnabled: spec.plaqueEnabled === true,
+        savedAt: null,
+      });
+      if (paletteChoices()[spec.palette]) slide.palette = spec.palette;
+      const usesPhoto = templateDefinitions[slide.template]?.usesPhoto === true;
+      slide.photoId = usesPhoto ? slide.photoId || portraitPhotos[index % Math.max(1, portraitPhotos.length)]?.id || preferredPhoto()?.id || null : null;
+      slide.font = null;
+      if (!isCover && !isFinal) ensureGeneratedSlideIntegrity(slide, index, series, directionPhotos);
+    });
+    series.updatedAt = new Date().toISOString();
+    return true;
+  }
+
+  function loadIdea(detail) {
+    const idea = { ...fallbackIdea, ...detail };
+    series.idea = idea;
+    series.name = idea.title;
+    if (idea.coverDesign?.accent) series.coverAccent = idea.coverDesign.accent;
+    if (idea.font?.family) {
+      series.font = normalizeFontSystem(idea.font);
+      ensureFont(series.font);
+    }
+    const requestedSlides = Math.min(20, Math.max(5, Number(idea.slideCount) || 10));
+    ui.slideCount.value = String(requestedSlides);
+    const cover = coverSlide();
+    cover.title = idea.hook;
+    cover.body = idea.objective;
+    if (idea.photoId && photoById(idea.photoId)) cover.photoId = idea.photoId;
+    cover.savedAt = null;
+    const final = series.slides.at(-1);
+    if (final?.role === "cta") {
+      final.title = "Что можно сделать сейчас";
+      final.body = idea.cta;
+      final.savedAt = null;
+    }
+    generationVariant = 0;
+    if (idea.longread?.trim()) {
+      series.longread = idea.longread.trim();
+      ui.longread.value = series.longread;
+      series = splitSeries(series, requestedSlides, ui.keepParagraphs.checked, ui.photoRhythm.checked);
+      if (Array.isArray(idea.slides) && idea.slides.length === series.slides.length) {
+        series.slides = series.slides.map((slide, index) => makeSlide({
+          ...slide,
+          title: idea.slides[index]?.title ?? slide.title,
+          body: idea.slides[index]?.body ?? slide.body,
+          role: idea.slides[index]?.role || slide.role,
+        }));
+      }
+      if (Array.isArray(idea.visualPlan)) {
+        series.slides.forEach((slide, index) => {
+          const visual = idea.visualPlan[index];
+          if (!visual) return;
+          if (visual.template && templateDefinitions[visual.template]) {
+            const quickPreset = quickLayoutPresets[visual.template];
+            if (quickPreset && index > 0) applyQuickLayoutData(slide, { ...quickPreset, template: visual.template, scene: visual.scene || quickPreset.scene });
+            else {
+              slide.template = visual.template;
+              slide.placement = templateDefinitions[visual.template].placement || slide.placement;
+            }
+          }
+          if (visual.scene && sceneLabels[visual.scene]) slide.scene = visual.scene;
+          if (["top", "middle", "bottom", "left", "right"].includes(visual.placement)) slide.placement = visual.placement;
+          if (visual.palette && paletteChoices()[visual.palette]) slide.palette = visual.palette;
+          if (/^#[\da-f]{6}$/i.test(visual.accentColor || "")) slide.accentColor = visual.accentColor;
+          if (visual.photoId && photoById(visual.photoId)) slide.photoId = visual.photoId;
+          const hasTransferredPlaque = typeof visual.plaqueEnabled === "boolean";
+          if (hasTransferredPlaque) {
+            slide.plaqueEnabled = visual.plaqueEnabled;
+            slide.plaqueColor = /^#[\da-f]{6}$/i.test(visual.plaqueColor) ? visual.plaqueColor : "";
+            slide.plaqueOpacity = Math.max(0, Math.min(1, numberOr(visual.plaqueOpacity, 1)));
+            const transferredWidth = Math.max(52, Math.min(92, numberOr(visual.plaqueWidth, slide.titleBoxWidth)));
+            slide.titleBoxWidth = transferredWidth;
+            slide.bodyBoxWidth = Math.max(numberOr(slide.bodyBoxWidth, 78), transferredWidth);
+          }
+          if (index > 0) {
+            slide.textColor = ["photo-clean", "photo-dim"].includes(slide.scene) ? "#ffffff" : "";
+            slide.titleColor = slide.plaqueEnabled ? readableTextColor(slide.plaqueColor || paletteFor(slide).background) : "";
+            slide.bodyColor = "";
+            slide.labelColor = "";
+            slide.counterColor = "";
+            if (!hasTransferredPlaque) slide.plaqueEnabled = false;
+          }
+        });
+        const usedImportedPhotos = new Set();
+        series.slides.forEach((slide, index) => ensureGeneratedSlideIntegrity(slide, index, series, usedImportedPhotos));
+      }
+      if (idea.coverDesign) {
+        const target = series.slides[0];
+        const transferred = idea.coverDesign.schema === "sekta-cover-design-v2";
+        series.coverAccent = idea.coverDesign.accent || series.coverAccent || "yellow";
+        target.transferredCover = transferred;
+        target.template = transferred ? "imported-cover" : target.template;
+        target.coverStyle = idea.coverDesign.style || "clean";
+        target.coverAccent = idea.coverDesign.accent || "";
+        target.coverAccentColor = idea.coverDesign.accentColor || "";
+        target.coverDim = Math.max(0, Math.min(.72, numberOr(idea.coverDesign.photoDim, target.coverStyle === "clean" ? .42 : .2)));
+        target.scene = transferred ? "photo-clean" : sceneLabels[idea.coverDesign.scene] ? idea.coverDesign.scene : target.scene;
+        target.palette = paletteChoices()[idea.coverDesign.palette] ? idea.coverDesign.palette : target.palette;
+        target.title = idea.coverDesign.titleText ?? target.title;
+        target.body = idea.coverDesign.subtitleText ?? target.body;
+        target.labelText = idea.coverDesign.labelText ?? "@sektaschool";
+        target.placement = idea.coverDesign.placement || target.placement;
+        target.photoFocusX = numberOr(idea.coverDesign.focusX, 50);
+        target.photoFocusY = numberOr(idea.coverDesign.focusY, 50);
+        target.photoScale = Math.max(1, Math.min(2.2, numberOr(idea.coverDesign.photoScale, 1)));
+        target.caseKind = idea.coverDesign.caseKind || target.caseKind;
+        target.textColor = idea.coverDesign.textColor || "";
+        target.plaqueEnabled = idea.coverDesign.plaqueEnabled === true;
+        target.plaqueColor = idea.coverDesign.plaqueColor || idea.coverDesign.accentColor || "";
+        target.plaqueOpacity = Math.max(0, Math.min(1, numberOr(idea.coverDesign.plaqueOpacity, 1)));
+        [["title", idea.coverDesign.title], ["body", idea.coverDesign.body], ["label", idea.coverDesign.label]].forEach(([layerName, source]) => {
+          if (!source) return;
+          const type = typographyLayers[layerName];
+          const offsets = movableLayers[layerName];
+          target[type.family] = source.family || target[type.family];
+          target[type.weight] = Number(source.weight) || target[type.weight];
+          target[type.size] = Number(source.size) || target[type.size];
+          target[type.lineHeight] = Number(source.lineHeight) || target[type.lineHeight];
+          target[type.tracking] = Number(source.tracking) || 0;
+          target[offsets.x] = Number(source.x) || 0;
+          target[offsets.y] = Number(source.y) || 0;
+          if (source.color) setLayerColor(target, layerName, source.color);
+          if (Number.isFinite(Number(source.boxWidth)) || Number.isFinite(Number(source.boxHeight))) {
+            const currentBox = layerBox(target, layerName);
+            setLayerBox(target, layerName, numberOr(source.boxWidth, currentBox.width), numberOr(source.boxHeight, currentBox.height));
+          }
+          setLayerEffects(target, layerName, { shadowOpacity: 0, shadowColor: "#000000", outlineWidth: 0, outlineColor: "#000000" });
+          setLayerVisible(target, layerName, source.visible !== false);
+        });
+        target.showCounter = false;
+      }
+      const usedPhotos = new Set([series.slides[0]?.photoId].filter(Boolean));
+      series.slides.forEach((slide, index) => ensureGeneratedSlideIntegrity(slide, index, series, usedPhotos));
+      ui.longreadDraftState.textContent = "Сценарий из банка идей · можно редактировать";
+      series.activeSlide = Math.min(Math.max(Number(idea.activeSlide) || 0, 0), series.slides.length - 1);
+      renderAll();
+      markChanged();
+      setStatus(`Сценарий на ${requestedSlides} слайдов перенесён из банка идей.`);
+    } else {
+      generateFromIdea(false);
+    }
+    const directionApplied = applyIdeaDirection(idea);
+    renderSource();
+    renderAll();
+    setStage(idea.openSlides ? "slides" : "longread");
+    if (directionApplied) setStatus(`Идея перенесена в систему «${idea.direction.label}»: палитра, шрифты и ритм слайдов уже подобраны.`);
+    else if (idea.coverDesign?.schema === "sekta-cover-design-v2") setStatus("Обложка перенесена без пересборки: сохранены фото, кадрирование, цвета, плашка, шрифты и положение слоёв.");
+  }
 
   function setStatus(message) {
     ui.status.textContent = message;
@@ -399,31 +1136,470 @@
     return String(text || "");
   }
 
+  const movableLayers = {
+    title: { x: "titleOffsetX", y: "titleOffsetY", label: "заголовок" },
+    body: { x: "bodyOffsetX", y: "bodyOffsetY", label: "основной текст" },
+    label: { x: "labelOffsetX", y: "labelOffsetY", label: "аккаунт / подпись" },
+    counter: { x: "counterOffsetX", y: "counterOffsetY", label: "номер слайда" },
+  };
+
+  const layerContent = {
+    title: { text: "title", visible: "showTitle", fallback: () => "" },
+    body: { text: "body", visible: "showBody", fallback: () => "" },
+    label: { text: "labelText", visible: "showSeriesLabel", fallback: () => series.name },
+    counter: { text: "counterText", visible: "showCounter", fallback: (index) => `${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}` },
+  };
+
+  const isCustomTarget = (target) => String(target || "").startsWith("custom:");
+  const customLayer = (slide, target) => slide.customLayers?.find((layer) => `custom:${layer.id}` === target);
+  const layerLabel = (slide, target) => isCustomTarget(target) ? customLayer(slide, target)?.text || "текстовый блок" : movableLayers[target]?.label || "текст";
+  const layerBoxFields = {
+    title: { width: "titleBoxWidth", height: "titleBoxHeight", color: "titleColor", defaultWidth: 80, defaultHeight: 30 },
+    body: { width: "bodyBoxWidth", height: "bodyBoxHeight", color: "bodyColor", defaultWidth: 80, defaultHeight: 44 },
+    label: { width: "labelBoxWidth", height: "labelBoxHeight", color: "labelColor", defaultWidth: 52, defaultHeight: 8 },
+    counter: { width: "counterBoxWidth", height: "counterBoxHeight", color: "counterColor", defaultWidth: 22, defaultHeight: 8 },
+  };
+
+  const clampLayerWidth = (value) => Math.max(10, Math.min(96, Math.round(Number(value) * 10) / 10));
+  const clampLayerHeight = (value) => Math.max(5, Math.min(80, Math.round(Number(value) * 10) / 10));
+
+  function layerBox(slide, target) {
+    if (isCustomTarget(target)) {
+      const layer = customLayer(slide, target) || {};
+      return { width: clampLayerWidth(numberOr(layer.width, 60)), height: clampLayerHeight(numberOr(layer.height, 18)) };
+    }
+    const fields = layerBoxFields[target] || layerBoxFields.body;
+    return { width: clampLayerWidth(numberOr(slide[fields.width], fields.defaultWidth)), height: clampLayerHeight(numberOr(slide[fields.height], fields.defaultHeight)) };
+  }
+
+  function setLayerBox(slide, target, width, height) {
+    const next = { width: clampLayerWidth(width), height: clampLayerHeight(height) };
+    if (isCustomTarget(target)) {
+      const layer = customLayer(slide, target);
+      if (layer) { layer.width = next.width; layer.height = next.height; }
+      return next;
+    }
+    const fields = layerBoxFields[target] || layerBoxFields.body;
+    slide[fields.width] = next.width;
+    slide[fields.height] = next.height;
+    return next;
+  }
+
+  function layerColor(slide, target) {
+    if (isCustomTarget(target)) return customLayer(slide, target)?.color || "";
+    const fields = layerBoxFields[target] || layerBoxFields.body;
+    return slide[fields.color] || "";
+  }
+
+  function setLayerColor(slide, target, color) {
+    if (isCustomTarget(target)) {
+      const layer = customLayer(slide, target);
+      if (layer) layer.color = color || "";
+      return;
+    }
+    const fields = layerBoxFields[target] || layerBoxFields.body;
+    slide[fields.color] = color || "";
+  }
+
+  function slideForeground(slide) {
+    const palette = paletteFor(slide.palette || series.palette);
+    const lightScene = ["paper", "quote", "field", "dark"].includes(slide.scene) || slide.scene === "split";
+    return slide.textColor || (lightScene || slide.palette === "sekta-yellow" ? palette.foreground : "#ffffff");
+  }
+
+  function resolvedLayerColor(slide, target) {
+    return layerColor(slide, target) || slideForeground(slide);
+  }
+
+  function layerEffects(slide, target) {
+    const raw = slide.layerEffects?.[target] || {};
+    const autoShadow = raw.shadowOpacity === undefined || raw.shadowOpacity === null;
+    return {
+      shadowAuto: autoShadow,
+      shadowOpacity: autoShadow ? 0 : Math.max(0, Math.min(1, numberOr(raw.shadowOpacity, 0))),
+      shadowColor: raw.shadowColor || "#000000",
+      outlineWidth: Math.max(0, Math.min(12, numberOr(raw.outlineWidth, 0))),
+      outlineColor: raw.outlineColor || "#000000",
+    };
+  }
+
+  function setLayerEffects(slide, target, values) {
+    slide.layerEffects ||= {};
+    const current = slide.layerEffects[target] || {};
+    slide.layerEffects[target] = {
+      ...current,
+      shadowOpacity: values.shadowOpacity,
+      shadowColor: values.shadowColor || "#000000",
+      outlineWidth: Math.max(0, Math.min(12, numberOr(values.outlineWidth, 0))),
+      outlineColor: values.outlineColor || "#000000",
+    };
+  }
+
+  function resetLayerShadow(slide, target) {
+    slide.layerEffects ||= {};
+    const current = slide.layerEffects[target] || {};
+    delete current.shadowOpacity;
+    delete current.shadowColor;
+    if (Object.keys(current).length) slide.layerEffects[target] = current;
+    else delete slide.layerEffects[target];
+  }
+
+  function colorWithAlpha(color, opacity) {
+    const hex = String(color || "#000000").replace("#", "");
+    const normalized = hex.length === 3 ? hex.split("").map((value) => value + value).join("") : hex.padEnd(6, "0").slice(0, 6);
+    const value = Number.parseInt(normalized, 16);
+    const red = (value >> 16) & 255;
+    const green = (value >> 8) & 255;
+    const blue = value & 255;
+    return `rgba(${red},${green},${blue},${Math.max(0, Math.min(1, Number(opacity) || 0))})`;
+  }
+
+  function layerEffectCss(slide, target, scale = .48) {
+    const effect = layerEffects(slide, target);
+    return {
+      shadow: effect.shadowOpacity ? `0 ${Math.max(1, 4 * scale)}px ${Math.max(2, 36 * scale)}px ${colorWithAlpha(effect.shadowColor, effect.shadowOpacity)}` : "none",
+      strokeWidth: `${Math.round(effect.outlineWidth * scale * 10) / 10}px`,
+      strokeColor: effect.outlineColor,
+    };
+  }
+
+  function layerText(slide, target, index = series.activeSlide) {
+    if (isCustomTarget(target)) return String(customLayer(slide, target)?.text || "");
+    const layer = layerContent[target];
+    return String(slide[layer.text] || layer.fallback(index));
+  }
+
+  function layerVisible(slide, target) {
+    if (isCustomTarget(target)) return customLayer(slide, target)?.visible !== false;
+    return slide[layerContent[target].visible] !== false;
+  }
+
+  function setLayerText(slide, target, value) {
+    if (isCustomTarget(target)) {
+      const layer = customLayer(slide, target);
+      if (layer) layer.text = value;
+      return;
+    }
+    slide[layerContent[target].text] = value;
+  }
+
+  function setLayerVisible(slide, target, visible) {
+    if (isCustomTarget(target)) {
+      const layer = customLayer(slide, target);
+      if (layer) layer.visible = Boolean(visible);
+      return;
+    }
+    slide[layerContent[target].visible] = Boolean(visible);
+  }
+
+  const typographyLayers = {
+    title: { family: "titleFontFamily", weight: "titleWeight", size: "size", lineHeight: "titleLineHeight", tracking: "titleTracking", fallbackWeight: 800, fallbackSize: 46, fallbackLineHeight: .96, fallbackTracking: -.035 },
+    body: { family: "bodyFontFamily", weight: "bodyWeight", size: "bodySize", lineHeight: "bodyLineHeight", tracking: "bodyTracking", fallbackWeight: 470, fallbackSize: 34, fallbackLineHeight: 1.25, fallbackTracking: 0 },
+    label: { family: "labelFontFamily", weight: "labelWeight", size: "labelSize", lineHeight: "labelLineHeight", tracking: "labelTracking", fallbackWeight: 750, fallbackSize: 24, fallbackLineHeight: 1, fallbackTracking: .06 },
+    counter: { family: "counterFontFamily", weight: "counterWeight", size: "counterSize", lineHeight: "counterLineHeight", tracking: "counterTracking", fallbackWeight: 750, fallbackSize: 24, fallbackLineHeight: 1, fallbackTracking: .08 },
+  };
+
+  function slideFontSystem(slide) {
+    return slide.font?.family ? normalizeFontSystem(slide.font) : series.font;
+  }
+
+  function systemFamilyForLayer(slide, target) {
+    const system = slideFontSystem(slide);
+    return target === "title" ? system.family : system.body || companionFor(system.family);
+  }
+
+  function layerTypography(slide, target) {
+    if (isCustomTarget(target)) {
+      const layer = customLayer(slide, target) || {};
+      return {
+        family: layer.fontFamily || "",
+        resolvedFamily: layer.fontFamily || systemFamilyForLayer(slide, target),
+        weight: numberOr(layer.weight, 700),
+        size: numberOr(layer.size, 32),
+        lineHeight: numberOr(layer.lineHeight, 1),
+        tracking: numberOr(layer.tracking, 0),
+      };
+    }
+    const layer = typographyLayers[target] || typographyLayers.body;
+    return {
+      family: slide[layer.family] || "",
+      resolvedFamily: slide[layer.family] || systemFamilyForLayer(slide, target),
+      weight: numberOr(slide[layer.weight], layer.fallbackWeight),
+      size: numberOr(slide[layer.size], layer.fallbackSize),
+      lineHeight: numberOr(slide[layer.lineHeight], layer.fallbackLineHeight),
+      tracking: numberOr(slide[layer.tracking], layer.fallbackTracking),
+    };
+  }
+
+  function setLayerTypography(slide, target, values) {
+    if (isCustomTarget(target)) {
+      const custom = customLayer(slide, target);
+      if (!custom) return;
+      custom.fontFamily = values.family || "";
+      custom.weight = Number(values.weight);
+      custom.size = Number(values.size);
+      custom.lineHeight = Number(values.lineHeight);
+      custom.tracking = Number(values.tracking);
+      return;
+    }
+    const layer = typographyLayers[target] || typographyLayers.body;
+    slide[layer.family] = values.family || "";
+    slide[layer.weight] = Number(values.weight);
+    slide[layer.size] = Number(values.size);
+    slide[layer.lineHeight] = Number(values.lineHeight);
+    slide[layer.tracking] = Number(values.tracking);
+  }
+
+  function layerFontFamilies() {
+    return [canonType.family, canonType.body];
+  }
+
+  function renderLayerFontOptions(select, slide, target) {
+    const systemFamily = systemFamilyForLayer(slide, target);
+    select.innerHTML = `<option value="">Зафиксирован · ${escapeHtml(systemFamily)}</option>`;
+    select.value = "";
+    select.disabled = true;
+    if (select === ui.slideTypeFont) {
+      ui.slideTypeFontPrev.hidden = true;
+      ui.slideTypeFontNext.hidden = true;
+    }
+  }
+
+  function renderLayerFontSamples(slide, target) {
+    if (!ui.slideFontSamples) return;
+    const systemFamily = systemFamilyForLayer(slide, target);
+    const typography = layerTypography(slide, target);
+    const visibleFamilies = [systemFamily];
+    const sample = stripInlineMarkup(layerText(slide, target, series.activeSlide)).trim().replace(/\s+/g, " ").slice(0, 58) || "Пример русского текста";
+    ui.slideFontSamples.innerHTML = [...new Set(visibleFamilies)].map((family) => {
+      ensureFontFamily(family);
+      const usesSystem = !typography.family && family === systemFamily;
+      const active = typography.resolvedFamily === family;
+      return `<button type="button" class="carousel-font-sample${active ? " is-active" : ""}" data-layer-font-family="${escapeHtml(usesSystem ? "" : family)}" style="--sample-font:'${escapeHtml(family)}'"><span>${escapeHtml(sample)}</span><small>${escapeHtml(family)}${usesSystem ? " · из системы" : ""}</small></button>`;
+    }).join("");
+  }
+
+  function formatTracking(value) {
+    const number = Number(value) || 0;
+    return `${number < 0 ? "−" : number > 0 ? "+" : ""}${Math.abs(number).toFixed(3)} em`;
+  }
+
+  function syncTypographyControls(mode) {
+    const cover = mode === "cover";
+    const slide = cover ? coverSlide() : activeSlide();
+    const target = cover ? coverMoveTarget : slideMoveTarget;
+    const typography = layerTypography(slide, target);
+    const controls = cover ? {
+      label: ui.coverTypeLayerLabel, font: ui.coverTypeFont, weight: ui.coverTypeWeight, weightValue: ui.coverTypeWeightValue,
+      size: ui.coverTypeSize, sizeValue: ui.coverTypeSizeValue, lineHeight: ui.coverTypeLineHeight, lineHeightValue: ui.coverTypeLineHeightValue,
+      tracking: ui.coverTypeTracking, trackingValue: ui.coverTypeTrackingValue, boxWidth: ui.coverBoxWidth, boxWidthValue: ui.coverBoxWidthValue,
+      boxHeight: ui.coverBoxHeight, boxHeightValue: ui.coverBoxHeightValue, color: ui.coverLayerColor, colorValue: ui.coverLayerColorValue,
+      shadow: ui.coverShadowOpacity, shadowValue: ui.coverShadowOpacityValue, shadowColor: ui.coverShadowColor,
+      outline: ui.coverOutlineWidth, outlineValue: ui.coverOutlineWidthValue, outlineColor: ui.coverOutlineColor,
+    } : {
+      label: ui.slideTypeLayerLabel, font: ui.slideTypeFont, weight: ui.slideTypeWeight, weightValue: ui.slideTypeWeightValue,
+      size: ui.slideTypeSize, sizeValue: ui.slideTypeSizeValue, lineHeight: ui.slideTypeLineHeight, lineHeightValue: ui.slideTypeLineHeightValue,
+      tracking: ui.slideTypeTracking, trackingValue: ui.slideTypeTrackingValue, boxWidth: ui.slideBoxWidth, boxWidthValue: ui.slideBoxWidthValue,
+      boxHeight: ui.slideBoxHeight, boxHeightValue: ui.slideBoxHeightValue, color: ui.slideLayerColor, colorValue: ui.slideLayerColorValue,
+      shadow: ui.slideShadowOpacity, shadowValue: ui.slideShadowOpacityValue, shadowColor: ui.slideShadowColor,
+      outline: ui.slideOutlineWidth, outlineValue: ui.slideOutlineWidthValue, outlineColor: ui.slideOutlineColor,
+    };
+    controls.label.textContent = layerLabel(slide, target);
+    renderLayerFontOptions(controls.font, slide, target);
+    controls.weight.value = typography.weight;
+    controls.weightValue.textContent = typography.weight;
+    controls.size.value = typography.size;
+    controls.sizeValue.textContent = `${typography.size} px`;
+    controls.lineHeight.value = typography.lineHeight;
+    controls.lineHeightValue.textContent = Number(typography.lineHeight).toFixed(2);
+    controls.tracking.value = typography.tracking;
+    controls.trackingValue.textContent = formatTracking(typography.tracking);
+    const box = layerBox(slide, target);
+    controls.boxWidth.value = box.width;
+    controls.boxWidthValue.textContent = `${box.width}%`;
+    controls.boxHeight.value = box.height;
+    controls.boxHeightValue.textContent = `${box.height}%`;
+    const customColor = layerColor(slide, target);
+    controls.color.value = resolvedLayerColor(slide, target);
+    controls.colorValue.textContent = customColor || "из палитры";
+    const effects = layerEffects(slide, target);
+    const shadowPercent = Math.round(effects.shadowOpacity * 100);
+    controls.shadow.value = shadowPercent;
+    controls.shadowValue.textContent = shadowPercent ? `${shadowPercent}%` : "нет";
+    controls.shadowColor.value = effects.shadowColor;
+    controls.outline.value = effects.outlineWidth;
+    controls.outlineValue.textContent = effects.outlineWidth ? `${effects.outlineWidth} px` : "нет";
+    controls.outlineColor.value = effects.outlineColor;
+    if (!cover) renderLayerFontSamples(slide, target);
+  }
+
+  function syncLayerContentControls(mode) {
+    const cover = mode === "cover";
+    const slide = cover ? coverSlide() : activeSlide();
+    const target = cover ? coverMoveTarget : slideMoveTarget;
+    const textControl = cover ? ui.coverLayerText : ui.slideLayerText;
+    const visibleControl = cover ? ui.coverLayerVisible : ui.slideLayerVisible;
+    const removeControl = cover ? ui.coverLayerRemove : ui.slideLayerRemove;
+    textControl.value = layerText(slide, target, cover ? 0 : series.activeSlide);
+    visibleControl.checked = layerVisible(slide, target);
+    removeControl.textContent = visibleControl.checked ? "Удалить элемент" : "Вернуть элемент";
+  }
+
+  function applyLayerVariables(element, slide) {
+    const set = (name, value) => element.style.setProperty(name, value);
+    const previewSize = (value) => Math.round(Math.max(8, value) * 100 / 10.8) / 100;
+    const titleType = layerTypography(slide, "title");
+    const bodyType = layerTypography(slide, "body");
+    const labelType = layerTypography(slide, "label");
+    const counterType = layerTypography(slide, "counter");
+    const titleBox = layerBox(slide, "title");
+    const bodyBox = layerBox(slide, "body");
+    const labelBox = layerBox(slide, "label");
+    const counterBox = layerBox(slide, "counter");
+    [titleType, bodyType, labelType, counterType].forEach((type) => ensureFontFamily(type.resolvedFamily));
+    ["title", "body", "label", "counter"].forEach((target) => {
+      const effects = layerEffectCss(slide, target);
+      set(`--carousel-${target}-shadow`, effects.shadow);
+      set(`--carousel-${target}-stroke-width`, effects.strokeWidth);
+      set(`--carousel-${target}-stroke-color`, effects.strokeColor);
+    });
+    set("--carousel-title-x", `${Number(slide.titleOffsetX) || 0}cqw`);
+    set("--carousel-title-y", `${(Number(slide.titleOffsetY) || 0) * 1.25}cqw`);
+    set("--carousel-body-x", `${Number(slide.bodyOffsetX) || 0}cqw`);
+    set("--carousel-body-y", `${(Number(slide.bodyOffsetY) || 0) * 1.25}cqw`);
+    set("--carousel-label-x", `${Number(slide.labelOffsetX) || 0}cqw`);
+    set("--carousel-label-y", `${(Number(slide.labelOffsetY) || 0) * 1.25}cqw`);
+    set("--carousel-counter-x", `${Number(slide.counterOffsetX) || 0}cqw`);
+    set("--carousel-counter-y", `${(Number(slide.counterOffsetY) || 0) * 1.25}cqw`);
+    set("--carousel-title-font", `"${titleType.resolvedFamily}"`);
+    set("--carousel-title-weight", titleType.weight);
+    set("--carousel-title-size", `${previewSize(titleType.size)}cqw`);
+    set("--carousel-title-line", titleType.lineHeight);
+    set("--carousel-title-tracking", `${titleType.tracking}em`);
+    set("--carousel-title-width", `${titleBox.width}cqw`);
+    set("--carousel-title-height", `${titleBox.height * 1.25}cqw`);
+    set("--carousel-title-color", resolvedLayerColor(slide, "title"));
+    set("--carousel-body-font", `"${bodyType.resolvedFamily}"`);
+    set("--carousel-body-weight", bodyType.weight);
+    set("--carousel-body-size", `${previewSize(bodyType.size)}cqw`);
+    set("--carousel-body-line", bodyType.lineHeight);
+    set("--carousel-body-tracking", `${bodyType.tracking}em`);
+    set("--carousel-body-width", `${bodyBox.width}cqw`);
+    set("--carousel-body-height", `${bodyBox.height * 1.25}cqw`);
+    set("--carousel-body-color", resolvedLayerColor(slide, "body"));
+    set("--carousel-label-font", `"${labelType.resolvedFamily}"`);
+    set("--carousel-label-weight", labelType.weight);
+    set("--carousel-label-size", `${previewSize(labelType.size)}cqw`);
+    set("--carousel-label-line", labelType.lineHeight);
+    set("--carousel-label-tracking", `${labelType.tracking}em`);
+    set("--carousel-label-width", `${labelBox.width}cqw`);
+    set("--carousel-label-height", `${labelBox.height * 1.25}cqw`);
+    set("--carousel-label-color", resolvedLayerColor(slide, "label"));
+    set("--carousel-counter-font", `"${counterType.resolvedFamily}"`);
+    set("--carousel-counter-weight", counterType.weight);
+    set("--carousel-counter-size", `${previewSize(counterType.size)}cqw`);
+    set("--carousel-counter-line", counterType.lineHeight);
+    set("--carousel-counter-tracking", `${counterType.tracking}em`);
+    set("--carousel-counter-width", `${counterBox.width}cqw`);
+    set("--carousel-counter-height", `${counterBox.height * 1.25}cqw`);
+    set("--carousel-counter-color", resolvedLayerColor(slide, "counter"));
+  }
+
+  const resizeHandles = ["nw", "n", "ne", "e", "se", "s", "sw", "w"];
+
+  function layerEditingControls(directEditing, selectedLayer, target, slide) {
+    if (!directEditing || selectedLayer !== target) return "";
+    const label = layerLabel(slide, target);
+    return `<span class="carousel-layer-controls"><button class="carousel-layer-drag" type="button" data-layer-drag="${escapeHtml(target)}" aria-label="Переместить ${escapeHtml(label)}" title="Переместить слой"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="5" cy="4" r="1"/><circle cx="11" cy="4" r="1"/><circle cx="5" cy="8" r="1"/><circle cx="11" cy="8" r="1"/><circle cx="5" cy="12" r="1"/><circle cx="11" cy="12" r="1"/></svg></button><button class="carousel-layer-close" type="button" data-layer-close="${escapeHtml(target)}" aria-label="Удалить ${escapeHtml(label)}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>${resizeHandles.map((handle) => `<span class="carousel-resize-handle" data-resize-handle="${handle}" aria-hidden="true"></span>`).join("")}</span>`;
+  }
+
+  function inlineEditorAttributes(directEditing, target, label) {
+    if (!directEditing) return "";
+    return ` contenteditable="true" spellcheck="true" role="textbox" aria-multiline="true" aria-label="Редактировать ${escapeHtml(label)} прямо на слайде" data-carousel-inline-editor="${escapeHtml(target)}"`;
+  }
+
+  function fitDomTextLayer(element) {
+    const textBox = element.querySelector(".carousel-layer-text") || element;
+    const bodyParagraphs = element.matches(".carousel-render-body") ? [...textBox.querySelectorAll("p")] : [];
+    const textNodes = bodyParagraphs.length ? bodyParagraphs : [element.matches(".carousel-render-body") ? textBox : element];
+    if (!textNodes.length || !textBox.clientWidth || !textBox.clientHeight) return;
+    textNodes.forEach((node) => { node.style.removeProperty("font-size"); });
+    let size = parseFloat(getComputedStyle(textNodes[0]).fontSize) || 12;
+    const layer = element.dataset.carouselFitLayer || "body";
+    const minimumRatio = layer === "title" ? .72 : layer === "body" ? .72 : .86;
+    const absoluteMinimum = layer === "title" ? 18 : layer === "body" ? 11 : 8;
+    const min = Math.min(size, Math.max(absoluteMinimum, size * minimumRatio));
+    const overflows = () => textBox.scrollHeight > element.clientHeight + 4 || textBox.scrollWidth > element.clientWidth + 4;
+    while (overflows() && size > min) {
+      size = Math.max(min, size - .5);
+      textNodes.forEach((node) => { node.style.fontSize = `${size}px`; });
+    }
+    const unresolved = overflows();
+    element.classList.toggle("has-text-overflow", unresolved);
+    element.dataset.textOverflow = unresolved ? "true" : "false";
+    element.dataset.fittedSize = String(Math.round(size * 10) / 10);
+  }
+
+  function fitCanvasTextLayers(canvas) {
+    canvas.querySelectorAll("[data-carousel-fit-layer]").forEach(fitDomTextLayer);
+  }
+
   function renderCanvas(element, slide, index) {
     if (!element || !slide) return;
     const photo = photoById(slide.photoId);
     const palette = paletteFor(slide.palette || series.palette);
-    ensureFont(series.font);
-    element.className = "carousel-slide-canvas";
+    const slideFont = slide.font?.family ? normalizeFontSystem(slide.font) : series.font;
+    ensureFont(slideFont);
+    const directEditing = element === ui.coverCanvas || element === ui.activeCanvas;
+    const selectedLayer = element === ui.coverCanvas ? coverMoveTarget : element === ui.activeCanvas ? slideMoveTarget : "";
+    element.className = `carousel-slide-canvas${directEditing ? " is-direct-editing" : ""}`;
     element.dataset.scene = slide.scene;
+    element.dataset.template = slide.template || "";
+    element.dataset.coverStyle = slide.coverStyle || "";
+    element.dataset.coverAccent = slide.coverAccent || "";
     element.dataset.palette = slide.palette;
     element.dataset.placement = slide.placement || "middle";
     element.dataset.align = slide.align || "left";
     element.dataset.role = slide.role;
-    element.style.setProperty("--carousel-head-font", `"${series.font.family}"`);
-    element.style.setProperty("--carousel-body-font", `"${series.font.body || companionFor(series.font.family)}"`);
-    element.style.setProperty("--carousel-bg", palette.background);
-    element.style.setProperty("--carousel-fg", palette.foreground);
-    element.style.setProperty("--carousel-accent", palette.accent);
+    element.dataset.texture = slide.texture || "none";
+    element.dataset.plaque = slide.plaqueEnabled ? "on" : "off";
+    element.style.setProperty("--carousel-head-font", `"${slideFont.family}"`);
+    element.style.setProperty("--carousel-body-font", `"${slideFont.body || companionFor(slideFont.family)}"`);
+    element.style.setProperty("--carousel-bg", slide.backgroundColor || palette.background);
+    element.style.setProperty("--carousel-fg", slideForeground(slide));
+    element.style.setProperty("--carousel-accent", slide.accentColor || palette.accent);
     element.style.setProperty("--carousel-ink", palette.ink);
-    element.style.setProperty("--carousel-title-size", `${Math.max(24, Math.round((slide.size || 46) * .48))}px`);
-    element.style.setProperty("--carousel-body-size", `${Math.max(15, Math.min(27, Math.round((slide.size || 46) * .32)))}px`);
+    element.style.setProperty("--carousel-plaque-color", slide.plaqueColor || palette.background);
+    element.style.setProperty("--carousel-plaque-opacity", String(Math.max(0, Math.min(1, numberOr(slide.plaqueOpacity, 1)))));
+    element.style.setProperty("--carousel-plaque-fill", colorWithAlpha(slide.plaqueColor || palette.background, slide.plaqueOpacity));
+    element.style.setProperty("--carousel-cover-accent", slide.coverAccentColor || palette.accent);
+    element.style.setProperty("--carousel-cover-dim", String(Math.max(0, Math.min(.72, numberOr(slide.coverDim, .42)))));
+    applyLayerVariables(element, slide);
     const image = photo && !["paper", "field", "dark", "quote"].includes(slide.scene)
-      ? `<img class="carousel-render-photo" src="${escapeHtml(photo.thumb)}" alt="">`
+      ? `<img class="carousel-render-photo" data-carousel-photo-layer src="${escapeHtml(photo.thumb)}" alt="" draggable="false" style="object-position:${numberOr(slide.photoFocusX, 50)}% ${numberOr(slide.photoFocusY, 50)}%;transform:scale(${Math.max(1, Math.min(2.2, numberOr(slide.photoScale, 1)))})">`
       : "";
-    const title = slide.title ? `<strong>${escapeHtml(displayText(slide.title, slide.caseKind || series.font.caseKind))}</strong>` : "";
-    const body = slide.body ? `<p>${escapeHtml(slide.body).replace(/\n\n/g, "</p><p>")}</p>` : "";
-    element.innerHTML = `${image}<div class="carousel-render-shade"></div><div class="carousel-render-content"><span class="carousel-render-series">${escapeHtml(series.name)}</span>${title}${body}<small>${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}</small></div>`;
+    const titleText = layerText(slide, "title", index);
+    const bodyText = layerText(slide, "body", index);
+    const title = layerVisible(slide, "title") && titleText ? `<strong class="carousel-render-title${directEditing ? ` carousel-direct-layer${selectedLayer === "title" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="title"${directEditing ? ` data-carousel-layer="title" data-layer-label="${movableLayers.title.label}"` : ""}><span class="carousel-layer-text"${inlineEditorAttributes(directEditing, "title", movableLayers.title.label)}>${escapeHtml(displayText(stripInlineMarkup(titleText), slide.caseKind || slideFont.caseKind))}</span>${layerEditingControls(directEditing, selectedLayer, "title", slide)}</strong>` : "";
+    const bodyContent = directEditing
+      ? escapeHtml(stripInlineMarkup(bodyText))
+      : `<p>${inlineMarkupHtml(bodyText).replace(/\n\s*\n/g, "</p><p>")}</p>`;
+    const body = layerVisible(slide, "body") && bodyText ? `<div class="carousel-render-body${directEditing ? ` carousel-direct-layer${selectedLayer === "body" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="body"${directEditing ? ` data-carousel-layer="body" data-layer-label="${movableLayers.body.label}"` : ""}><div class="carousel-layer-text"${inlineEditorAttributes(directEditing, "body", movableLayers.body.label)}>${bodyContent}</div>${layerEditingControls(directEditing, selectedLayer, "body", slide)}</div>` : "";
+    const label = !layerVisible(slide, "label") ? "" : `<span class="carousel-render-series${directEditing ? ` carousel-direct-layer${selectedLayer === "label" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="label"${directEditing ? ` data-carousel-layer="label" data-layer-label="${movableLayers.label.label}"` : ""}><span class="carousel-layer-text"${inlineEditorAttributes(directEditing, "label", movableLayers.label.label)}>${escapeHtml(layerText(slide, "label", index))}</span>${layerEditingControls(directEditing, selectedLayer, "label", slide)}</span>`;
+    const counter = !layerVisible(slide, "counter") ? "" : `<small class="carousel-render-counter${directEditing ? ` carousel-direct-layer${selectedLayer === "counter" ? " is-selected-layer" : ""}` : ""}" data-carousel-fit-layer="counter"${directEditing ? ` data-carousel-layer="counter" data-layer-label="${movableLayers.counter.label}"` : ""}><span class="carousel-layer-text"${inlineEditorAttributes(directEditing, "counter", movableLayers.counter.label)}>${escapeHtml(layerText(slide, "counter", index))}</span>${layerEditingControls(directEditing, selectedLayer, "counter", slide)}</small>`;
+    const custom = (slide.customLayers || []).filter((layer) => layer.visible !== false && layer.text).map((layer) => {
+      const target = `custom:${layer.id}`;
+      const type = layerTypography(slide, target);
+      ensureFontFamily(type.resolvedFamily);
+      const box = layerBox(slide, target);
+      const effects = layerEffectCss(slide, target);
+      const style = `--custom-x:${Number(layer.x) || 0}cqw;--custom-y:${(Number(layer.y) || 0) * 1.25}cqw;width:${box.width}cqw;max-height:${box.height * 1.25}cqw;color:${resolvedLayerColor(slide, target)};font-family:'${escapeHtml(type.resolvedFamily)}',sans-serif;font-weight:${type.weight};font-size:${Math.round(type.size * 100 / 10.8) / 100}cqw;line-height:${type.lineHeight};letter-spacing:${type.tracking}em;text-shadow:${effects.shadow};-webkit-text-stroke:${effects.strokeWidth} ${effects.strokeColor};paint-order:stroke fill`;
+      return `<div class="carousel-render-custom${directEditing ? ` carousel-direct-layer${selectedLayer === target ? " is-selected-layer" : ""}` : ""}" style="${style}" data-carousel-fit-layer="${escapeHtml(target)}"${directEditing ? ` data-carousel-layer="${escapeHtml(target)}" data-layer-label="текстовый блок"` : ""}><span class="carousel-layer-text"${inlineEditorAttributes(directEditing, target, "текстовый блок")}>${escapeHtml(layer.text)}</span>${layerEditingControls(directEditing, selectedLayer, target, slide)}</div>`;
+    }).join("");
+    const geometry = `<div class="carousel-render-geometry" data-serial="${String(index + 1).padStart(2, "0")}" aria-hidden="true"></div>`;
+    element.innerHTML = `${image}<div class="carousel-render-shade"></div>${geometry}<div class="carousel-render-texture" aria-hidden="true"></div>${label}<div class="carousel-render-content">${title}${body}</div>${counter}${custom}`;
+    fitCanvasTextLayers(element);
+    document.fonts?.ready?.then(() => { if (element.isConnected) fitCanvasTextLayers(element); });
   }
 
   function renderFontStrip() {
@@ -432,21 +1608,32 @@
     if (!choices.some((font) => fontSystemKey(font) === activeKey)) choices.unshift(normalizeFontSystem(series.font));
     const familyCount = new Set(choices.map((font) => font.family)).size;
     const savedCount = choices.filter((font) => font.recipe && font.recipe !== "стартовая система").length;
-    ui.fontSummary.textContent = tasteBundle.importedAt || Object.keys(readJson("olymarkes-cyrillic-font-taste-v1", {})).length
+    const isCanonicalSystem = series.font?.family === canonType.family && series.font?.body === canonType.body;
+    const transferredSystem = !isCanonicalSystem && series.font?.recipe && series.font.recipe !== "стартовая система";
+    ui.fontSummary.textContent = isCanonicalSystem
+      ? `${canonType.family} × ${canonType.body} · зафиксированный канон обложек и каруселей #Sekta`
+      : transferredSystem
+      ? `${series.font.family} × ${series.font.body} · сохранённая пара перенесена вместе с идеей`
+      : tasteBundle.importedAt || Object.keys(readJson("olymarkes-cyrillic-font-taste-v1", {})).length
       ? `${familyCount} ${plural(familyCount, "гарнитура", "гарнитуры", "гарнитур")} · ${choices.length} ${plural(choices.length, "вариант", "варианта", "вариантов")} · ${savedCount} сохранённых систем`
       : "Выбор из примерочной ещё не импортирован — показаны только стартовые системы.";
     ui.fontStrip.innerHTML = choices.map((font) => {
       const key = fontSystemKey(font);
       const caseLabel = font.caseKind === "upper" ? "КАПС" : font.caseKind === "lower" ? "строчные" : "исходный регистр";
-      const recipe = font.recipe && font.recipe !== "стартовая система" ? ` · ${font.recipe}` : "";
-      return `<button type="button" class="carousel-font-system${key === activeKey ? " is-active" : ""}" data-carousel-system-key="${escapeHtml(key)}" style="--font-choice:'${escapeHtml(font.family)}'"><span>${escapeHtml(font.family)} <i>× ${escapeHtml(font.body)}</i></span><small>${caseLabel}${escapeHtml(recipe)}</small></button>`;
+      const sample = displayText("Пауза — не откат", font.caseKind);
+      const recipe = font.recipe && font.recipe !== "стартовая система" ? font.recipe : "готовая пара";
+      return `<button type="button" class="carousel-font-system${key === activeKey ? " is-active" : ""}" data-carousel-system-key="${escapeHtml(key)}" style="--font-choice:'${escapeHtml(font.family)}';--body-choice:'${escapeHtml(font.body)}'"><span>${escapeHtml(sample)}</span><small>${escapeHtml(font.family)} × ${escapeHtml(font.body)}</small><em>${caseLabel} · ${escapeHtml(recipe)}</em></button>`;
     }).join("");
     choices.forEach(ensureFont);
   }
 
   function renderPaletteState() {
     const choices = paletteChoices();
-    ui.paletteStrip.innerHTML = Object.entries(choices).map(([id, palette]) => `<button type="button" class="carousel-palette-system${id === series.palette ? " is-active" : ""}" data-carousel-palette="${escapeHtml(id)}" aria-label="${escapeHtml(palette.name)}" style="--palette:${palette.background};--palette-2:${palette.foreground};--palette-3:${palette.accent}"><span></span><small>${escapeHtml(palette.name)}</small>${palette.sourceId ? `<em>${escapeHtml(roleLabels[palette.role] || palette.role)}</em>` : ""}</button>`).join("");
+    ui.paletteStrip.innerHTML = Object.entries(choices).map(([id, palette]) => {
+      const plaque = palette.plaque || palette.accent;
+      const plaqueText = palette.plaqueText || readableTextColor(plaque);
+      return `<button type="button" class="carousel-palette-system${id === series.palette ? " is-active" : ""}" data-carousel-palette="${escapeHtml(id)}" aria-label="${escapeHtml(palette.name)}: текст и плашка" style="--palette:${palette.background};--palette-2:${palette.foreground};--palette-3:${palette.accent};--palette-plaque:${plaque};--palette-plaque-text:${plaqueText}"><span aria-hidden="true"><b>Аа</b></span><small>${escapeHtml(palette.name)}</small><em>${palette.sourceId ? escapeHtml(roleLabels[palette.role] || palette.role) : "текст + плашка"}</em></button>`;
+    }).join("");
   }
 
   function renderSlidePaletteOptions(selectedId) {
@@ -455,27 +1642,59 @@
     ui.slidePalette.value = choices[selectedId] ? selectedId : "ink";
   }
 
-  function mediaPool(query = "") {
-    const normalized = query.trim().toLocaleLowerCase("ru");
-    const publishable = library.filter((item) => item.publicationStatus !== "not-public" && item.mediaType !== "video");
-    const pool = normalized ? publishable.filter((item) => [item.fileName, item.folderLabel, item.sourceCategory, item.materialType, ...(item.projects || []), ...(item.collections || []), ...(item.people || []), ...(item.topics || []), ...(item.searchAliases || []), ...(item.contentThemes || []), ...(item.carouselRoles || [])].join(" ").replaceAll("_", " ").toLocaleLowerCase("ru").includes(normalized)) : publishable;
-    const captureTime = (item) => {
-      const value = Date.parse(item.captureDate || "");
-      return Number.isFinite(value) ? value : null;
-    };
-    return [...pool].sort((a, b) => {
-      const aTime = captureTime(a);
-      const bTime = captureTime(b);
-      if (aTime === null && bTime === null) return Number(b.orientation === "portrait") - Number(a.orientation === "portrait") || String(a.id).localeCompare(String(b.id), "ru");
-      if (aTime === null) return 1;
-      if (bTime === null) return -1;
-      return bTime - aTime || Number(b.orientation === "portrait") - Number(a.orientation === "portrait") || String(a.id).localeCompare(String(b.id), "ru");
-    }).slice(0, 18);
+  function renderSlideFontOptions(slide) {
+    const choices = fontChoices();
+    const selectedKey = slide.font?.family ? fontSystemKey(slide.font) : "series";
+    ui.slideFont.innerHTML = `<option value="series">Как во всей серии · ${escapeHtml(series.font.family)}</option>${choices.map((font) => `<option value="${escapeHtml(fontSystemKey(font))}">${escapeHtml(font.family)} · ${font.caseKind === "upper" ? "КАПС" : font.caseKind === "lower" ? "строчные" : "исходный регистр"}</option>`).join("")}`;
+    ui.slideFont.value = selectedKey;
+    if (ui.slideFont.value !== selectedKey) ui.slideFont.value = "series";
+    ui.slideFont.disabled = true;
+    ui.slideFontPrev.hidden = true;
+    ui.slideFontNext.hidden = true;
+    choices.forEach(ensureFont);
   }
 
-  function renderMediaStrip(element, selectedId, query = "") {
-    const pool = mediaPool(query);
-    element.innerHTML = pool.length ? pool.map((photo) => `<button type="button" class="${photo.id === selectedId ? "is-selected" : ""}" data-carousel-photo="${escapeHtml(photo.id)}" aria-label="Выбрать ${escapeHtml(photo.fileName)}"><img src="${escapeHtml(photo.thumb)}" alt="" loading="lazy"></button>`).join("") : `<span class="carousel-media-empty">Ничего не найдено.</span>`;
+  function mediaPool(query = "", order = library, collection = "all") {
+    const normalized = query.trim().toLocaleLowerCase("ru");
+    const section = collection === "all" ? order : order.filter((item) => (item.collections || []).includes(collection));
+    const pool = normalized ? section.filter((item) => [item.fileName, item.folderLabel, item.sourceCategory, ...(item.collections || []), ...(item.contentThemes || []), ...(item.carouselRoles || [])].join(" ").toLocaleLowerCase("ru").includes(normalized)) : section;
+    return order === library ? [...pool].sort((a, b) => Number(b.orientation === "portrait") - Number(a.orientation === "portrait")) : [...pool];
+  }
+
+  function renderMediaStrip(element, selectedId, query = "", order = library) {
+    const collection = element === ui.coverMedia ? ui.coverCollection?.value || "all" : ui.slideCollection?.value || "all";
+    const pool = mediaPool(query, order, collection);
+    const limit = element === ui.coverMedia ? coverMediaLimit : slideMediaLimit;
+    const visible = pool.slice(0, limit);
+    element.dataset.mediaTotal = pool.length;
+    element.innerHTML = visible.length ? visible.map((photo) => `<button type="button" class="${photo.id === selectedId ? "is-selected" : ""}" data-carousel-photo="${escapeHtml(photo.id)}" aria-label="Выбрать ${escapeHtml(photo.fileName)}"><img src="${escapeHtml(photo.thumb)}" alt="" loading="lazy"></button>`).join("") : `<span class="carousel-media-empty">Ничего не найдено.</span>`;
+  }
+
+  function renderQuickPhotoPicker(slide = activeSlide()) {
+    if (!ui.quickSlideMedia) return;
+    const selected = photoById(slide.photoId);
+    const ordered = mediaPool("", slideMediaOrder);
+    const visible = selected ? [selected, ...ordered.filter((photo) => photo.id !== selected.id)].slice(0, 9) : ordered.slice(0, 9);
+    ui.quickPhotoName.textContent = selected?.fileName || "Фото не выбрано — нажмите на миниатюру";
+    ui.quickBrowsePhotos.textContent = selected ? "Заменить фото" : "+ Добавить фото";
+    ui.quickRemovePhoto.hidden = !selected;
+    ui.quickSlideMedia.innerHTML = visible.length ? visible.map((photo) => `<button type="button" class="${photo.id === slide.photoId ? "is-selected" : ""}" data-carousel-photo="${escapeHtml(photo.id)}" aria-label="Поставить ${escapeHtml(photo.fileName)} в этот кадр"><img src="${escapeHtml(photo.thumb)}" alt="" loading="lazy"></button>`).join("") : `<span class="carousel-media-empty">В медиатеке пока нет фотографий.</span>`;
+  }
+
+  function bindInfiniteMedia(element, mode) {
+    element.addEventListener("scroll", () => {
+      if (element.scrollTop + element.clientHeight < element.scrollHeight - 180) return;
+      const total = Number(element.dataset.mediaTotal) || 0;
+      if (mode === "cover") {
+        if (coverMediaLimit >= total) return;
+        coverMediaLimit = Math.min(coverMediaLimit + 48, total);
+        renderMediaStrip(element, coverSlide().photoId, ui.coverMediaSearch.value);
+      } else {
+        if (slideMediaLimit >= total) return;
+        slideMediaLimit = Math.min(slideMediaLimit + 48, total);
+        renderMediaStrip(element, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);
+      }
+    }, { passive: true });
   }
 
   function coverSlide() {
@@ -486,16 +1705,79 @@
     return series.slides[series.activeSlide] || series.slides[0];
   }
 
+  function layerOffsets(slide, target) {
+    if (isCustomTarget(target)) {
+      const custom = customLayer(slide, target);
+      return { x: Number(custom?.x) || 0, y: Number(custom?.y) || 0 };
+    }
+    const layer = movableLayers[target] || movableLayers.body;
+    return { x: Number(slide[layer.x]) || 0, y: Number(slide[layer.y]) || 0 };
+  }
+
+  function setLayerOffsets(slide, target, x, y) {
+    if (isCustomTarget(target)) {
+      const custom = customLayer(slide, target);
+      if (custom) { custom.x = x; custom.y = y; }
+      return;
+    }
+    const layer = movableLayers[target] || movableLayers.body;
+    slide[layer.x] = x;
+    slide[layer.y] = y;
+  }
+
+  function syncCoverOffsets() {
+    const slide = coverSlide();
+    if (isCustomTarget(coverMoveTarget) && !customLayer(slide, coverMoveTarget)) coverMoveTarget = "title";
+    renderLayerTargetOptions(ui.coverMoveTarget, slide, coverMoveTarget);
+    const offsets = layerOffsets(slide, coverMoveTarget);
+    ui.coverMoveTarget.value = coverMoveTarget;
+    ui.coverOffsetX.value = offsets.x;
+    ui.coverOffsetY.value = offsets.y;
+    ui.coverOffsetXValue.textContent = `${offsets.x}%`;
+    ui.coverOffsetYValue.textContent = `${offsets.y}%`;
+  }
+
+  function syncActiveOffsets() {
+    const slide = activeSlide();
+    if (isCustomTarget(slideMoveTarget) && !customLayer(slide, slideMoveTarget)) slideMoveTarget = "body";
+    renderLayerTargetOptions(ui.slideMoveTarget, slide, slideMoveTarget);
+    const offsets = layerOffsets(slide, slideMoveTarget);
+    ui.slideMoveTarget.value = slideMoveTarget;
+    ui.slideOffsetX.value = offsets.x;
+    ui.slideOffsetXValue.textContent = `${offsets.x}%`;
+    ui.slideOffsetY.value = offsets.y;
+    ui.slideOffsetYValue.textContent = `${offsets.y}%`;
+  }
+
+  function renderLayerTargetOptions(select, slide, selected) {
+    const builtIns = [
+      ["title", "Заголовок"], ["body", "Основной текст"], ["label", "Аккаунт / подпись"], ["counter", "Номер слайда"],
+    ];
+    const custom = (slide.customLayers || []).map((layer, index) => [`custom:${layer.id}`, `Текстовый блок ${index + 1}`]);
+    select.innerHTML = [...builtIns, ...custom].map(([value, label]) => `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`).join("");
+    select.value = selected;
+  }
+
+  function renderGridPreview() {
+    if (!ui.gridCells) return;
+    const currentGrid = window.SEKTA_CURRENT_GRID || [];
+    ui.gridCells.innerHTML = `<div class="carousel-grid-cell is-draft"><div class="carousel-slide-canvas" data-carousel-grid-draft></div><span class="carousel-grid-new">NEW</span></div>${currentGrid.slice(0, 8).map((item) => `<div class="carousel-grid-cell"><img src="${escapeHtml(item.image)}" alt="" loading="lazy"><span class="carousel-grid-kind">${item.pinned ? "◆" : item.type === "Reel" ? "▶" : "▣"}</span></div>`).join("")}`;
+    renderCanvas(ui.gridCells.querySelector("[data-carousel-grid-draft]"), coverSlide(), 0);
+  }
+
   function syncCoverForm() {
     const slide = coverSlide();
     ui.seriesName.value = series.name;
     ui.coverTitle.value = slide.title;
     ui.coverSubtitle.value = slide.body;
-    ui.coverSize.value = slide.size;
-    ui.coverSizeValue.textContent = `${slide.size} px`;
     ui.coverPlacement.value = slide.placement || "bottom";
     ui.coverAlign.value = slide.align || "left";
     ui.coverCase.value = slide.caseKind || "original";
+    ui.coverShowLabel.checked = slide.showSeriesLabel !== false;
+    syncCoverPlaqueControls(slide);
+    syncCoverOffsets();
+    syncTypographyControls("cover");
+    syncLayerContentControls("cover");
     ui.longread.value = series.longread;
     ui.slideCount.value = String(series.totalSlides || series.slides.length);
     document.querySelectorAll("[data-carousel-scene]").forEach((button) => button.classList.toggle("is-active", button.dataset.carouselScene === slide.scene));
@@ -504,14 +1786,31 @@
     renderMediaStrip(ui.coverMedia, slide.photoId, ui.coverMediaSearch.value);
   }
 
+  function syncCoverPlaqueControls(slide = coverSlide()) {
+    const palette = paletteFor(slide.palette);
+    const enabled = slide.plaqueEnabled === true;
+    ui.coverPlaqueEnabled.checked = enabled;
+    ui.coverPlaqueColor.value = slide.plaqueColor || palette.background;
+    ui.coverPlaqueColorValue.textContent = slide.plaqueColor || "из палитры";
+    ui.coverPlaqueOpacity.value = Math.round(Math.max(0, Math.min(1, numberOr(slide.plaqueOpacity, 1))) * 100);
+    ui.coverPlaqueOpacityValue.textContent = `${ui.coverPlaqueOpacity.value}%`;
+    ui.coverPlaqueSettings.classList.toggle("is-disabled", !enabled);
+    [ui.coverPlaqueColor, ui.coverPlaqueColorReset, ui.coverPlaqueOpacity].forEach((control) => { control.disabled = !enabled; });
+  }
+
   function renderCover() {
     renderCanvas(ui.coverCanvas, coverSlide(), 0);
+    renderGridPreview();
     syncCoverForm();
   }
 
   function renderSplitPreview() {
     const bodySlides = series.slides.slice(1, -1);
-    ui.splitPreview.innerHTML = bodySlides.map((slide, index) => `<button type="button" data-edit-split="${index + 1}"><span>${String(index + 2).padStart(2, "0")}</span><strong>${escapeHtml(sceneLabels[slide.scene] || slide.scene)}</strong><p>${escapeHtml(slide.body || "Пустой слайд")}</p><small>${words(slide.body).length} ${plural(words(slide.body).length, "слово", "слова", "слов")}</small></button>`).join("");
+    ui.splitPreview.innerHTML = bodySlides.map((slide, index) => {
+      const previewText = [slide.title, slide.body].filter(Boolean).join("\n\n");
+      const wordCount = words(previewText).length;
+      return `<button type="button" data-edit-split="${index + 1}"><span>${String(index + 2).padStart(2, "0")}</span><strong>${escapeHtml(templateDefinitions[slide.template]?.name || sceneLabels[slide.scene] || slide.scene)}</strong><p>${escapeHtml(previewText || "Пустой слайд")}</p><small>${wordCount} ${plural(wordCount, "слово", "слова", "слов")}</small></button>`;
+    }).join("");
     const count = Number(ui.slideCount.value || series.totalSlides || 10);
     ui.splitMath.innerHTML = `<strong>1 + ${Math.max(0, count - 2)} + 1</strong><span>обложка · текст · финал</span>`;
     const countWords = words(ui.longread.value).length;
@@ -520,14 +1819,123 @@
 
   function miniSlideMarkup(slide, index) {
     const palette = paletteFor(slide.palette);
+    const slideFont = slide.font?.family ? slide.font : series.font;
     const photo = photoById(slide.photoId);
     const image = photo && !["paper", "field", "dark", "quote"].includes(slide.scene) ? `<img src="${escapeHtml(photo.thumb)}" alt="">` : "";
     const label = slide.title || slide.body || roleLabels[slide.role];
-    return `<button type="button" class="carousel-mini-slide${index === series.activeSlide ? " is-active" : ""}${slide.savedAt ? " is-saved" : ""}" data-carousel-slide-index="${index}" style="--mini-bg:${palette.background};--mini-fg:${palette.foreground};--mini-font:'${escapeHtml(series.font.family)}'"><span>${String(index + 1).padStart(2, "0")}</span><div>${image}<strong>${escapeHtml(label)}</strong></div><small>${escapeHtml(roleLabels[slide.role] || slide.role)}</small></button>`;
+    return `<button type="button" class="carousel-mini-slide${index === series.activeSlide ? " is-active" : ""}${slide.savedAt ? " is-saved" : ""}" data-carousel-slide-index="${index}" data-scene="${escapeHtml(slide.scene)}" data-template="${escapeHtml(slide.template || "")}" data-plaque="${slide.plaqueEnabled ? "on" : "off"}" style="--mini-bg:${slide.backgroundColor || palette.background};--mini-fg:${slideForeground(slide)};--mini-font:'${escapeHtml(slideFont.family)}';--mini-plaque:${colorWithAlpha(slide.plaqueColor || palette.background, slide.plaqueOpacity)}"><span>${String(index + 1).padStart(2, "0")}</span><div>${image}<strong>${escapeHtml(label)}</strong></div><small>${escapeHtml(roleLabels[slide.role] || slide.role)}</small></button>`;
   }
 
   function renderRail() {
     ui.slideRail.innerHTML = series.slides.map(miniSlideMarkup).join("");
+  }
+
+  function renderQuickStylePresets(slide) {
+    if (ui.quickPalettePresets) {
+      ui.quickPalettePresets.innerHTML = quickPaletteIds.map((id) => {
+        const palette = palettes[id];
+        const label = palette.name.replace("#Sekta · ", "");
+        return `<button class="carousel-quick-palette${slide.palette === id ? " is-active" : ""}" type="button" data-carousel-quick-palette="${escapeHtml(id)}" aria-pressed="${slide.palette === id}"><i aria-hidden="true"><span style="background:${palette.background}"></span><span style="background:${palette.foreground}"></span><span style="background:${palette.accent}"></span></i><strong>${escapeHtml(label)}</strong></button>`;
+      }).join("");
+    }
+    if (ui.quickLayoutPresets) {
+      ui.quickLayoutPresets.innerHTML = Object.entries(quickLayoutPresets).map(([id, preset]) => `<button class="carousel-quick-layout${slide.template === id ? " is-active" : ""}" type="button" data-carousel-quick-layout="${escapeHtml(id)}" aria-pressed="${slide.template === id}"><strong>${escapeHtml(preset.name)}</strong><small>${escapeHtml(preset.detail)}</small></button>`).join("");
+    }
+  }
+
+  function resetSlidePaletteOverrides(slide) {
+    slide.backgroundColor = "";
+    slide.textColor = "";
+    slide.titleColor = "";
+    slide.bodyColor = "";
+    slide.labelColor = "";
+    slide.counterColor = "";
+    slide.plaqueColor = "";
+    slide.accentColor = "";
+    (slide.customLayers || []).forEach((layer) => { layer.color = ""; });
+  }
+
+  function readableTextColor(surface) {
+    const raw = String(surface || "#ffffff").replace("#", "");
+    const hex = raw.length === 3 ? raw.split("").map((value) => value + value).join("") : raw.padEnd(6, "f").slice(0, 6);
+    const channels = [0, 2, 4].map((index) => parseInt(hex.slice(index, index + 2), 16) / 255).map((value) => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4);
+    const luminance = channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
+    return luminance > .36 ? "#17221f" : "#ffffff";
+  }
+
+  function applyPaletteRoles(slide, id) {
+    const palette = paletteFor(id);
+    const plaqueWasEnabled = slide.plaqueEnabled === true;
+    slide.palette = id;
+    resetSlidePaletteOverrides(slide);
+    slide.accentColor = palette.accent;
+    const textOverPhoto = ["photo-clean", "photo-dim", "plate"].includes(slide.scene);
+    const plaqueColor = palette.plaque || (textOverPhoto ? palette.background : palette.accent);
+    const canvasTextColor = textOverPhoto ? "#ffffff" : readableTextColor(slide.backgroundColor || palette.background);
+    slide.plaqueEnabled = plaqueWasEnabled && slide.showTitle !== false && Boolean(String(slide.title || "").trim());
+    slide.plaqueColor = plaqueColor;
+    slide.plaqueOpacity = textOverPhoto ? .94 : 1;
+    slide.textColor = canvasTextColor;
+    slide.titleColor = slide.plaqueEnabled ? palette.plaqueText || readableTextColor(plaqueColor) : textOverPhoto ? palette.accent || canvasTextColor : canvasTextColor;
+    slide.bodyColor = canvasTextColor;
+    slide.labelColor = canvasTextColor;
+    slide.counterColor = canvasTextColor;
+    slide.savedAt = null;
+  }
+
+  function applyQuickLayoutData(slide, preset, resetOffsets = true) {
+    ["template", "scene", "placement", "size", "bodySize", "titleBoxWidth", "titleBoxHeight", "bodyBoxWidth", "bodyBoxHeight", "accentColor"].forEach((key) => {
+      if (preset[key] !== undefined) slide[key] = preset[key];
+    });
+    if (resetOffsets) {
+      slide.titleOffsetX = 0;
+      slide.titleOffsetY = 0;
+      slide.bodyOffsetX = 0;
+      slide.bodyOffsetY = 0;
+    }
+  }
+
+  function applyQuickPalette(id) {
+    if (!palettes[id]) return;
+    const slide = activeSlide();
+    applyPaletteRoles(slide, id);
+    renderActiveEditor();
+    if (series.activeSlide === 0) renderGridPreview();
+    markChanged();
+    setStatus(`Цветовое сочетание «${palettes[id].name}» применено к этому кадру.`);
+  }
+
+  function applyQuickLayout(id) {
+    const preset = quickLayoutPresets[id];
+    if (!preset) return;
+    const slide = activeSlide();
+    applyQuickLayoutData(slide, preset);
+    slide.savedAt = null;
+    renderActiveEditor();
+    if (series.activeSlide === 0) renderGridPreview();
+    markChanged();
+    setStatus(`Композиция «${preset.name}» применила готовые кегли и ширины.`);
+  }
+
+  function suggestActiveSlideStyle() {
+    const slide = activeSlide();
+    const bodyIndex = Math.max(0, series.activeSlide - 1);
+    const proposal = slide.role === "cover" || series.activeSlide === 0
+      ? montageTemplates.cover
+      : slide.role === "cta" || series.activeSlide === series.slides.length - 1
+        ? montageTemplates.final
+        : montageTemplates.body[bodyIndex % montageTemplates.body.length];
+    applyQuickLayoutData(slide, proposal);
+    if (proposal.palette) slide.palette = proposal.palette;
+    resetSlidePaletteOverrides(slide);
+    if (proposal.accentColor) slide.accentColor = proposal.accentColor;
+    if (proposal.textColor) slide.textColor = proposal.textColor;
+    slide.plaqueEnabled = proposal.plaqueEnabled === true;
+    slide.savedAt = null;
+    renderActiveEditor();
+    if (series.activeSlide === 0) renderGridPreview();
+    markChanged();
+    setStatus("Для кадра заново подобраны композиция, кегли и цветовое сочетание из утверждённой сетки.");
   }
 
   function syncActiveForm() {
@@ -537,15 +1945,92 @@
     ui.slideTitle.value = slide.title || "";
     ui.slideBody.value = slide.body || "";
     ui.slideRole.value = slide.role;
+    ui.slideTemplate.value = templateDefinitions[slide.template] ? slide.template : (defaultTemplateForScene[slide.scene] || "light-column");
     ui.slideScene.value = slide.scene;
     renderSlidePaletteOptions(slide.palette);
-    ui.slideSize.value = slide.size;
-    ui.slideSizeValue.textContent = `${slide.size} px`;
+    renderSlideFontOptions(slide);
+    renderQuickStylePresets(slide);
+    const palette = paletteFor(slide.palette);
+    ui.slideBackgroundColor.value = slide.backgroundColor || palette.background;
+    ui.slideBackgroundColorValue.textContent = slide.backgroundColor || "из палитры";
+    ui.slideTexture.value = slide.texture || "none";
+    ui.slidePhotoScale.value = Math.round(Math.max(1, Math.min(2.2, numberOr(slide.photoScale, 1))) * 100);
+    ui.slidePhotoScaleValue.textContent = `${ui.slidePhotoScale.value}%`;
+    ui.slidePhotoFocusX.value = numberOr(slide.photoFocusX, 50);
+    ui.slidePhotoFocusXValue.textContent = `${Math.round(numberOr(slide.photoFocusX, 50))}%`;
+    ui.slidePhotoFocusY.value = numberOr(slide.photoFocusY, 50);
+    ui.slidePhotoFocusYValue.textContent = `${Math.round(numberOr(slide.photoFocusY, 50))}%`;
+    [ui.slidePhotoScale, ui.slidePhotoFocusX, ui.slidePhotoFocusY].forEach((control) => { control.disabled = !slide.photoId; });
+    ui.slidePlacement.value = slide.placement || "middle";
     ui.slideAlign.value = slide.align || "left";
+    ui.slideShowLabel.checked = slide.showSeriesLabel !== false;
+    syncSlidePlaqueControls(slide);
+    syncActiveOffsets();
+    syncTypographyControls("slide");
+    syncLayerContentControls("slide");
     const photo = photoById(slide.photoId);
+    renderQuickPhotoPicker(slide);
     ui.slidePhotoName.textContent = photo?.fileName || "без фотографии";
     ui.removePhoto.disabled = !slide.photoId;
-    renderMediaStrip(ui.slideMedia, slide.photoId);
+    renderMediaStrip(ui.slideMedia, slide.photoId, ui.slideMediaSearch.value, slideMediaOrder);
+  }
+
+  function syncSlidePlaqueControls(slide = activeSlide()) {
+    const palette = paletteFor(slide.palette);
+    const enabled = slide.plaqueEnabled === true;
+    ui.slidePlaqueEnabled.checked = enabled;
+    ui.slidePlaqueColor.value = slide.plaqueColor || palette.background;
+    ui.slidePlaqueColorValue.textContent = slide.plaqueColor || "из палитры";
+    ui.slidePlaqueOpacity.value = Math.round(Math.max(0, Math.min(1, numberOr(slide.plaqueOpacity, 1))) * 100);
+    ui.slidePlaqueOpacityValue.textContent = `${ui.slidePlaqueOpacity.value}%`;
+    ui.slidePlaqueSettings.classList.toggle("is-disabled", !enabled);
+    [ui.slidePlaqueColor, ui.slidePlaqueColorReset, ui.slidePlaqueOpacity].forEach((control) => { control.disabled = !enabled; });
+  }
+
+  function updateSlideAppearance() {
+    const slide = activeSlide();
+    slide.texture = ui.slideTexture.value;
+    slide.photoScale = Math.max(1, Math.min(2.2, Number(ui.slidePhotoScale.value) / 100));
+    slide.photoFocusX = Math.max(0, Math.min(100, Number(ui.slidePhotoFocusX.value)));
+    slide.photoFocusY = Math.max(0, Math.min(100, Number(ui.slidePhotoFocusY.value)));
+    slide.savedAt = null;
+    ui.slidePhotoScaleValue.textContent = `${Math.round(slide.photoScale * 100)}%`;
+    ui.slidePhotoFocusXValue.textContent = `${Math.round(slide.photoFocusX)}%`;
+    ui.slidePhotoFocusYValue.textContent = `${Math.round(slide.photoFocusY)}%`;
+    renderCanvas(ui.activeCanvas, slide, series.activeSlide);
+    renderRail();
+    if (series.activeSlide === 0) renderGridPreview();
+    markChanged();
+  }
+
+  function selectActiveSlidePhoto(photoId) {
+    const photo = photoById(photoId);
+    if (!photo) return;
+    const slide = activeSlide();
+    slide.photoId = photo.id;
+    if (templateDefinitions[slide.template]?.usesPhoto !== true || ["paper", "field", "dark", "quote"].includes(slide.scene)) {
+      applyQuickLayoutData(slide, themedTemplate({ ...quickLayoutPresets["text-photo"], template: "photo-scrim", scene: "photo-dim" }, series), false);
+      slide.textColor = "#ffffff";
+    }
+    slide.photoFocusY = 38;
+    slide.savedAt = null;
+    renderActiveEditor();
+    markChanged();
+    setStatus(`Фото ${photo.fileName} добавлено в слайд ${series.activeSlide + 1}.`);
+  }
+
+  function removeActiveSlidePhoto() {
+    const slide = activeSlide();
+    if (!slide.photoId) return;
+    slide.photoId = null;
+    if (templateDefinitions[slide.template]?.usesPhoto === true || !["paper", "field", "dark", "quote"].includes(slide.scene)) {
+      applyQuickLayoutData(slide, themedTemplate(quickLayoutPresets["light-column"], series), false);
+      slide.textColor = "";
+    }
+    slide.savedAt = null;
+    renderActiveEditor();
+    markChanged();
+    setStatus(`Фото убрано из слайда ${series.activeSlide + 1}.`);
   }
 
   function renderActiveEditor() {
@@ -569,6 +2054,7 @@
   }
 
   function renderAll() {
+    renderSource();
     renderFontStrip();
     renderPaletteState();
     renderCover();
@@ -602,13 +2088,30 @@
     series.name = ui.seriesName.value.trim() || "Новая серия";
     slide.title = ui.coverTitle.value;
     slide.body = ui.coverSubtitle.value;
-    slide.size = Number(ui.coverSize.value);
     slide.placement = ui.coverPlacement.value;
     slide.align = ui.coverAlign.value;
     slide.caseKind = ui.coverCase.value;
+    slide.showSeriesLabel = ui.coverShowLabel.checked;
+    slide.plaqueEnabled = ui.coverPlaqueEnabled.checked;
+    slide.plaqueColor = ui.coverPlaqueColorValue.textContent === "из палитры" ? "" : ui.coverPlaqueColor.value;
+    slide.plaqueOpacity = Math.max(0, Math.min(1, Number(ui.coverPlaqueOpacity.value) / 100));
+    setLayerOffsets(slide, coverMoveTarget, Number(ui.coverOffsetX.value), Number(ui.coverOffsetY.value));
+    setLayerBox(slide, coverMoveTarget, Number(ui.coverBoxWidth.value), Number(ui.coverBoxHeight.value));
+    setLayerTypography(slide, coverMoveTarget, {
+      family: ui.coverTypeFont.value,
+      weight: ui.coverTypeWeight.value,
+      size: ui.coverTypeSize.value,
+      lineHeight: ui.coverTypeLineHeight.value,
+      tracking: ui.coverTypeTracking.value,
+    });
+    ensureFontFamily(layerTypography(slide, coverMoveTarget).resolvedFamily);
     slide.savedAt = null;
-    ui.coverSizeValue.textContent = `${slide.size} px`;
+    syncCoverPlaqueControls(slide);
+    syncCoverOffsets();
+    syncTypographyControls("cover");
+    syncLayerContentControls("cover");
     renderCanvas(ui.coverCanvas, slide, 0);
+    renderGridPreview();
     markChanged();
   }
 
@@ -617,16 +2120,429 @@
     slide.title = ui.slideTitle.value;
     slide.body = ui.slideBody.value;
     slide.role = ui.slideRole.value;
+    slide.template = ui.slideTemplate.value;
     slide.scene = ui.slideScene.value;
+    slide.plaqueEnabled = ui.slidePlaqueEnabled.checked;
+    slide.plaqueColor = ui.slidePlaqueColorValue.textContent === "из палитры" ? "" : ui.slidePlaqueColor.value;
+    slide.plaqueOpacity = Math.max(0, Math.min(1, Number(ui.slidePlaqueOpacity.value) / 100));
     slide.palette = ui.slidePalette.value;
-    slide.size = Number(ui.slideSize.value);
+    if (!slide.backgroundColor) {
+      ui.slideBackgroundColor.value = paletteFor(slide.palette).background;
+      ui.slideBackgroundColorValue.textContent = "из палитры";
+    }
+    slide.placement = ui.slidePlacement.value;
     slide.align = ui.slideAlign.value;
+    slide.showSeriesLabel = ui.slideShowLabel.checked;
+    setLayerOffsets(slide, slideMoveTarget, Number(ui.slideOffsetX.value), Number(ui.slideOffsetY.value));
+    setLayerBox(slide, slideMoveTarget, Number(ui.slideBoxWidth.value), Number(ui.slideBoxHeight.value));
+    setLayerTypography(slide, slideMoveTarget, {
+      family: ui.slideTypeFont.value,
+      weight: ui.slideTypeWeight.value,
+      size: ui.slideTypeSize.value,
+      lineHeight: ui.slideTypeLineHeight.value,
+      tracking: ui.slideTypeTracking.value,
+    });
+    ensureFontFamily(layerTypography(slide, slideMoveTarget).resolvedFamily);
     slide.savedAt = null;
-    ui.slideSizeValue.textContent = `${slide.size} px`;
+    syncSlidePlaqueControls(slide);
+    syncTypographyControls("slide");
+    syncLayerContentControls("slide");
+    const offsets = layerOffsets(slide, slideMoveTarget);
+    ui.slideOffsetXValue.textContent = `${offsets.x}%`;
+    ui.slideOffsetYValue.textContent = `${offsets.y}%`;
     renderCanvas(ui.activeCanvas, slide, series.activeSlide);
+    if (series.activeSlide === 0) renderGridPreview();
     ui.activeMeta.textContent = `${roleLabels[slide.role] || slide.role} · есть изменения`;
     renderRail();
     markChanged();
+  }
+
+  function updateSelectedLayerContent(mode) {
+    const cover = mode === "cover";
+    const slide = cover ? coverSlide() : activeSlide();
+    const target = cover ? coverMoveTarget : slideMoveTarget;
+    const textControl = cover ? ui.coverLayerText : ui.slideLayerText;
+    const visibleControl = cover ? ui.coverLayerVisible : ui.slideLayerVisible;
+    setLayerText(slide, target, textControl.value);
+    setLayerVisible(slide, target, visibleControl.checked);
+    if (cover && target === "title") ui.coverTitle.value = slide.title;
+    if (cover && target === "body") ui.coverSubtitle.value = slide.body;
+    if (!cover && target === "title") ui.slideTitle.value = slide.title;
+    if (!cover && target === "body") ui.slideBody.value = slide.body;
+    if (target === "label") {
+      if (cover) ui.coverShowLabel.checked = visibleControl.checked;
+      else ui.slideShowLabel.checked = visibleControl.checked;
+    }
+    slide.savedAt = null;
+    renderCanvas(cover ? ui.coverCanvas : ui.activeCanvas, slide, cover ? 0 : series.activeSlide);
+    if (cover || series.activeSlide === 0) renderGridPreview();
+    if (!cover) renderRail();
+    syncLayerContentControls(mode);
+    syncTypographyControls(mode);
+    markChanged();
+  }
+
+  function addCustomTextLayer(mode) {
+    const cover = mode === "cover";
+    const slide = cover ? coverSlide() : activeSlide();
+    const layer = {
+      id: `custom-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      text: "Новый текст",
+      visible: true,
+      x: 0,
+      y: 0,
+      fontFamily: canonType.family,
+      weight: canonType.titleWeight,
+      size: 56,
+      lineHeight: canonType.titleLineHeight,
+      tracking: canonType.titleTracking,
+      width: 60,
+      height: 18,
+      color: "",
+    };
+    slide.customLayers ||= [];
+    slide.customLayers.push(layer);
+    if (cover) coverMoveTarget = `custom:${layer.id}`;
+    else slideMoveTarget = `custom:${layer.id}`;
+    slide.savedAt = null;
+    if (cover) renderCover();
+    else renderActiveEditor();
+    const input = cover ? ui.coverLayerText : ui.slideLayerText;
+    input.focus();
+    input.select();
+    markChanged();
+    setStatus("Добавлен новый текстовый блок — напишите текст и переместите его мышью.");
+  }
+
+  const clampLayerOffset = (value) => Math.max(-35, Math.min(35, Math.round(value * 10) / 10));
+  let gridPreviewFrame = 0;
+
+  function scheduleGridPreview() {
+    if (gridPreviewFrame) return;
+    gridPreviewFrame = requestAnimationFrame(() => {
+      gridPreviewFrame = 0;
+      renderGridPreview();
+    });
+  }
+
+  function selectCanvasLayer(mode, layer, canvas) {
+    const slide = mode === "cover" ? coverSlide() : activeSlide();
+    if (!movableLayers[layer] && !customLayer(slide, layer)) return;
+    if (mode === "cover") {
+      coverMoveTarget = layer;
+      syncCoverOffsets();
+      syncTypographyControls("cover");
+      syncLayerContentControls("cover");
+    } else {
+      slideMoveTarget = layer;
+      syncActiveOffsets();
+      syncTypographyControls("slide");
+      syncLayerContentControls("slide");
+    }
+    canvas.querySelectorAll("[data-carousel-layer]").forEach((element) => element.classList.toggle("is-selected-layer", element.dataset.carouselLayer === layer));
+  }
+
+  function editablePlainText(editor) {
+    return String(editor?.innerText || "")
+      .replace(/\u00a0/g, " ")
+      .replace(/\r/g, "")
+      .replace(/[ \t]+\n/g, "\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .replace(/[ \t]+$/g, "");
+  }
+
+  function placeInlineCaret(editor, clientX, clientY) {
+    const selection = window.getSelection?.();
+    if (!selection) return;
+    let range = null;
+    if (document.caretPositionFromPoint) {
+      const position = document.caretPositionFromPoint(clientX, clientY);
+      if (position?.offsetNode && editor.contains(position.offsetNode)) {
+        range = document.createRange();
+        range.setStart(position.offsetNode, position.offset);
+        range.collapse(true);
+      }
+    } else if (document.caretRangeFromPoint) {
+      const candidate = document.caretRangeFromPoint(clientX, clientY);
+      if (candidate && editor.contains(candidate.startContainer)) range = candidate;
+    }
+    if (!range) {
+      range = document.createRange();
+      range.selectNodeContents(editor);
+      range.collapse(false);
+    }
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  function mirrorInlineTextToInspector(mode, slide, target, text) {
+    const cover = mode === "cover";
+    const selectedTarget = cover ? coverMoveTarget : slideMoveTarget;
+    if (selectedTarget === target) {
+      const textControl = cover ? ui.coverLayerText : ui.slideLayerText;
+      textControl.value = text;
+    }
+    if (cover && target === "title") ui.coverTitle.value = text;
+    if (cover && target === "body") ui.coverSubtitle.value = text;
+    if (!cover && target === "title") ui.slideTitle.value = text;
+    if (!cover && target === "body") ui.slideBody.value = text;
+  }
+
+  function updateInlineEditor(mode, editor) {
+    const target = editor?.dataset.carouselInlineEditor;
+    const slide = mode === "cover" ? coverSlide() : activeSlide();
+    if (!target || (!movableLayers[target] && !customLayer(slide, target))) return;
+    const text = editablePlainText(editor);
+    setLayerText(slide, target, text);
+    setLayerVisible(slide, target, true);
+    mirrorInlineTextToInspector(mode, slide, target, text);
+    slide.savedAt = null;
+    const layerElement = editor.closest("[data-carousel-layer]");
+    if (layerElement) fitDomTextLayer(layerElement);
+    if (mode === "cover" || series.activeSlide === 0) scheduleGridPreview();
+    markChanged();
+  }
+
+  function finishInlineEditor(mode, editor, options = {}) {
+    if (!editor?.isConnected) return;
+    const target = editor.dataset.carouselInlineEditor;
+    const slide = mode === "cover" ? coverSlide() : activeSlide();
+    if (options.restore && editor.dataset.inlineOriginal != null) {
+      setLayerText(slide, target, editor.dataset.inlineOriginal);
+      mirrorInlineTextToInspector(mode, slide, target, editor.dataset.inlineOriginal);
+    } else updateInlineEditor(mode, editor);
+    editor.closest("[data-carousel-layer]")?.classList.remove("is-inline-editing");
+    const canvas = editor.closest(".carousel-slide-canvas");
+    canvas?.classList.remove("has-inline-editor");
+    renderCanvas(canvas, slide, mode === "cover" ? 0 : series.activeSlide);
+    if (mode === "cover" || series.activeSlide === 0) renderGridPreview();
+    if (mode === "slide") renderRail();
+    syncLayerContentControls(mode);
+    markChanged();
+    setStatus(options.restore ? "Изменение текста отменено." : `${layerLabel(slide, target)} отредактирован прямо на слайде и сохранён.`);
+  }
+
+  function removeCanvasLayer(mode, target) {
+    const cover = mode === "cover";
+    const slide = cover ? coverSlide() : activeSlide();
+    const label = layerLabel(slide, target);
+    const custom = isCustomTarget(target);
+    if (custom) slide.customLayers = (slide.customLayers || []).filter((layer) => `custom:${layer.id}` !== target);
+    else setLayerVisible(slide, target, false);
+    if (cover) coverMoveTarget = target === "title" ? "body" : "title";
+    else slideMoveTarget = target === "body" ? "title" : "body";
+    slide.savedAt = null;
+    if (cover) renderCover();
+    else renderActiveEditor();
+    markChanged();
+    setStatus(custom ? `${label} удалён со слайда.` : `${label} скрыт. Вернуть его можно через список слоёв и переключатель «Показывать».`);
+  }
+
+  function bindCanvasLayerDrag(canvas, mode) {
+    let drag = null;
+    canvas.addEventListener("focusin", (event) => {
+      const editor = event.target.closest("[data-carousel-inline-editor]");
+      if (!editor || !canvas.contains(editor)) return;
+      const target = editor.dataset.carouselInlineEditor;
+      const slide = mode === "cover" ? coverSlide() : activeSlide();
+      selectCanvasLayer(mode, target, canvas);
+      editor.dataset.inlineOriginal = layerText(slide, target, mode === "cover" ? 0 : series.activeSlide);
+      editor.closest("[data-carousel-layer]")?.classList.add("is-inline-editing");
+      canvas.classList.add("has-inline-editor");
+      setStatus(`${layerLabel(slide, target)} · печатайте прямо на слайде, Ctrl/⌘ + Enter — готово, Esc — отменить`);
+    });
+    canvas.addEventListener("input", (event) => {
+      const editor = event.target.closest("[data-carousel-inline-editor]");
+      if (!editor || !canvas.contains(editor)) return;
+      updateInlineEditor(mode, editor);
+    });
+    canvas.addEventListener("keydown", (event) => {
+      const editor = event.target.closest("[data-carousel-inline-editor]");
+      if (!editor || !canvas.contains(editor)) return;
+      const target = editor.dataset.carouselInlineEditor;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        finishInlineEditor(mode, editor, { restore: true });
+        return;
+      }
+      if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+        event.preventDefault();
+        editor.blur();
+        return;
+      }
+      if (event.key === "Enter" && ["label", "counter"].includes(target)) {
+        event.preventDefault();
+        editor.blur();
+      }
+    });
+    canvas.addEventListener("focusout", (event) => {
+      const editor = event.target.closest("[data-carousel-inline-editor]");
+      if (!editor || !canvas.contains(editor) || event.relatedTarget?.closest?.("[data-carousel-layer]") === editor.closest("[data-carousel-layer]")) return;
+      finishInlineEditor(mode, editor);
+    });
+    canvas.addEventListener("pointerdown", (event) => {
+      const closeButton = event.target.closest("[data-layer-close]");
+      if (closeButton && canvas.contains(closeButton)) {
+        event.preventDefault();
+        event.stopPropagation();
+        removeCanvasLayer(mode, closeButton.dataset.layerClose);
+        return;
+      }
+      const layerElement = event.target.closest("[data-carousel-layer]");
+      const slide = mode === "cover" ? coverSlide() : activeSlide();
+      const inlineEditor = event.target.closest("[data-carousel-inline-editor]");
+      if (inlineEditor && canvas.contains(inlineEditor)) {
+        event.preventDefault();
+        selectCanvasLayer(mode, inlineEditor.dataset.carouselInlineEditor, canvas);
+        inlineEditor.focus({ preventScroll: true });
+        placeInlineCaret(inlineEditor, event.clientX, event.clientY);
+        return;
+      }
+      const canDragPhoto = slide.photoId && !["paper", "field", "dark", "quote"].includes(slide.scene);
+      if ((!layerElement || !canvas.contains(layerElement)) && canDragPhoto) {
+        event.preventDefault();
+        const photoElement = canvas.querySelector("[data-carousel-photo-layer]");
+        const rect = canvas.getBoundingClientRect();
+        drag = {
+          kind: "photo",
+          id: event.pointerId,
+          element: photoElement,
+          startX: event.clientX,
+          startY: event.clientY,
+          originX: numberOr(slide.photoFocusX, 50),
+          originY: numberOr(slide.photoFocusY, 50),
+          width: rect.width,
+          height: rect.height,
+          moved: false,
+        };
+        canvas.classList.add("is-dragging-photo");
+        canvas.setPointerCapture(event.pointerId);
+        setStatus("Фотография · двигайте мышкой, чтобы изменить кадрирование");
+        return;
+      }
+      if (!layerElement || !canvas.contains(layerElement)) return;
+      const layer = layerElement.dataset.carouselLayer;
+      if (!movableLayers[layer] && !customLayer(slide, layer)) return;
+      event.preventDefault();
+      selectCanvasLayer(mode, layer, canvas);
+      const offsets = layerOffsets(slide, layer);
+      const box = layerBox(slide, layer);
+      const typography = layerTypography(slide, layer);
+      const rect = canvas.getBoundingClientRect();
+      const resizeHandle = event.target.closest("[data-resize-handle]");
+      const dragHandle = event.target.closest("[data-layer-drag]");
+      drag = {
+        kind: resizeHandle ? "resize" : "move",
+        id: event.pointerId,
+        layer,
+        element: layerElement,
+        handle: resizeHandle?.dataset.resizeHandle || "",
+        startX: event.clientX,
+        startY: event.clientY,
+        originX: offsets.x,
+        originY: offsets.y,
+        originWidth: box.width,
+        originHeight: box.height,
+        originTypography: typography,
+        width: rect.width,
+        height: rect.height,
+        moved: false,
+      };
+      (resizeHandle || dragHandle || layerElement).setPointerCapture(event.pointerId);
+      setStatus(resizeHandle ? `${layerLabel(slide, layer)} · боковые ручки меняют ширину строк, углы масштабируют текст` : `${layerLabel(slide, layer)} · двигайте мышкой`);
+    });
+    canvas.addEventListener("pointermove", (event) => {
+      if (!drag || drag.id !== event.pointerId) return;
+      const slide = mode === "cover" ? coverSlide() : activeSlide();
+      const deltaX = (event.clientX - drag.startX) / drag.width * 100;
+      const deltaY = (event.clientY - drag.startY) / drag.height * 100;
+      drag.moved ||= Math.abs(event.clientX - drag.startX) + Math.abs(event.clientY - drag.startY) > 2;
+      if (drag.kind === "photo") {
+        slide.photoFocusX = Math.max(0, Math.min(100, drag.originX - deltaX));
+        slide.photoFocusY = Math.max(0, Math.min(100, drag.originY - deltaY));
+        if (drag.element) drag.element.style.objectPosition = `${slide.photoFocusX}% ${slide.photoFocusY}%`;
+        if (mode === "slide") {
+          ui.slidePhotoFocusX.value = slide.photoFocusX;
+          ui.slidePhotoFocusXValue.textContent = `${Math.round(slide.photoFocusX)}%`;
+          ui.slidePhotoFocusY.value = slide.photoFocusY;
+          ui.slidePhotoFocusYValue.textContent = `${Math.round(slide.photoFocusY)}%`;
+        }
+      } else if (drag.kind === "resize") {
+        let width = drag.originWidth;
+        let x = drag.originX;
+        if (drag.handle.includes("e")) width = drag.originWidth + deltaX;
+        if (drag.handle.includes("w")) {
+          width = drag.originWidth - deltaX;
+          x = clampLayerOffset(drag.originX + (drag.originWidth - clampLayerWidth(width)));
+        }
+        const scalesText = drag.handle.length === 2 || drag.handle === "n" || drag.handle === "s";
+        if (scalesText) {
+          const horizontalScale = drag.handle.includes("e")
+            ? (drag.originWidth + deltaX) / drag.originWidth
+            : drag.handle.includes("w")
+              ? (drag.originWidth - deltaX) / drag.originWidth
+              : 1;
+          const verticalScale = drag.handle.includes("s")
+            ? 1 + deltaY / Math.max(8, drag.originHeight)
+            : drag.handle.includes("n")
+              ? 1 - deltaY / Math.max(8, drag.originHeight)
+              : 1;
+          const scale = drag.handle.length === 2
+            ? Math.sqrt(Math.max(.16, horizontalScale * verticalScale))
+            : verticalScale;
+          const minimumLayerSize = drag.layer === "title" ? 24 : drag.layer === "body" ? 14 : 10;
+          setLayerTypography(slide, drag.layer, {
+            ...drag.originTypography,
+            size: Math.max(minimumLayerSize, Math.min(132, Math.round(drag.originTypography.size * scale))),
+          });
+        }
+        const nextBox = setLayerBox(slide, drag.layer, width, drag.originHeight);
+        setLayerOffsets(slide, drag.layer, x, drag.originY);
+        if (isCustomTarget(drag.layer)) {
+          drag.element.style.width = `${nextBox.width}cqw`;
+          drag.element.style.maxHeight = `${nextBox.height * 1.25}cqw`;
+          drag.element.style.fontSize = `${Math.round(layerTypography(slide, drag.layer).size * 100 / 10.8) / 100}cqw`;
+          drag.element.style.setProperty("--custom-x", `${x}cqw`);
+          drag.element.style.setProperty("--custom-y", `${drag.originY * 1.25}cqw`);
+        } else applyLayerVariables(canvas, slide);
+        fitDomTextLayer(drag.element);
+        syncTypographyControls(mode);
+      } else {
+        const x = clampLayerOffset(drag.originX + deltaX);
+        const y = clampLayerOffset(drag.originY + deltaY);
+        setLayerOffsets(slide, drag.layer, x, y);
+        if (isCustomTarget(drag.layer)) {
+          drag.element.style.setProperty("--custom-x", `${x}cqw`);
+          drag.element.style.setProperty("--custom-y", `${y * 1.25}cqw`);
+        } else applyLayerVariables(canvas, slide);
+      }
+      if (drag.kind !== "photo") {
+        if (mode === "cover") syncCoverOffsets();
+        else syncActiveOffsets();
+      }
+      slide.savedAt = null;
+      if (mode === "cover" || series.activeSlide === 0) scheduleGridPreview();
+      markChanged();
+    });
+    const finishDrag = (event) => {
+      if (!drag || drag.id !== event.pointerId) return;
+      const movedLayer = drag.layer;
+      const moved = drag.moved;
+      const dragKind = drag.kind;
+      drag = null;
+      canvas.classList.remove("is-dragging-photo");
+      if (moved) {
+        const slide = mode === "cover" ? coverSlide() : activeSlide();
+        renderCanvas(canvas, slide, mode === "cover" ? 0 : series.activeSlide);
+        if (mode === "cover" || series.activeSlide === 0) renderGridPreview();
+        markChanged();
+      }
+      const slide = mode === "cover" ? coverSlide() : activeSlide();
+      if (dragKind === "photo") setStatus(moved ? "Кадрирование фотографии изменено и сохранено." : "Фотография выбрана; потяните её мышкой для кадрирования.");
+      else setStatus(moved ? `${layerLabel(slide, movedLayer)} ${dragKind === "resize" ? "изменён" : "перемещён"} — состояние сохранено.` : `${layerLabel(slide, movedLayer)} выбран.`);
+    };
+    canvas.addEventListener("pointerup", finishDrag);
+    canvas.addEventListener("pointercancel", finishDrag);
   }
 
   function saveCurrentSlide(index = series.activeSlide) {
@@ -651,6 +2567,7 @@
     renderSaved();
     renderRail();
     setStatus(`Серия «${series.name}» сохранена: ${series.slides.length} слайдов.`);
+    window.dispatchEvent(new CustomEvent("sekta:series-saved", { detail: { id: series.id, sourceId: series.sourceId || "", title: series.name, slideCount: series.slides.length } }));
   }
 
   function performSplit() {
@@ -679,13 +2596,43 @@
     });
   }
 
-  function cropImage(context, image, x, y, width, height) {
-    const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
+  function cropImage(context, image, x, y, width, height, focusX = 50, focusY = 50, zoom = 1) {
+    const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight) * Math.max(1, Math.min(2.2, numberOr(zoom, 1)));
     const sourceWidth = width / scale;
     const sourceHeight = height / scale;
-    const sourceX = (image.naturalWidth - sourceWidth) / 2;
-    const sourceY = (image.naturalHeight - sourceHeight) / 2;
+    const sourceX = (image.naturalWidth - sourceWidth) * Math.max(0, Math.min(100, Number(focusX) || 50)) / 100;
+    const sourceY = (image.naturalHeight - sourceHeight) * Math.max(0, Math.min(100, Number(focusY) || 50)) / 100;
     context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
+  }
+
+  function drawCanvasTexture(context, texture) {
+    if (!texture || texture === "none") return;
+    context.save();
+    if (texture === "paper") {
+      context.strokeStyle = "rgba(62,49,38,.06)";
+      context.lineWidth = 1;
+      for (let y = 18; y < 1350; y += 22) {
+        context.beginPath();
+        context.moveTo(0, y + ((y / 22) % 3));
+        context.lineTo(1080, y);
+        context.stroke();
+      }
+    } else if (texture === "dots") {
+      context.fillStyle = "rgba(18,26,23,.09)";
+      for (let y = 24; y < 1350; y += 38) for (let x = 24; x < 1080; x += 38) {
+        context.beginPath();
+        context.arc(x, y, 1.4, 0, Math.PI * 2);
+        context.fill();
+      }
+    } else if (texture === "grain") {
+      context.fillStyle = "rgba(255,255,255,.09)";
+      for (let index = 0; index < 1300; index += 1) {
+        const x = (index * 73) % 1080;
+        const y = (index * 191) % 1350;
+        context.fillRect(x, y, index % 4 === 0 ? 2 : 1, 1);
+      }
+    }
+    context.restore();
   }
 
   function wrapCanvasText(context, text, maxWidth) {
@@ -705,6 +2652,122 @@
     return result;
   }
 
+  function richCanvasWords(text) {
+    const paragraphs = String(text || "").split(/\n\s*\n/);
+    return paragraphs.flatMap((paragraph, paragraphIndex) => {
+      const tokens = [];
+      const pattern = /\*\*([^*]+)\*\*/g;
+      let cursor = 0;
+      const add = (value, bold) => words(value).forEach((word) => tokens.push({ word, bold }));
+      let match;
+      while ((match = pattern.exec(paragraph))) {
+        add(paragraph.slice(cursor, match.index), false);
+        add(match[1], true);
+        cursor = match.index + match[0].length;
+      }
+      add(paragraph.slice(cursor), false);
+      if (paragraphIndex < paragraphs.length - 1) tokens.push({ paragraphBreak: true });
+      return tokens;
+    });
+  }
+
+  function setCanvasTracking(context, tracking, size) {
+    if ("letterSpacing" in context) context.letterSpacing = `${Number(tracking || 0) * Number(size || 0)}px`;
+  }
+
+  function drawCanvasStyledText(context, text, x, y, maxWidth, effects) {
+    effects ||= { shadowOpacity: 0, shadowColor: "#000000", outlineWidth: 0, outlineColor: "#000000" };
+    const draw = (method) => Number.isFinite(maxWidth) ? context[method](text, x, y, maxWidth) : context[method](text, x, y);
+    context.save();
+    if (effects.outlineWidth > 0) {
+      context.shadowColor = "rgba(0,0,0,0)";
+      context.shadowBlur = 0;
+      context.strokeStyle = effects.outlineColor;
+      context.lineWidth = effects.outlineWidth * 2;
+      context.lineJoin = "round";
+      draw("strokeText");
+    }
+    context.shadowColor = effects.shadowOpacity ? colorWithAlpha(effects.shadowColor, effects.shadowOpacity) : "rgba(0,0,0,0)";
+    context.shadowBlur = effects.shadowOpacity ? 36 : 0;
+    context.shadowOffsetX = 0;
+    context.shadowOffsetY = effects.shadowOpacity ? 4 : 0;
+    draw("fillText");
+    context.restore();
+  }
+
+  function wrapRichCanvasText(context, text, maxWidth, size, family, weight, tracking) {
+    if (!String(text || "").trim()) return [];
+    const lines = [[]];
+    const boldWeight = Math.min(900, Math.max(700, Number(weight) + 220));
+    richCanvasWords(text).forEach((token) => {
+      if (token.paragraphBreak) {
+        if (lines.at(-1).length) lines.push([]);
+        lines.push([]);
+        return;
+      }
+      context.font = `${token.bold ? boldWeight : weight} ${size}px ${family}`;
+      setCanvasTracking(context, tracking, size);
+      const width = context.measureText(token.word).width;
+      context.font = `${weight} ${size}px ${family}`;
+      setCanvasTracking(context, tracking, size);
+      const space = lines.at(-1).length ? context.measureText(" ").width : 0;
+      const current = lines.at(-1).reduce((sum, item, itemIndex) => sum + item.width + (itemIndex ? item.space : 0), 0);
+      if (lines.at(-1).length && current + space + width > maxWidth) lines.push([]);
+      lines.at(-1).push({ ...token, width, space: lines.at(-1).length ? space : 0 });
+    });
+    return lines;
+  }
+
+  function drawRichCanvasLines(context, lines, options) {
+    let y = options.startY;
+    const boldWeight = Math.min(900, Math.max(700, Number(options.weight) + 220));
+    lines.forEach((line) => {
+      y += options.size * (line.length ? options.lineHeight : Math.max(.7, options.lineHeight * .55));
+      if (!line.length) return;
+      const width = line.reduce((sum, token, index) => sum + token.width + (index ? token.space : 0), 0);
+      let x = options.align === "center" ? options.x - width / 2 : options.align === "right" ? options.x - width : options.x;
+      context.textAlign = "left";
+      line.forEach((token, tokenIndex) => {
+        if (tokenIndex) x += token.space;
+        context.font = `${token.bold ? boldWeight : options.weight} ${options.size}px ${options.family}`;
+        setCanvasTracking(context, options.tracking, options.size);
+        drawCanvasStyledText(context, token.word, x, y, undefined, options.effects);
+        x += token.width;
+      });
+    });
+    return y;
+  }
+
+  function fitPlainCanvasBox(context, text, type, family, maxWidth, maxHeight) {
+    let size = Math.max(14, Math.min(132, type.size));
+    const minimum = Math.min(size, Math.max(14, size * .72));
+    let lines = [];
+    while (size >= minimum) {
+      context.font = `${type.weight} ${size}px ${family}`;
+      setCanvasTracking(context, type.tracking, size);
+      lines = wrapCanvasText(context, text, maxWidth);
+      if (lines.length * size * type.lineHeight <= maxHeight || size === minimum) break;
+      size = Math.max(minimum, size - 2);
+    }
+    return { size, lines, overflow: lines.length * size * type.lineHeight > maxHeight };
+  }
+
+  function richCanvasHeight(lines, size, lineHeight) {
+    return lines.reduce((height, line) => height + size * (line.length ? lineHeight : Math.max(.7, lineHeight * .55)), 0);
+  }
+
+  function fitRichCanvasBox(context, text, type, family, maxWidth, maxHeight) {
+    let size = Math.max(18, Math.min(132, type.size));
+    const minimum = Math.min(size, Math.max(18, size * .8));
+    let lines = [];
+    while (size >= minimum) {
+      lines = wrapRichCanvasText(context, text, maxWidth, size, family, type.weight, type.tracking);
+      if (richCanvasHeight(lines, size, type.lineHeight) <= maxHeight || size === minimum) break;
+      size = Math.max(minimum, size - 2);
+    }
+    return { size, lines, overflow: richCanvasHeight(lines, size, type.lineHeight) > maxHeight };
+  }
+
   async function makeSlideCanvas(slide, index) {
     const canvas = document.createElement("canvas");
     canvas.width = 1080;
@@ -712,80 +2775,209 @@
     const context = canvas.getContext("2d");
     const palette = paletteFor(slide.palette);
     const photo = photoById(slide.photoId);
+    const slideFont = slide.font?.family ? normalizeFontSystem(slide.font) : series.font;
+    const importedCover = slide.template === "imported-cover";
     const usesPhoto = photo && !["paper", "field", "dark", "quote"].includes(slide.scene);
-    context.fillStyle = palette.background;
+    const surfaceColor = slide.backgroundColor || palette.background;
+    const accentColor = slide.accentColor || palette.accent;
+    context.fillStyle = surfaceColor;
     context.fillRect(0, 0, 1080, 1350);
     if (usesPhoto) {
-      const image = await loadImage(photo.thumb);
-      if (slide.scene === "split") cropImage(context, image, 600, 0, 480, 1350);
-      else if (slide.scene === "window") cropImage(context, image, 90, 90, 900, 520);
-      else cropImage(context, image, 0, 0, 1080, 1350);
-      if (slide.scene === "photo-dim" || slide.scene === "plate") {
+      const image = await loadImage(photo.exportImage || photo.thumb);
+      if (slide.template === "photo-window") {
+        context.fillStyle = "#ffffff";
+        context.beginPath();
+        context.roundRect(65, 68, 950, 660, 22);
+        context.fill();
+        cropImage(context, image, 88, 94, 904, 608, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
+      }
+      else if (slide.scene === "split") cropImage(context, image, 562, 0, 518, 1350, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
+      else if (slide.scene === "window" && slide.template === "photo-field") cropImage(context, image, 0, 0, 1080, 720, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
+      else if (slide.scene === "window") cropImage(context, image, 90, 90, 900, 520, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
+      else cropImage(context, image, 0, 0, 1080, 1350, slide.photoFocusX, slide.photoFocusY, slide.photoScale);
+      if (slide.scene === "photo-dim") {
         const gradient = context.createLinearGradient(0, 250, 0, 1350);
-        gradient.addColorStop(0, "rgba(10,16,14,.08)");
+        gradient.addColorStop(0, "rgba(10,16,14,.24)");
+        gradient.addColorStop(.52, "rgba(10,16,14,.46)");
         gradient.addColorStop(1, "rgba(10,16,14,.88)");
         context.fillStyle = gradient;
         context.fillRect(0, 0, 1080, 1350);
       }
     }
-    const lightScene = ["paper", "quote", "field", "dark"].includes(slide.scene) || slide.scene === "split";
-    const foreground = lightScene ? palette.foreground : "#ffffff";
-    context.fillStyle = foreground;
-    context.textAlign = slide.align || "left";
-    context.textBaseline = "alphabetic";
-    const x = slide.align === "center" ? 540 : slide.align === "right" ? 980 : 100;
-    const maxWidth = slide.scene === "split" ? 440 : 880;
-    const fontFamily = `"${series.font.family}", Arial, sans-serif`;
-    const bodyFontFamily = `"${series.font.body || companionFor(series.font.family)}", Arial, sans-serif`;
-    const titleText = displayText(slide.title, slide.caseKind || series.font.caseKind);
-    let titleSize = Math.max(40, Math.min(132, Number(slide.size) || 46));
-    context.font = `800 ${titleSize}px ${fontFamily}`;
-    let titleLines = wrapCanvasText(context, titleText, maxWidth);
-    while (titleLines.length > 6 && titleSize > 42) {
-      titleSize -= 4;
-      context.font = `800 ${titleSize}px ${fontFamily}`;
-      titleLines = wrapCanvasText(context, titleText, maxWidth);
+    if (importedCover) {
+      context.fillStyle = `rgba(5,12,16,${Math.max(0, Math.min(.72, numberOr(slide.coverDim, .42)))})`;
+      context.fillRect(0, 0, 1080, 1350);
+      if (slide.coverStyle === "rail") {
+        context.fillStyle = slide.coverAccentColor || accentColor;
+        context.fillRect(0, 0, 454, 1350);
+      }
     }
-    const bodySize = Math.max(32, Math.min(58, Math.round(titleSize * .55)));
-    context.font = `500 ${bodySize}px ${bodyFontFamily}`;
-    const bodyLines = wrapCanvasText(context, slide.body, maxWidth);
-    const titleHeight = titleLines.length * titleSize * .98;
-    const bodyHeight = bodyLines.length * bodySize * 1.3;
+    if (slide.template === "side-plaque") {
+      context.fillStyle = surfaceColor;
+      context.fillRect(0, 0, 626, 1350);
+      context.fillStyle = accentColor;
+      context.fillRect(76, 214, 174, 18);
+    } else if (slide.template === "top-plaque") {
+      context.fillStyle = surfaceColor;
+      context.fillRect(0, 0, 1080, 594);
+      context.fillStyle = accentColor;
+      context.fillRect(76, 574, 280, 20);
+    } else if (slide.template === "light-column") {
+      context.fillStyle = accentColor;
+      context.fillRect(1004, 0, 76, 1350);
+    } else if (slide.template === "accent-thought") {
+      context.fillStyle = accentColor;
+      context.fillRect(86, 214, 194, 20);
+    } else if (slide.template === "color-final") {
+      context.fillStyle = accentColor;
+      context.fillRect(0, 1188, 1080, 162);
+    }
+    drawCanvasTexture(context, slide.texture);
+    const lightScene = ["paper", "quote", "field", "dark"].includes(slide.scene) || slide.scene === "split";
+    const foreground = slideForeground(slide);
+    context.fillStyle = foreground;
+    const effectiveAlign = importedCover && slide.placement === "right" ? "right" : importedCover && slide.placement === "middle" ? "center" : slide.align || "left";
+    context.textAlign = effectiveAlign;
+    context.textBaseline = "alphabetic";
+    const baseX = importedCover ? effectiveAlign === "right" ? 1029 : effectiveAlign === "center" ? 540 : 51 : effectiveAlign === "center" ? 540 : effectiveAlign === "right" ? 980 : 100;
+    const titleXShift = (Number(slide.titleOffsetX) || 0) * 10.8;
+    const titleYShift = (Number(slide.titleOffsetY) || 0) * 13.5;
+    const bodyXShift = (Number(slide.bodyOffsetX) || 0) * 10.8;
+    const bodyYShift = (Number(slide.bodyOffsetY) || 0) * 13.5;
+    const titleX = baseX + titleXShift;
+    const bodyX = baseX + bodyXShift;
+    const titleType = layerTypography(slide, "title");
+    const bodyType = layerTypography(slide, "body");
+    const labelType = layerTypography(slide, "label");
+    const counterType = layerTypography(slide, "counter");
+    const fontFamily = `"${titleType.resolvedFamily}", Arial, sans-serif`;
+    const bodyFontFamily = `"${bodyType.resolvedFamily}", Arial, sans-serif`;
+    const titleText = layerVisible(slide, "title") ? displayText(stripInlineMarkup(layerText(slide, "title", index)), slide.caseKind || slideFont.caseKind) : "";
+    const titleBox = layerBox(slide, "title");
+    const bodyBox = layerBox(slide, "body");
+    const sceneWidthLimit = importedCover ? (slide.coverStyle === "rail" ? 368 : 980) : slide.scene === "split" ? 440 : 1036;
+    const titleMaxWidth = Math.min(sceneWidthLimit, titleBox.width * 10.8);
+    const bodyMaxWidth = Math.min(sceneWidthLimit, bodyBox.width * 10.8);
+    const fittedTitle = fitPlainCanvasBox(context, titleText, titleType, fontFamily, titleMaxWidth, titleBox.height * 13.5);
+    const titleSize = fittedTitle.size;
+    const titleLines = fittedTitle.lines;
+    const fittedBody = layerVisible(slide, "body") ? fitRichCanvasBox(context, layerText(slide, "body", index), bodyType, bodyFontFamily, bodyMaxWidth, bodyBox.height * 13.5) : { size: bodyType.size, lines: [] };
+    canvas.dataset.textOverflow = fittedTitle.overflow || fittedBody.overflow ? "true" : "false";
+    const bodySize = fittedBody.size;
+    const bodyLines = fittedBody.lines;
+    const titleHeight = titleLines.length * titleSize * titleType.lineHeight;
+    const bodyHeight = richCanvasHeight(bodyLines, bodySize, bodyType.lineHeight);
     const blockHeight = titleHeight + (titleLines.length && bodyLines.length ? 50 : 0) + bodyHeight;
     let startY = slide.placement === "top" ? 210 : slide.placement === "bottom" ? 1180 - blockHeight : (1350 - blockHeight) / 2;
-    if (["window"].includes(slide.scene)) startY = 720;
-    if (slide.scene === "plate") {
-      context.fillStyle = palette.background;
-      context.beginPath();
-      context.roundRect(65, startY - titleSize, 950, blockHeight + 100, 18);
-      context.fill();
-      context.fillStyle = palette.foreground;
+    if (importedCover) {
+      if (slide.coverStyle === "rail") startY = Math.max(180, 675 - titleHeight / 2);
+      else if (slide.coverStyle === "footer") startY = 970;
+      else if (slide.placement === "middle") startY = 567 - titleHeight / 2;
+      else if (["left", "right"].includes(slide.placement)) startY = 419;
+      else startY = 1080 - titleHeight;
     }
-    context.font = `800 ${titleSize}px ${fontFamily}`;
+    else if (slide.template === "photo-field") startY = 790;
+    else if (slide.template === "photo-window") startY = 785;
+    else if (slide.template === "side-plaque") startY = Math.max(310, (1350 - blockHeight) / 2);
+    else if (slide.template === "top-plaque") startY = Math.max(120, (540 - blockHeight) / 2);
+    if (slide.template === "photo-scrim") {
+      context.save();
+      context.fillStyle = accentColor;
+      context.beginPath();
+      context.roundRect(100, Math.max(88, startY - 54), 194, 18, 9);
+      context.fill();
+      context.restore();
+    }
+    if (slide.plaqueEnabled) {
+      const plaquePaddingX = 22;
+      const plaquePaddingY = 18;
+      context.font = `${titleType.weight} ${titleSize}px ${fontFamily}`;
+      setCanvasTracking(context, titleType.tracking, titleSize);
+      const measuredTitleWidth = Math.min(titleMaxWidth, Math.max(0, ...titleLines.map((line) => context.measureText(line).width)));
+      const plaqueWidth = importedCover ? measuredTitleWidth : titleMaxWidth;
+      const plaqueX = effectiveAlign === "center"
+        ? titleX - plaqueWidth / 2 - plaquePaddingX
+        : effectiveAlign === "right"
+          ? titleX - plaqueWidth - plaquePaddingX
+          : titleX - plaquePaddingX;
+      const plaqueY = startY + titleYShift - titleSize * .16 - plaquePaddingY;
+      context.save();
+      context.globalAlpha = Math.max(0, Math.min(1, numberOr(slide.plaqueOpacity, 1)));
+      context.fillStyle = slide.plaqueColor || surfaceColor;
+      context.beginPath();
+      context.roundRect(plaqueX, plaqueY, plaqueWidth + plaquePaddingX * 2, titleHeight + plaquePaddingY * 2, 18);
+      context.fill();
+      context.restore();
+    }
+    context.font = `${titleType.weight} ${titleSize}px ${fontFamily}`;
+    setCanvasTracking(context, titleType.tracking, titleSize);
+    const titleEffects = layerEffects(slide, "title");
     titleLines.forEach((line, lineIndex) => {
-      context.fillText(line, x, startY + titleSize * (lineIndex + .85), maxWidth);
+      context.fillStyle = resolvedLayerColor(slide, "title");
+      drawCanvasStyledText(context, line, titleX, startY + titleYShift + titleSize * (.85 + lineIndex * titleType.lineHeight), titleMaxWidth, titleEffects);
     });
-    let bodyY = startY + titleHeight + (titleLines.length && bodyLines.length ? 50 : 0);
-    context.font = `500 ${bodySize}px ${bodyFontFamily}`;
-    bodyLines.forEach((line) => {
-      bodyY += bodySize * (line ? 1.3 : .7);
-      if (line) context.fillText(line, x, bodyY, maxWidth);
-    });
-    context.font = `700 24px Arial, sans-serif`;
-    context.fillStyle = foreground;
+    const bodyStartY = importedCover ? 1161 - bodyHeight + bodyYShift : startY + titleHeight + (titleLines.length && bodyLines.length ? 50 : 0) + bodyYShift;
+    context.fillStyle = resolvedLayerColor(slide, "body");
+    drawRichCanvasLines(context, bodyLines, { x: bodyX, startY: bodyStartY, size: bodySize, family: bodyFontFamily, weight: bodyType.weight, lineHeight: bodyType.lineHeight, tracking: bodyType.tracking, align: effectiveAlign, effects: layerEffects(slide, "body") });
     context.textAlign = "left";
-    context.fillText(series.name, 100, 90);
+    const labelXShift = (Number(slide.labelOffsetX) || 0) * 10.8;
+    const labelYShift = (Number(slide.labelOffsetY) || 0) * 13.5;
+    const counterXShift = (Number(slide.counterOffsetX) || 0) * 10.8;
+    const counterYShift = (Number(slide.counterOffsetY) || 0) * 13.5;
+    const labelBox = layerBox(slide, "label");
+    const labelFamily = `"${labelType.resolvedFamily}", Arial, sans-serif`;
+    const fittedLabel = fitPlainCanvasBox(context, layerText(slide, "label", index), labelType, labelFamily, labelBox.width * 10.8, labelBox.height * 13.5);
+    context.font = `${labelType.weight} ${fittedLabel.size}px ${labelFamily}`;
+    setCanvasTracking(context, labelType.tracking, fittedLabel.size);
+    context.fillStyle = resolvedLayerColor(slide, "label");
+    const labelBaseX = importedCover ? 51 : 100;
+    const labelBaseY = importedCover ? 189 : 90;
+    if (layerVisible(slide, "label")) fittedLabel.lines.forEach((line, lineIndex) => drawCanvasStyledText(context, line, labelBaseX + labelXShift, labelBaseY + labelYShift + lineIndex * fittedLabel.size * labelType.lineHeight, labelBox.width * 10.8, layerEffects(slide, "label")));
     context.textAlign = "right";
-    context.fillText(`${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}`, 980, 1280);
+    const counterBox = layerBox(slide, "counter");
+    const counterFamily = `"${counterType.resolvedFamily}", Arial, sans-serif`;
+    const fittedCounter = fitPlainCanvasBox(context, layerText(slide, "counter", index), counterType, counterFamily, counterBox.width * 10.8, counterBox.height * 13.5);
+    context.font = `${counterType.weight} ${fittedCounter.size}px ${counterFamily}`;
+    setCanvasTracking(context, counterType.tracking, fittedCounter.size);
+    context.fillStyle = resolvedLayerColor(slide, "counter");
+    if (layerVisible(slide, "counter")) fittedCounter.lines.forEach((line, lineIndex) => drawCanvasStyledText(context, line, 980 + counterXShift, 1280 + counterYShift + lineIndex * fittedCounter.size * counterType.lineHeight, counterBox.width * 10.8, layerEffects(slide, "counter")));
+    (slide.customLayers || []).filter((layer) => layer.visible !== false && layer.text).forEach((layer) => {
+      const target = `custom:${layer.id}`;
+      const type = layerTypography(slide, target);
+      const family = `"${type.resolvedFamily}", Arial, sans-serif`;
+      context.textAlign = "left";
+      context.fillStyle = resolvedLayerColor(slide, target);
+      const box = layerBox(slide, target);
+      const fitted = fitPlainCanvasBox(context, layer.text, type, family, box.width * 10.8, box.height * 13.5);
+      context.font = `${type.weight} ${fitted.size}px ${family}`;
+      setCanvasTracking(context, type.tracking, fitted.size);
+      const x = 100 + (Number(layer.x) || 0) * 10.8;
+      const y = 675 + (Number(layer.y) || 0) * 13.5;
+      fitted.lines.forEach((line, lineIndex) => drawCanvasStyledText(context, line, x, y + lineIndex * fitted.size * type.lineHeight, box.width * 10.8, layerEffects(slide, target)));
+    });
     return canvas;
   }
 
   async function downloadSlide(slide, index) {
     try {
+      if (templateDefinitions[slide.template]?.usesPhoto === true && !photoById(slide.photoId)) {
+        setStatus(`Слайд ${index + 1} не экспортирован: сначала добавьте фотографию или выберите текстовую композицию.`);
+        return;
+      }
       setStatus("Собираем PNG 1080 × 1350…");
-      ensureFont(series.font);
-      try { await document.fonts.load(`800 ${slide.size}px "${series.font.family}"`); } catch {}
+      const slideFont = slide.font?.family ? normalizeFontSystem(slide.font) : series.font;
+      ensureFont(slideFont);
+      const textLayers = [
+        ...Object.keys(typographyLayers).map((layer) => layerTypography(slide, layer)),
+        ...(slide.customLayers || []).map((layer) => layerTypography(slide, `custom:${layer.id}`)),
+      ];
+      textLayers.forEach((type) => ensureFontFamily(type.resolvedFamily));
+      try { await Promise.all(textLayers.map((type) => document.fonts.load(`${type.weight} ${type.size}px "${type.resolvedFamily}"`))); } catch {}
       const canvas = await makeSlideCanvas(slide, index);
+      if (canvas.dataset.textOverflow === "true") {
+        setStatus(`Слайд ${index + 1} не экспортирован: текст не помещается. Увеличьте рамку, сократите текст или выберите другой кегль.`);
+        return;
+      }
       const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
       if (!blob) throw new Error("empty PNG");
       const link = document.createElement("a");
@@ -809,6 +3001,102 @@
     setStatus("Структура серии экспортирована в JSON.");
   }
 
+  function makeSelectionBold(textarea) {
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    if (start === end) {
+      setStatus("Сначала выделите фрагмент основного текста.");
+      textarea.focus();
+      return;
+    }
+    const selected = textarea.value.slice(start, end);
+    const alreadyBold = selected.startsWith("**") && selected.endsWith("**");
+    const replacement = alreadyBold ? selected.slice(2, -2) : `**${selected}**`;
+    textarea.setRangeText(replacement, start, end, "select");
+    textarea.dispatchEvent(new Event("input", { bubbles: true }));
+    textarea.focus();
+  }
+
+  function updateLayerColor(mode, color) {
+    const cover = mode === "cover";
+    const slide = cover ? coverSlide() : activeSlide();
+    const target = cover ? coverMoveTarget : slideMoveTarget;
+    setLayerColor(slide, target, color);
+    slide.savedAt = null;
+    syncTypographyControls(mode);
+    renderCanvas(cover ? ui.coverCanvas : ui.activeCanvas, slide, cover ? 0 : series.activeSlide);
+    if (cover || series.activeSlide === 0) renderGridPreview();
+    if (!cover) renderRail();
+    markChanged();
+    setStatus(color ? `${layerLabel(slide, target)} · цвет ${color.toUpperCase()}` : `${layerLabel(slide, target)} снова использует цвет палитры.`);
+  }
+
+  function effectControls(mode) {
+    return mode === "cover" ? {
+      shadow: ui.coverShadowOpacity,
+      shadowColor: ui.coverShadowColor,
+      outline: ui.coverOutlineWidth,
+      outlineColor: ui.coverOutlineColor,
+    } : {
+      shadow: ui.slideShadowOpacity,
+      shadowColor: ui.slideShadowColor,
+      outline: ui.slideOutlineWidth,
+      outlineColor: ui.slideOutlineColor,
+    };
+  }
+
+  function updateLayerEffects(mode) {
+    const cover = mode === "cover";
+    const slide = cover ? coverSlide() : activeSlide();
+    const target = cover ? coverMoveTarget : slideMoveTarget;
+    const controls = effectControls(mode);
+    setLayerEffects(slide, target, {
+      shadowOpacity: Number(controls.shadow.value) / 100,
+      shadowColor: controls.shadowColor.value,
+      outlineWidth: Number(controls.outline.value),
+      outlineColor: controls.outlineColor.value,
+    });
+    slide.savedAt = null;
+    syncTypographyControls(mode);
+    renderCanvas(cover ? ui.coverCanvas : ui.activeCanvas, slide, cover ? 0 : series.activeSlide);
+    if (cover || series.activeSlide === 0) renderGridPreview();
+    if (!cover) renderRail();
+    markChanged();
+    const effects = layerEffects(slide, target);
+    setStatus(`${layerLabel(slide, target)} · тень ${Math.round(effects.shadowOpacity * 100)}%, обводка ${effects.outlineWidth} px.`);
+  }
+
+  function restoreAutomaticShadow(mode) {
+    const cover = mode === "cover";
+    const slide = cover ? coverSlide() : activeSlide();
+    const target = cover ? coverMoveTarget : slideMoveTarget;
+    resetLayerShadow(slide, target);
+    slide.savedAt = null;
+    syncTypographyControls(mode);
+    renderCanvas(cover ? ui.coverCanvas : ui.activeCanvas, slide, cover ? 0 : series.activeSlide);
+    if (cover || series.activeSlide === 0) renderGridPreview();
+    if (!cover) renderRail();
+    markChanged();
+    setStatus(`${layerLabel(slide, target)} · тень выключена.`);
+  }
+
+  function bindFontBrowser(select, previous, next, eventName) {
+    const step = (direction) => {
+      const count = select.options.length;
+      if (!count) return;
+      select.selectedIndex = (select.selectedIndex + direction + count) % count;
+      select.dispatchEvent(new Event(eventName, { bubbles: true }));
+      requestAnimationFrame(() => select.focus());
+    };
+    previous.addEventListener("click", () => step(-1));
+    next.addEventListener("click", () => step(1));
+    select.addEventListener("keydown", (event) => {
+      if (!['ArrowUp', 'ArrowDown'].includes(event.key)) return;
+      event.preventDefault();
+      step(event.key === 'ArrowDown' ? 1 : -1);
+    });
+  }
+
   document.querySelectorAll("[data-carousel-stage]").forEach((button) => button.addEventListener("click", () => setStage(button.dataset.carouselStage)));
   document.querySelector(".carousel-studio-tabs").addEventListener("keydown", (event) => {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
@@ -827,11 +3115,12 @@
     if (!choice) return;
     series.font = normalizeFontSystem(choice);
     ensureFont(series.font);
+    series.slides.forEach((slide) => applyFontSystemTypography(slide, series.font));
     renderFontStrip();
     renderCover();
     renderActiveEditor();
     markChanged();
-    setStatus(`${series.font.family} × ${series.font.body} применены ко всей карусели.`);
+    setStatus(`${series.font.family} × ${series.font.body}: применены готовые веса и ритм заголовка с основным текстом.`);
   });
   ui.paletteStrip.addEventListener("click", (event) => {
     const button = event.target.closest("[data-carousel-palette]");
@@ -839,16 +3128,15 @@
     series.palette = button.dataset.carouselPalette;
     const choice = paletteFor(series.palette);
     series.slides.forEach((slide, index) => {
-      slide.palette = series.palette;
       if (choice.sourceId && ((choice.role === "cover" && index === 0) || (choice.role === "longread" && index > 0 && index < series.slides.length - 1) || (choice.role === "quote" && slide.role === "quote"))) slide.scene = choice.scene;
-      slide.savedAt = null;
+      applyPaletteRoles(slide, series.palette);
     });
     renderPaletteState();
     renderCover();
     renderSplitPreview();
     renderActiveEditor();
     markChanged();
-    setStatus(choice.sourceId ? `Система «${choice.name}» применена вместе с подходящей сценой.` : "Палитра применена ко всей серии; любой слайд можно перекрасить отдельно.");
+    setStatus(choice.sourceId ? `Система «${choice.name}» применила сцену, цвет текста и плашки.` : `«${choice.name}»: текст и плашки перекрашены во всей серии.`);
   });
 
   ui.importTaste.addEventListener("click", () => {
@@ -857,9 +3145,57 @@
     setTimeout(() => { ui.importTaste.textContent = tasteBundle.importedAt ? "Обновить выбор" : "Импортировать выбор"; }, 3200);
   });
 
-  [ui.seriesName, ui.coverTitle, ui.coverSubtitle, ui.coverSize, ui.coverPlacement, ui.coverAlign, ui.coverCase].forEach((control) => control.addEventListener("input", updateCoverFromForm));
+  document.querySelectorAll("[data-carousel-preview]").forEach((button) => button.addEventListener("click", () => {
+    const showGrid = button.dataset.carouselPreview === "grid";
+    ui.coverCanvas.hidden = showGrid;
+    ui.gridPreview.hidden = !showGrid;
+    document.querySelectorAll("[data-carousel-preview]").forEach((choice) => {
+      const active = choice === button;
+      choice.classList.toggle("is-active", active);
+      choice.setAttribute("aria-selected", String(active));
+    });
+    if (showGrid) renderGridPreview();
+  }));
+  ui.coverMoveTarget.addEventListener("change", () => {
+    coverMoveTarget = movableLayers[ui.coverMoveTarget.value] || customLayer(coverSlide(), ui.coverMoveTarget.value) ? ui.coverMoveTarget.value : "title";
+    syncCoverOffsets();
+    syncTypographyControls("cover");
+    syncLayerContentControls("cover");
+    renderCanvas(ui.coverCanvas, coverSlide(), 0);
+  });
+  [ui.coverLayerText, ui.coverLayerVisible].forEach((control) => control.addEventListener("input", () => updateSelectedLayerContent("cover")));
+  ui.coverLayerAdd.addEventListener("click", () => addCustomTextLayer("cover"));
+  ui.coverLayerRemove.addEventListener("click", () => {
+    if (isCustomTarget(coverMoveTarget)) {
+      coverSlide().customLayers = coverSlide().customLayers.filter((layer) => `custom:${layer.id}` !== coverMoveTarget);
+      coverMoveTarget = "title";
+      renderCover();
+      markChanged();
+      setStatus("Текстовый блок удалён с обложки.");
+      return;
+    }
+    ui.coverLayerVisible.checked = !ui.coverLayerVisible.checked;
+    updateSelectedLayerContent("cover");
+    setStatus(ui.coverLayerVisible.checked ? "Элемент возвращён на обложку." : "Элемент удалён с обложки.");
+  });
+  [ui.seriesName, ui.coverTitle, ui.coverSubtitle, ui.coverTypeFont, ui.coverTypeWeight, ui.coverTypeSize, ui.coverBoxWidth, ui.coverBoxHeight, ui.coverTypeLineHeight, ui.coverTypeTracking, ui.coverPlacement, ui.coverAlign, ui.coverCase, ui.coverShowLabel, ui.coverPlaqueEnabled, ui.coverPlaqueOpacity, ui.coverOffsetX, ui.coverOffsetY].forEach((control) => control.addEventListener("input", updateCoverFromForm));
+  ui.coverPlaqueColor.addEventListener("input", () => {
+    ui.coverPlaqueColorValue.textContent = ui.coverPlaqueColor.value.toUpperCase();
+    updateCoverFromForm();
+  });
+  ui.coverPlaqueColorReset.addEventListener("click", () => {
+    ui.coverPlaqueColorValue.textContent = "из палитры";
+    ui.coverPlaqueColor.value = paletteFor(coverSlide().palette).background;
+    updateCoverFromForm();
+  });
+  ui.coverLayerColor.addEventListener("input", () => updateLayerColor("cover", ui.coverLayerColor.value));
+  ui.coverLayerColorReset.addEventListener("click", () => updateLayerColor("cover", ""));
+  [ui.coverShadowOpacity, ui.coverShadowColor, ui.coverOutlineWidth, ui.coverOutlineColor].forEach((control) => control.addEventListener("input", () => updateLayerEffects("cover")));
+  ui.coverShadowReset.addEventListener("click", () => restoreAutomaticShadow("cover"));
   document.querySelectorAll("[data-carousel-scene]").forEach((button) => button.addEventListener("click", () => {
     coverSlide().scene = button.dataset.carouselScene;
+    coverSlide().template = defaultTemplateForScene[coverSlide().scene] || "cover-plaque";
+    coverSlide().placement = templateDefinitions[coverSlide().template]?.placement || coverSlide().placement;
     coverSlide().savedAt = null;
     document.querySelectorAll("[data-carousel-scene]").forEach((choice) => choice.classList.toggle("is-active", choice === button));
     renderCanvas(ui.coverCanvas, coverSlide(), 0);
@@ -874,12 +3210,16 @@
     renderCover();
     markChanged();
   });
-  ui.coverMediaSearch.addEventListener("input", () => renderMediaStrip(ui.coverMedia, coverSlide().photoId, ui.coverMediaSearch.value));
-  document.querySelectorAll("[data-carousel-newest]").forEach((button) => button.addEventListener("click", () => {
+  ui.coverMediaSearch.addEventListener("input", () => {
+    coverMediaLimit = 48;
     renderMediaStrip(ui.coverMedia, coverSlide().photoId, ui.coverMediaSearch.value);
-    renderMediaStrip(ui.slideMedia, activeSlide().photoId);
-    setStatus("Сначала показаны новые съёмки.");
-  }));
+    ui.coverMedia.scrollTop = 0;
+  });
+  ui.coverCollection?.addEventListener("change", () => {
+    coverMediaLimit = 48;
+    renderMediaStrip(ui.coverMedia, coverSlide().photoId, ui.coverMediaSearch.value);
+    ui.coverMedia.scrollTop = 0;
+  });
   ui.saveCover.addEventListener("click", () => saveCurrentSlide(0));
   ui.downloadCover.addEventListener("click", () => downloadSlide(coverSlide(), 0));
 
@@ -888,6 +3228,8 @@
     renderSplitPreview();
     markChanged();
   });
+  ui.generateLongread?.addEventListener("click", () => generateFromIdea(false));
+  ui.regenerateLongread?.addEventListener("click", () => generateFromIdea(true));
   ui.slideCount.addEventListener("change", renderSplitPreview);
   ui.splitText.addEventListener("click", performSplit);
   ui.splitPreview.addEventListener("click", (event) => {
@@ -904,25 +3246,175 @@
     renderActiveEditor();
     markChanged();
   });
-  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slideScene, ui.slidePalette, ui.slideSize, ui.slideAlign].forEach((control) => control.addEventListener("input", updateActiveFromForm));
+  ui.quickPalettePresets.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-carousel-quick-palette]");
+    if (button) applyQuickPalette(button.dataset.carouselQuickPalette);
+  });
+  ui.quickLayoutPresets.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-carousel-quick-layout]");
+    if (button) applyQuickLayout(button.dataset.carouselQuickLayout);
+  });
+  ui.suggestSlideStyle.addEventListener("click", suggestActiveSlideStyle);
+  ui.quickSlideMedia.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-carousel-photo]");
+    if (button) selectActiveSlidePhoto(button.dataset.carouselPhoto);
+  });
+  ui.quickBrowsePhotos.addEventListener("click", () => {
+    ui.slideMedia.previousElementSibling?.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.setTimeout(() => ui.slideMediaSearch.focus({ preventScroll: true }), 280);
+    setStatus("Открыта вся медиатека этого слайда — выберите фотографию или найдите её по имени.");
+  });
+  ui.quickRemovePhoto.addEventListener("click", removeActiveSlidePhoto);
+  ui.bodyBold.addEventListener("click", () => makeSelectionBold(ui.slideBody));
+  ui.slideMoveTarget.addEventListener("change", () => {
+    slideMoveTarget = movableLayers[ui.slideMoveTarget.value] || customLayer(activeSlide(), ui.slideMoveTarget.value) ? ui.slideMoveTarget.value : "body";
+    syncActiveOffsets();
+    syncTypographyControls("slide");
+    syncLayerContentControls("slide");
+    renderCanvas(ui.activeCanvas, activeSlide(), series.activeSlide);
+  });
+  [ui.slideLayerText, ui.slideLayerVisible].forEach((control) => control.addEventListener("input", () => updateSelectedLayerContent("slide")));
+  ui.slideLayerAdd.addEventListener("click", () => addCustomTextLayer("slide"));
+  ui.slideLayerRemove.addEventListener("click", () => {
+    if (isCustomTarget(slideMoveTarget)) {
+      activeSlide().customLayers = activeSlide().customLayers.filter((layer) => `custom:${layer.id}` !== slideMoveTarget);
+      slideMoveTarget = "body";
+      renderActiveEditor();
+      markChanged();
+      setStatus("Текстовый блок удалён со слайда.");
+      return;
+    }
+    ui.slideLayerVisible.checked = !ui.slideLayerVisible.checked;
+    updateSelectedLayerContent("slide");
+    setStatus(ui.slideLayerVisible.checked ? "Элемент возвращён на слайд." : "Элемент удалён со слайда.");
+  });
+  ui.slideTemplate.addEventListener("input", () => {
+    const definition = templateDefinitions[ui.slideTemplate.value];
+    if (definition) {
+      ui.slideScene.value = definition.scene;
+      ui.slidePlacement.value = definition.placement;
+      if (definition.plaque === true) ui.slidePlaqueEnabled.checked = true;
+    }
+    updateActiveFromForm();
+  });
+  ui.slideScene.addEventListener("input", () => {
+    ui.slideTemplate.value = defaultTemplateForScene[ui.slideScene.value] || "light-column";
+    const definition = templateDefinitions[ui.slideTemplate.value];
+    if (definition) ui.slidePlacement.value = definition.placement;
+    updateActiveFromForm();
+  });
+  ui.slidePalette.addEventListener("input", () => {
+    applyPaletteRoles(activeSlide(), ui.slidePalette.value);
+    renderActiveEditor();
+    if (series.activeSlide === 0) renderGridPreview();
+    markChanged();
+  });
+  [ui.slideTitle, ui.slideBody, ui.slideRole, ui.slideTypeFont, ui.slideTypeWeight, ui.slideTypeSize, ui.slideBoxWidth, ui.slideBoxHeight, ui.slideTypeLineHeight, ui.slideTypeTracking, ui.slidePlacement, ui.slideAlign, ui.slideShowLabel, ui.slidePlaqueEnabled, ui.slidePlaqueOpacity, ui.slideOffsetX, ui.slideOffsetY].forEach((control) => control.addEventListener("input", updateActiveFromForm));
+  ui.slidePlaqueColor.addEventListener("input", () => {
+    ui.slidePlaqueColorValue.textContent = ui.slidePlaqueColor.value.toUpperCase();
+    updateActiveFromForm();
+  });
+  ui.slidePlaqueColorReset.addEventListener("click", () => {
+    ui.slidePlaqueColorValue.textContent = "из палитры";
+    ui.slidePlaqueColor.value = paletteFor(activeSlide().palette).background;
+    updateActiveFromForm();
+  });
+  ui.slideLayerColor.addEventListener("input", () => updateLayerColor("slide", ui.slideLayerColor.value));
+  ui.slideLayerColorReset.addEventListener("click", () => updateLayerColor("slide", ""));
+  [ui.slideShadowOpacity, ui.slideShadowColor, ui.slideOutlineWidth, ui.slideOutlineColor].forEach((control) => control.addEventListener("input", () => updateLayerEffects("slide")));
+  ui.slideShadowReset.addEventListener("click", () => restoreAutomaticShadow("slide"));
+  ui.slideFontSamples.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-layer-font-family]");
+    if (!button) return;
+    ui.slideTypeFont.value = button.dataset.layerFontFamily;
+    ui.slideTypeFont.dispatchEvent(new Event("input", { bubbles: true }));
+    setStatus(`${layerLabel(activeSlide(), slideMoveTarget)} · ${button.dataset.layerFontFamily || "шрифт серии"}.`);
+  });
+  ui.slideBackgroundColor.addEventListener("input", () => {
+    const slide = activeSlide();
+    slide.backgroundColor = ui.slideBackgroundColor.value;
+    ui.slideBackgroundColorValue.textContent = slide.backgroundColor.toUpperCase();
+    slide.savedAt = null;
+    renderCanvas(ui.activeCanvas, slide, series.activeSlide);
+    renderRail();
+    if (series.activeSlide === 0) renderGridPreview();
+    markChanged();
+  });
+  ui.slideBackgroundColorReset.addEventListener("click", () => {
+    const slide = activeSlide();
+    slide.backgroundColor = "";
+    ui.slideBackgroundColor.value = paletteFor(slide.palette).background;
+    ui.slideBackgroundColorValue.textContent = "из палитры";
+    slide.savedAt = null;
+    renderCanvas(ui.activeCanvas, slide, series.activeSlide);
+    renderRail();
+    if (series.activeSlide === 0) renderGridPreview();
+    markChanged();
+    setStatus("Фон слайда снова использует цвет палитры.");
+  });
+  [ui.slideTexture, ui.slidePhotoScale, ui.slidePhotoFocusX, ui.slidePhotoFocusY].forEach((control) => control.addEventListener("input", updateSlideAppearance));
+  ui.applyAppearanceToSeries.addEventListener("click", () => {
+    const source = activeSlide();
+    series.palette = source.palette;
+    series.font = normalizeFontSystem(source.font?.family ? source.font : series.font);
+    series.slides.forEach((slide) => {
+      slide.palette = source.palette;
+      slide.backgroundColor = source.backgroundColor || "";
+      slide.texture = source.texture || "none";
+      slide.font = source.font?.family ? normalizeFontSystem(source.font) : null;
+      slide.savedAt = null;
+    });
+    renderFontStrip();
+    renderPaletteState();
+    renderCover();
+    renderActiveEditor();
+    renderSplitPreview();
+    markChanged();
+    setStatus(`Оформление слайда ${series.activeSlide + 1} применено ко всей серии. Фото, тексты и координаты каждого кадра сохранены.`);
+  });
+  ui.slideFont.addEventListener("change", () => {
+    const slide = activeSlide();
+    if (ui.slideFont.value === "series") slide.font = null;
+    else {
+      const choice = fontChoices().find((font) => fontSystemKey(font) === ui.slideFont.value);
+      slide.font = choice ? normalizeFontSystem(choice) : null;
+      ensureFont(slide.font || series.font);
+    }
+    slide.savedAt = null;
+    renderActiveEditor();
+    markChanged();
+    setStatus(slide.font ? `${slide.font.family} применён только к слайду ${series.activeSlide + 1}.` : `Слайд ${series.activeSlide + 1} снова использует шрифт всей серии.`);
+  });
+  bindFontBrowser(ui.slideFont, ui.slideFontPrev, ui.slideFontNext, "change");
+  bindFontBrowser(ui.slideTypeFont, ui.slideTypeFontPrev, ui.slideTypeFontNext, "input");
   ui.slideMedia.addEventListener("click", (event) => {
     const button = event.target.closest("[data-carousel-photo]");
-    if (!button) return;
-    const slide = activeSlide();
-    slide.photoId = button.dataset.carouselPhoto;
-    if (["paper", "field", "dark", "quote"].includes(slide.scene)) slide.scene = "photo-dim";
-    slide.savedAt = null;
-    renderActiveEditor();
-    markChanged();
+    if (button) selectActiveSlidePhoto(button.dataset.carouselPhoto);
   });
-  ui.removePhoto.addEventListener("click", () => {
-    const slide = activeSlide();
-    slide.photoId = null;
-    if (!["paper", "field", "dark", "quote"].includes(slide.scene)) slide.scene = "paper";
-    slide.savedAt = null;
-    renderActiveEditor();
-    markChanged();
+  ui.slideMediaSearch.addEventListener("input", () => {
+    slideMediaLimit = 48;
+    renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);
+    ui.slideMedia.scrollTop = 0;
   });
+  ui.slideCollection?.addEventListener("change", () => {
+    slideMediaLimit = 48;
+    renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);
+    ui.slideMedia.scrollTop = 0;
+  });
+  window.addEventListener("sekta:library-updated", () => {
+    slideMediaOrder = [...library];
+    renderMediaStrip(ui.coverMedia, coverSlide().photoId, ui.coverMediaSearch.value);
+    renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);
+    renderQuickPhotoPicker(activeSlide());
+  });
+  ui.shuffleSlideMedia.addEventListener("click", () => {
+    slideMediaOrder = shuffle(slideMediaOrder);
+    slideMediaLimit = 48;
+    renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);
+    ui.slideMedia.scrollTop = 0;
+    setStatus("Фотографии для этого слайда перемешаны.");
+  });
+  ui.removePhoto.addEventListener("click", removeActiveSlidePhoto);
   ui.saveSlide.addEventListener("click", () => saveCurrentSlide());
   ui.downloadActive.addEventListener("click", () => downloadSlide(activeSlide(), series.activeSlide));
   ui.duplicateSlide.addEventListener("click", () => {
@@ -996,7 +3488,12 @@
     setStatus("Обложка из конструктора перенесена в монтаж серии.");
   });
   window.addEventListener("sekta:open-carousel-studio", () => renderAll());
+  window.addEventListener("sekta:post-builder-load", (event) => loadIdea(event.detail || fallbackIdea));
 
+  bindCanvasLayerDrag(ui.coverCanvas, "cover");
+  bindCanvasLayerDrag(ui.activeCanvas, "slide");
+  bindInfiniteMedia(ui.coverMedia, "cover");
+  bindInfiniteMedia(ui.slideMedia, "slide");
   ensureFont(series.font);
   renderAll();
   setStage("cover");
@@ -1006,7 +3503,7 @@
     const likedPalettes = layoutLikeIds();
     if (likedPalettes.length) series.palette = `layout-${likedPalettes[0]}`;
     series.slides.forEach((slide) => { slide.palette = series.palette; });
-    document.querySelector('[data-view="typography"]')?.click();
+    document.querySelector('[data-view="postbuilder"]')?.click();
     renderAll();
     setStatus(`Импортировано: ${choices.length} шрифтовых вариантов, ${tasteBundle.systems?.length || 0} сохранённых систем и ${likedPalettes.length} цветовых сцен.`);
   }

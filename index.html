@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260826-3">
+  <link rel="stylesheet" href="styles.css?v=20260830-1">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -20,59 +20,67 @@
   <a class="skip-link" href="#main">К содержимому</a>
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
+      <button class="sidebar-close" id="mobileMenuClose" type="button" aria-label="Закрыть меню">×</button>
       <div class="brand">
         <div class="brand-mark">S</div>
         <div><strong>#Sekta</strong><span>Content room</span></div>
       </div>
       <nav class="primary-nav" aria-label="Разделы">
         <button class="nav-item is-active" data-view="overview"><span>⌂</span>Обзор</button>
-        <button class="nav-item" data-view="ideal"><span>✦</span>Идеальная сетка <em>6</em></button>
-        <button class="nav-item" data-view="growth"><span>↗</span>Рост и идеи <em>18</em></button>
-        <button class="nav-item" data-view="builder"><span>▤</span>Конструктор <em>NEW</em></button>
-        <button class="nav-item" data-view="typography"><span class="nav-type-mark">Ж</span>Типографика <em>588</em></button>
+        <button class="nav-item" data-view="builder"><span>▤</span>Идеи и обложки</button>
+        <button class="nav-item" data-view="postbuilder"><span>▥</span>Конструктор поста</button>
+        <button class="nav-item" data-view="mobileeditor"><span class="nav-type-mark">М</span>Мобильный редактор</button>
+        <button class="nav-item" data-view="growth"><span>↗</span>Банк идей</button>
+        <button class="nav-item" data-view="timehop"><span class="nav-type-mark">Т</span>Таймхоп Оли <em id="navTimehopCount">5</em></button>
+        <button class="nav-item" data-view="production"><span class="nav-type-mark">М</span>Материалы <em id="navProductionCount">5</em></button>
+        <button class="nav-item" data-view="coach"><span class="nav-type-mark">К</span>Коуч роста</button>
         <button class="nav-item" data-view="current"><span>▦</span>Текущая сетка</button>
         <button class="nav-item" data-view="library"><span>▧</span>Медиатека <em id="navLibraryCount">1059</em></button>
+        <button class="nav-item nav-item-moms" data-view="moms"><span class="nav-type-mark">МА</span>Для мам <em id="navMomsCount">—</em></button>
         <button class="nav-item" data-view="planner"><span>↗</span>План недели <em id="navPlanCount">7</em></button>
       </nav>
       <div class="sidebar-note">
         <span class="live-dot"></span>
-        <div><strong>Снимок актуален</strong><span>13 августа 2026</span></div>
+        <div><strong>Сверено с профилем</strong><span>25 августа 2026</span></div>
       </div>
     </aside>
+    <button class="sidebar-scrim" id="sidebarScrim" type="button" aria-label="Закрыть меню" tabindex="-1"></button>
 
     <div class="main-column">
       <header class="topbar">
-        <button class="icon-button mobile-menu" id="mobileMenu" aria-label="Открыть меню">☰</button>
+        <button class="icon-button mobile-menu" id="mobileMenu" type="button" aria-label="Открыть меню" aria-controls="sidebar" aria-expanded="false">☰</button>
         <div class="topbar-title"><span>Instagram</span><strong id="viewTitle">Рабочий обзор</strong></div>
         <div class="topbar-actions">
-          <button class="button button-quiet" id="resetPlanner">Сбросить черновик</button>
+          <button class="button button-quiet is-hidden" id="resetPlanner">Сбросить черновик</button>
           <button class="avatar-button" title="Рабочий профиль">OL</button>
         </div>
       </header>
 
       <main id="main">
         <section class="view is-active" data-view-panel="overview">
-          <div class="page-heading">
-            <div><p class="eyebrow">SMM workspace</p><h1>Что есть сейчас и что выходит дальше</h1></div>
+          <div class="page-heading overview-heading">
+            <div><h1>Что делаем сегодня</h1><p>Один рабочий экран для команды: выбрать идею, собрать обложку, проверить ленту и поставить материал в план.</p></div>
             <a class="button button-primary" href="https://www.instagram.com/sektaschool/" target="_blank" rel="noreferrer">Открыть @sektaschool ↗</a>
           </div>
 
-          <div class="profile-summary">
-            <div class="profile-badge">#S</div>
-            <div class="profile-copy"><div><h2>@sektaschool</h2><span class="verified">✓</span></div><p>Тебе в Секту, если хочешь полюбить спорт 🩷 И да, начать можно даже с одной минуты в день!</p></div>
-            <div class="profile-stats"><div><strong>6 594</strong><span>публикации</span></div><div><strong>126 022</strong><span>подписчики</span></div><div><strong>4</strong><span>подписки</span></div></div>
+          <div class="daily-actions" aria-label="Главные действия">
+            <button class="daily-action daily-action-primary" data-jump="production"><span>Главное действие</span><strong>Продолжить материал</strong><small>Статус → следующий шаг → публикация</small><b>→</b></button>
+            <button class="daily-action" data-jump="builder"><span>Нужна обложка</span><strong>Собрать следующую обложку</strong><small>Идея → фото → композиция → PNG</small><b>→</b></button>
+            <button class="daily-action" data-jump="growth"><span>Нужна тема</span><strong>Обновить банк идей</strong><small>Посты, Reels и повторяемые серии</small><b>→</b></button>
+            <button class="daily-action" data-jump="coach"><span>После публикации</span><strong>Разобрать результат</strong><small>Статистика → вывод → следующий тест</small><b>→</b></button>
+            <button class="daily-action" data-jump="postbuilder"><span>Нужен готовый пост</span><strong>Собрать карусель целиком</strong><small>Лонгрид → слайды → PNG</small><b>→</b></button>
           </div>
 
-          <div class="metric-row">
-            <button class="metric metric-accent" data-jump="ideal"><span>Идеальная сетка</span><strong>6</strong><small>обложек · 18–23 августа</small></button>
-            <button class="metric" data-jump="library"><span>Медиатека</span><strong id="metricUnique">1059</strong><small>уникальных фото</small></button>
-            <button class="metric" id="openCarousel"><span>Готовый пакет</span><strong>20</strong><small>слайдов · approved</small></button>
-            <button class="metric" data-jump="planner"><span>План</span><strong>7</strong><small>единиц на неделю</small></button>
+          <div class="overview-status-line">
+            <button data-jump="library"><strong id="metricUnique">1059</strong><span>фото в медиатеке</span></button>
+            <button data-jump="production"><strong id="overviewProductionCount">5</strong><span>материалов в работе</span></button>
+            <button data-jump="current"><strong id="overviewSnapshotDate">25.08</strong><span>последний снимок сетки</span></button>
+            <button id="overviewSnapshotCountButton" type="button"><strong id="overviewSnapshotCount">1</strong><span>снимок в истории</span></button>
           </div>
 
           <div class="dashboard-grid">
             <section class="panel current-preview-panel">
-              <div class="section-head"><div><h2>Текущая сетка</h2><p>Три закреплённых + свежие публикации</p></div><button class="text-button" data-jump="current">Все 12 →</button></div>
+              <div class="section-head"><div><h2>Текущая сетка</h2><p>Снято из Instagram 25 августа · три закреплённых + девять свежих публикаций</p></div><div class="overview-grid-actions"><button class="button button-secondary" id="saveOverviewGrid" type="button">Сохранить снимок</button><button class="text-button" data-jump="current">Все 12 →</button></div></div>
               <div class="feed-grid feed-grid-preview" id="overviewGrid"></div>
               <div class="visual-read"><span></span><p><strong>Сейчас:</strong> продуктовые обложки, живые фото и Reels смешаны; яркий синий и розовый работают как точечные акценты.</p></div>
             </section>
@@ -83,13 +91,111 @@
             </section>
           </div>
 
-          <section class="ready-pack">
-            <button class="ready-pack-visual" id="openCarouselVisual"><img src="assets/approved-carousel/contact-sheet.png" alt="Контактный лист готовой карусели из 20 слайдов"></button>
-            <div class="ready-pack-copy"><span class="status status-ready">Готово к публикации</span><h2>«Мои главные победы»</h2><p>20 проверенных слайдов, ZIP, подпись и Stories. Основной аккаунт — @olymarkes, предложить collab @sektaschool.</p><div class="inline-actions"><button class="button button-primary" id="openCarouselSecond">Посмотреть 20 слайдов</button><button class="button button-secondary" data-jump="planner">Открыть в плане</button></div></div>
+          <div class="overview-intelligence">
+            <section class="panel public-stats-panel">
+              <div class="section-head"><div><h2>Открытая статистика</h2><p id="publicStatsChecked">Проверяем доступные публичные показатели</p></div><span class="public-data-badge">не внутренняя аналитика</span></div>
+              <div class="public-channel-list" id="publicChannelList"></div>
+              <p class="public-stats-note" id="publicStatsNote"></p>
+            </section>
+
+            <section class="panel snapshot-history-panel" id="snapshotHistoryPanel">
+              <div class="section-head"><div><h2>История сетки</h2><p>Снимки сохраняются в этом браузере; общая версия команды остаётся в опубликованной системе.</p></div><span id="snapshotHistoryLabel">1 версия</span></div>
+              <div class="snapshot-history" id="snapshotHistory"></div>
+            </section>
+          </div>
+
+        </section>
+
+        <section class="view" data-view-panel="production">
+          <div class="page-heading compact production-heading">
+            <div><h1>Материалы</h1><p>Одна карточка ведёт идею через текст, дизайн, ревью, публикацию и разбор результата. Сверху всегда видно, что делать следующим.</p></div>
+            <div class="production-heading-actions">
+              <button class="button button-primary" id="productionNew" type="button">Новый материал</button>
+              <button class="button button-secondary" id="productionExport" type="button">Скачать JSON</button>
+              <label class="button button-secondary" for="productionImport">Восстановить</label>
+              <input id="productionImport" type="file" accept="application/json,.json" hidden>
+            </div>
+          </div>
+
+          <section class="production-data-bar" aria-label="Хранение данных">
+            <div><strong>Рабочая версия хранится в этом браузере</strong><span>Автосохранение и история защищают от случайной правки; JSON переносит материалы на другой компьютер.</span></div>
+            <span id="productionDataState">Локально · загружаем материалы</span>
           </section>
-          <section class="ready-pack ready-pack-new">
-            <button class="ready-pack-visual" id="openReturnCarousel"><img src="assets/return-five-carousel/contact-sheet.png" alt="Контактный лист карусели «Пропустили пять дней?» из 10 слайдов"></button>
-            <div class="ready-pack-copy"><span class="status status-ready">Новая карусель · готово</span><h2>«Пропустили пять дней?»</h2><p>10 слайдов из медиатеки: без вины, попытки догнать и перезапуска с понедельника. Внутри — готовая подпись, alt-тексты и ZIP для публикации.</p><div class="inline-actions"><button class="button button-primary" id="openReturnCarouselSecond">Посмотреть 10 слайдов</button><a class="button button-secondary" href="assets/return-five-carousel/return-five-carousel.zip" download>Скачать ZIP</a></div></div>
+
+          <div class="production-kpis" id="productionKpis" aria-label="Состояние производства"></div>
+          <section class="production-mobile-next" id="productionMobileNext" aria-live="polite"></section>
+
+          <section class="production-toolbar" aria-label="Фильтры материалов">
+            <label><span>Поиск</span><input id="productionSearch" type="search" placeholder="Название, формат или задача"></label>
+            <label><span>Этап</span><select id="productionStatusFilter"><option value="all">Все этапы</option><option value="idea">Идея</option><option value="assets">Исходники</option><option value="text">Текст</option><option value="design">Дизайн</option><option value="review">Ревью</option><option value="approved">Согласовано</option><option value="scheduled">Запланировано</option><option value="published">Опубликовано</option></select></label>
+            <span id="productionResultCount">0 материалов</span>
+          </section>
+
+          <div class="production-workspace">
+            <section class="production-queue" aria-label="Очередь материалов">
+              <div class="production-queue-head"><div><h2>Что требует действия</h2><p>Сначала незавершённое, затем опубликованное.</p></div><span>без владельцев</span></div>
+              <div class="production-list" id="productionList"></div>
+              <div class="production-empty" id="productionEmpty" hidden><strong>Ничего не найдено</strong><span>Сбросьте фильтр или создайте новый материал.</span></div>
+            </section>
+            <aside class="production-detail" id="productionDetail" aria-live="polite"></aside>
+          </div>
+          <div class="production-live" id="productionLive" role="status" aria-live="polite">Материалы готовы к работе.</div>
+        </section>
+
+        <section class="view" data-view-panel="coach">
+          <div class="page-heading compact coach-heading">
+            <div><p class="eyebrow">Контур роста</p><h1>Коуч роста Instagram</h1><p>Связывает публикацию с результатом: что сработало, почему, какой один элемент повторить и что проверить следующим постом.</p></div>
+            <div class="coach-heading-actions">
+              <span class="coach-data-state" id="coachDataState"><i></i><strong>Демо-режим</strong><small>не статистика #Sekta</small></span>
+              <label class="button button-secondary coach-import-button" for="coachImportInput">Загрузить CSV</label>
+              <input id="coachImportInput" type="file" accept=".csv,text/csv" hidden>
+            </div>
+          </div>
+
+          <section class="coach-data-bar" aria-label="Состояние данных">
+            <div class="coach-data-message" role="status" aria-live="polite"><strong id="coachDataTitle">Сейчас показан безопасный демонстрационный сценарий</strong><span id="coachDataNote">Все цифры синтетические. Загрузите экспорт Instagram Insights — расчёты обновятся в этом браузере.</span></div>
+            <div class="coach-data-actions">
+              <label><span>Период анализа</span><select id="coachPeriod"><option value="7">7 дней</option><option value="14" selected>14 дней</option><option value="30">30 дней</option></select></label>
+              <span class="coach-source-range" id="coachSourceRange">Источник: считаем диапазон</span>
+              <button class="text-button" id="coachDownloadTemplate" type="button">Скачать шаблон CSV</button>
+              <button class="text-button coach-clear-data" id="coachClearData" type="button">Вернуть демо</button>
+            </div>
+            <div class="coach-material-context" id="coachMaterialContext" hidden></div>
+          </section>
+
+          <div class="coach-kpis" id="coachKpis" aria-label="Ключевые показатели"></div>
+          <section class="coach-mobile-signal" id="coachMobileSignal" aria-label="Главный сигнал и следующий тест"></section>
+
+          <div class="coach-main-grid">
+            <section class="panel coach-performance-panel">
+              <div class="section-head"><div><h2>Какие публикации дали результат</h2><p id="coachChartCaption">Сравниваем глубину реакции с медианой выбранного периода</p></div><label class="coach-metric-select"><span>Показатель</span><select id="coachMetric"><option value="reach">Охват</option><option value="engagement">Вовлечение от охвата</option><option value="saves">Сохранения от охвата</option><option value="shares">Репосты от охвата</option><option value="follows">Подписки от охвата</option></select></label></div>
+              <div class="coach-chart-legend"><span><i class="is-strong"></i>выше медианы</span><span><i></i>ниже медианы</span></div>
+              <div class="coach-bar-chart" id="coachChart" role="list" aria-label="Рейтинг публикаций"></div>
+            </section>
+
+            <aside class="panel coach-next-panel" id="coachNext"></aside>
+          </div>
+
+          <section class="coach-insights-section">
+            <div class="section-head"><div><h2>Разбор: повторить, изменить, проверить</h2><p>У каждого вывода есть публикация-основание, показатель и конкретное следующее действие.</p></div><span id="coachUpdatedAt">пересчитано сейчас</span></div>
+            <div class="coach-insight-grid" id="coachInsights"></div>
+          </section>
+
+          <div class="coach-bottom-grid">
+            <section class="panel coach-formats-panel">
+              <div class="section-head"><div><h2>Форматы и механики</h2><p>Не общий средний ER, а сравнение конкретных способов захода.</p></div></div>
+              <div class="coach-segment-table" id="coachSegments"></div>
+            </section>
+
+            <section class="panel coach-loop-panel">
+              <div class="section-head"><div><h2>Цикл экспериментов</h2><p>Меняем одну переменную, заранее выбираем метрику успеха и после выхода фиксируем решение.</p></div><span id="coachExperimentCount">0 активных</span></div>
+              <div class="coach-experiment-list" id="coachExperiments"></div>
+            </section>
+          </div>
+
+          <section class="coach-privacy-note">
+            <strong>Как работает постоянный анализ</strong>
+            <p>После каждой новой CSV-выгрузки коуч пересчитывает показатели, сравнивает периоды и сохраняет принятые эксперименты в этом браузере. Автоматическая синхронизация без выгрузок потребует отдельного подключения Meta API и серверной части.</p>
           </section>
         </section>
 
@@ -127,16 +233,90 @@
           </div>
         </section>
 
-        <section class="view" data-view-panel="growth">
-          <div class="page-heading compact growth-heading">
-            <div><p class="eyebrow">Instagram growth room · версия 1.0</p><h1>Что постить, когда материалов много</h1><p>Выберите цель и исходник — получите хук, режиссуру, покадровый сценарий, CTA и метрику. Все идеи собраны вокруг уже снятого движения, домашних тренировок и живых кадров тела.</p></div>
-            <span class="snapshot-label"><i></i>18 идей · 3 можно собирать сейчас</span>
+        <section class="view" data-view-panel="identity">
+          <header class="identity-heading">
+            <div>
+              <h1>Темп: четыре рабочих цветовых режима</h1>
+              <p>Одна шрифтовая база и одна девятка, но разные способы защитить заголовок: затемнение, плотная плашка, split, фотоокно и чистый кадр. Сравниваем не свотчи, а читаемость в настоящей ленте.</p>
+            </div>
+            <div class="identity-profile-card">
+              <strong>208</strong>
+              <span id="identityProfileStatus" data-state="loading">Проверяю выбранные шрифтовые кадры…</span>
+              <a href="type-studio/carousel-type-lab.html" target="_blank" rel="noreferrer">Открыть полный Tinder ↗</a>
+            </div>
+          </header>
+
+          <div class="identity-reference-strip" aria-label="Опоры сравнения">
+            <button type="button" data-jump="current"><span class="identity-ref-grid" aria-hidden="true"><img src="assets/current-2026-08-25/01.jpg" alt=""><img src="assets/current-2026-08-25/02.jpg" alt=""><img src="assets/current-2026-08-25/03.jpg" alt=""><img src="assets/current-2026-08-25/04.jpg" alt=""><img src="assets/current-2026-08-25/05.jpg" alt=""><img src="assets/current-2026-08-25/06.jpg" alt=""><img src="assets/current-2026-08-25/07.jpg" alt=""><img src="assets/current-2026-08-25/08.jpg" alt=""><img src="assets/current-2026-08-25/09.jpg" alt=""></span><span class="identity-ref-copy"><span>Живая сетка · 25 августа</span><strong>Три закреплённых и девять свежих публикаций</strong><small>Реальный порядок профиля без повторяющихся карточек.</small></span></button>
+            <button type="button" data-jump="ideal"><span class="identity-ref-grid identity-ref-grid-ideal" aria-hidden="true"><img src="assets/ideal/18_gym.jpg" alt=""><i></i><img src="assets/ideal/20_halo.jpg" alt=""><img src="assets/ideal/21_balance.jpg" alt=""><img src="assets/ideal/22_runners.jpg" alt=""><img src="assets/ideal/23_people.jpg" alt=""><i></i><img src="assets/proposed-covers/base/05-short-cardio-base.png" alt=""><i></i></span><span class="identity-ref-copy"><span>Идеальная неделя</span><strong>Баланс контента уже собран</strong><small>Польза, игра, позиция и люди остаются; меняется только визуальная система.</small></span></button>
+            <div><span>Честное сравнение</span><strong>9 одинаковых тем и фотографий</strong><small>Поэтому видно влияние шрифта, регистра, цвета и способа верстки.</small></div>
           </div>
 
-          <div class="growth-room-tabs" role="tablist" aria-label="Разделы комнаты роста">
+          <div class="identity-workspace" id="identityWorkspace">
+            <nav class="identity-direction-rail" id="identityDirectionRail" aria-label="Четыре цветовых режима сетки"></nav>
+            <div class="identity-main">
+              <section class="identity-feed-shell" aria-label="Пример сетки выбранного направления">
+                <div class="identity-feed-head"><div class="profile-badge small">#S</div><div><strong>@sektaschool</strong><span>примерка верхней девятки</span></div><small>новое сверху</small></div>
+                <div class="identity-feed-grid" id="identityGrid"></div>
+              </section>
+              <aside class="identity-detail" id="identityDetail" aria-live="polite"></aside>
+            </div>
+          </div>
+
+          <section class="identity-all">
+            <div><h2>Сравнить четыре цветовых режима</h2><p>Во всех версиях одинаковые фотографии, композиционные задачи и пара PT Sans Narrow × Manrope.</p></div>
+            <div class="identity-compare" id="identityCompare"></div>
+          </section>
+        </section>
+
+        <section class="view" data-view-panel="timehop">
+          <div class="page-heading compact timehop-heading">
+            <div><h1>Таймхоп Оли</h1><p>Прошлые формулировки, планы и сцены Оли — не для репоста, а как вход в новый материал «тогда / сейчас».</p></div>
+            <div class="timehop-heading-actions">
+              <span class="snapshot-label"><i></i><strong id="timehopArchiveCount">7 506</strong> материалов в индексе</span>
+              <button class="button button-primary" id="refreshOlyaTimehop" type="button">Другой заход ↻</button>
+            </div>
+          </div>
+
+          <section class="idea-generator timehop-generator" aria-labelledby="timehopTodayTitle">
+            <div class="timehop-datebar">
+              <div><h2 id="timehopTodayTitle">Сегодня, 25 августа</h2><p>Берём одну архивную мысль и сразу видим, как превратить её в обложку, пост или повторяемую серию.</p></div>
+              <span id="timehopVisibleCount">5 готовых заходов</span>
+            </div>
+            <div class="idea-bank-grid timehop-grid" id="olyaTimehopGrid" aria-live="polite"></div>
+          </section>
+        </section>
+
+        <section class="view" data-view-panel="growth">
+          <div class="page-heading compact growth-heading">
+            <div><h1>Банк идей</h1><p>Не ещё один список тем, а машина заходов: выберите источник, механику и формат — и сразу отправьте результат в монтаж.</p></div>
+            <span class="snapshot-label"><i></i>12 000+ архивных материалов превращены в курированные входы</span>
+          </div>
+
+          <section class="idea-generator" aria-label="Генератор идей">
+            <div class="idea-radar-head">
+              <div><h2>Из чего начать</h2><p>Сырые архивы остаются закрытыми. Здесь — только производственные направления и честное происхождение идеи.</p></div>
+              <button class="button button-secondary" id="mixIdeaRadar" type="button">Смешать источники</button>
+            </div>
+            <div class="idea-source-radar" id="ideaSourceRadar" role="list" aria-label="Источники идей"></div>
+
+            <div class="idea-generator-head idea-recipe-bar">
+              <div class="idea-kind-switch" role="tablist" aria-label="Формат идей">
+                <button class="is-active" type="button" data-idea-kind="post" role="tab" aria-selected="true">Посты</button>
+                <button type="button" data-idea-kind="reel" role="tab" aria-selected="false">Reels</button>
+                <button type="button" data-idea-kind="series" role="tab" aria-selected="false">Системные серии</button>
+              </div>
+              <label class="idea-mechanic-filter"><span>Механика захода</span><select id="ideaMechanicFilter"><option value="all">Все механики</option></select></label>
+              <button class="button button-primary" id="refreshIdeaBank" type="button">Ещё шесть идей ↻</button>
+            </div>
+            <div class="idea-bank-result"><strong id="ideaBankResult">Показываем 6 идей</strong><span id="ideaBankRecipe">все источники · все механики</span></div>
+            <div class="idea-bank-grid" id="ideaBankGrid" aria-live="polite"></div>
+          </section>
+
+          <div class="growth-section-title"><div><h2>Готовые Reels-брифы</h2><p>Фильтруйте по цели и исходникам; справа откроется сценарий, CTA и визуальная режиссура.</p></div><span>18 брифов</span></div>
+
+          <div class="growth-room-tabs growth-room-tabs-hidden" role="tablist" aria-label="Архивные разделы комнаты роста">
             <button class="growth-room-tab is-active" data-growth-room-tab="ideas" role="tab" aria-selected="true">Идеи Reels <em>18</em></button>
-            <button class="growth-room-tab" data-growth-room-tab="visual" role="tab" aria-selected="false">Визуальный код</button>
-            <button class="growth-room-tab" data-growth-room-tab="system" role="tab" aria-selected="false">Система недели</button>
           </div>
 
           <div class="growth-room-panel is-active" data-growth-room-panel="ideas">
@@ -225,53 +405,48 @@
         </section>
 
         <section class="view" data-view-panel="current">
-          <div class="page-heading compact"><div><p class="eyebrow">Примерка без удаления публикаций</p><h1>Сетка с новыми обложками</h1><p>Пять слабых входов пересобраны: «Летний прайм» и все четыре Reels. Переключайтесь между фактическим снимком и предлагаемой версией.</p></div><div class="current-heading-actions"><div class="cover-mode-switch" role="group" aria-label="Версия сетки"><button data-cover-mode="current">Сейчас</button><button class="is-active" data-cover-mode="proposed">Новые обложки</button></div><a class="button button-primary" href="assets/proposed-covers/feed-preview-v2.png" target="_blank">PNG всей сетки ↗</a></div></div>
-          <div class="cover-redesign-strip"><div><strong>5 обложек обновлено</strong><span>1 закреп · 4 Reels</span></div><p id="coverModeNote">Предлагаемая примерка: публикации остаются на месте, меняется только то, что человек видит в профиле.</p><a href="assets/proposed-covers/" target="_blank">Открыть файлы →</a></div>
+          <div class="page-heading compact"><div><h1>Текущая сетка Instagram</h1><p>Свежий снимок профиля, снятый из авторизованного Instagram 25 августа 2026 года.</p></div><div class="current-heading-actions"><a class="button button-primary" href="https://www.instagram.com/sektaschool/" target="_blank" rel="noreferrer">Открыть Instagram ↗</a></div></div>
+          <div class="cover-redesign-strip"><div><strong>Снимок обновлён</strong><span>25 августа · 12 публикаций</span></div><p id="coverModeNote">Три закреплённых публикации и девять следующих карточек показаны в том же порядке, что в профиле.</p><a href="https://www.instagram.com/sektaschool/" target="_blank" rel="noreferrer">Сверить профиль →</a></div>
           <div class="current-layout">
             <div class="instagram-frame">
-              <div class="instagram-profile-line"><div class="profile-badge small">#S</div><div><strong>@sektaschool</strong><span id="gridVersionLabel">примерка новых обложек · 5 замен</span></div></div>
+              <div class="instagram-profile-line"><div class="profile-badge small">#S</div><div><strong>@sektaschool</strong><span id="gridVersionLabel">фактический снимок · 25 августа</span></div></div>
               <div class="feed-grid" id="currentGrid"></div>
             </div>
             <aside class="insight-rail">
-              <h2>Что изменили</h2>
-              <div class="insight"><span>01</span><div><strong>Летний прайм — живой продукт</strong><p>Человек в движении вместо body-check, короткое название и одна продуктовая строка.</p></div></div>
-              <div class="insight"><span>02</span><div><strong>Reels получили темы</strong><p>Вместо случайного стоп-кадра теперь видны четыре разных обещания: кардио, результат, пресс и развлекательный конфликт.</p></div></div>
-              <div class="insight"><span>03</span><div><strong>Один визуальный алфавит</strong><p>Контрастный гротеск, синий, розовый и лайм. Заголовок читается в центральной квадратной обрезке.</p></div></div>
-              <div class="legend"><span><i class="pin-symbol">◆</i> закреплено</span><span><i class="reel-symbol">NEW</i> новая обложка</span></div>
+              <h2>Что улучшить дальше</h2>
+              <div class="insight"><span>01</span><div><strong>Закрепы задают три разных языка</strong><p>«Летний прайм», синий «Начните» и Prosto работают по отдельности, но пока не собираются в одну верхнюю строку.</p></div></div>
+              <div class="insight"><span>02</span><div><strong>Свежая девятка стала разнообразнее</strong><p>Два быстрых рецепта, вечерняя практика, овуляция и возвращение без наказания дают разные причины открыть публикацию.</p></div></div>
+              <div class="insight"><span>03</span><div><strong>Темы связаны, обложки пока спорят</strong><p>Сохраняем живые фотографии и резкие хуки, но повторяем зоны заголовка, плашки и служебную строку от поста к посту.</p></div></div>
+              <div class="legend"><span><i class="pin-symbol">◆</i> закреплено</span><span><i class="reel-symbol">▶</i> Reel</span></div>
             </aside>
           </div>
         </section>
 
         <section class="view" data-view-panel="builder">
           <div class="page-heading compact builder-heading">
-            <div><h1>Идеи и обложки</h1><p>Выберите хук, соберите обложку на фотографии из медиатеки, а затем доработайте сценарий карусели.</p></div>
+            <div><h1>Конструктор обложек</h1><p>Сразу соберите визуал: напишите хук, выберите фотографию из медиатеки и настройте композицию. Идеи и сборка карусели находятся ниже.</p></div>
             <span class="snapshot-label"><i></i><span id="builderLibraryCount">1059</span> фото подключено</span>
           </div>
 
-          <section class="panel builder-ideas-panel">
-            <div class="builder-ideas-head">
-              <div><h2>10 идей, которые можно взять сейчас</h2><p>Клик по карточке сразу переносит хук и тему в обложку.</p></div>
-              <button class="button button-secondary" id="builderRefreshIdeas" type="button">Ещё 10 идей ↻</button>
-            </div>
-            <div class="builder-idea-strip" id="builderIdeaStrip" aria-label="Идеи и хуки"></div>
-          </section>
-
-          <form class="builder-controls" id="builderControls">
-            <label><span>Тема сценария</span><select id="builderTopic"></select></label>
-            <label><span>Цель</span><select id="builderGoal"><option value="save">Сохранения</option><option value="comment">Комментарии</option><option value="warmth">Теплота</option><option value="class">Запись на класс</option></select></label>
-            <label><span>Аккаунт</span><select id="builderAccount"><option value="@sektaschool">@sektaschool</option><option value="@olymarkes">@olymarkes</option></select></label>
-            <label><span>Тон</span><select id="builderTone"><option value="warm">Тёплый</option><option value="bold">Смелый</option><option value="expert">Экспертный</option></select></label>
-            <button class="button button-primary" id="builderGenerate" type="submit">Обновить концепт</button>
-          </form>
-
           <div class="builder-workspace" id="builderWorkspace">
             <section class="panel builder-cover-panel">
-              <div class="section-head"><div><h2>Конструктор обложки</h2><p>1080 × 1350 · все настройки входят в PNG</p></div><span id="builderCoverStatus">Фото + контраст</span></div>
-              <div class="builder-cover builder-cover-dark" id="builderCoverPreview" data-placement="bottom" data-font="condensed" data-text-color="white">
+              <div class="section-head"><div><h2>Конструктор обложки</h2><p>1080 × 1350 · система #Sekta входит в PNG</p></div><span id="builderCoverStatus">Система #Sekta · плашка</span></div>
+              <div class="builder-system-note"><strong>Канон обложек #Sekta</strong><span>Geologica × Golos Text · жёлтый / розовый / мятный · фото с затемнением или цветная плашка</span></div>
+              <div class="builder-preview-switch" role="tablist" aria-label="Режим примерки обложки">
+                <button class="is-active" type="button" data-builder-preview="cover" role="tab" aria-selected="true">Обложка 4:5</button>
+                <button type="button" data-builder-preview="grid" role="tab" aria-selected="false">В актуальной сетке</button>
+              </div>
+              <div class="builder-cover builder-cover-clean is-direct-editing" id="builderCoverPreview" data-placement="bottom" data-font="taste" data-taste-case="upper" data-accent="yellow" data-text-color="auto" aria-label="Редактируемая обложка: фотографию и текстовые элементы можно перетаскивать мышью или пальцем" aria-describedby="builderDirectHint">
                 <img id="builderCoverImage" src="assets/library/lib-e0e929ba56891c.jpg" alt="Выбранная фотография для обложки">
-                <span class="builder-cover-account" id="builderCoverAccount">@sektaschool</span>
-                <strong id="builderCoverHeadline">Пропустили пять дней? Ничего не сломалось</strong>
-                <small id="builderCoverPromise">10 слайдов · сохрани</small>
+                <span class="builder-cover-account builder-direct-layer" id="builderCoverAccount" data-builder-layer="account" data-layer-label="аккаунт" tabindex="0">@sektaschool</span>
+                <strong class="builder-direct-layer is-selected-layer" id="builderCoverHeadline" data-builder-layer="headline" data-layer-label="заголовок" tabindex="0">Пропустили пять дней? Ничего не сломалось</strong>
+                <small class="builder-direct-layer" id="builderCoverPromise" data-builder-layer="subtitle" data-layer-label="подстрочник" tabindex="0">10 слайдов · сохрани</small>
+              </div>
+              <p class="carousel-direct-hint builder-direct-hint" id="builderDirectHint">Тяните за круглую ручку · углы меняют кегль и размер · боковые ручки управляют переносом строк</p>
+              <div class="builder-grid-fitting" id="builderGridFitting" role="tabpanel" aria-label="Новая обложка в актуальной сетке Instagram">
+                <div class="builder-grid-profile"><div class="profile-badge small">#S</div><div><strong>@sektaschool</strong><span>сохранённый снимок · 25 августа</span></div><small>новая публикация сверху</small></div>
+                <div class="builder-live-grid" id="builderLiveGrid"></div>
+                <div class="builder-grid-reading"><span><i></i> новая обложка</span><p>Смотрите на хук в масштабе ячейки: читается ли он сразу и не сливается ли с соседними публикациями.</p></div>
               </div>
 
               <div class="builder-copy-fields">
@@ -279,13 +454,39 @@
                 <label class="builder-field"><span>Подстрочник</span><input id="builderSubtitle" type="text"></label>
               </div>
 
+              <section class="builder-layer-inspector" aria-label="Настройки выбранного слоя">
+                <div class="carousel-active-layer-head"><strong>Выбранный элемент</strong><span id="builderLayerLabel">заголовок</span></div>
+                <div class="builder-layer-content-row">
+                  <label class="builder-field"><span>Элемент</span><select id="builderLayerTarget"><option value="headline">Заголовок</option><option value="subtitle">Подстрочник</option><option value="account">Аккаунт</option></select></label>
+                  <label class="builder-field builder-layer-text-field"><span>Текст элемента</span><input id="builderLayerText" type="text"></label>
+                  <button class="button button-quiet builder-layer-remove" id="builderLayerRemove" type="button">Удалить элемент</button>
+                </div>
+                <div class="carousel-control-grid builder-layer-controls">
+                  <label><span>Шрифт зафиксирован</span><select id="builderLayerFont" disabled><option value="Geologica">Geologica · заголовок</option><option value="Golos Text">Golos Text · служебный текст</option></select></label>
+                  <label><span>Насыщенность</span><input id="builderLayerWeight" type="range" min="100" max="900" step="10" value="760"><output id="builderLayerWeightValue">760</output></label>
+                  <label><span>Размер</span><input id="builderLayerSize" type="range" min="8" max="132" step="1" value="106"><output id="builderLayerSizeValue">106 px</output></label>
+                  <label><span>Ширина строки</span><input id="builderLayerBoxWidth" type="range" min="18" max="96" step="1" value="90"><output id="builderLayerBoxWidthValue">90%</output></label>
+                  <label><span>Межстрочное</span><input id="builderLayerLineHeight" type="range" min="0.7" max="1.6" step="0.01" value="0.87"><output id="builderLayerLineHeightValue">0.87</output></label>
+                  <label><span>Расстояние между буквами</span><input id="builderLayerTracking" type="range" min="-0.04" max="0.16" step="0.005" value="-0.026"><output id="builderLayerTrackingValue">−0.026 em</output></label>
+                  <label><span>Влево / вправо</span><input id="builderLayerOffsetX" type="range" min="-90" max="90" step="0.5" value="0"><output id="builderLayerOffsetXValue">0%</output></label>
+                  <label><span>Вверх / вниз</span><input id="builderLayerOffsetY" type="range" min="-90" max="90" step="0.5" value="0"><output id="builderLayerOffsetYValue">0%</output></label>
+                </div>
+              </section>
+
+              <div class="builder-cover-actions">
+                <button class="button button-primary builder-send-post" id="builderSendToPost" type="button">Отправить в конструктор поста →</button>
+                <button class="button button-secondary" id="builderDownload" type="button">Скачать PNG</button>
+                <button class="button button-secondary" id="builderAddGrid" type="button">+ В будущую сетку</button>
+              </div>
+            </section>
+
+            <aside class="panel builder-media-panel">
               <div class="builder-design-controls">
-                <fieldset class="builder-control-block"><legend>Серия</legend><div class="builder-choice-row" role="group" aria-label="Серия обложки">
-                  <button type="button" class="builder-choice is-active" data-builder-style="dark">Контраст</button>
-                  <button type="button" class="builder-choice" data-builder-style="pink">Розовая</button>
-                  <button type="button" class="builder-choice" data-builder-style="blue">Синяя</button>
-                  <button type="button" class="builder-choice" data-builder-style="lime">Лайм</button>
-                  <button type="button" class="builder-choice" data-builder-style="paper">Бумага</button>
+                <div class="builder-quick-controls-head"><strong>Быстрые настройки обложки</strong><span>Меняйте — результат сразу виден слева</span></div>
+                <fieldset class="builder-control-block builder-control-wide"><legend>Три готовые обложки</legend><div class="builder-cover-presets" role="group" aria-label="Готовый вид обложки">
+                  <button type="button" class="builder-cover-preset is-active" data-builder-style="clean"><span class="builder-preset-preview is-dim"><i>Белый заголовок</i></span><strong>Белый на фото</strong><small>Фото затемнено · без плашки</small></button>
+                  <button type="button" class="builder-cover-preset" data-builder-style="plate"><span class="builder-preset-preview is-accent"><i>Контрастный заголовок</i></span><strong>Цветная плашка</strong><small>Цвет системы · тёмный текст</small></button>
+                  <button type="button" class="builder-cover-preset" data-builder-style="footer"><span class="builder-preset-preview is-contrast"><i>Белый заголовок</i></span><strong>Тёмная плашка</strong><small>Тёмная поверхность · белый текст</small></button>
                 </div></fieldset>
 
                 <fieldset class="builder-control-block"><legend>Размещение</legend><div class="builder-choice-row" role="group" aria-label="Размещение текста">
@@ -295,50 +496,199 @@
                   <button type="button" class="builder-choice" data-builder-placement="right">Справа</button>
                 </div></fieldset>
 
-                <fieldset class="builder-control-block"><legend>Типографика</legend><div class="builder-choice-row" role="group" aria-label="Типографика">
-                  <button type="button" class="builder-choice is-active" data-builder-font="condensed">Плотная</button>
-                  <button type="button" class="builder-choice" data-builder-font="grotesk">Гротеск</button>
-                  <button type="button" class="builder-choice" data-builder-font="editorial">Редакционная</button>
-                  <button type="button" class="builder-choice" id="builderTasteFont" data-builder-font="taste" disabled>Из примерочной</button>
+                <fieldset class="builder-control-block"><legend>Типографика зафиксирована</legend><div class="builder-choice-row" role="group" aria-label="Типографика">
+                  <button type="button" class="builder-choice is-active" id="builderTasteFont" data-builder-font="taste">Geologica × Golos Text</button>
+                </div></fieldset>
+
+                <fieldset class="builder-control-block"><legend>Цвет системы</legend><div class="builder-swatch-row" role="group" aria-label="Цвет системы">
+                  <button type="button" class="builder-swatch" data-builder-accent="green" aria-label="Мятный" style="--swatch:#62d9a4"></button>
+                  <button type="button" class="builder-swatch is-active" data-builder-accent="yellow" aria-label="Жёлтый" style="--swatch:#ffe36a"></button>
+                  <button type="button" class="builder-swatch" data-builder-accent="pink" aria-label="Розовый" style="--swatch:#f481b5"></button>
                 </div></fieldset>
 
                 <fieldset class="builder-control-block"><legend>Цвет текста</legend><div class="builder-swatch-row" role="group" aria-label="Цвет текста">
-                  <button type="button" class="builder-swatch is-active" data-builder-text-color="white" aria-label="Белый" style="--swatch:#ffffff"></button>
+                  <button type="button" class="builder-swatch builder-swatch-auto" data-builder-text-color="auto" aria-label="Автоматический контраст"></button>
                   <button type="button" class="builder-swatch" data-builder-text-color="ink" aria-label="Чёрный" style="--swatch:#17221f"></button>
-                  <button type="button" class="builder-swatch" data-builder-text-color="pink" aria-label="Розовый" style="--swatch:#f35ba7"></button>
-                  <button type="button" class="builder-swatch" data-builder-text-color="blue" aria-label="Синий" style="--swatch:#3155e4"></button>
-                  <button type="button" class="builder-swatch" data-builder-text-color="lime" aria-label="Лайм" style="--swatch:#d4f04a"></button>
+                  <button type="button" class="builder-swatch" data-builder-text-color="white" aria-label="Белый" style="--swatch:#ffffff"></button>
+                  <button type="button" class="builder-swatch is-active" data-builder-text-color="accent" aria-label="Цвет системы" style="--swatch:linear-gradient(135deg,#62d9a4 0 33%,#ffe36a 33% 66%,#f481b5 66%)"></button>
                 </div></fieldset>
 
-                <fieldset class="builder-control-block builder-focus-control"><legend>Фокус фотографии</legend><label><span>По горизонтали</span><input id="builderFocusX" type="range" min="0" max="100" value="50"></label><label><span>По вертикали</span><input id="builderFocusY" type="range" min="0" max="100" value="50"></label></fieldset>
+                <fieldset class="builder-control-block builder-dim-control"><legend>Затемнение фотографии</legend><label><span>Светлее</span><input id="builderPhotoDim" type="range" min="0" max="72" value="42"><span>Темнее</span></label><output id="builderPhotoDimValue">42%</output></fieldset>
+                <div class="builder-hidden-controls" aria-hidden="true"><input id="builderFocusX" type="range" min="0" max="100" value="50" tabindex="-1"><input id="builderFocusY" type="range" min="0" max="100" value="50" tabindex="-1"></div>
               </div>
-
-              <div class="builder-cover-actions">
-                <button class="button button-primary" id="builderDownload" type="button">Скачать PNG</button>
-                <button class="button button-secondary" id="builderAddGrid" type="button">+ В будущую сетку</button>
-                <button class="button button-secondary" id="builderToStudio" type="button" data-jump="typography">Открыть все шрифты</button>
-              </div>
-            </section>
-
-            <aside class="panel builder-media-panel">
-              <div class="builder-media-head"><div><h2>Медиатека для обложки</h2><p id="builderMediaCount">Подбираем по теме</p></div><button class="button button-secondary" id="builderExpandMedia" type="button" aria-expanded="false">Развернуть</button></div>
+              <div class="builder-media-head"><div><h2>Медиатека для обложки</h2><p id="builderMediaCount">Свежая подборка при каждой загрузке</p></div><button class="button button-secondary" id="builderExpandMedia" type="button" aria-expanded="false">Развернуть</button></div>
               <div class="builder-media-toolbar">
                 <label class="builder-media-search"><span>⌕</span><input id="builderMediaSearch" type="search" placeholder="Найти фото…" autocomplete="off"></label>
                 <select id="builderMediaFolder" aria-label="Коллекция"><option value="all">Все коллекции</option></select>
-                <button class="button button-secondary is-active" id="builderNewestMedia" type="button" aria-pressed="true" title="По дате съёмки из EXIF; если её нет — по файловой дате">↓ Сначала новые</button>
                 <button class="button button-secondary" id="builderShowAllMedia" type="button">Показать все</button>
                 <button class="button button-secondary" id="builderShuffleMedia" type="button">Перемешать ↻</button>
               </div>
               <div class="builder-media-grid" id="builderMediaGrid"></div>
-              <div class="builder-media-footer"><span id="builderMediaShown">Показано 0</span></div>
+              <div class="builder-media-footer"><span id="builderMediaShown">Показано 0</span><small>Листайте страницу — фото подгружаются автоматически</small></div>
             </aside>
           </div>
 
-          <section class="panel builder-script-panel">
-            <div class="builder-script-head"><div><h2>Сценарий · 10 слайдов</h2><p>Второй этап: обновите структуру или перепишите любой текст прямо внутри.</p></div><div><span id="builderWordCount">0 слов</span><button class="button button-secondary" id="builderRefreshScript" type="button">Обновить сценарий ↻</button><button class="button button-secondary" id="builderCopyScript" type="button">Скопировать</button></div></div>
-            <div class="builder-slides" id="builderSlides"></div>
+          <section class="panel builder-ideas-panel">
+            <div class="builder-ideas-head">
+              <div><h2>Нейро-миксер идей</h2><p>Живые заходы сверху, научный корпус внутри. Выберите тему и обновляйте, пока не появится тот самый хук.</p></div>
+              <div class="builder-idea-actions">
+                <label><span>Тема</span><select id="builderIdeaTheme" aria-label="Тема свежих идей"><option value="all">Всё вперемешку</option><option value="science">Наука без скуки</option><option value="body">Тело и тренировки</option><option value="food">Еда и отношения с ней</option><option value="motherhood">Материнство и беременность</option><option value="motivation">Мотивация и жизнь</option></select></label>
+                <button class="button button-secondary" id="builderRefreshIdeas" type="button">Ещё 10 идей ↻</button>
+              </div>
+            </div>
+            <div class="builder-idea-strip" id="builderIdeaStrip" aria-label="Идеи и хуки"></div>
+
+            <div class="builder-idea-development" id="builderIdeaDevelopment" hidden>
+              <div class="builder-development-head"><div><span>Выбранная идея</span><strong id="builderDevelopmentTitle">Домашние тренировки</strong><p id="builderDevelopmentHook">Выберите карточку, чтобы развернуть тему.</p></div><button class="button button-quiet" id="builderCloseDevelopment" type="button">Свернуть</button></div>
+              <form class="builder-controls" id="builderControls">
+                <label><span>Тема сценария</span><select id="builderTopic"></select></label>
+                <label><span>Слайдов</span><select id="builderSlideCount"><option value="6">6</option><option value="8">8</option><option value="10" selected>10</option><option value="12">12</option><option value="15">15</option><option value="20">20</option></select></label>
+                <label><span>Цель</span><select id="builderGoal"><option value="save">Сохранения</option><option value="comment">Комментарии</option><option value="warmth">Теплота</option><option value="class">Запись на класс</option></select></label>
+                <label><span>Аккаунт</span><select id="builderAccount"><option value="@sektaschool">@sektaschool</option><option value="@olymarkes">@olymarkes</option></select></label>
+                <label><span>Тон</span><select id="builderTone"><option value="warm">Тёплый</option><option value="bold">Смелый</option><option value="expert">Экспертный</option></select></label>
+                <button class="button button-secondary" id="builderGenerate" type="submit">Обновить сценарий</button>
+              </form>
+
+              <section class="builder-script-panel">
+                <div class="builder-series-system"><div><span>Сохранённые кириллические пары</span><strong>Одна система на всю карусель</strong><p>Шрифт остаётся стабильным, а ритм создают фото, плашки и разные сцены размещения.</p></div><div class="builder-type-systems" id="builderTypeSystems" aria-label="Типографическая система карусели"></div></div>
+                <div class="builder-script-head"><div><h2 id="builderScriptTitle">Карусель · 10 слайдов</h2><p>Компактный обзор серии. Текст можно поправить здесь, а фото, шрифт, кегль и положение — в покадровом монтаже.</p></div><div><span id="builderWordCount">0 слов</span><button class="button button-secondary" id="builderRefreshScript" type="button">Другой вариант ↻</button><button class="button button-secondary" id="builderCopyScript" type="button">Скопировать</button></div></div>
+                <div class="builder-slides" id="builderSlides"></div>
+                <div class="builder-carousel-action"><div><strong>Нужно поправить отдельный кадр?</strong><span>В полном монтаже меняются фото, шрифт, оба кегля и положение текста каждого слайда.</span></div><button class="button button-primary" id="builderBuildCarousel" type="button">Открыть покадровый монтаж →</button></div>
+              </section>
+            </div>
           </section>
+
+          <div class="builder-start builder-start-bottom">
+            <section class="builder-reference">
+              <div><h2>Рабочая сетка-ориентир</h2><p>Финальная проверка после сборки: живое фото, крупный хук и ритм трёх акцентов — мятного, жёлтого и розового.</p></div>
+              <img src="assets/approved-grid/tempo-final-synthesis.jpg" alt="Утверждённая рабочая сетка из девяти обложек #Sekta">
+            </section>
+            <ol class="builder-flow" aria-label="Как проверить результат">
+              <li><strong>Обложка собрана</strong><span>хук, фото и композиция</span></li>
+              <li><strong>Идея развита</strong><span>выбрано число слайдов</span></li>
+              <li><strong>Карусель готова</strong><span>сценарий передан в монтаж</span></li>
+              <li><strong>Проверка в сетке</strong><span>ритм и читаемость</span></li>
+            </ol>
+          </div>
           <div class="builder-status" id="builderStatus" role="status" aria-live="polite">Готов к сборке.</div>
+        </section>
+
+        <section class="view" data-view-panel="mobileeditor">
+          <div class="mobile-editor-shell">
+            <div class="page-heading compact mobile-editor-heading">
+              <div><h1>Мобильный редактор</h1><p>Быстрый черновик карусели: фото, лонгрид и покадровая проверка без длинной панели настроек.</p></div>
+              <span class="mobile-editor-save-state" id="mobileEditorSaveState"><i></i>черновик сохранён</span>
+            </div>
+
+            <div class="mobile-editor-progress" aria-label="Быстрый переход по редактору">
+              <button class="is-active" type="button" data-mobile-step="media" aria-current="step">Фото</button>
+              <button type="button" data-mobile-step="writing">Текст</button>
+              <button type="button" data-mobile-step="series">Серия</button>
+            </div>
+
+            <div class="mobile-editor-dock" aria-label="Навигация по слайдам">
+              <button type="button" data-mobile-dock="prev" aria-label="Предыдущий слайд">←</button>
+              <button type="button" data-mobile-dock="media">Сменить фото</button>
+              <button type="button" data-mobile-dock="next" aria-label="Следующий слайд">→</button>
+            </div>
+
+            <div class="mobile-editor-workspace">
+              <section class="mobile-editor-stage" id="mobileEditorStage" aria-label="Текущий слайд">
+                <div class="mobile-editor-canvas" id="mobileEditorCanvas" data-tone="mint">
+                  <img id="mobileEditorImage" src="assets/library/lib-ce1074da9a251c.jpg" alt="Предложенная фотография для слайда">
+                  <div class="mobile-editor-scrim"></div>
+                  <span class="mobile-editor-label">@SEKTASCHOOL</span>
+                  <div class="mobile-editor-copy">
+                    <strong id="mobileEditorPreviewTitle" contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-label="Редактировать заголовок прямо на слайде" spellcheck="true" data-mobile-inline="title" data-placeholder="Введите заголовок"></strong>
+                    <p id="mobileEditorPreviewBody" contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-label="Редактировать основной текст прямо на слайде" spellcheck="true" data-mobile-inline="body" data-placeholder="Добавьте основной текст"></p>
+                  </div>
+                  <span class="mobile-editor-counter" id="mobileEditorCounter">01 / 01</span>
+                </div>
+                <div class="mobile-editor-plaque-toolbar" aria-label="Плашка и положение текста">
+                  <div class="mobile-editor-plaque-head">
+                    <label class="mobile-editor-plaque-toggle"><input id="mobileEditorPlaqueEnabled" type="checkbox"><span>Плашка</span></label>
+                    <div class="mobile-editor-placement" id="mobileEditorPlacement" role="group" aria-label="Положение текста">
+                      <button type="button" data-mobile-placement="top" aria-label="Текст сверху">Сверху</button>
+                      <button type="button" data-mobile-placement="middle" aria-label="Текст по центру">Центр</button>
+                      <button type="button" data-mobile-placement="bottom" aria-label="Текст снизу">Снизу</button>
+                    </div>
+                  </div>
+                  <button class="mobile-editor-body-action" id="mobileEditorBodyAction" type="button">Добавить основной текст</button>
+                  <div class="mobile-editor-plaque-settings" id="mobileEditorPlaqueSettings">
+                    <div class="mobile-editor-plaque-colors" id="mobileEditorPlaqueColors" role="group" aria-label="Цвет плашки">
+                      <button type="button" data-mobile-plaque-color="#62d9a4" style="--swatch:#62d9a4" aria-label="Мятная плашка"></button>
+                      <button type="button" data-mobile-plaque-color="#f481b5" style="--swatch:#f481b5" aria-label="Розовая плашка"></button>
+                      <button type="button" data-mobile-plaque-color="#ffe36a" style="--swatch:#ffe36a" aria-label="Жёлтая плашка"></button>
+                      <button type="button" data-mobile-plaque-color="#17221f" style="--swatch:#17221f" aria-label="Тёмная плашка"></button>
+                      <label class="mobile-editor-plaque-custom" aria-label="Свой цвет плашки"><input id="mobileEditorPlaqueColor" type="color" value="#62d9a4"><span>Свой</span></label>
+                    </div>
+                    <label class="mobile-editor-plaque-range"><span>Прозрачность <output id="mobileEditorPlaqueOpacityValue">100%</output></span><input id="mobileEditorPlaqueOpacity" type="range" min="0" max="100" value="100"></label>
+                    <label class="mobile-editor-plaque-range"><span>Ширина <output id="mobileEditorPlaqueWidthValue">86%</output></span><input id="mobileEditorPlaqueWidth" type="range" min="52" max="92" value="86"></label>
+                  </div>
+                </div>
+                <p class="mobile-editor-inline-hint">Коснитесь текста, чтобы переписать его. Плашка настраивается сразу под слайдом.</p>
+                <div class="mobile-editor-stepper">
+                  <button type="button" id="mobileEditorPrev" aria-label="Предыдущий слайд">←</button>
+                  <div><strong id="mobileEditorSlideLabel">Обложка</strong><span id="mobileEditorPhotoLabel">предложенное фото</span></div>
+                  <button type="button" id="mobileEditorNext" aria-label="Следующий слайд">→</button>
+                </div>
+                <div class="mobile-editor-rail" id="mobileEditorRail" aria-label="Слайды серии"></div>
+              </section>
+
+              <section class="mobile-editor-controls" id="mobileEditorMediaSection" aria-label="Настройки мобильного черновика">
+                <div class="mobile-editor-media-head">
+                  <div><strong>Фото для этого кадра</strong><span id="mobileEditorMediaCount">Сразу показываем сильные вертикальные кадры</span></div>
+                  <button class="button button-secondary" type="button" id="mobileEditorShuffle">Другие фото</button>
+                </div>
+                <div class="mobile-editor-media-filters" id="mobileEditorMediaFilters" role="group" aria-label="Раздел медиатеки">
+                  <button class="is-active" type="button" data-mobile-media="suggested" aria-pressed="true">Предложенные</button>
+                  <button type="button" data-mobile-media="all" aria-pressed="false">Все</button>
+                  <button type="button" data-mobile-media="neuro" aria-pressed="false">Нейрофотосеты</button>
+                  <button type="button" data-mobile-media="camp" aria-pressed="false">Секта-лагерь</button>
+                  <button type="button" data-mobile-media="maternity" aria-pressed="false">Материнство</button>
+                  <button type="button" data-mobile-media="body" aria-pressed="false">Тело</button>
+                  <button type="button" data-mobile-media="olya" aria-pressed="false">Оля</button>
+                </div>
+                <label class="mobile-editor-search"><span>Найти фотографию</span><input id="mobileEditorMediaSearch" type="search" placeholder="портрет, лагерь, тренировка…" autocomplete="off"></label>
+                <div class="mobile-editor-photo-browser">
+                  <aside class="mobile-editor-live-card" aria-label="Живое превью выбранной фотографии">
+                    <span>Живое превью</span>
+                    <div class="mobile-editor-mini-canvas" id="mobileEditorMiniCanvas" data-tone="mint">
+                      <img id="mobileEditorMiniImage" src="assets/library/lib-ce1074da9a251c.jpg" alt="Выбранная фотография в текущем слайде">
+                      <div class="mobile-editor-scrim"></div>
+                      <div class="mobile-editor-mini-copy">
+                        <strong contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-label="Редактировать заголовок в живом превью" spellcheck="true" data-mobile-inline="title" data-placeholder="Заголовок"></strong>
+                        <p contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-label="Редактировать основной текст в живом превью" spellcheck="true" data-mobile-inline="body" data-placeholder="Текст"></p>
+                      </div>
+                      <span id="mobileEditorMiniCounter">01 / 01</span>
+                    </div>
+                    <small>Фото и текст меняются сразу</small>
+                  </aside>
+                  <div class="mobile-editor-media" id="mobileEditorMedia" role="group" aria-label="Фотографии медиатеки"></div>
+                </div>
+
+                <div class="mobile-editor-writing" id="mobileEditorWritingSection">
+                  <label><span>Заголовок обложки</span><input id="mobileEditorTitle" type="text" placeholder="О чём эта карусель?"></label>
+                  <label><span>Лонгрид</span><textarea id="mobileEditorLongread" rows="10" placeholder="Вставьте весь текст. Редактор сохранит формулировки и распределит их по слайдам."></textarea></label>
+                  <div class="mobile-editor-split-row">
+                    <label><span>Сколько слайдов</span><select id="mobileEditorSlideCount"><option>5</option><option>6</option><option>7</option><option selected>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></label>
+                    <button class="button button-primary" type="button" id="mobileEditorSplit">Разбить текст</button>
+                  </div>
+                  <p class="mobile-editor-word-count" id="mobileEditorWordCount">0 слов · сначала вставьте лонгрид</p>
+                </div>
+
+                <div class="mobile-editor-slide-copy">
+                  <div><strong>Текст текущего кадра</strong><span>Можно поправить после автоматической разбивки</span></div>
+                  <label><span>Заголовок кадра</span><input id="mobileEditorSlideTitle" type="text" placeholder="Необязательно"></label>
+                  <label><span>Основной текст</span><textarea id="mobileEditorSlideBody" rows="6" placeholder="Текст этого слайда"></textarea></label>
+                </div>
+
+                <button class="button button-secondary mobile-editor-open-full" type="button" id="mobileEditorOpenFull">Продолжить в полном конструкторе →</button>
+                <div class="mobile-editor-status" id="mobileEditorStatus" role="status" aria-live="polite">Выберите фото или вставьте лонгрид.</div>
+              </section>
+            </div>
+
+          </div>
         </section>
 
         <section class="view" data-view-panel="typography">
@@ -368,12 +718,13 @@
             </div>
             <iframe id="coverTypographyFrame" src="type-studio/carousel-type-lab.html?v=20260818-6" title="Полная примерочная шрифтов на обложке" loading="eager"></iframe>
           </section>
+        </section>
 
-          <template id="legacyCarouselStudio">
+        <section class="view" data-view-panel="postbuilder">
           <header class="carousel-studio-heading">
             <div>
-              <h1>Монтаж карусели</h1>
-              <p>Соберите обложку, вставьте длинный текст, разложите его на нужное число слайдов и доведите каждый кадр в одной типографической системе.</p>
+              <h1>Конструктор поста</h1>
+              <p>Выберите идею, получите редактируемый черновик лонгрида, соберите обложку из всей медиатеки и разложите текст по слайдам.</p>
             </div>
             <div class="carousel-studio-heading-actions">
               <span class="carousel-save-state" id="carouselSaveState"><i></i>черновик сохранён локально</span>
@@ -381,6 +732,23 @@
               <button class="button button-primary" id="carouselSaveSeries" type="button">Сохранить серию</button>
             </div>
           </header>
+
+          <section class="post-source-bar" id="postSourceBar" aria-live="polite">
+            <div class="post-source-main">
+              <span>Идея поста</span>
+              <strong id="postSourceTitle">Возвращение без наказания</strong>
+              <p id="postSourceHook">Пауза не обнуляет навык возвращаться</p>
+            </div>
+            <dl class="post-source-meta">
+              <div><dt>Задача</dt><dd id="postSourceObjective">Теплота</dd></div>
+              <div><dt>Нужен</dt><dd id="postSourceAsset">Домашние фото или спокойный портрет</dd></div>
+              <div><dt>CTA</dt><dd id="postSourceCta">Рассказать, как вы возвращаетесь</dd></div>
+            </dl>
+            <div class="post-source-actions">
+              <span id="postSourceReadiness">Текст + фото</span>
+              <button class="button button-secondary" type="button" data-jump="growth">Выбрать другую идею</button>
+            </div>
+          </section>
 
           <section class="panel carousel-system-bar" aria-label="Система всей карусели">
             <label class="carousel-series-name"><span>Название серии</span><input id="carouselSeriesName" type="text" value="Возвращение после паузы"></label>
@@ -390,14 +758,14 @@
               <div class="carousel-font-strip" id="carouselFontStrip" role="group" aria-label="Шрифтовая система всей серии"></div>
             </div>
             <div class="carousel-system-colors">
-              <span>Цвет и сцена</span>
-              <div class="carousel-palette-strip" id="carouselPaletteStrip" role="group" aria-label="Цветовые и версточные системы серии"></div>
+              <span>Цвет текста и плашки</span>
+              <div class="carousel-palette-strip" id="carouselPaletteStrip" role="group" aria-label="Готовые сочетания цвета текста и плашки"></div>
             </div>
           </section>
 
           <div class="carousel-studio-tabs" role="tablist" aria-label="Этап монтажа карусели">
-            <button class="carousel-studio-tab is-active" id="carouselStageCoverTab" type="button" role="tab" aria-controls="carouselStageCoverPanel" aria-selected="true" tabindex="0" data-carousel-stage="cover"><span>Обложка</span><small>хук, фото, цвет и плашка</small></button>
-            <button class="carousel-studio-tab" id="carouselStageLongreadTab" type="button" role="tab" aria-controls="carouselStageLongreadPanel" aria-selected="false" tabindex="-1" data-carousel-stage="longread"><span>Лонгрид</span><small>вставить и разбить текст</small></button>
+            <button class="carousel-studio-tab is-active" id="carouselStageCoverTab" type="button" role="tab" aria-controls="carouselStageCoverPanel" aria-selected="true" tabindex="0" data-carousel-stage="cover"><span>Идея и обложка</span><small>хук, фото, цвет и плашка</small></button>
+            <button class="carousel-studio-tab" id="carouselStageLongreadTab" type="button" role="tab" aria-controls="carouselStageLongreadPanel" aria-selected="false" tabindex="-1" data-carousel-stage="longread"><span>Лонгрид</span><small>создать, отредактировать и разбить</small></button>
             <button class="carousel-studio-tab" id="carouselStageSlidesTab" type="button" role="tab" aria-controls="carouselStageSlidesPanel" aria-selected="false" tabindex="-1" data-carousel-stage="slides"><span>Все слайды</span><small>покадровый монтаж серии</small></button>
             <button class="carousel-studio-tab" id="carouselStageSavedTab" type="button" role="tab" aria-controls="carouselStageSavedPanel" aria-selected="false" tabindex="-1" data-carousel-stage="saved"><span>Сохранённые</span><small id="carouselSavedCount">пока нет серий</small></button>
           </div>
@@ -405,7 +773,16 @@
           <div class="carousel-stage-panel is-active" id="carouselStageCoverPanel" role="tabpanel" aria-labelledby="carouselStageCoverTab" data-carousel-stage-panel="cover">
             <div class="carousel-cover-workspace">
               <section class="carousel-canvas-column" aria-label="Предпросмотр обложки">
+                <div class="carousel-preview-switch" role="tablist" aria-label="Режим предпросмотра обложки">
+                  <button type="button" class="is-active" role="tab" aria-selected="true" data-carousel-preview="cover">Макет</button>
+                  <button type="button" role="tab" aria-selected="false" data-carousel-preview="grid">В сетке</button>
+                </div>
                 <div class="carousel-slide-canvas" id="carouselCoverCanvas"></div>
+                <p class="carousel-direct-hint">Кликните по тексту на макете и тяните мышью</p>
+                <div class="carousel-grid-preview" id="carouselGridPreview" hidden>
+                  <div class="carousel-grid-profile"><span class="profile-badge">#S</span><div><strong>sektaschool</strong><small>предпросмотр профиля</small></div><span>•••</span></div>
+                  <div class="carousel-grid-cells" id="carouselGridCells"></div>
+                </div>
                 <div class="carousel-canvas-actions">
                   <button class="button button-primary" id="carouselSaveCover" type="button">Сохранить слайд</button>
                   <button class="button button-secondary" id="carouselDownloadSlide" type="button">Скачать PNG</button>
@@ -416,20 +793,48 @@
                 <div class="section-head"><div><h2>Обложка серии</h2><p>Все изменения видны на макете сразу</p></div><span>1080 × 1350</span></div>
                 <label class="carousel-field"><span>Что пишем на обложке</span><textarea id="carouselCoverTitle" rows="4">Пропустили пять дней? Ничего не сломалось</textarea></label>
                 <label class="carousel-field"><span>Подстрочник или служебная строка</span><input id="carouselCoverSubtitle" type="text" value="10 слайдов · сохрани"></label>
+                <label class="carousel-check carousel-layer-toggle"><input id="carouselCoverShowLabel" type="checkbox" checked><span>Показывать аккаунт / подпись сверху</span></label>
                 <fieldset class="carousel-control-group"><legend>Сцена</legend><div class="carousel-choice-row">
                   <button type="button" data-carousel-scene="photo-dim">Фото + затемнение</button>
                   <button type="button" data-carousel-scene="photo-clean">Текст на фото</button>
-                  <button type="button" data-carousel-scene="plate">Плашка</button>
                   <button type="button" data-carousel-scene="field">Цветовое поле</button>
                   <button type="button" data-carousel-scene="paper">Без фото</button>
                 </div></fieldset>
+                <fieldset class="carousel-control-group carousel-plaque-control"><legend>Плашка под текстом</legend>
+                  <label class="carousel-check"><input id="carouselCoverPlaqueEnabled" type="checkbox"><span>Добавить плашку</span></label>
+                  <div class="carousel-plaque-settings is-disabled" id="carouselCoverPlaqueSettings">
+                    <div class="carousel-color-control"><span>Цвет плашки</span><div><input id="carouselCoverPlaqueColor" type="color" value="#c8edf2" aria-label="Цвет плашки"><output id="carouselCoverPlaqueColorValue">из палитры</output><button class="text-button" id="carouselCoverPlaqueColorReset" type="button">Из палитры</button></div></div>
+                    <label><span>Непрозрачность</span><input id="carouselCoverPlaqueOpacity" type="range" min="0" max="100" step="5" value="100"><output id="carouselCoverPlaqueOpacityValue">100%</output></label>
+                  </div>
+                </fieldset>
+                <div class="carousel-active-layer-head"><strong>Текст и типографика</strong><span id="carouselCoverTypeLayerLabel">заголовок</span></div>
+                <div class="carousel-layer-content-editor">
+                  <label class="carousel-field"><span>Текст выбранного слоя</span><textarea id="carouselCoverLayerText" rows="2"></textarea></label>
+                  <div><label class="carousel-check"><input id="carouselCoverLayerVisible" type="checkbox" checked><span>Показывать</span></label><button class="button button-secondary" id="carouselCoverLayerAdd" type="button">+ Текстовый блок</button><button class="button button-quiet" id="carouselCoverLayerRemove" type="button">Удалить элемент</button></div>
+                </div>
                 <div class="carousel-control-grid">
-                  <label><span>Размер заголовка</span><input id="carouselCoverSize" type="range" min="54" max="132" value="88"><output id="carouselCoverSizeValue">88 px</output></label>
+                  <label><span>Активный слой</span><select id="carouselCoverMoveTarget"><option value="title">Заголовок</option><option value="body">Подстрочник</option><option value="label">Аккаунт / подпись</option><option value="counter">Номер слайда</option></select></label>
+                  <label><span>Шрифт слоя</span><select id="carouselCoverTypeFont"></select></label>
+                  <div class="carousel-color-control"><span>Цвет текста слоя</span><div><input id="carouselCoverLayerColor" type="color" value="#17221f" aria-label="Цвет текста выбранного слоя"><output id="carouselCoverLayerColorValue">из палитры</output><button class="text-button" id="carouselCoverLayerColorReset" type="button">Из палитры</button></div></div>
+                  <fieldset class="carousel-text-effects"><legend>Тень и обводка выбранного слоя</legend>
+                    <label><span>Тень</span><input id="carouselCoverShadowOpacity" type="range" min="0" max="100" step="5" value="0"><output id="carouselCoverShadowOpacityValue">нет</output></label>
+                    <label class="carousel-effect-color"><span>Цвет тени</span><input id="carouselCoverShadowColor" type="color" value="#000000" aria-label="Цвет тени выбранного слоя"><button class="text-button" id="carouselCoverShadowReset" type="button">Без тени</button></label>
+                    <label><span>Толщина обводки</span><input id="carouselCoverOutlineWidth" type="range" min="0" max="12" step="0.5" value="0"><output id="carouselCoverOutlineWidthValue">нет</output></label>
+                    <label class="carousel-effect-color"><span>Цвет обводки</span><input id="carouselCoverOutlineColor" type="color" value="#000000" aria-label="Цвет обводки выбранного слоя"></label>
+                  </fieldset>
+                  <label><span>Вес</span><input id="carouselCoverTypeWeight" type="range" min="100" max="900" step="10" value="800"><output id="carouselCoverTypeWeightValue">800</output></label>
+                  <label><span>Размер</span><input id="carouselCoverTypeSize" type="range" min="8" max="132" step="1" value="88"><output id="carouselCoverTypeSizeValue">88 px</output></label>
+                  <label><span>Ширина блока</span><input id="carouselCoverBoxWidth" type="range" min="10" max="96" step="1" value="80"><output id="carouselCoverBoxWidthValue">80%</output></label>
+                  <label><span>Предел по высоте</span><input id="carouselCoverBoxHeight" type="range" min="5" max="80" step="1" value="30"><output id="carouselCoverBoxHeightValue">30%</output></label>
+                  <label><span>Интерлиньяж</span><input id="carouselCoverTypeLineHeight" type="range" min="0.7" max="1.6" step="0.01" value="0.96"><output id="carouselCoverTypeLineHeightValue">0.96</output></label>
+                  <label><span>Трекинг</span><input id="carouselCoverTypeTracking" type="range" min="-0.04" max="0.16" step="0.005" value="-0.035"><output id="carouselCoverTypeTrackingValue">−0.035 em</output></label>
+                  <label><span>Сдвиг влево / вправо</span><input id="carouselCoverOffsetX" type="range" min="-35" max="35" value="0"><output id="carouselCoverOffsetXValue">0%</output></label>
+                  <label><span>Сдвиг вверх / вниз</span><input id="carouselCoverOffsetY" type="range" min="-35" max="35" value="0"><output id="carouselCoverOffsetYValue">0%</output></label>
                   <label><span>Положение текста</span><select id="carouselCoverPlacement"><option value="bottom">Снизу</option><option value="middle">По центру</option><option value="top">Сверху</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
                   <label><span>Выравнивание</span><select id="carouselCoverAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
-                  <label><span>Регистр</span><select id="carouselCoverCase"><option value="original">Как написано</option><option value="lower">Строчные</option><option value="upper">КАПС</option></select></label>
+                  <label><span>Регистр заголовка</span><select id="carouselCoverCase"><option value="original">Как написано</option><option value="lower">Строчные</option><option value="upper">КАПС</option></select></label>
                 </div>
-                <div class="carousel-media-head"><div><strong>Фотография</strong><span id="carouselCoverPhotoName">из общей медиатеки</span></div><div class="carousel-media-actions"><button class="button button-quiet" type="button" data-carousel-newest>↓ Сначала новые</button><label class="carousel-search"><input id="carouselCoverMediaSearch" type="search" placeholder="Найти фото…"></label></div></div>
+                <div class="carousel-media-head"><div><strong>Фотография · вся медиатека</strong><span id="carouselCoverPhotoName">листайте вниз или используйте поиск</span></div><div class="carousel-media-actions"><label class="carousel-collection-picker"><span>Раздел</span><select id="carouselCoverCollection" aria-label="Раздел медиатеки для обложки"><option value="all">Все фото</option><option value="neuro">Нейрофотосеты</option><option value="camp">Секта лагерь</option><option value="maternity">Материнство / беременность</option><option value="body">Тело / тренировки</option><option value="olya">Оля портреты</option></select></label><label class="carousel-search"><input id="carouselCoverMediaSearch" type="search" placeholder="Найти фото…"></label></div></div>
                 <div class="carousel-media-strip" id="carouselCoverMedia"></div>
                 <button class="button button-secondary carousel-next-stage" type="button" data-carousel-go="longread">Дальше: вставить лонгрид →</button>
               </section>
@@ -440,7 +845,8 @@
             <section class="panel carousel-longread-panel">
               <div class="carousel-longread-editor">
                 <div>
-                  <div class="section-head"><div><h2>Вставьте весь текст</h2><p>Абзацы и формулировки сохраняются; меняется только распределение по слайдам.</p></div><span id="carouselLongreadWords">0 слов</span></div>
+                  <div class="section-head"><div><h2>Черновик лонгрида</h2><p>Сгенерируйте текст из выбранной идеи или вставьте свой. Всё можно править вручную.</p></div><span id="carouselLongreadWords">0 слов</span></div>
+                  <div class="post-generate-row"><button class="button button-primary" id="carouselGenerateLongread" type="button">Сгенерировать лонгрид</button><button class="button button-secondary" id="carouselRegenerateLongread" type="button">Другой вариант ↻</button><span id="carouselLongreadDraftState">Черновик · требует редакторской проверки</span></div>
                   <textarea id="carouselLongreadText" rows="18">Иногда пять пропущенных дней ощущаются как доказательство, что всё снова сломалось. Будто теперь нужно догнать план, отработать паузу и начать заново с идеального понедельника.
 
 Но тело не ведёт календарь достижений. Оно не обнуляет силу, выносливость и опыт из-за нескольких дней без тренировки. Возвращение не требует наказания.
@@ -451,12 +857,12 @@
                 </div>
                 <aside class="carousel-split-settings">
                   <h3>Как разложить</h3>
-                  <label><span>Всего слайдов</span><select id="carouselSlideCount"><option>6</option><option>7</option><option>8</option><option>9</option><option selected>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option></select></label>
+                  <label><span>Всего слайдов</span><select id="carouselSlideCount"><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option selected>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option></select></label>
                   <div class="carousel-split-math" id="carouselSplitMath"><strong>1 + 8 + 1</strong><span>обложка · текст · финал</span></div>
                   <label class="carousel-check"><input id="carouselKeepParagraphs" type="checkbox" checked><span>Сохранять абзацы целиком, когда это возможно</span></label>
-                  <label class="carousel-check"><input id="carouselPhotoRhythm" type="checkbox" checked><span>Добавлять фотопаузу после двух текстовых слайдов</span></label>
+                  <label class="carousel-check"><input id="carouselPhotoRhythm" type="checkbox" checked><span>Использовать разные фотографии на внутренних слайдах</span></label>
                   <button class="button button-primary" id="carouselSplitText" type="button">Разбить текст на слайды</button>
-                  <p id="carouselSplitHint">Система распределит текст, но ничего не сократит и не перепишет.</p>
+                  <p id="carouselSplitHint">Система распределит текст без сокращений и сразу применит единый ритм серии.</p>
                 </aside>
               </div>
               <div class="carousel-split-preview" id="carouselSplitPreview" aria-label="Предпросмотр разбиения"></div>
@@ -468,6 +874,7 @@
             <div class="carousel-slide-editor">
               <section class="carousel-canvas-column" aria-label="Активный слайд">
                 <div class="carousel-slide-canvas" id="carouselActiveCanvas"></div>
+                <p class="carousel-direct-hint">Боковые ручки меняют перенос строк, угловые — размер самого текста. Свободное место двигает фото.</p>
                 <div class="carousel-canvas-actions">
                   <button class="button button-primary" id="carouselSaveSlide" type="button">Сохранить слайд</button>
                   <button class="button button-secondary" id="carouselDownloadActive" type="button">Скачать PNG</button>
@@ -475,16 +882,75 @@
               </section>
               <section class="panel carousel-controls-panel">
                 <div class="section-head"><div><h2 id="carouselActiveTitle">Слайд 1</h2><p id="carouselActiveMeta">обложка · не сохранён</p></div><button class="button button-quiet" id="carouselDuplicateSlide" type="button">Дублировать</button></div>
+                <section class="carousel-quick-inspector" aria-labelledby="carouselQuickInspectorTitle">
+                  <div class="carousel-quick-inspector-head"><div><h3 id="carouselQuickInspectorTitle">Быстрые настройки кадра</h3><p>Канон серии: полноформатное фото, затемнение и один цветовой акцент.</p></div><button class="button button-secondary" id="carouselSuggestSlideStyle" type="button">Вернуть базовый стиль</button></div>
+                  <div class="carousel-quick-photo-picker">
+                    <div class="carousel-quick-photo-head"><div><strong>Фото кадра</strong><span id="carouselQuickPhotoName">Фото не выбрано</span></div><div><button class="button button-primary" id="carouselQuickBrowsePhotos" type="button">+ Добавить фото</button><button class="button button-quiet" id="carouselQuickRemovePhoto" type="button" hidden>Убрать</button></div></div>
+                    <div class="carousel-quick-photo-strip" id="carouselQuickSlideMedia" aria-label="Быстрый выбор фотографии"></div>
+                  </div>
+                  <div class="carousel-quick-grid">
+                    <label><span>Активный слой</span><select id="carouselSlideMoveTarget"><option value="title">Заголовок</option><option value="body">Основной текст</option><option value="label">Аккаунт / подпись</option><option value="counter">Номер слайда</option></select></label>
+                    <label><span>Шрифт слоя</span><div class="carousel-font-browser"><select id="carouselSlideTypeFont"></select><button id="carouselSlideTypeFontPrev" type="button">Пред.</button><button id="carouselSlideTypeFontNext" type="button">След.</button></div><small class="carousel-font-key-hint">↑ / ↓ — быстрая примерка</small></label>
+                    <label><span>Размер</span><input id="carouselSlideTypeSize" type="range" min="8" max="132" step="1" value="48"><output id="carouselSlideTypeSizeValue">48 px</output></label>
+                    <div class="carousel-color-control"><span>Цвет текста</span><div><input id="carouselSlideLayerColor" type="color" value="#17221f" aria-label="Цвет текста выбранного слоя"><output id="carouselSlideLayerColorValue">из палитры</output><button class="text-button" id="carouselSlideLayerColorReset" type="button">Из палитры</button></div></div>
+                  </div>
+                  <div class="carousel-font-samples" id="carouselSlideFontSamples" aria-label="Примеры шрифтов выбранного слоя"></div>
+                  <fieldset class="carousel-plaque-control carousel-slide-plaque-control"><legend>Плашка под заголовком</legend>
+                    <div class="carousel-quick-plaque-row">
+                      <label class="carousel-check"><input id="carouselSlidePlaqueEnabled" type="checkbox"><span>Добавить плашку</span></label>
+                      <div class="carousel-plaque-settings is-disabled" id="carouselSlidePlaqueSettings">
+                        <div class="carousel-color-control"><span>Цвет плашки</span><div><input id="carouselSlidePlaqueColor" type="color" value="#c8edf2" aria-label="Цвет плашки слайда"><output id="carouselSlidePlaqueColorValue">из палитры</output><button class="text-button" id="carouselSlidePlaqueColorReset" type="button">Из палитры</button></div></div>
+                        <label><span>Непрозрачность</span><input id="carouselSlidePlaqueOpacity" type="range" min="0" max="100" step="5" value="100"><output id="carouselSlidePlaqueOpacityValue">100%</output></label>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <div class="carousel-quick-presets">
+                    <div class="carousel-quick-preset-group"><div class="carousel-quick-preset-label"><strong>Цветовые сочетания</strong><span>поле · текст · акцент</span></div><div class="carousel-quick-palette-list" id="carouselQuickPalettePresets"></div></div>
+                    <div class="carousel-quick-preset-group"><div class="carousel-quick-preset-label"><strong>Композиция и кегли</strong><span>готовые размеры из сетки</span></div><div class="carousel-quick-layout-list" id="carouselQuickLayoutPresets"></div></div>
+                  </div>
+                </section>
                 <label class="carousel-field"><span>Заголовок</span><textarea id="carouselSlideTitle" rows="3"></textarea></label>
-                <label class="carousel-field"><span>Основной текст</span><textarea id="carouselSlideBody" rows="9"></textarea></label>
+                <div class="carousel-field carousel-rich-field"><div class="carousel-field-head"><label for="carouselSlideBody">Основной текст</label><button type="button" id="carouselBodyBold" aria-label="Сделать выделенный фрагмент жирным"><b>Ж</b> Жирный</button></div><textarea id="carouselSlideBody" rows="9"></textarea><small>Выделите фрагмент и нажмите «Жирный». Форматирование сохранится в PNG.</small></div>
+                <label class="carousel-check carousel-layer-toggle"><input id="carouselSlideShowLabel" type="checkbox" checked><span>Показывать аккаунт / подпись сверху</span></label>
+                <div class="carousel-active-layer-head"><strong>Фото и поверхность</strong><span>этот кадр</span></div>
+                <div class="carousel-appearance-panel">
+                  <div class="carousel-control-grid">
+                    <div class="carousel-color-control"><span>Цвет фона</span><div><input id="carouselSlideBackgroundColor" type="color" value="#17221f" aria-label="Цвет фона слайда"><output id="carouselSlideBackgroundColorValue">из палитры</output><button class="text-button" id="carouselSlideBackgroundColorReset" type="button">Из палитры</button></div></div>
+                    <label><span>Фактура</span><select id="carouselSlideTexture"><option value="none">Без фактуры</option><option value="paper">Бумага</option><option value="grain">Мягкое зерно</option><option value="dots">Редкие точки</option></select></label>
+                    <label><span>Масштаб фото</span><input id="carouselSlidePhotoScale" type="range" min="100" max="220" step="1" value="100"><output id="carouselSlidePhotoScaleValue">100%</output></label>
+                    <label><span>Фото влево / вправо</span><input id="carouselSlidePhotoFocusX" type="range" min="0" max="100" step="1" value="50"><output id="carouselSlidePhotoFocusXValue">50%</output></label>
+                    <label><span>Фото вверх / вниз</span><input id="carouselSlidePhotoFocusY" type="range" min="0" max="100" step="1" value="50"><output id="carouselSlidePhotoFocusYValue">50%</output></label>
+                  </div>
+                  <div class="carousel-series-apply"><div><strong>Повторить оформление</strong><span>Фон, фактура, палитра и шрифтовая система — без замены фото, текста и координат.</span></div><button class="button button-secondary" id="carouselApplyAppearanceToSeries" type="button">Применить ко всей серии</button></div>
+                </div>
+                <div class="carousel-active-layer-head"><strong>Текст и точная типографика</strong><span id="carouselSlideTypeLayerLabel">заголовок</span></div>
+                <div class="carousel-layer-content-editor">
+                  <label class="carousel-field"><span>Текст выбранного слоя</span><textarea id="carouselSlideLayerText" rows="2"></textarea></label>
+                  <div><label class="carousel-check"><input id="carouselSlideLayerVisible" type="checkbox" checked><span>Показывать</span></label><button class="button button-secondary" id="carouselSlideLayerAdd" type="button">+ Текстовый блок</button><button class="button button-quiet" id="carouselSlideLayerRemove" type="button">Удалить элемент</button></div>
+                </div>
                 <div class="carousel-control-grid">
                   <label><span>Тип слайда</span><select id="carouselSlideRole"><option value="cover">Обложка</option><option value="longread">Лонгрид</option><option value="quote">Цитата</option><option value="proof">Фото-доказательство</option><option value="pause">Фотопауза</option><option value="cta">Финал / CTA</option></select></label>
+                  <label><span>Макет</span><select id="carouselSlideTemplate"><option value="cover-plaque">Фото + нижняя плашка</option><option value="light-column">Колонка + боковая полоса</option><option value="photo-field">Фото сверху + поле снизу</option><option value="side-plaque">Фото + боковая плашка</option><option value="top-plaque">Фото + верхняя плашка</option><option value="photo-window">Фото-окно + поле</option><option value="photo-scrim">Фото + scrim</option><option value="text-photo">Текст на фото</option><option value="accent-thought">Акцентный тезис</option><option value="color-final">Цветовой финал</option></select></label>
                   <label><span>Сцена</span><select id="carouselSlideScene"><option value="paper">Светлое поле</option><option value="dark">Тёмное поле</option><option value="photo-dim">Фото + затемнение</option><option value="photo-clean">Текст на фото</option><option value="plate">Плашка на фото</option><option value="split">Split</option><option value="window">Фото-окно</option><option value="field">Цветовое поле</option><option value="quote">Цитатная</option></select></label>
                   <label><span>Цвет слайда</span><select id="carouselSlidePalette"></select></label>
-                  <label><span>Размер текста</span><input id="carouselSlideSize" type="range" min="28" max="112" value="48"><output id="carouselSlideSizeValue">48 px</output></label>
+                  <label><span>Шрифтовая пара слайда</span><div class="carousel-font-browser"><select id="carouselSlideFont"></select><button id="carouselSlideFontPrev" type="button">Пред.</button><button id="carouselSlideFontNext" type="button">След.</button></div><small class="carousel-font-key-hint">Клавиши ↑ / ↓ листают варианты</small></label>
+                  <fieldset class="carousel-text-effects"><legend>Тень и обводка выбранного слоя</legend>
+                    <label><span>Тень</span><input id="carouselSlideShadowOpacity" type="range" min="0" max="100" step="5" value="0"><output id="carouselSlideShadowOpacityValue">нет</output></label>
+                    <label class="carousel-effect-color"><span>Цвет тени</span><input id="carouselSlideShadowColor" type="color" value="#000000" aria-label="Цвет тени выбранного слоя"><button class="text-button" id="carouselSlideShadowReset" type="button">Без тени</button></label>
+                    <label><span>Толщина обводки</span><input id="carouselSlideOutlineWidth" type="range" min="0" max="12" step="0.5" value="0"><output id="carouselSlideOutlineWidthValue">нет</output></label>
+                    <label class="carousel-effect-color"><span>Цвет обводки</span><input id="carouselSlideOutlineColor" type="color" value="#000000" aria-label="Цвет обводки выбранного слоя"></label>
+                  </fieldset>
+                  <label><span>Вес</span><input id="carouselSlideTypeWeight" type="range" min="100" max="900" step="10" value="800"><output id="carouselSlideTypeWeightValue">800</output></label>
+                  <label><span>Ширина блока</span><input id="carouselSlideBoxWidth" type="range" min="10" max="96" step="1" value="80"><output id="carouselSlideBoxWidthValue">80%</output></label>
+                  <label><span>Предел по высоте</span><input id="carouselSlideBoxHeight" type="range" min="5" max="80" step="1" value="42"><output id="carouselSlideBoxHeightValue">42%</output></label>
+                  <label><span>Интерлиньяж</span><input id="carouselSlideTypeLineHeight" type="range" min="0.7" max="1.6" step="0.01" value="0.96"><output id="carouselSlideTypeLineHeightValue">0.96</output></label>
+                  <label><span>Трекинг</span><input id="carouselSlideTypeTracking" type="range" min="-0.04" max="0.16" step="0.005" value="-0.035"><output id="carouselSlideTypeTrackingValue">−0.035 em</output></label>
+                  <label><span>Сдвиг влево / вправо</span><input id="carouselSlideOffsetX" type="range" min="-35" max="35" value="0"><output id="carouselSlideOffsetXValue">0%</output></label>
+                  <label><span>Сдвиг вверх / вниз</span><input id="carouselSlideOffsetY" type="range" min="-35" max="35" value="0"><output id="carouselSlideOffsetYValue">0%</output></label>
+                  <label><span>Положение блока</span><select id="carouselSlidePlacement"><option value="top">Сверху</option><option value="middle">По центру</option><option value="bottom">Снизу</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
                   <label><span>Выравнивание</span><select id="carouselSlideAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
                 </div>
-                <div class="carousel-media-head"><div><strong>Фото этого слайда</strong><span id="carouselSlidePhotoName">можно выбрать отдельно</span></div><div class="carousel-media-actions"><button class="button button-quiet" type="button" data-carousel-newest>↓ Сначала новые</button><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать фото</button></div></div>
+                <div class="carousel-media-head"><div><strong>Фото этого слайда · вся медиатека</strong><span id="carouselSlidePhotoName">листайте вниз или используйте поиск</span></div><div class="carousel-media-actions"><label class="carousel-collection-picker"><span>Раздел</span><select id="carouselSlideCollection" aria-label="Раздел медиатеки для слайда"><option value="all">Все фото</option><option value="neuro">Нейрофотосеты</option><option value="camp">Секта лагерь</option><option value="maternity">Материнство / беременность</option><option value="body">Тело / тренировки</option><option value="olya">Оля портреты</option></select></label><label class="carousel-search"><input id="carouselSlideMediaSearch" type="search" placeholder="Найти фото…"></label><button class="button button-quiet" id="carouselShuffleSlideMedia" type="button">Перемешать</button><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать</button></div></div>
                 <div class="carousel-media-strip" id="carouselSlideMedia"></div>
               </section>
             </div>
@@ -502,42 +968,116 @@
           </div>
 
           <div class="carousel-studio-status" id="carouselStudioStatus" role="status" aria-live="polite">Черновик готов к монтажу.</div>
-          </template>
+        </section>
+
+        <section class="view moms-view" data-view-panel="moms">
+          <header class="moms-heading">
+            <div>
+              <h1>Для мам</h1>
+              <p>Отдельное пространство для контента о материнстве: фотографии не смешиваются с общей выдачей, а темы собираются из личного опыта, соцсетей #Sekta и экспертных материалов.</p>
+            </div>
+            <div class="moms-heading-status"><span>Отдельный контур</span><strong id="momsHeadingCount">Собираем медиатеку…</strong></div>
+          </header>
+
+          <div class="moms-tabs" role="tablist" aria-label="Разделы пространства для мам">
+            <button class="moms-tab is-active" id="momsMediaTab" type="button" role="tab" aria-controls="momsMediaPanel" aria-selected="true" data-moms-tab="media"><span>Медиатека</span><small id="momsMediaTabCount">— фото</small></button>
+            <button class="moms-tab" id="momsIdeasTab" type="button" role="tab" aria-controls="momsIdeasPanel" aria-selected="false" data-moms-tab="ideas"><span>Генератор тем</span><small>личный опыт + источники</small></button>
+          </div>
+
+          <section class="moms-panel is-active" id="momsMediaPanel" role="tabpanel" aria-labelledby="momsMediaTab" data-moms-panel="media">
+            <div class="moms-media-bar">
+              <div><h2>Мамская медиатека</h2><p>Беременность, дети, семейные сцены и мама в кадре — в отдельной рабочей выдаче.</p></div>
+              <label class="button button-primary moms-upload-button">+ Добавить фото / видео<input id="momsUploadInput" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/webm" multiple></label>
+            </div>
+            <div class="moms-media-summary" aria-label="Состав мамской медиатеки">
+              <button class="is-active" type="button" data-moms-media-filter="all" aria-pressed="true"><strong id="momsCountAll">—</strong><span>Все фото</span></button>
+              <button type="button" data-moms-media-filter="pregnancy" aria-pressed="false"><strong id="momsCountPregnancy">—</strong><span>Беременность</span></button>
+              <button type="button" data-moms-media-filter="children" aria-pressed="false"><strong id="momsCountChildren">—</strong><span>С детьми</span></button>
+              <button type="button" data-moms-media-filter="family" aria-pressed="false"><strong id="momsCountFamily">—</strong><span>Семья</span></button>
+              <button type="button" data-moms-media-filter="mother" aria-pressed="false"><strong id="momsCountMother">—</strong><span>Мама в кадре</span></button>
+            </div>
+            <div class="moms-media-tools" role="search">
+              <label class="search-box"><span>⌕</span><input id="momsMediaSearch" type="search" placeholder="Найти сцену, файл или тему…" autocomplete="off"></label>
+              <select id="momsMediaOrientation" aria-label="Ориентация мамских фото"><option value="all">Любая ориентация</option><option value="portrait">Вертикальные</option><option value="landscape">Горизонтальные</option><option value="square">Квадратные</option></select>
+              <button class="button button-secondary" id="momsMediaShuffle" type="button">Перемешать</button>
+            </div>
+            <div class="moms-result-line"><span id="momsMediaResult">Собираем материалы…</span><span id="momsUploadState">Локальных исходников пока нет</span></div>
+            <div class="moms-media-grid" id="momsMediaGrid"></div>
+            <div class="moms-infinite-loader" id="momsMediaSentinel" role="status" aria-live="polite">
+              <span class="moms-infinite-spinner" aria-hidden="true"></span>
+              <span id="momsMediaLoadLabel">Листайте вниз — фотографии продолжатся автоматически</span>
+            </div>
+          </section>
+
+          <section class="moms-panel" id="momsIdeasPanel" role="tabpanel" aria-labelledby="momsIdeasTab" data-moms-panel="ideas" hidden>
+            <div class="moms-generator-intro">
+              <div><h2>Нейрогенератор тем о материнстве</h2><p>Смешивает выбранные источники и выдаёт не абстрактный заголовок, а готовую редакционную задачу.</p></div>
+              <span>AI-черновик · перед публикацией проверяет человек</span>
+            </div>
+            <div class="moms-generator-layout">
+              <aside class="moms-generator-controls" aria-label="Настройки генератора тем">
+                <fieldset>
+                  <legend>Откуда брать темы</legend>
+                  <label><input type="checkbox" name="moms-source" value="social" checked><span><strong>Соцсети #Sekta</strong><small>архив, комментарии, вопросы аудитории</small></span></label>
+                  <label><input type="checkbox" name="moms-source" value="olya" checked><span><strong>Личный опыт Оли</strong><small>истории, наблюдения, таймхоп</small></span></label>
+                  <label><input type="checkbox" name="moms-source" value="community" checked><span><strong>Опыт сообщества</strong><small>живые ситуации мам и семьи</small></span></label>
+                  <label><input type="checkbox" name="moms-source" value="expert" checked><span><strong>Эксперты и наука</strong><small>только с обязательным ревью</small></span></label>
+                </fieldset>
+                <label class="moms-generator-field"><span>Этап</span><select id="momsStage"><option value="all">Любой этап</option><option value="pregnancy">Беременность</option><option value="baby">Первый год</option><option value="childhood">Дети постарше</option><option value="identity">Мама и её жизнь</option><option value="family">Партнёрство и семья</option></select></label>
+                <label class="moms-generator-field"><span>Формат</span><select id="momsFormat"><option value="all">Любой формат</option><option value="carousel">Карусель</option><option value="reel">Reel</option><option value="post">Пост</option><option value="stories">Stories</option></select></label>
+                <label class="moms-generator-field"><span>На что работаем</span><select id="momsObjective"><option value="all">Любая цель</option><option value="comments">Комментарии</option><option value="saves">Сохранения</option><option value="trust">Доверие</option><option value="warmth">Теплота</option><option value="reach">Охват</option></select></label>
+                <button class="button button-primary moms-generate" id="momsGenerate" type="button">Сгенерировать новую ленту</button>
+                <button class="button button-quiet" id="momsResetGenerator" type="button">Сбросить настройки</button>
+              </aside>
+              <div class="moms-generator-output">
+                <div class="moms-output-head"><div><strong id="momsIdeaResult">6 тем готовы</strong><span id="momsIdeaRecipe">4 источника · все этапы</span></div></div>
+                <div class="moms-idea-list" id="momsIdeaList"></div>
+                <div class="moms-infinite-loader" id="momsIdeaSentinel" role="status" aria-live="polite">
+                  <span class="moms-infinite-spinner" aria-hidden="true"></span>
+                  <span id="momsIdeaLoadLabel">Листайте вниз — идеи продолжатся автоматически</span>
+                </div>
+                <div class="moms-idea-empty" id="momsIdeaEmpty" hidden><strong>Для такой связки пока нет темы</strong><span>Подключите ещё один источник или расширьте этап.</span><button class="button button-secondary" type="button" data-moms-reset>Показать все темы</button></div>
+              </div>
+            </div>
+          </section>
         </section>
 
         <section class="view" data-view-panel="library">
-          <div class="page-heading compact"><div><p class="eyebrow">Единый каталог · <span id="libraryCollectionCount">человеческие разделы</span> · оригиналы не изменены</p><h1>Медиатека</h1><p><span id="librarySummary">загружаем каталог</span> · <span id="libraryDuplicateSummary">дубли скрыты</span>.</p></div></div>
-          <div class="toolbar library-toolbar" role="search">
-            <label class="search-box library-search"><span>⌕</span><input id="librarySearch" type="search" placeholder="BASIC, нейрофотосет, семья, обложка…" autocomplete="off"></label>
-            <div class="filter-group human-sections" aria-label="Основной раздел">
-              <button class="filter-chip is-active" data-section="all">Все рабочие</button>
-              <button class="filter-chip" data-section="favorites">Избранное</button>
-              <button class="filter-chip" data-section="photoshoots">Фотосессии</button>
-              <button class="filter-chip" data-section="old-photos">Старые фотографии</button>
-              <button class="filter-chip" data-section="neuro">Нейрофотосеты</button>
-              <button class="filter-chip" data-section="events">События и лагерь</button>
-              <button class="filter-chip" data-section="family">Семья и материнство</button>
-              <button class="filter-chip" data-section="body">Тело и тренировки</button>
-              <button class="filter-chip" data-section="portraits">Авторские портреты</button>
-              <button class="filter-chip" data-section="music">Музыка и сцена</button>
-              <button class="filter-chip" data-section="travel">Места и путешествия</button>
-              <button class="filter-chip filter-chip-service" data-section="service">Служебное</button>
+          <div class="page-heading compact">
+            <div><p class="eyebrow">Полный каталог из <span id="libraryCollectionCount">16 коллекций</span> · оригиналы не изменены</p><h1>Медиатека</h1><p><span id="librarySummary">1059 уникальных фото</span> · <span id="libraryDuplicateSummary">21 дубль скрыт</span>.</p></div>
+            <a class="library-drive-status" id="libraryDriveStatus" href="#" target="_blank" rel="noreferrer" aria-label="Открыть архив оригиналов в Google Drive">
+              <span><i aria-hidden="true"></i>Оригиналы в Drive</span>
+              <strong id="libraryDriveCount">Считаем…</strong>
+            </a>
+          </div>
+          <section class="library-upload" id="libraryUploadZone" aria-labelledby="libraryUploadTitle">
+            <div class="library-upload-copy">
+              <strong id="libraryUploadTitle">Быстро добавить фото</strong>
+              <span>Перетащите сюда или выберите файлы. Они сразу появятся в медиатеке и конструкторах этого браузера.</span>
             </div>
-            <div class="secondary-filters" aria-label="Дополнительные фильтры">
-              <select id="projectFilter" aria-label="Проект"><option value="all">Все проекты</option><option value="BASIC">BASIC</option><option value="GLP-1">GLP‑1</option><option value="SEKTA CAMP">SEKTA CAMP</option><option value="ALAI OLI">ALAI OLI</option><option value="ЛИЧНЫЙ SMM">Личный SMM</option></select>
-              <select id="materialTypeFilter" aria-label="Тип материала"><option value="all">Любой тип</option><option value="real-photo">Реальные фото</option><option value="neuro-photo">Нейрофото</option><option value="template">Шаблоны</option><option value="video">Видео</option><option value="ai-reference">AI-референсы</option></select>
-              <select id="publicationFilter" aria-label="Статус публикации"><option value="all">Любой статус</option><option value="approved">Можно публиковать</option><option value="review">Проверить</option><option value="not-public">Не публиковать</option></select>
-              <select id="themeFilter" aria-label="Тема"><option value="all">Все темы</option><option value="pregnancy">Беременность и материнство</option><option value="parenting">Дети и родительство</option><option value="family">Семья и отношения</option><option value="body">Тело, спорт и сила</option><option value="self-image">Красота и самообраз</option><option value="music">Музыка и творчество</option><option value="community">Классы и комьюнити</option><option value="detail">Детали и метафоры</option><option value="travel">Путешествия и жизнь</option><option value="archive">Архив / требует уточнения</option></select>
-              <select id="orientationFilter" aria-label="Ориентация"><option value="all">Любая ориентация</option><option value="portrait">Вертикальные</option><option value="landscape">Горизонтальные</option><option value="square">Квадратные</option></select>
-              <select id="librarySort" aria-label="Сортировка"><option value="capture-desc" selected>Сначала новые съёмки</option><option value="capture-asc">Сначала старые съёмки</option><option value="modified-desc">Недавно добавленные</option><option value="default">Порядок каталога</option></select>
-              <button class="button button-secondary library-newest is-active" id="libraryNewestFirst" type="button" aria-pressed="true" title="По дате съёмки из EXIF; если её нет — по файловой дате">↓ Сначала новые</button>
-              <button class="button button-secondary" id="libraryClearFilters" type="button">Сбросить</button>
-              <button class="button button-secondary toolbar-shuffle" id="libraryShuffle" type="button">Перемешать ↻</button>
+            <div class="library-upload-actions">
+              <span class="library-upload-state" id="libraryUploadState">Локальный черновик · 0</span>
+              <button class="button button-quiet" id="libraryUploadClear" type="button" hidden>Очистить</button>
+              <label class="button button-primary library-upload-button">+ Выбрать фото<input id="libraryUploadInput" type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
             </div>
+          </section>
+          <nav class="library-collection-tabs" id="libraryCollectionTabs" aria-label="Разделы медиатеки">
+            <button class="library-collection-tab is-active" type="button" data-library-collection="all" aria-pressed="true"><span>Все</span><em id="libraryCollectionAllCount">—</em></button>
+            <button class="library-collection-tab" type="button" data-library-collection="neuro" aria-pressed="false"><span>Нейрофотосеты</span><em id="libraryCollectionNeuroCount">—</em></button>
+            <button class="library-collection-tab" type="button" data-library-collection="camp" aria-pressed="false"><span>Секта лагерь</span><em id="libraryCollectionCampCount">—</em></button>
+            <button class="library-collection-tab" type="button" data-library-collection="maternity" aria-pressed="false"><span>Материнство / беременность</span><em id="libraryCollectionMaternityCount">—</em></button>
+            <button class="library-collection-tab" type="button" data-library-collection="body" aria-pressed="false"><span>Тело / тренировки</span><em id="libraryCollectionBodyCount">—</em></button>
+            <button class="library-collection-tab" type="button" data-library-collection="olya" aria-pressed="false"><span>Оля портреты</span><em id="libraryCollectionOlyaCount">—</em></button>
+          </nav>
+          <div class="toolbar" role="search">
+            <label class="search-box"><span>⌕</span><input id="librarySearch" type="search" placeholder="Файл, тема или роль в карусели…" autocomplete="off"></label>
+            <select id="themeFilter" aria-label="Тема"><option value="all">Все темы</option><option value="01_дети_воспитание_родительство">Дети и родительство</option><option value="02_семья_близость_отношения">Семья и отношения</option><option value="03_тело_спорт_сила_изменения">Тело, спорт и сила</option><option value="04_красота_сексуальность_самообраз">Красота и самообраз</option><option value="05_музыка_сцена_творчество">Музыка и творчество</option><option value="06_классы_комьюнити_продажа">Классы и комьюнити</option><option value="07_деталь_как_метафора">Детали и метафоры</option><option value="08_путешествия_и_многообразие_жизни">Путешествия и жизнь</option></select>
+            <select id="orientationFilter" aria-label="Ориентация"><option value="all">Любая ориентация</option><option value="portrait">Вертикальные</option><option value="landscape">Горизонтальные</option><option value="square">Квадратные</option></select>
+            <button class="button button-secondary toolbar-shuffle" id="libraryShuffle" type="button">Перемешать ↻</button>
           </div>
           <div class="result-line"><span id="libraryResultCount">1059 материалов</span><span>Нажмите на фото, чтобы добавить его в черновую сетку</span></div>
           <div class="media-grid" id="mediaGrid"></div>
-          <div class="infinite-scroll-sentinel" id="libraryScrollSentinel" role="status" aria-live="polite"><span class="infinite-scroll-spinner" aria-hidden="true"></span><span>Загружаю ещё…</span></div>
+          <div class="load-more-wrap"><div class="library-infinite-sentinel" id="libraryInfiniteSentinel">Листайте вниз — медиатека продолжится автоматически</div></div>
         </section>
 
         <section class="view" data-view-panel="planner">
@@ -554,6 +1094,11 @@
   <dialog class="detail-dialog" id="detailDialog">
     <button class="dialog-close" data-close aria-label="Закрыть">×</button>
     <div id="dialogContent"></div>
+  </dialog>
+
+  <dialog class="idea-detail-dialog" id="ideaDetailDialog" aria-labelledby="ideaDetailTitle">
+    <button class="dialog-close" type="button" data-close-idea-detail aria-label="Закрыть">×</button>
+    <div id="ideaDetailContent"></div>
   </dialog>
 
   <dialog class="carousel-dialog" id="carouselDialog">
@@ -578,12 +1123,27 @@
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="data/current-grid.js"></script>
+  <script src="data/current-grid.js?v=20260825-2"></script>
+  <script src="data/grid-directions.js"></script>
   <script src="data/growth-room.js"></script>
-  <script src="data/library-data.js?v=20260826-1"></script>
-  <script src="data/media-library-manual-overrides.js?v=20260827-1"></script>
+  <script src="data/library-data.js?v=20260830-1"></script>
+  <script src="data/drive-originals.js"></script>
+  <script src="data/science-library.js?v=20260826-1"></script>
   <script src="data/carousel-builder-data.js"></script>
-  <script src="app.js?v=20260827-1"></script>
-  <script src="carousel-builder.js?v=20260826-3"></script>
+  <script src="data/visual-canon.js?v=20260828-1"></script>
+  <script src="data/idea-radar.js"></script>
+  <script src="data/growth-coach-demo.js"></script>
+  <script src="data/production-projects.js"></script>
+  <script src="data/public-stats.js"></script>
+  <script src="data/moms-room-data.js?v=20260826-1"></script>
+  <script src="type-studio/font-data.js"></script>
+  <script src="app.js?v=20260826-9"></script>
+  <script src="moms-room.js?v=20260827-2"></script>
+  <script src="growth-coach.js?v=20260825-3"></script>
+  <script src="production-room.js?v=20260825-2"></script>
+  <script src="carousel-builder.js?v=20260830-1"></script>
+  <script src="carousel-studio.js?v=20260828-2"></script>
+  <script src="mobile-editor.js?v=20260828-1"></script>
+  <script src="grid-studio.js?v=20260819-1"></script>
 </body>
 </html>
