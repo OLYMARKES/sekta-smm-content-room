@@ -1,1 +1,1 @@
-window.SEKTA_DRIVE_ORIGINALS = { root: {}, folders: {}, items: {} };
+window.SEKTA_DRIVE_ORIGINALS={root:{},folders:{},items:{}};
