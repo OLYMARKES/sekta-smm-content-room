@@ -671,10 +671,14 @@
 
   function loadImage(source) {
     return new Promise((resolve, reject) => {
+      if (!source) {
+        reject(new Error("image source is empty"));
+        return;
+      }
       const image = new Image();
       image.crossOrigin = "anonymous";
       image.onload = () => resolve(image);
-      image.onerror = reject;
+      image.onerror = () => reject(new Error(`image did not load: ${source}`));
       image.src = location.protocol === "file:" && !/^https?:/.test(source) ? `https://olymarkes.github.io/sekta-smm-content-room/${source}` : source;
     });
   }
@@ -686,6 +690,29 @@
     const sourceX = (image.naturalWidth - sourceWidth) / 2;
     const sourceY = (image.naturalHeight - sourceHeight) / 2;
     context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
+  }
+
+  function roundRect(context, x, y, width, height, radius) {
+    if (typeof context.roundRect === "function") {
+      context.roundRect(x, y, width, height, radius);
+      return;
+    }
+    const nextRadius = Math.min(radius, width / 2, height / 2);
+    context.moveTo(x + nextRadius, y);
+    context.lineTo(x + width - nextRadius, y);
+    context.quadraticCurveTo(x + width, y, x + width, y + nextRadius);
+    context.lineTo(x + width, y + height - nextRadius);
+    context.quadraticCurveTo(x + width, y + height, x + width - nextRadius, y + height);
+    context.lineTo(x + nextRadius, y + height);
+    context.quadraticCurveTo(x, y + height, x, y + height - nextRadius);
+    context.lineTo(x, y + nextRadius);
+    context.quadraticCurveTo(x, y, x + nextRadius, y);
+  }
+
+  function alignedRectX(textX, textWidth, padding, align) {
+    if (align === "center") return textX - textWidth / 2 - padding;
+    if (align === "right") return textX - textWidth - padding;
+    return textX - padding;
   }
 
   function wrapCanvasText(context, text, maxWidth) {
@@ -703,6 +730,27 @@
       if (paragraphIndex < String(text || "").split(/\n\s*\n/).length - 1) result.push("");
     });
     return result;
+  }
+
+  function canvasToPngBlob(canvas) {
+    return new Promise((resolve, reject) => {
+      if (canvas.toBlob) {
+        canvas.toBlob((blob) => {
+          if (blob) resolve(blob);
+          else reject(new Error("empty PNG"));
+        }, "image/png");
+        return;
+      }
+      try {
+        const dataUrl = canvas.toDataURL("image/png");
+        const binary = atob(dataUrl.split(",")[1] || "");
+        const bytes = new Uint8Array(binary.length);
+        for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+        resolve(new Blob([bytes], { type: "image/png" }));
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   async function makeSlideCanvas(slide, index) {
@@ -738,37 +786,55 @@
     const fontFamily = `"${series.font.family}", Arial, sans-serif`;
     const bodyFontFamily = `"${series.font.body || companionFor(series.font.family)}", Arial, sans-serif`;
     const titleText = displayText(slide.title, slide.caseKind || series.font.caseKind);
-    let titleSize = Math.max(40, Math.min(132, Number(slide.size) || 46));
-    context.font = `800 ${titleSize}px ${fontFamily}`;
-    let titleLines = wrapCanvasText(context, titleText, maxWidth);
-    while (titleLines.length > 6 && titleSize > 42) {
-      titleSize -= 4;
+    const contentBottom = slide.placement === "bottom" ? 1200 : 1240;
+    const maxBlockHeight = slide.placement === "bottom" ? 520 : 820;
+    let titleSize = Math.max(36, Math.min(slide.scene === "plate" ? 108 : 132, Number(slide.size) || 46));
+    let bodySize = 0;
+    let titleLines = [];
+    let bodyLines = [];
+    let titleLineStep = 0;
+    let bodyLineStep = 0;
+    let gap = 0;
+    let blockHeight = 0;
+    const measureBlock = () => {
       context.font = `800 ${titleSize}px ${fontFamily}`;
       titleLines = wrapCanvasText(context, titleText, maxWidth);
+      bodySize = Math.max(26, Math.min(46, Math.round(titleSize * .42)));
+      context.font = `500 ${bodySize}px ${bodyFontFamily}`;
+      bodyLines = wrapCanvasText(context, slide.body, maxWidth);
+      titleLineStep = titleSize * .98;
+      bodyLineStep = bodySize * 1.28;
+      gap = titleLines.length && bodyLines.length ? Math.max(28, Math.round(titleSize * .35)) : 0;
+      blockHeight = Math.max(0, titleLines.length - 1) * titleLineStep + titleSize + gap + bodyLines.length * bodyLineStep;
+    };
+    measureBlock();
+    while ((titleLines.length > 4 || blockHeight > maxBlockHeight) && titleSize > 38) {
+      titleSize -= 3;
+      measureBlock();
     }
-    const bodySize = Math.max(32, Math.min(58, Math.round(titleSize * .55)));
-    context.font = `500 ${bodySize}px ${bodyFontFamily}`;
-    const bodyLines = wrapCanvasText(context, slide.body, maxWidth);
-    const titleHeight = titleLines.length * titleSize * .98;
-    const bodyHeight = bodyLines.length * bodySize * 1.3;
-    const blockHeight = titleHeight + (titleLines.length && bodyLines.length ? 50 : 0) + bodyHeight;
-    let startY = slide.placement === "top" ? 210 : slide.placement === "bottom" ? 1180 - blockHeight : (1350 - blockHeight) / 2;
+    let startY = slide.placement === "top" ? 210 : slide.placement === "bottom" ? contentBottom - blockHeight : (1350 - blockHeight) / 2;
     if (["window"].includes(slide.scene)) startY = 720;
-    if (slide.scene === "plate") {
-      context.fillStyle = palette.background;
-      context.beginPath();
-      context.roundRect(65, startY - titleSize, 950, blockHeight + 100, 18);
-      context.fill();
-      context.fillStyle = palette.foreground;
-    }
+    startY = Math.max(130, Math.min(startY, contentBottom - blockHeight));
     context.font = `800 ${titleSize}px ${fontFamily}`;
     titleLines.forEach((line, lineIndex) => {
-      context.fillText(line, x, startY + titleSize * (lineIndex + .85), maxWidth);
+      const baseline = startY + titleSize * .82 + titleLineStep * lineIndex;
+      if (slide.scene === "plate" && line) {
+        const paddingX = Math.round(titleSize * .18);
+        const paddingY = Math.round(titleSize * .1);
+        const textWidth = Math.min(context.measureText(line).width, maxWidth);
+        context.fillStyle = palette.background;
+        context.beginPath();
+        roundRect(context, alignedRectX(x, textWidth, paddingX, slide.align), baseline - titleSize * .82 - paddingY, textWidth + paddingX * 2, titleSize * 1.02 + paddingY * 2, 8);
+        context.fill();
+      }
+      context.fillStyle = slide.scene === "plate" ? palette.foreground : foreground;
+      context.fillText(line, x, baseline, maxWidth);
     });
-    let bodyY = startY + titleHeight + (titleLines.length && bodyLines.length ? 50 : 0);
+    let bodyY = startY + Math.max(0, titleLines.length - 1) * titleLineStep + titleSize + gap;
     context.font = `500 ${bodySize}px ${bodyFontFamily}`;
+    context.fillStyle = foreground;
     bodyLines.forEach((line) => {
-      bodyY += bodySize * (line ? 1.3 : .7);
+      bodyY += bodySize * (line ? 1.02 : .55);
       if (line) context.fillText(line, x, bodyY, maxWidth);
     });
     context.font = `700 24px Arial, sans-serif`;
@@ -786,16 +852,16 @@
       ensureFont(series.font);
       try { await document.fonts.load(`800 ${slide.size}px "${series.font.family}"`); } catch {}
       const canvas = await makeSlideCanvas(slide, index);
-      const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
-      if (!blob) throw new Error("empty PNG");
+      const blob = await canvasToPngBlob(canvas);
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
       link.download = `${series.name.toLocaleLowerCase("ru-RU").replace(/[^a-zа-яё0-9]+/gi, "-").replace(/^-|-$/g, "") || "carousel"}-${String(index + 1).padStart(2, "0")}.png`;
       link.click();
       setTimeout(() => URL.revokeObjectURL(link.href), 1000);
       setStatus(`Слайд ${index + 1} скачан в PNG.`);
-    } catch {
-      setStatus("PNG не собрался. Откройте опубликованную версию и попробуйте ещё раз.");
+    } catch (error) {
+      console.error("carousel png export failed", error);
+      setStatus("PNG не собрался. Проверьте фото или попробуйте другой кадр.");
     }
   }
 
