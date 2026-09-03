@@ -6,6 +6,7 @@
   const growthIdeas = growthRoom.ideas || [];
   const libraryPayload = window.SEKTA_LIBRARY || { items: [], uniqueCount: 0, duplicateCount: 0, sourceCount: 0 };
   const library = libraryPayload.items || [];
+  const driveOriginals = window.SEKTA_DRIVE_ORIGINALS || { items: {} };
   const peopleOverrideStorageKey = "sekta-media-people-overrides-v1";
   const peopleOverrideEndpoint = "http://127.0.0.1:4318/api/media-overrides";
   const canonicalPeopleOverrides = window.MEDIA_LIBRARY_MANUAL_OVERRIDES?.records || {};
@@ -545,15 +546,29 @@
     const roles = (item.carouselRoles || []).length ? `<div class="media-taxonomy"><span>Роли в карусели</span><p>${item.carouselRoles.map((tag) => escapeHtml(formatTaxonomy(tag))).join(" · ")}</p></div>` : "";
     const category = item.sourceCategory ? ` · ${escapeHtml(formatTaxonomy(item.sourceCategory))}` : "";
     const localPathAvailable = Boolean(item.originalPath && !String(item.originalPath).includes("скрыт в публичной версии"));
-    const originalDownloadUrl = item.originalResolution?.remoteUrl || item.originalUrl || item.exportImage || item.thumb || "";
+    const driveOriginal = driveOriginals.items?.[item.id];
+    const remoteOriginalUrl = item.originalResolution?.remoteUrl || item.originalUrl || "";
+    const originalDownloadUrl = driveOriginal?.id
+      ? `https://drive.google.com/uc?export=download&id=${encodeURIComponent(driveOriginal.id)}`
+      : remoteOriginalUrl;
     const previewDownloadUrl = item.thumb || "";
-    const extensionMatch = String(originalDownloadUrl).match(/\.([a-z0-9]+)(?:[?#].*)?$/i);
+    const originalFileName = String(driveOriginal?.fileName || item.fileName || `sekta-${item.id || "media"}`);
+    const extensionMatch = originalFileName.match(/\.([a-z0-9]+)$/i);
     const extension = (extensionMatch?.[1] || item.fileExtension || "jpg").toLocaleLowerCase("ru");
     const safeBaseName = String(item.fileName || `sekta-${item.id || "media"}`).replace(/\.[^.]+$/, "").replace(/[\\/:*?"<>|]+/g, "-").trim() || `sekta-${item.id || "media"}`;
-    const originalAction = originalDownloadUrl ? `<a class="button button-primary" href="${escapeHtml(originalDownloadUrl)}" download="${escapeHtml(`${safeBaseName}-original.${extension}`)}" data-download-original="true">Скачать оригинал</a>` : "";
-    const previewAction = previewDownloadUrl && previewDownloadUrl !== originalDownloadUrl ? `<a class="button button-secondary" href="${escapeHtml(previewDownloadUrl)}" download="${escapeHtml(`${safeBaseName}-preview.${extension}`)}" data-download-preview>Скачать превью</a>` : "";
+    const originalIsRemote = /^https?:\/\//i.test(originalDownloadUrl);
+    const originalAction = originalDownloadUrl
+      ? `<a class="button button-primary" href="${escapeHtml(originalDownloadUrl)}" ${originalIsRemote ? 'target="_blank" rel="noreferrer"' : `download="${escapeHtml(originalFileName)}"`} data-download-original="true">Скачать оригинал · ${escapeHtml(extension.toLocaleUpperCase("ru"))}</a>`
+      : `<button class="button button-primary" type="button" disabled title="Оригинал ещё не подключён">Оригинал пока недоступен</button>`;
+    const previewAction = previewDownloadUrl ? `<a class="button button-secondary" href="${escapeHtml(previewDownloadUrl)}" download="${escapeHtml(`${safeBaseName}-preview.jpg`)}" data-download-preview>Скачать превью</a>` : "";
     const copyAction = localPathAvailable ? `<button class="button button-secondary" data-copy-path="${escapeHtml(item.originalPath)}">Скопировать путь</button>` : "";
-    const sourceNote = localPathAvailable ? `<div class="path-box" title="${escapeHtml(item.originalPath)}">${escapeHtml(item.originalPath)}</div>` : `<div class="path-box">Оригинал — в личной медиатеке; для передачи используйте имя файла выше.</div>`;
+    const sourceNote = driveOriginal
+      ? `<div class="path-box path-box-ready"><span aria-hidden="true">●</span> Оригинал подключён из командного архива Google Drive</div>`
+      : originalDownloadUrl
+        ? `<div class="path-box path-box-ready"><span aria-hidden="true">●</span> Оригинал подключён к загрузке без уменьшения</div>`
+        : localPathAvailable
+          ? `<div class="path-box" title="${escapeHtml(item.originalPath)}">${escapeHtml(item.originalPath)}</div>`
+          : `<div class="path-box">Оригинал ещё не подключён. Превью остаётся отдельным файлом.</div>`;
     const media = `<img src="${escapeHtml(item.thumb)}" alt="${escapeHtml(item.fileName)}">`;
     const projects = (item.projects || []).length ? `<div class="media-taxonomy"><span>Проекты</span><p>${item.projects.map(escapeHtml).join(" · ")}</p></div>` : "";
     const people = peopleEditorMarkup(item);
@@ -564,7 +579,7 @@
     const originalStatus = ({ "verified-local": "Локальный оригинал проверен", "verified-local-and-remote": "Локальный и Drive-оригинал", "remote-only": "Только удалённый оригинал", unresolved: "Оригинал не найден" })[item.originalResolution?.status] || "Не проверено";
     const addAction = item.publicationStatus === "not-public" || item.mediaType === "video" ? "" : `<button class="button button-primary" data-add-media="${item.id}">+ В будущую сетку</button>`;
     const topAction = `<button class="button ${item.isTop ? "button-top-active" : "button-secondary"}" data-toggle-top="${item.id}">${item.isTop ? "В топе" : "Добавить в топ"}</button>`;
-    ui.dialogContent.innerHTML = `<div class="detail-layout"><div class="detail-image">${media}</div><div class="detail-copy"><p class="eyebrow">${escapeHtml(item.folderLabel)}${category}</p><h2>${escapeHtml(item.fileName)}</h2><p>В интерфейсе используется превью; финальный экспорт берёт HQ через resolver оригиналов.</p><div class="meta-list"><div class="meta-row"><span>Тип</span><strong>${escapeHtml(typeLabels[item.materialType] || item.materialType || "Материал")}</strong></div><div class="meta-row"><span>Публикация</span><strong>${escapeHtml(statusLabels[item.publicationStatus] || item.publicationStatus || "Не указан")}</strong></div><div class="meta-row"><span>Дата съёмки</span><strong>${escapeHtml(captureDate)}</strong></div><div class="meta-row"><span>Камера</span><strong>${escapeHtml(camera)}</strong></div><div class="meta-row"><span>Оригинал</span><strong>${escapeHtml(originalStatus)}</strong></div><div class="meta-row"><span>Размер</span><strong>${item.width} × ${item.height}</strong></div><div class="meta-row"><span>Ориентация</span><strong>${orientationLabel(item.orientation)}</strong></div><div class="meta-row"><span>Вес оригинала</span><strong>${item.sizeMb} МБ</strong></div><div class="meta-row"><span>SHA-256</span><strong>${escapeHtml(item.sha256 ? item.sha256.slice(0, 12) + "…" : "не рассчитан")}</strong></div><div class="meta-row"><span>Точные дубли</span><strong>${duplicateText}</strong></div></div>${projects}${people}${themes}${roles}<div class="detail-actions">${originalAction}${previewAction}${topAction}${addAction}${copyAction}</div>${sourceNote}</div></div>`;
+    ui.dialogContent.innerHTML = `<div class="detail-layout"><div class="detail-image">${media}</div><div class="detail-copy"><p class="eyebrow">${escapeHtml(item.folderLabel)}${category}</p><h2>${escapeHtml(item.fileName)}</h2><p>В интерфейсе используется лёгкое превью. «Скачать оригинал» берёт только исходный файл и больше не подменяет его уменьшенной картинкой.</p><div class="meta-list"><div class="meta-row"><span>Тип</span><strong>${escapeHtml(typeLabels[item.materialType] || item.materialType || "Материал")}</strong></div><div class="meta-row"><span>Публикация</span><strong>${escapeHtml(statusLabels[item.publicationStatus] || item.publicationStatus || "Не указан")}</strong></div><div class="meta-row"><span>Дата съёмки</span><strong>${escapeHtml(captureDate)}</strong></div><div class="meta-row"><span>Камера</span><strong>${escapeHtml(camera)}</strong></div><div class="meta-row"><span>Оригинал</span><strong>${escapeHtml(originalDownloadUrl ? "Подключён без уменьшения" : originalStatus)}</strong></div><div class="meta-row"><span>Размер превью</span><strong>${item.width} × ${item.height}</strong></div><div class="meta-row"><span>Ориентация</span><strong>${orientationLabel(item.orientation)}</strong></div><div class="meta-row"><span>Вес оригинала</span><strong>${item.sizeMb} МБ</strong></div><div class="meta-row"><span>SHA-256</span><strong>${escapeHtml(item.sha256 ? item.sha256.slice(0, 12) + "…" : "не рассчитан")}</strong></div><div class="meta-row"><span>Точные дубли</span><strong>${duplicateText}</strong></div></div>${projects}${people}${themes}${roles}<div class="detail-actions">${originalAction}${previewAction}${topAction}${addAction}${copyAction}</div>${sourceNote}</div></div>`;
     ui.detailDialog.classList.toggle("is-landscape", item.orientation === "landscape");
     if (!ui.detailDialog.open) ui.detailDialog.showModal();
   }
@@ -692,6 +707,8 @@
     if (addButton) addMedia(library.find((item) => item.id === addButton.dataset.addMedia));
     const copyButton = event.target.closest("[data-copy-path]");
     if (copyButton) copyPath(copyButton.dataset.copyPath);
+    if (event.target.closest("[data-download-original]")) toast("Скачивается исходный файл без уменьшения");
+    if (event.target.closest("[data-download-preview]")) toast("Скачивается лёгкое превью");
     const editPeopleButton = event.target.closest("[data-edit-people]");
     if (editPeopleButton) {
       const editor = editPeopleButton.closest("[data-people-editor]");
