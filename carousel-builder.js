@@ -416,14 +416,36 @@
 
   function loadImage(source) {
     return new Promise((resolve, reject) => {
+      if (!source) {
+        reject(new Error("image source is empty"));
+        return;
+      }
       const image = new Image();
       image.crossOrigin = "anonymous";
       image.onload = () => resolve(image);
-      image.onerror = reject;
+      image.onerror = () => reject(new Error(`image did not load: ${source}`));
       image.src = location.protocol === "file:" && !/^https?:/.test(source)
         ? `https://olymarkes.github.io/sekta-smm-content-room/${source}`
         : source;
     });
+  }
+
+  async function loadBestCoverImage(photo) {
+    const candidates = [
+      photo?.originalResolution?.remoteUrl,
+      photo?.originalUrl,
+      photo?.exportImage,
+      photo?.thumb,
+    ].filter(Boolean);
+    let lastError = null;
+    for (const source of candidates) {
+      try {
+        return await loadImage(source);
+      } catch (error) {
+        lastError = error;
+      }
+    }
+    throw lastError || new Error("cover image did not load");
   }
 
   function drawCoverImage(context, image, x, y, width, height) {
@@ -458,13 +480,34 @@
     context.fill();
   }
 
+  function canvasToPngBlob(canvas) {
+    return new Promise((resolve, reject) => {
+      if (canvas.toBlob) {
+        canvas.toBlob((blob) => {
+          if (blob) resolve(blob);
+          else reject(new Error("empty PNG"));
+        }, "image/png");
+        return;
+      }
+      try {
+        const dataUrl = canvas.toDataURL("image/png");
+        const binary = atob(dataUrl.split(",")[1] || "");
+        const bytes = new Uint8Array(binary.length);
+        for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+        resolve(new Blob([bytes], { type: "image/png" }));
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
   async function makeCoverCanvas(width = 1080, height = 1350) {
     if (!selectedPhoto) throw new Error("Нет выбранной фотографии");
     const canvas = document.createElement("canvas");
     canvas.width = width;
     canvas.height = height;
     const context = canvas.getContext("2d");
-    const image = await loadImage(selectedPhoto.thumb);
+    const image = await loadBestCoverImage(selectedPhoto);
     const scale = width / 1080;
     if (activeFont === "taste" && tasteFont) {
       try { await document.fonts.load(`800 ${96 * scale}px "${tasteFont.family}"`); } catch {}
@@ -497,33 +540,55 @@
     const headline = activeFont === "taste" && tasteFont?.caseKind === "upper" ? ui.hook.value.toLocaleUpperCase("ru-RU") : activeFont === "taste" && tasteFont?.caseKind === "lower" ? ui.hook.value.toLocaleLowerCase("ru-RU") : ui.hook.value;
     const headlineWeight = activeFont === "editorial" ? 700 : activeFont === "taste" ? 800 : 900;
     let lines = [];
+    let lineHeight = 0;
+    let textBlockHeight = 0;
+    let subtitleSize = 0;
+    let subtitleLines = [];
+    let subtitleLineHeight = 0;
+    let totalTextHeight = 0;
     do {
       context.font = `${headlineWeight} ${fontSize}px ${family}`;
       lines = wrapLines(context, headline, maxWidth);
-      if (lines.length > 5) fontSize -= 5 * scale;
-    } while (lines.length > 5 && fontSize > 50 * scale);
+      lineHeight = fontSize * (activeFont === "editorial" ? 1.03 : activeFont === "taste" ? .96 : .93);
+      textBlockHeight = lines.length * lineHeight;
+      subtitleSize = Math.max(20 * scale, Math.min(34 * scale, fontSize * .28));
+      context.font = `800 ${subtitleSize}px Arial, sans-serif`;
+      subtitleLines = wrapLines(context, ui.subtitle.value.toUpperCase(), maxWidth);
+      subtitleLineHeight = subtitleSize * 1.22;
+      totalTextHeight = textBlockHeight + 34 * scale + subtitleLines.length * subtitleLineHeight;
+      if ((lines.length > 4 || totalTextHeight > height * .42) && fontSize > 48 * scale) fontSize -= 5 * scale;
+      else break;
+    } while (fontSize > 48 * scale);
 
-    const lineHeight = fontSize * (activeFont === "editorial" ? 1.03 : activeFont === "taste" ? .96 : .93);
-    const textBlockHeight = lines.length * lineHeight;
     const x = activePlacement === "right" ? width - 58 * scale : activePlacement === "middle" ? width / 2 : 58 * scale;
-    const startY = activePlacement === "middle" ? (height - textBlockHeight) / 2 : height - textBlockHeight - 118 * scale;
+    const topY = activePlacement === "middle" ? (height - totalTextHeight) / 2 : height - totalTextHeight - 104 * scale;
+    const startY = Math.max(140 * scale, topY) + fontSize * .86;
     context.textAlign = activePlacement === "right" ? "right" : activePlacement === "middle" ? "center" : "left";
 
     const boxColors = { pink: "#f35ba7", blue: "#3155e4", lime: "#d4f04a", paper: "#fff7e6" };
-    if (boxColors[activeStyle]) {
-      const boxX = activePlacement === "right" ? x - maxWidth - 24 * scale : activePlacement === "middle" ? x - maxWidth / 2 - 24 * scale : x - 24 * scale;
-      context.fillStyle = boxColors[activeStyle];
-      roundedRect(context, boxX, startY - fontSize * .86, maxWidth + 48 * scale, textBlockHeight + 30 * scale, 8 * scale);
-    }
-
-    context.fillStyle = textColors[activeTextColor];
     context.textBaseline = "alphabetic";
-    lines.forEach((line, index) => context.fillText(line, x, startY + index * lineHeight));
+    context.font = `${headlineWeight} ${fontSize}px ${family}`;
+    lines.forEach((line, index) => {
+      const y = startY + index * lineHeight;
+      if (boxColors[activeStyle]) {
+        const paddingX = 16 * scale;
+        const paddingY = 6 * scale;
+        const lineWidth = Math.min(context.measureText(line).width, maxWidth);
+        const boxX = activePlacement === "right" ? x - lineWidth - paddingX : activePlacement === "middle" ? x - lineWidth / 2 - paddingX : x - paddingX;
+        context.fillStyle = boxColors[activeStyle];
+        roundedRect(context, boxX, y - fontSize * .86 - paddingY, lineWidth + paddingX * 2, fontSize * .98 + paddingY * 2, 7 * scale);
+      }
+      context.fillStyle = textColors[activeTextColor];
+      context.fillText(line, x, y, maxWidth);
+    });
 
-    const subtitleY = Math.min(height - 42 * scale, startY + textBlockHeight + 34 * scale);
-    context.font = `800 ${20 * scale}px Arial, sans-serif`;
+    let subtitleY = startY + textBlockHeight + 34 * scale;
+    context.font = `800 ${subtitleSize}px Arial, sans-serif`;
     context.fillStyle = activeStyle === "paper" && activeTextColor === "white" ? "#17221f" : textColors[activeTextColor];
-    context.fillText(ui.subtitle.value.toUpperCase(), x, subtitleY);
+    subtitleLines.forEach((line) => {
+      context.fillText(line, x, Math.min(height - 42 * scale, subtitleY), maxWidth);
+      subtitleY += subtitleLineHeight;
+    });
     return canvas;
   }
 
@@ -532,8 +597,7 @@
       ui.download.disabled = true;
       ui.download.textContent = "Собираю PNG…";
       const canvas = await makeCoverCanvas();
-      const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
-      if (!blob) throw new Error("PNG не собран");
+      const blob = await canvasToPngBlob(canvas);
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
       link.download = `sekta-${activeTopic.id}-cover.png`;

@@ -2,6 +2,7 @@
   const library = window.SEKTA_LIBRARY?.items || [];
   const root = document.querySelector('[data-view-panel="typography"]');
   if (!root) return;
+  if (!root.querySelector(".carousel-studio-tabs")) return;
 
   const DRAFT_KEY = "sekta-carousel-studio-draft-v1";
   const SAVED_KEY = "sekta-carousel-studio-series-v1";
