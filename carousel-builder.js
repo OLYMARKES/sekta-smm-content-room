@@ -432,15 +432,15 @@
 
   async function loadBestCoverImage(photo) {
     const candidates = [
-      { source: photo?.originalResolution?.remoteUrl, quality: "hq" },
-      { source: photo?.originalUrl, quality: "hq" },
-      { source: photo?.exportImage, quality: "public" },
-      { source: photo?.thumb, quality: "preview" },
-    ].filter((item) => item.source);
+      photo?.originalResolution?.remoteUrl,
+      photo?.originalUrl,
+      photo?.exportImage,
+      photo?.thumb,
+    ].filter(Boolean);
     let lastError = null;
-    for (const candidate of candidates) {
+    for (const source of candidates) {
       try {
-        return { image: await loadImage(candidate.source), quality: candidate.quality };
+        return await loadImage(source);
       } catch (error) {
         lastError = error;
       }
@@ -507,9 +507,7 @@
     canvas.width = width;
     canvas.height = height;
     const context = canvas.getContext("2d");
-    const loadedPhoto = await loadBestCoverImage(selectedPhoto);
-    const image = loadedPhoto.image;
-    canvas.dataset.mediaQuality = loadedPhoto.quality;
+    const image = await loadBestCoverImage(selectedPhoto);
     const scale = width / 1080;
     if (activeFont === "taste" && tasteFont) {
       try { await document.fonts.load(`800 ${96 * scale}px "${tasteFont.family}"`); } catch {}
@@ -605,8 +603,7 @@
       link.download = `sekta-${activeTopic.id}-cover.png`;
       link.click();
       setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-      const qualityNote = canvas.dataset.mediaQuality === "hq" ? "с HQ-фото" : "из доступного публичного файла; HQ-оригинал не подключён";
-      setStatus(`Обложка 1080 × 1350 скачана в PNG ${qualityNote}.`);
+      setStatus("Обложка 1080 × 1350 скачана в PNG со всеми настройками.");
     } catch {
       setStatus("Не удалось собрать PNG. Откройте командную версию через GitHub Pages и попробуйте снова.");
     } finally {
