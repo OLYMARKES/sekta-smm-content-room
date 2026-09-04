@@ -10,17 +10,19 @@
   const peopleOverrideStorageKey = "sekta-media-people-overrides-v1";
   const peopleOverrideEndpoint = "http://127.0.0.1:4318/api/media-overrides";
   const canonicalPeopleOverrides = window.MEDIA_LIBRARY_MANUAL_OVERRIDES?.records || {};
-  const localPeopleOverrides = loadPeopleOverrides();
+  const mediaOverrides = window.SEKTA_MEDIA_OVERRIDES.create({
+    getStorage: () => localStorage, key: peopleOverrideStorageKey, write: writeMediaOverride,
+  });
   library.forEach((item) => {
     try {
       const canonicalRecord = canonicalPeopleOverrides[item.id];
       if (Array.isArray(canonicalRecord?.people)) applyPeopleToItem(item, canonicalRecord.people);
       if (typeof canonicalRecord?.top === "boolean") applyTopToItem(item, canonicalRecord.top);
-      const localRecord = localPeopleOverrides[item.id];
+      const localRecord = mediaOverrides.get(item.id);
       if (Array.isArray(localRecord?.people)) applyPeopleToItem(item, localRecord.people);
       if (typeof localRecord?.top === "boolean") applyTopToItem(item, localRecord.top);
     } catch {
-      delete localPeopleOverrides[item.id];
+      // Leave malformed stored records untouched; never erase a user's copy on startup.
     }
   });
   const viewLabels = { overview: "Рабочий обзор", ideal: "Идеальная сетка", growth: "Рост и идеи", builder: "Идеи и обложки", typography: "Типографика обложки", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
@@ -89,19 +91,6 @@
   let toastTimer;
   let sandbox = loadSandbox();
 
-  function loadPeopleOverrides() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(peopleOverrideStorageKey) || "{}");
-      return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
-    } catch {
-      return {};
-    }
-  }
-
-  function savePeopleOverrides() {
-    localStorage.setItem(peopleOverrideStorageKey, JSON.stringify(localPeopleOverrides));
-  }
-
   function normalizePeople(values) {
     const people = [];
     const seen = new Set();
@@ -137,13 +126,15 @@
   }
 
   async function writeMediaOverride(id, patch) {
+    const requestPatch = { ...patch };
+    if (Array.isArray(requestPatch.people)) requestPatch.people = normalizePeople(requestPatch.people);
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 8000);
     try {
       const response = await fetch(peopleOverrideEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, ...patch }),
+        body: JSON.stringify({ id, ...requestPatch }),
         signal: controller.signal,
       });
       const payload = await response.json().catch(() => ({}));
@@ -155,19 +146,40 @@
   }
 
   async function syncPendingPeopleOverrides() {
-    const pending = Object.entries(localPeopleOverrides).filter(([, record]) => record?.pending && (Array.isArray(record.people) || typeof record.top === "boolean"));
-    for (const [id, record] of pending) {
+    for (const id of mediaOverrides.pendingIds()) {
       try {
-        const patch = {};
-        if (Array.isArray(record.people)) patch.people = normalizePeople(record.people);
-        if (typeof record.top === "boolean") patch.top = record.top;
-        await writeMediaOverride(id, patch);
-        delete localPeopleOverrides[id];
-        savePeopleOverrides();
+        await mediaOverrides.sync(id);
+        refreshMediaSaveStatus(id);
       } catch {
         return;
       }
     }
+  }
+
+  function mediaSaveStatus(id) {
+    const error = mediaOverrides.storageError();
+    if (error) return { message: error, state: "error" };
+    const record = mediaOverrides.get(id);
+    if (!record) return { message: "", state: "" };
+    return record.pending === false
+      ? { message: "Локальная копия сохранена. Сервис принял правки; обновление общего каталога не проверено.", state: "success" }
+      : { message: "Сохранено в этом браузере. Отправка сервису ещё не подтверждена.", state: "pending" };
+  }
+
+  async function syncMediaEdit(id) {
+    try { await mediaOverrides.sync(id); } catch { /* The local copy remains pending. */ }
+    refreshMediaSaveStatus(id);
+  }
+
+  function refreshMediaSaveStatus(id) {
+    const editor = ui.dialogContent.querySelector(`[data-people-editor="${CSS.escape(id)}"]`);
+    // Do not replace an editor or its error message while the user is typing.
+    if (!editor || !editor.querySelector("form")?.hidden) return;
+    const status = editor.querySelector(".people-save-status");
+    if (!status) return;
+    const saved = mediaSaveStatus(id);
+    status.textContent = saved.message;
+    status.dataset.state = saved.state;
   }
 
   function loadSandbox() {
@@ -184,11 +196,11 @@
     localStorage.setItem("sekta-sandbox", JSON.stringify(sandbox));
   }
 
-  function toast(message) {
+  function toast(message, duration = 2200) {
     clearTimeout(toastTimer);
     ui.toast.textContent = message;
     ui.toast.classList.add("is-visible");
-    toastTimer = setTimeout(() => ui.toast.classList.remove("is-visible"), 2200);
+    toastTimer = setTimeout(() => ui.toast.classList.remove("is-visible"), duration);
   }
 
   function setView(view) {
@@ -463,12 +475,13 @@
 
   function peopleEditorMarkup(item) {
     const people = normalizePeople(item.people || []);
+    const saved = mediaSaveStatus(item.id);
     const tags = people.length
       ? people.map((person) => `<span class="people-tag">${escapeHtml(person)}</span>`).join("")
       : `<span class="people-empty">Не определено</span>`;
     const buttonLabel = people.length ? "Изменить" : "Добавить";
     const inputId = `people-input-${item.id}`;
-    return `<div class="media-taxonomy people-editor" data-people-editor="${escapeHtml(item.id)}"><div class="people-editor-head"><span>Кто в кадре</span><button type="button" class="people-edit-button" data-edit-people="${escapeHtml(item.id)}">${buttonLabel}</button></div><div class="people-tags">${tags}</div><form class="people-form" data-people-form="${escapeHtml(item.id)}" hidden><label for="${inputId}">Имена через запятую</label><input id="${inputId}" name="people" value="${escapeHtml(people.join(", "))}" maxlength="980" autocomplete="off" placeholder="Например: Вера, Оля"><p class="people-hint">До 12 имён. Пустое поле вернёт статус «Не определено».</p><div class="people-form-actions"><button type="submit" class="button button-primary">Сохранить</button><button type="button" class="button button-secondary" data-cancel-people>Отмена</button></div></form><p class="people-save-status" role="status" aria-live="polite"></p></div>`;
+    return `<div class="media-taxonomy people-editor" data-people-editor="${escapeHtml(item.id)}"><div class="people-editor-head"><span>Кто в кадре</span><button type="button" class="people-edit-button" data-edit-people="${escapeHtml(item.id)}">${buttonLabel}</button></div><div class="people-tags">${tags}</div><form class="people-form" data-people-form="${escapeHtml(item.id)}" hidden><label for="${inputId}">Имена через запятую</label><input id="${inputId}" name="people" value="${escapeHtml(people.join(", "))}" maxlength="980" autocomplete="off" placeholder="Например: Вера, Оля"><p class="people-hint">До 12 имён. Пустое поле вернёт статус «Не определено».</p><div class="people-form-actions"><button type="submit" class="button button-primary">Сохранить</button><button type="button" class="button button-secondary" data-cancel-people>Отмена</button></div></form><p class="people-save-status" role="status" aria-live="polite" data-state="${saved.state}">${escapeHtml(saved.message)}</p></div>`;
   }
 
   function replacePeopleEditor(item, message = "", state = "") {
@@ -483,61 +496,49 @@
     }
   }
 
-  async function savePeopleFromForm(form) {
+  function savePeopleFromForm(form) {
     const item = library.find((entry) => entry.id === form.dataset.peopleForm);
     if (!item) return;
     const status = form.parentElement.querySelector(".people-save-status");
-    const submit = form.querySelector('[type="submit"]');
     let people;
     try {
       people = parsePeople(new FormData(form).get("people"));
+      mediaOverrides.stage(item.id, { people });
     } catch (error) {
       status.textContent = error.message;
       status.dataset.state = "error";
       return;
     }
-    submit.disabled = true;
-    form.setAttribute("aria-busy", "true");
-    status.textContent = "Сохраняю в общей медиатеке…";
-    status.dataset.state = "loading";
-    try {
-      await writeMediaOverride(item.id, { people });
-      applyPeopleToItem(item, people);
-      delete localPeopleOverrides[item.id];
-      savePeopleOverrides();
-      replacePeopleEditor(item, "Сохранено в общей медиатеке.", "success");
-      renderLibrary();
-      toast("Имя сохранено в общей медиатеке");
-    } catch {
-      applyPeopleToItem(item, people);
-      localPeopleOverrides[item.id] = { ...(localPeopleOverrides[item.id] || {}), people, pending: true, updatedAt: new Date().toISOString() };
-      savePeopleOverrides();
-      replacePeopleEditor(item, "Сохранено на этом компьютере. Общая синхронизация ожидает запуска сервиса.", "pending");
-      renderLibrary();
-      toast("Сохранено локально; общая синхронизация ожидает");
-    }
+    applyPeopleToItem(item, people);
+    const saved = mediaSaveStatus(item.id);
+    replacePeopleEditor(item, saved.message, saved.state);
+    renderLibrary();
+    toast("Имена сохранены в этом браузере");
+    syncMediaEdit(item.id);
   }
 
-  async function toggleTop(item) {
+  function toggleTop(item) {
     if (!item) return;
     const next = !item.isTop;
+    try {
+      mediaOverrides.stage(item.id, { top: next });
+    } catch (error) {
+      toast(error.message, 8000);
+      return;
+    }
     applyTopToItem(item, next);
     renderLibrary();
-    if (ui.detailDialog.open) openMedia(item);
-    try {
-      await writeMediaOverride(item.id, { top: next });
-      const pending = localPeopleOverrides[item.id];
-      if (pending) {
-        delete pending.top;
-        if (!pending.pending || (!Array.isArray(pending.people) && typeof pending.top !== "boolean")) delete localPeopleOverrides[item.id];
-        savePeopleOverrides();
-      }
-      toast(next ? "Добавлено в топ общей медиатеки" : "Убрано из топа");
-    } catch {
-      localPeopleOverrides[item.id] = { ...(localPeopleOverrides[item.id] || {}), top: next, pending: true, updatedAt: new Date().toISOString() };
-      savePeopleOverrides();
-      toast("Сохранено локально; общая синхронизация ожидает");
+    const dialogTop = ui.dialogContent.querySelector(`[data-toggle-top="${CSS.escape(item.id)}"]`);
+    if (dialogTop) {
+      dialogTop.textContent = next ? "В топе" : "Добавить в топ";
+      dialogTop.classList.toggle("button-top-active", next);
+      dialogTop.classList.toggle("button-secondary", !next);
+      dialogTop.setAttribute("aria-pressed", String(next));
     }
+    // Updating the top button must not discard unsaved names in the open form.
+    refreshMediaSaveStatus(item.id);
+    toast(next ? "Добавлено в топ в этом браузере" : "Убрано из топа в этом браузере");
+    syncMediaEdit(item.id);
   }
 
   function openMedia(item) {
