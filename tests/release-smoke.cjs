@@ -119,7 +119,7 @@ async function check(name, run, viewport) {
     results.push({ name, passed: true });
     console.log(`PASS ${engine}: ${name}`);
   } catch (error) {
-    await state.page.screenshot({ path: path.join(output, `failure-${results.length}.png`), fullPage: true }).catch(() => {});
+    await state.page.screenshot({ path: path.join(output, `failure-${results.length}.png`), fullPage: true, animations: "disabled", timeout: 15000 }).catch(() => {});
     results.push({ name, passed: false, error: error.stack, pageErrors: state.errors, missing: state.missing });
     throw error;
   } finally { clearTimeout(deadline); await state.context.close(); }
@@ -155,7 +155,10 @@ async function main() {
     assert((await page.locator("#coverModeNote").innerText()).includes(date));
     assert.match(await page.locator("#coverModeNote").innerText(), /Не обновляется автоматически/);
     assert.doesNotMatch(await page.locator(".sidebar-note").innerText(), /13 августа|актуален/);
-    await page.screenshot({ path: path.join(output, "room-desktop.png"), fullPage: true });
+    assert.equal(await page.locator("#currentGridSummary").innerText(), "Сохранённая сетка");
+    assert.match(await page.locator("#currentGridCounts").innerText(), /12 публикаций · 3 закреплено/);
+    assert.match(await page.locator('.current-heading-actions a').innerText(), /Архивная примерка/);
+    await page.screenshot({ path: path.join(output, "room-desktop.png"), fullPage: true, animations: "disabled", timeout: 15000 });
   });
 
   await check("draft roundtrip, JSON validation and missing media", async ({ page }) => {
@@ -428,7 +431,9 @@ async function main() {
     assert.equal(await page.locator("#sidebar").evaluate((sidebar) => sidebar.inert), true);
     await page.locator("#mobileMenu").click();
     assert.equal(await page.locator("#mobileMenu").getAttribute("aria-expanded"), "true");
-    await page.screenshot({ path: path.join(output, "navigation-mobile.png"), fullPage: true });
+    await page.screenshot({ path: path.join(output, "navigation-mobile.png"), animations: "disabled", timeout: 15000 });
+    const bounds = await page.locator("#sidebar").boundingBox();
+    assert(bounds && Math.abs(bounds.x) < 1 && bounds.width <= 390, "Open mobile sidebar must be fully on screen");
     await page.keyboard.press("Escape");
     assert.equal(await page.locator("#mobileMenu").getAttribute("aria-expanded"), "false");
     assert(await page.locator("#mobileMenu").evaluate((button) => button === document.activeElement));

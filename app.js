@@ -203,6 +203,9 @@
     ui.overviewGrid.innerHTML = currentGrid.slice(0, 9).map((item) => feedTile(item)).join("");
     ui.currentGrid.innerHTML = currentGrid.map((item) => feedTile(item, currentCoverMode)).join("");
     const proposedCount = currentGrid.filter((item) => item.proposedImage).length;
+    document.querySelector("#currentGridSummary").textContent = currentCoverMode === "proposed"
+      ? `${proposedCount} ${plural(proposedCount, "новая обложка", "новые обложки", "новых обложек")}` : "Сохранённая сетка";
+    document.querySelector("#currentGridCounts").textContent = `${currentGrid.length} ${plural(currentGrid.length, "публикация", "публикации", "публикаций")} · ${currentGrid.filter((item) => item.pinned).length} закреплено`;
     document.querySelectorAll("[data-cover-mode]").forEach((button) => {
       const active = button.dataset.coverMode === currentCoverMode;
       button.classList.toggle("is-active", active);
