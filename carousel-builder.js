@@ -474,7 +474,7 @@
     ui.sourceStatus.textContent = missingDraftPhotoId
       ? "Фото из черновика отсутствует или недоступно в текущем каталоге. Выберите другое; текст сохранён."
       : !source ? "Выберите фото. Источники доступны при открытии приложения по HTTP(S)."
-      : source.kind === "preview" ? "Доступно только превью. Перед PNG-экспортом потребуется подтверждение ограниченного качества."
+      : source.kind === "preview" ? "Для PNG указано только превью; потребуется подтверждение ограниченного качества. Оригинал в Drive, если подключён, скачивается отдельно из медиатеки."
       : `Для экспорта указана ${source.kind === "export" ? "экспортная копия" : "ссылка на оригинал"}. Доступность и размер изображения определяются при скачивании.`;
     document.querySelectorAll("[data-builder-style]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderStyle === activeStyle));
     document.querySelectorAll("[data-builder-placement]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderPlacement === activePlacement));

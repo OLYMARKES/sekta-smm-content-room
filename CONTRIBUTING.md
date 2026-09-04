@@ -6,7 +6,7 @@
 
 - Владелец репозитория: [@OLYMARKES](https://github.com/OLYMARKES).
 - Контрибутор: Vadim — [@grootbro](https://github.com/grootbro), [vadim@ravefox.dev](mailto:vadim@ravefox.dev).
-- Для прямого push нужен Write-доступ от владельца. Упоминание в README его не выдаёт. На момент разбора 3 сентября 2026 года у `grootbro` был только Read-доступ.
+- Права GitHub выдаёт владелец репозитория. Упоминание в README не меняет доступ; административные права не заменяют согласование публикации.
 
 Авторство коммитов для Vadim: `grootbro <vadim@ravefox.dev>`. Перед коммитом проверьте текущие `git config user.name` и `git config user.email`; глобальную конфигурацию менять не нужно.
 
