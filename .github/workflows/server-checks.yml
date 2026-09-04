@@ -1,0 +1,63 @@
+name: Server acceptance
+
+on:
+  # This release branch has explicit approval for server checks and retries.
+  # Delete the merged branch after release; future checks use manual dispatch.
+  push:
+    branches: [docs/content-room-review]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: server-acceptance-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regressions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Source and storage regressions
+        run: node --test tests/media-source.test.cjs tests/media-overrides.test.cjs
+
+  browser:
+    needs: regressions
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, webkit]
+    env:
+      BROWSER: ${{ matrix.browser }}
+      SEKTA_SERVER_CHECKS: '1'
+      NODE_PATH: ${{ runner.temp }}/sekta-check-tools/node_modules
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Install isolated browser tools on the server
+        run: |
+          command -v npx >/dev/null 2>&1
+          npm install --prefix "$RUNNER_TEMP/sekta-check-tools" --no-audit --no-fund --ignore-scripts --package-lock=false playwright@1.62.1
+          node "$RUNNER_TEMP/sekta-check-tools/node_modules/playwright/cli.js" install --with-deps "$BROWSER"
+      - name: Browser acceptance against an isolated server
+        run: node tests/release-smoke.cjs
+      - name: Keep screenshots and failure details
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: acceptance-${{ matrix.browser }}
+          path: output/playwright/
+          retention-days: 3
