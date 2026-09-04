@@ -226,7 +226,8 @@ async function main() {
     await page.locator("#detailDialog [data-toggle-top]").click();
     assert.equal(await page.locator('.people-form input[name="people"]').inputValue(), "Оля, Вера");
     await page.locator('.people-form [type="submit"]').click();
-    await page.waitForFunction(({ key, id }) => JSON.parse(localStorage.getItem(key))[id].pending === false, { key: mediaKey, id });
+    await page.waitForFunction(({ key, id }) => JSON.parse(localStorage.getItem(key))[id].people?.includes("Оля"), { key: mediaKey, id });
+    assert.deepEqual(state.posts, [], "Local edits must not be sent to an unconfigured service");
     const saved = (await stored(page, mediaKey))[id];
     assert.deepEqual(saved.people, ["Оля", "Вера"]);
     await page.reload();
@@ -256,7 +257,60 @@ async function main() {
     assert.equal(await page.locator('.people-form input[name="people"]').inputValue(), "Не терять введённый текст");
     await page.locator("#detailDialog [data-toggle-top]").click();
     assert.equal((await stored(page, mediaKey))[id].top, saved.top);
+    assert.deepEqual(state.posts, [], "Reload must not send pending names to localhost");
   });
+
+  await check("sandbox quota failure preserves the visible and stored grid", async ({ page }) => {
+    await view(page, "planner");
+    const before = await stored(page, "sekta-sandbox");
+    await page.evaluate(() => {
+      const original = Storage.prototype.setItem;
+      Storage.prototype.setItem = function (key, value) {
+        if (key === "sekta-sandbox") throw new Error("quota");
+        return original.call(this, key, value);
+      };
+    });
+    await page.locator("#sandboxGrid [data-remove]").first().click();
+    assert.equal(await page.locator("#sandboxGrid [data-remove]").count(), 1);
+    assert.deepEqual(await stored(page, "sekta-sandbox"), before);
+    assert.match(await page.locator("#sandboxSaveStatus").innerText(), /не удалось сохранить/i);
+  });
+
+  await check("CSP blocks inline script and branding keeps intrinsic dimensions", async ({ page }) => {
+    await page.evaluate(() => {
+      const script = document.createElement("script");
+      script.textContent = "window.inlineScriptExecuted = true";
+      document.body.append(script);
+    });
+    assert.equal(await page.evaluate(() => window.inlineScriptExecuted), undefined);
+    assert(await page.locator(".brand-mark").evaluate((image) => image.complete && image.naturalWidth === 988));
+    assert.equal(await page.locator('[data-cover-mode="proposed"]').isEnabled(), false);
+  });
+
+  await check("typography survives unavailable storage with visible warning", async (state) => {
+    await state.context.addInitScript(() => {
+      const original = Storage.prototype.getItem;
+      Storage.prototype.getItem = function (key) {
+        if (key === "olymarkes-type-case-mode-v1") throw new Error("blocked storage");
+        return original.call(this, key);
+      };
+    });
+    await state.page.reload();
+    await view(state.page, "typography");
+    const frame = state.page.frameLocator("#coverTypographyFrame");
+    await frame.locator(".font-card").first().waitFor();
+    assert(await frame.locator("#storageNotice").isVisible());
+    assert.match(await frame.locator("#storageNotice").innerText(), /приостановлена/);
+  });
+
+  await check("mobile menu communicates state and closes with Escape", async ({ page }) => {
+    assert.equal(await page.locator("#sidebar").evaluate((sidebar) => sidebar.inert), true);
+    await page.locator("#mobileMenu").click();
+    assert.equal(await page.locator("#mobileMenu").getAttribute("aria-expanded"), "true");
+    await page.keyboard.press("Escape");
+    assert.equal(await page.locator("#mobileMenu").getAttribute("aria-expanded"), "false");
+    assert(await page.locator("#mobileMenu").evaluate((button) => button === document.activeElement));
+  }, { width: 390, height: 844 });
 
   await check("PNG source, frozen scene, CORS and explicit preview fallback", async (state) => {
     const { page } = state;
