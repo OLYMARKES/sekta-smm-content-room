@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260826-3">
+  <link rel="stylesheet" href="styles.css?v=20260904-1">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -248,6 +248,14 @@
             <span class="snapshot-label"><i></i><span id="builderLibraryCount">1059</span> фото подключено</span>
           </div>
 
+          <div class="builder-draft-toolbar" aria-label="Черновик обложки">
+            <span id="builderDraftStatus" role="status" aria-live="polite">Черновик хранится в этом браузере</span>
+            <button class="button button-secondary" id="builderSaveDraft" type="button">Сохранить черновик</button>
+            <button class="button button-secondary" id="builderExportDraft" type="button">Экспорт JSON</button>
+            <button class="button button-secondary" id="builderImportDraft" type="button">Открыть JSON</button>
+            <input id="builderDraftFile" type="file" accept=".json,application/json" hidden>
+          </div>
+
           <section class="panel builder-ideas-panel">
             <div class="builder-ideas-head">
               <div><h2>10 идей, которые можно взять сейчас</h2><p>Клик по карточке сразу переносит хук и тему в обложку.</p></div>
@@ -318,6 +326,7 @@
                 <button class="button button-secondary" id="builderAddGrid" type="button">+ В будущую сетку</button>
                 <button class="button button-secondary" id="builderToStudio" type="button" data-jump="typography">Открыть все шрифты</button>
               </div>
+              <p class="builder-source-note" id="builderSourceStatus" role="status">Источник фото определяется по каталогу.</p>
             </section>
 
             <aside class="panel builder-media-panel">
@@ -585,8 +594,10 @@
   <script src="data/drive-originals.js?v=20260903-1"></script>
   <script src="data/media-library-manual-overrides.js?v=20260827-1"></script>
   <script src="data/carousel-builder-data.js"></script>
-  <script src="app.js?v=20260903-1"></script>
-  <script src="carousel-builder.js?v=20260903-2"></script>
+  <script src="media-source.js?v=20260904-1"></script>
+  <script src="media-overrides.js?v=20260904-1"></script>
+  <script src="app.js?v=20260904-2"></script>
+  <script src="carousel-builder.js?v=20260904-1"></script>
   <script src="carousel-studio.js?v=20260903-2"></script>
 </body>
 </html>
