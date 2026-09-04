@@ -3,6 +3,8 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 
+assert.equal(process.env.SEKTA_SERVER_CHECKS, "1", "Server checks require explicit authorization");
+
 const root = path.resolve(__dirname, "..");
 const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const inventory = JSON.parse(fs.readFileSync(path.join(root, "docs/system-surface.json"), "utf8"));

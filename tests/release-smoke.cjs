@@ -133,7 +133,14 @@ async function main() {
 
   await check("real catalogue, navigation and typography", async ({ page }) => {
     assert.equal(await page.evaluate(() => window.SEKTA_LIBRARY.items.length), 2450);
-    for (const name of ["library", "builder", "typography", "planner", "current", "growth", "overview"]) await view(page, name);
+    const inventory = JSON.parse(await fs.readFile(path.join(root, "docs/system-surface.json"), "utf8"));
+    const mounted = inventory.sections.filter((section) => ["active", "partial"].includes(section.status)).map((section) => section.id);
+    const navigation = await page.locator('.primary-nav .nav-item[data-view]').evaluateAll((buttons) => buttons.map((button) => button.dataset.view));
+    assert.deepEqual([...navigation].sort(), [...mounted].sort(), "Rendered navigation must match the system inventory");
+    for (const name of mounted) {
+      await view(page, name);
+      assert(await page.locator(`[data-view-panel="${name}"]`).isVisible(), `${name}: mounted panel must be visible`);
+    }
     await view(page, "typography");
     const frame = page.frames().find((frame) => frame.url().includes("carousel-type-lab.html"));
     assert(frame, "Typography iframe loaded");
