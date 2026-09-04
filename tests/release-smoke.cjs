@@ -88,7 +88,9 @@ async function fresh(viewport = { width: 1440, height: 1000 }) {
 }
 
 async function view(page, name) {
-  if (!(await page.locator(`.nav-item[data-view="${name}"]`).isVisible())) await page.locator("#mobileMenu").click();
+  if (await page.locator("#mobileMenu").isVisible() && !(await page.locator("#sidebar").evaluate((element) => element.classList.contains("is-open")))) {
+    await page.locator("#mobileMenu").click();
+  }
   await page.locator(`.nav-item[data-view="${name}"]`).click();
   assert(await page.locator(`[data-view-panel="${name}"]`).evaluate((element) => element.classList.contains("is-active")));
 }

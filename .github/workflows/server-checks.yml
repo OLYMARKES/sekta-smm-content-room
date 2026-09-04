@@ -6,6 +6,11 @@ on:
   push:
     branches: [docs/content-room-review]
   workflow_dispatch:
+    inputs:
+      check_live:
+        description: 'Проверить опубликованный сайт после выпуска (только чтение)'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -53,6 +58,9 @@ jobs:
           node "$RUNNER_TEMP/sekta-check-tools/node_modules/playwright/cli.js" install --with-deps "$BROWSER"
       - name: Browser acceptance against an isolated server
         run: NODE_PATH="$RUNNER_TEMP/sekta-check-tools/node_modules" node tests/release-smoke.cjs
+      - name: Verify published files and browser startup
+        if: github.event_name == 'workflow_dispatch' && inputs.check_live
+        run: NODE_PATH="$RUNNER_TEMP/sekta-check-tools/node_modules" node tests/live-smoke.cjs
       - name: Keep screenshots and failure details
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
