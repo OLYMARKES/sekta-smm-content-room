@@ -174,7 +174,7 @@
     const fallback = [{ id: "approved-carousel", thumb: "assets/approved-carousel/slide-01.png", title: "Мои главные победы", source: "Готовая карусель" }];
     try {
       const saved = JSON.parse(localStorage.getItem("sekta-sandbox"));
-      return Array.isArray(saved) && saved.length ? saved.slice(0, 9) : fallback;
+      return Array.isArray(saved) ? saved.slice(0, 9) : fallback;
     } catch {
       return fallback;
     }

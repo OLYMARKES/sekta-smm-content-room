@@ -4,6 +4,13 @@
   if (!config?.topics?.length) return;
 
   const ui = {
+    root: document.querySelector('[data-view-panel="builder"]'),
+    draftStatus: document.querySelector("#builderDraftStatus"),
+    saveDraft: document.querySelector("#builderSaveDraft"),
+    exportDraft: document.querySelector("#builderExportDraft"),
+    importDraft: document.querySelector("#builderImportDraft"),
+    draftFile: document.querySelector("#builderDraftFile"),
+    sourceStatus: document.querySelector("#builderSourceStatus"),
     form: document.querySelector("#builderControls"),
     ideaStrip: document.querySelector("#builderIdeaStrip"),
     refreshIdeas: document.querySelector("#builderRefreshIdeas"),
@@ -128,6 +135,14 @@
   let mediaPool = [];
   let selectedPhoto = null;
   let mediaScrollObserver = null;
+  const DRAFT_KEY = "sekta-cover-builder-draft-v1";
+  const MAX_DRAFT_BYTES = 2 * 1024 * 1024;
+  let draftTimer;
+  let draftDirty = false;
+  let draftBlocked = false;
+  let lastStoredDraft = null;
+  let missingDraftPhotoId = null;
+  let draftSlides = [];
 
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
   const plural = (number, one, few, many) => {
@@ -149,6 +164,154 @@
 
   function readLocalJson(key, fallback) {
     try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; }
+  }
+
+  function draftStatus(message, state = "saved") {
+    ui.draftStatus.textContent = message;
+    ui.draftStatus.dataset.state = state;
+  }
+
+  function captureDraft() {
+    return {
+      schema: "sekta-cover-draft", version: 1, updatedAt: new Date().toISOString(),
+      topicId: activeTopic.id, style: activeStyle, placement: activePlacement,
+      font: activeFont, textColor: activeTextColor, tasteFont,
+      photoId: selectedPhoto?.id || missingDraftPhotoId,
+      hook: ui.hook.value, subtitle: ui.subtitle.value, scriptVariant,
+      controls: { topic: ui.topic.value, goal: ui.goal.value, account: ui.account.value, tone: ui.tone.value,
+        focusX: Number(ui.focusX.value), focusY: Number(ui.focusY.value) },
+      slides: draftSlides.map((slide) => ({ ...slide })),
+    };
+  }
+
+  function validateDraft(value) {
+    const invalid = () => { throw new Error("JSON не соответствует формату черновика обложки v1."); };
+    const string = (text) => typeof text === "string" && text.length <= 100000;
+    const photoId = (id) => id === null || (typeof id === "string" && id.length > 0 && id.length <= 2000);
+    const option = (control, selected) => [...control.options].some((entry) => entry.value === selected);
+    if (!value || value.schema !== "sekta-cover-draft" || value.version !== 1) invalid();
+    if (!config.topics.some((topic) => topic.id === value.topicId)) invalid();
+    if (!Object.hasOwn(styleLabels, value.style) || !Object.hasOwn(fontLabels, value.font) || !Object.hasOwn(textColors, value.textColor)) invalid();
+    if (!["bottom", "middle", "left", "right"].includes(value.placement)) invalid();
+    if (!photoId(value.photoId) || !string(value.hook) || !string(value.subtitle) || ![0, 1, 2].includes(value.scriptVariant)) invalid();
+    const controls = value.controls;
+    if (!controls || !option(ui.topic, controls.topic) || !option(ui.goal, controls.goal) || !option(ui.account, controls.account) || !option(ui.tone, controls.tone)) invalid();
+    if (![controls.focusX, controls.focusY].every((number) => Number.isFinite(number) && number >= 0 && number <= 100)) invalid();
+    if (value.tasteFont !== null && (!value.tasteFont || typeof value.tasteFont.family !== "string" || !/^[\p{L}\p{N} .'-]{1,100}$/u.test(value.tasteFont.family) || !["lower", "upper"].includes(value.tasteFont.caseKind))) invalid();
+    if (value.font === "taste" && !value.tasteFont) invalid();
+    if (!Array.isArray(value.slides) || !value.slides.length || value.slides.length > 30) invalid();
+    if (!value.slides.every((slide) => slide && string(slide.role) && string(slide.title) && string(slide.body) && photoId(slide.photoId))) invalid();
+    return value;
+  }
+
+  function selectablePhoto(id) {
+    return library.find((item) => item.id === id && item.mediaType !== "video" && item.publicationStatus !== "not-public") || null;
+  }
+
+  function applyDraft(value) {
+    activeTopic = config.topics.find((topic) => topic.id === value.topicId);
+    activeStyle = value.style;
+    activePlacement = value.placement;
+    activeFont = value.font;
+    activeTextColor = value.textColor;
+    scriptVariant = value.scriptVariant;
+    tasteFont = value.tasteFont ? { family: value.tasteFont.family, caseKind: value.tasteFont.caseKind } : null;
+    ui.tasteFont.disabled = !tasteFont;
+    ui.tasteFont.textContent = tasteFont ? `${tasteFont.family} · ${tasteFont.caseKind === "upper" ? "КАПС" : "строчные"}` : "Из примерочной";
+    if (tasteFont) { fontLabels.taste = tasteFont.family; ensureTasteFont(tasteFont); }
+    selectedPhoto = selectablePhoto(value.photoId);
+    missingDraftPhotoId = selectedPhoto ? null : value.photoId;
+    ui.hook.value = value.hook;
+    ui.subtitle.value = value.subtitle;
+    for (const key of ["topic", "goal", "account", "tone", "focusX", "focusY"]) ui[key].value = value.controls[key];
+    selectedIdeaKey = "";
+    renderIdeaStrip();
+    renderMedia();
+    renderCover();
+    renderSlides(value.slides);
+  }
+
+  function restoreDraft() {
+    try {
+      lastStoredDraft = localStorage.getItem(DRAFT_KEY);
+      if (lastStoredDraft === null) return;
+      const draft = validateDraft(JSON.parse(lastStoredDraft));
+      applyDraft(draft);
+      draftStatus("Черновик восстановлен из этого браузера.");
+    } catch {
+      draftBlocked = true;
+      draftStatus("Черновик не удалось прочитать. Он не перезаписан; автосохранение приостановлено.", "error");
+    }
+  }
+
+  function saveDraft(explicit = false) {
+    clearTimeout(draftTimer);
+    if (!explicit && (!draftDirty || draftBlocked)) return false;
+    try {
+      const current = localStorage.getItem(DRAFT_KEY);
+      if (draftBlocked || current !== lastStoredDraft) {
+        draftBlocked = true;
+        if (!explicit || !confirm("Сохранённый черновик изменён в другой вкладке или не удалось его прочитать. Заменить его текущей обложкой?")) {
+          draftStatus("Автосохранение приостановлено. Экспортируйте JSON или явно сохраните текущую версию.", "error");
+          return false;
+        }
+      }
+      const serialized = JSON.stringify(validateDraft(captureDraft()));
+      if (new Blob([serialized]).size > MAX_DRAFT_BYTES) throw new Error("Черновик превышает 2 МБ.");
+      localStorage.setItem(DRAFT_KEY, serialized);
+      lastStoredDraft = serialized;
+      draftDirty = false;
+      draftBlocked = false;
+      draftStatus("Черновик сохранён в этом браузере.");
+      return true;
+    } catch {
+      draftDirty = true;
+      draftStatus("Не удалось сохранить черновик. Не закрывайте страницу; скачайте JSON-копию.", "error");
+      return false;
+    }
+  }
+
+  function queueDraftSave() {
+    draftDirty = true;
+    clearTimeout(draftTimer);
+    if (draftBlocked) return;
+    draftStatus("Сохраняю черновик…", "saving");
+    draftTimer = setTimeout(() => saveDraft(), 300);
+  }
+
+  function exportDraft() {
+    try {
+      const blob = new Blob([JSON.stringify(validateDraft(captureDraft()))], { type: "application/json" });
+      if (blob.size > MAX_DRAFT_BYTES) throw new Error("Черновик превышает 2 МБ.");
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `sekta-cover-${new Date().toISOString().slice(0, 10)}.json`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      setStatus("JSON-копия подготовлена к скачиванию. Она содержит тексты и ID фото, без самих изображений.");
+    } catch {
+      setStatus("Не удалось скачать JSON. Скопируйте сценарий и сохраните тексты перед закрытием страницы.");
+    }
+  }
+
+  async function importDraft() {
+    const file = ui.draftFile.files[0];
+    if (!file) return;
+    try {
+      if (file.size > MAX_DRAFT_BYTES) throw new Error("Файл больше 2 МБ. Выберите JSON-копию черновика обложки.");
+      const draft = validateDraft(JSON.parse(await file.text()));
+      if (!confirm("Заменить открытую обложку и сценарий данными из JSON? Перед заменой можно отменить и экспортировать текущую версию.")) return;
+      clearTimeout(draftTimer);
+      applyDraft(draft);
+      draftDirty = true;
+      saveDraft();
+      setStatus("JSON открыт. Статус сохранения показан над конструктором; изображения берутся из текущего каталога.");
+    } catch (error) {
+      setStatus(`Не удалось открыть черновик: ${error.message}`);
+    } finally {
+      ui.draftFile.value = "";
+    }
   }
 
   function selectedTasteFont() {
@@ -264,7 +427,7 @@
   function renderMedia() {
     mediaPool = currentMediaPool();
     const visible = mediaPool.slice(0, mediaLimit);
-    if (!selectedPhoto) selectedPhoto = visible[0] || library[0] || null;
+    if (!selectedPhoto && !missingDraftPhotoId) selectedPhoto = visible[0] || null;
     ui.mediaCount.textContent = mediaScope === "relevant"
       ? `${mediaPool.length} ${plural(mediaPool.length, "фото по теме", "фото по теме", "фото по теме")}`
       : `${mediaPool.length} ${plural(mediaPool.length, "фото в каталоге", "фото в каталоге", "фото в каталоге")}`;
@@ -301,11 +464,18 @@
     ui.cover.dataset.textColor = activeTextColor;
     ui.cover.style.setProperty("--focus-x", `${ui.focusX.value}%`);
     ui.cover.style.setProperty("--focus-y", `${ui.focusY.value}%`);
-    ui.coverImage.src = selectedPhoto?.thumb || "";
+    if (selectedPhoto?.thumb) ui.coverImage.src = selectedPhoto.thumb;
+    else ui.coverImage.removeAttribute("src");
     ui.coverHeadline.textContent = ui.hook.value;
     ui.coverPromise.textContent = ui.subtitle.value;
     ui.coverAccount.textContent = ui.account.value;
     ui.coverStatus.textContent = `${styleLabels[activeStyle]} · ${fontLabels[activeFont] || activeFont}`;
+    const source = window.SEKTA_MEDIA_SOURCE.candidates(selectedPhoto)[0];
+    ui.sourceStatus.textContent = missingDraftPhotoId
+      ? "Фото из черновика отсутствует или недоступно в текущем каталоге. Выберите другое; текст сохранён."
+      : !source ? "Выберите фото. Источники доступны при открытии приложения по HTTP(S)."
+      : source.kind === "preview" ? "Доступно только превью. Перед PNG-экспортом потребуется подтверждение ограниченного качества."
+      : `Для экспорта указана ${source.kind === "export" ? "экспортная копия" : "ссылка на оригинал"}. Доступность и размер изображения определяются при скачивании.`;
     document.querySelectorAll("[data-builder-style]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderStyle === activeStyle));
     document.querySelectorAll("[data-builder-placement]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderPlacement === activePlacement));
     document.querySelectorAll("[data-builder-font]").forEach((button) => button.classList.toggle("is-active", button.dataset.builderFont === activeFont));
@@ -338,12 +508,17 @@
     return [selectedPhoto, pool[2], pool[5], pool[8]].filter(Boolean);
   }
 
-  function renderSlides() {
+  function renderSlides(savedSlides = null) {
     const slideMedia = currentSlideMedia();
     const photoSlots = new Map([[0, slideMedia[0]], [3, slideMedia[1]], [6, slideMedia[2]], [8, slideMedia[3]]]);
-    ui.slides.innerHTML = buildSlides().map((slide, index) => {
-      const photo = photoSlots.get(index);
-      const visual = photo ? `<div class="builder-slide-visual"><img src="${escapeHtml(photo.thumb)}" alt=""></div>` : `<div class="builder-slide-visual is-text">ТЕКСТ</div>`;
+    draftSlides = (savedSlides || buildSlides()).map((slide, index) => ({
+      role: slide.role, title: slide.title, body: slide.body,
+      photoId: savedSlides ? slide.photoId : photoSlots.get(index)?.id || null,
+    }));
+    ui.slides.innerHTML = draftSlides.map((slide, index) => {
+      const photoId = slide.photoId;
+      const photo = selectablePhoto(photoId);
+      const visual = photo ? `<div class="builder-slide-visual" data-photo-id="${escapeHtml(photoId)}"><img src="${escapeHtml(photo.thumb)}" alt=""></div>` : `<div class="builder-slide-visual is-text" data-photo-id="${escapeHtml(photoId || "")}">${photoId ? "НЕТ ФОТО" : "ТЕКСТ"}</div>`;
       return `<article class="builder-slide" data-builder-slide="${index + 1}"><span class="builder-slide-number">${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="true" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="true" spellcheck="true">${escapeHtml(slide.body)}</p></div>${visual}</article>`;
     }).join("");
     updateWordCount();
@@ -356,6 +531,8 @@
       const photo = slideMedia[index];
       if (!visual || !photo) return;
       visual.classList.remove("is-text");
+      visual.dataset.photoId = photo.id;
+      if (draftSlides[number - 1]) draftSlides[number - 1].photoId = photo.id;
       visual.innerHTML = `<img src="${escapeHtml(photo.thumb)}" alt="">`;
     });
   }
@@ -368,6 +545,7 @@
   function syncCoverToSlide() {
     const first = ui.slides.querySelector('[data-builder-slide="1"] strong');
     if (first) first.textContent = ui.hook.value;
+    if (draftSlides[0]) draftSlides[0].title = ui.hook.value;
     renderCover();
     updateWordCount();
   }
@@ -391,13 +569,7 @@
   }
 
   function scriptText() {
-    const rows = [...ui.slides.querySelectorAll(".builder-slide")];
-    const slides = rows.map((row, index) => {
-      const role = row.querySelector(".builder-slide-role")?.textContent.trim();
-      const title = row.querySelector("strong")?.textContent.trim();
-      const body = row.querySelector("p")?.textContent.trim();
-      return `${String(index + 1).padStart(2, "0")} · ${role}\n${title}\n${body}`;
-    }).join("\n\n");
+    const slides = draftSlides.map((slide, index) => `${String(index + 1).padStart(2, "0")} · ${slide.role}\n${slide.title}\n${slide.body}`).join("\n\n");
     return `${activeTopic.label}\nАккаунт: ${ui.account.value}\nЦель: ${config.goals[ui.goal.value]?.label}\n\n${slides}`;
   }
 
@@ -414,46 +586,12 @@
     }
   }
 
-  function loadImage(source) {
-    return new Promise((resolve, reject) => {
-      if (!source) {
-        reject(new Error("image source is empty"));
-        return;
-      }
-      const image = new Image();
-      image.crossOrigin = "anonymous";
-      image.onload = () => resolve(image);
-      image.onerror = () => reject(new Error(`image did not load: ${source}`));
-      image.src = location.protocol === "file:" && !/^https?:/.test(source)
-        ? `https://olymarkes.github.io/sekta-smm-content-room/${source}`
-        : source;
-    });
-  }
-
-  async function loadBestCoverImage(photo) {
-    const candidates = [
-      photo?.originalResolution?.remoteUrl,
-      photo?.originalUrl,
-      photo?.exportImage,
-      photo?.thumb,
-    ].filter(Boolean);
-    let lastError = null;
-    for (const source of candidates) {
-      try {
-        return await loadImage(source);
-      } catch (error) {
-        lastError = error;
-      }
-    }
-    throw lastError || new Error("cover image did not load");
-  }
-
-  function drawCoverImage(context, image, x, y, width, height) {
+  function drawCoverImage(context, image, x, y, width, height, focusX, focusY) {
     const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
     const sourceWidth = width / scale;
     const sourceHeight = height / scale;
-    const sourceX = (image.naturalWidth - sourceWidth) * (Number(ui.focusX.value) / 100);
-    const sourceY = (image.naturalHeight - sourceHeight) * (Number(ui.focusY.value) / 100);
+    const sourceX = (image.naturalWidth - sourceWidth) * (focusX / 100);
+    const sourceY = (image.naturalHeight - sourceHeight) * (focusY / 100);
     context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
   }
 
@@ -501,18 +639,28 @@
     });
   }
 
-  async function makeCoverCanvas(width = 1080, height = 1350) {
+  async function makeCoverCanvas(width = 1080, height = 1350, { previewOnly = false } = {}) {
+    // Freeze the scene before waiting for a remote source or font.
+    const draft = captureDraft();
+    const selectedPhoto = selectablePhoto(draft.photoId);
+    const activeStyle = draft.style;
+    const activeFont = draft.font;
+    const activePlacement = draft.placement;
+    const activeTextColor = draft.textColor;
+    const tasteFont = draft.tasteFont;
     if (!selectedPhoto) throw new Error("Нет выбранной фотографии");
     const canvas = document.createElement("canvas");
     canvas.width = width;
     canvas.height = height;
     const context = canvas.getContext("2d");
-    const image = await loadBestCoverImage(selectedPhoto);
+    const source = await window.SEKTA_MEDIA_SOURCE.loadForExport(selectedPhoto, { previewOnly, confirmPreview: (message) => confirm(message) });
+    const image = source.image;
+    const sourceLimited = Math.max(width / image.naturalWidth, height / image.naturalHeight) > 1;
     const scale = width / 1080;
     if (activeFont === "taste" && tasteFont) {
       try { await document.fonts.load(`800 ${96 * scale}px "${tasteFont.family}"`); } catch {}
     }
-    drawCoverImage(context, image, 0, 0, width, height);
+    drawCoverImage(context, image, 0, 0, width, height, draft.controls.focusX, draft.controls.focusY);
 
     if (activeStyle === "dark") {
       const gradient = context.createLinearGradient(0, height * .18, 0, height);
@@ -531,13 +679,13 @@
     context.fillStyle = "#ffffff";
     context.font = `800 ${22 * scale}px Arial, sans-serif`;
     context.textAlign = "left";
-    context.fillText(ui.account.value, 76 * scale, 89 * scale);
+    context.fillText(draft.controls.account, 76 * scale, 89 * scale);
 
     const isSide = activePlacement === "left" || activePlacement === "right";
     const maxWidth = width * (isSide ? .58 : .82);
     let fontSize = (activeFont === "editorial" ? 78 : activeFont === "grotesk" || activeFont === "taste" ? 86 : 96) * scale;
     const family = activeFont === "taste" && tasteFont ? `"${tasteFont.family}", sans-serif` : activeFont === "editorial" ? "Georgia, serif" : activeFont === "grotesk" ? "Arial, sans-serif" : "Arial Narrow, Arial, sans-serif";
-    const headline = activeFont === "taste" && tasteFont?.caseKind === "upper" ? ui.hook.value.toLocaleUpperCase("ru-RU") : activeFont === "taste" && tasteFont?.caseKind === "lower" ? ui.hook.value.toLocaleLowerCase("ru-RU") : ui.hook.value;
+    const headline = activeFont === "taste" && tasteFont?.caseKind === "upper" ? draft.hook.toLocaleUpperCase("ru-RU") : activeFont === "taste" && tasteFont?.caseKind === "lower" ? draft.hook.toLocaleLowerCase("ru-RU") : draft.hook;
     const headlineWeight = activeFont === "editorial" ? 700 : activeFont === "taste" ? 800 : 900;
     let lines = [];
     let lineHeight = 0;
@@ -553,7 +701,7 @@
       textBlockHeight = lines.length * lineHeight;
       subtitleSize = Math.max(20 * scale, Math.min(34 * scale, fontSize * .28));
       context.font = `800 ${subtitleSize}px Arial, sans-serif`;
-      subtitleLines = wrapLines(context, ui.subtitle.value.toUpperCase(), maxWidth);
+      subtitleLines = wrapLines(context, draft.subtitle.toUpperCase(), maxWidth);
       subtitleLineHeight = subtitleSize * 1.22;
       totalTextHeight = textBlockHeight + 34 * scale + subtitleLines.length * subtitleLineHeight;
       if ((lines.length > 4 || totalTextHeight > height * .42) && fontSize > 48 * scale) fontSize -= 5 * scale;
@@ -589,23 +737,25 @@
       context.fillText(line, x, Math.min(height - 42 * scale, subtitleY), maxWidth);
       subtitleY += subtitleLineHeight;
     });
-    return canvas;
+    return { canvas, source, sourceLimited, topicId: draft.topicId, title: draft.hook };
   }
 
   async function downloadCover() {
     try {
       ui.download.disabled = true;
       ui.download.textContent = "Собираю PNG…";
-      const canvas = await makeCoverCanvas();
+      const { canvas, source, sourceLimited, topicId } = await makeCoverCanvas();
       const blob = await canvasToPngBlob(canvas);
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = `sekta-${activeTopic.id}-cover.png`;
+      link.download = `sekta-${topicId}-cover.png`;
       link.click();
       setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-      setStatus("Обложка 1080 × 1350 скачана в PNG со всеми настройками.");
-    } catch {
-      setStatus("Не удалось собрать PNG. Откройте командную версию через GitHub Pages и попробуйте снова.");
+      const quality = `${source.label} · ${source.image.naturalWidth} × ${source.image.naturalHeight}${sourceLimited ? " · увеличено до холста, детализация ограничена" : ""}`;
+      ui.sourceStatus.textContent = `Источник последнего PNG: ${quality}.`;
+      setStatus(`PNG 1080 × 1350 подготовлен к скачиванию. Источник: ${quality}.`);
+    } catch (error) {
+      setStatus(error.message || "Не удалось собрать PNG. Проверьте источник фотографии.");
     } finally {
       ui.download.disabled = false;
       ui.download.textContent = "Скачать PNG";
@@ -614,12 +764,12 @@
 
   async function addCoverToGrid() {
     try {
-      const canvas = await makeCoverCanvas(540, 675);
+      const { canvas, topicId, title } = await makeCoverCanvas(540, 675, { previewOnly: true });
       const thumb = canvas.toDataURL("image/jpeg", .82);
       window.dispatchEvent(new CustomEvent("sekta:add-generated-cover", { detail: {
-        id: `builder-${activeTopic.id}-${Date.now()}`,
+        id: `builder-${topicId}-${Date.now()}`,
         thumb,
-        title: ui.hook.value,
+        title,
         source: "Конструктор идей и обложек",
       } }));
       setStatus("Обложка добавлена в будущую сетку.");
@@ -642,6 +792,7 @@
     const button = event.target.closest("[data-builder-media]");
     if (!button) return;
     selectedPhoto = library.find((item) => item.id === button.dataset.builderMedia) || selectedPhoto;
+    missingDraftPhotoId = null;
     syncMediaSelection();
     renderCover();
     updateSlideVisuals();
@@ -654,6 +805,7 @@
     if (!refreshTasteFont(true)) return setStatus("Сначала отметьте хотя бы один шрифтовой кадр как понравившийся.");
     renderCover();
     setStatus(`${tasteFont.family} · ${tasteFont.caseKind === "upper" ? "КАПС" : "строчные"} применён к обложке.`);
+    queueDraftSave();
   });
   document.querySelectorAll("[data-builder-text-color]").forEach((button) => button.addEventListener("click", () => { activeTextColor = button.dataset.builderTextColor; renderCover(); }));
   ui.hook.addEventListener("input", syncCoverToSlide);
@@ -662,7 +814,15 @@
   ui.goal.addEventListener("change", () => generateConcept({ preserveHook: true }));
   ui.focusX.addEventListener("input", renderCover);
   ui.focusY.addEventListener("input", renderCover);
-  ui.slides.addEventListener("input", updateWordCount);
+  ui.slides.addEventListener("input", (event) => {
+    const row = event.target.closest("[data-builder-slide]");
+    const slide = draftSlides[Number(row?.dataset.builderSlide) - 1];
+    if (slide) {
+      slide.title = row.querySelector("strong").innerText;
+      slide.body = row.querySelector("p").innerText;
+    }
+    updateWordCount();
+  });
   ui.refreshScript.addEventListener("click", () => {
     scriptVariant = (scriptVariant + 1) % 3;
     renderSlides();
@@ -721,9 +881,38 @@
   ui.hook.value = activeTopic.hooks[0];
   ui.subtitle.value = subtitleForGoal();
   refreshIdeas({ initial: true });
-  selectedPhoto = currentMediaPool()[0] || library[0] || null;
+  selectedPhoto = currentMediaPool()[0] || null;
   refreshTasteFont(false);
   renderMedia();
   renderCover();
   renderSlides();
+  restoreDraft();
+
+  ui.saveDraft.addEventListener("click", () => saveDraft(true));
+  ui.exportDraft.addEventListener("click", exportDraft);
+  ui.importDraft.addEventListener("click", () => ui.draftFile.click());
+  ui.draftFile.addEventListener("change", importDraft);
+  ui.root.addEventListener("input", (event) => {
+    if (!event.isComposing && event.target !== ui.draftFile) queueDraftSave();
+  });
+  ui.root.addEventListener("compositionend", queueDraftSave);
+  ui.root.addEventListener("change", (event) => { if (event.target !== ui.draftFile) queueDraftSave(); });
+  ui.root.addEventListener("click", (event) => {
+    if (event.target.closest(".builder-draft-toolbar")) return;
+    if (event.target.closest("button")) queueDraftSave();
+  });
+  ui.form.addEventListener("submit", queueDraftSave);
+  window.addEventListener("pagehide", () => saveDraft());
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") saveDraft(); });
+  window.addEventListener("beforeunload", (event) => {
+    if (!draftDirty || saveDraft()) return;
+    event.preventDefault();
+    event.returnValue = "";
+  });
+  window.addEventListener("storage", (event) => {
+    if (event.storageArea !== localStorage || (event.key !== DRAFT_KEY && event.key !== null) || event.newValue === lastStoredDraft) return;
+    clearTimeout(draftTimer);
+    draftBlocked = true;
+    draftStatus("Черновик изменён в другой вкладке. Автосохранение приостановлено; сохраните JSON-копию перед заменой.", "error");
+  });
 })();
