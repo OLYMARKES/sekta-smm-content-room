@@ -1,10 +1,7 @@
 name: Server acceptance
 
 on:
-  # This release branch has explicit approval for server checks and retries.
-  # Delete the merged branch after release; future checks use manual dispatch.
-  push:
-    branches: [docs/content-room-review]
+  # New runs require explicit approval and manual dispatch.
   workflow_dispatch:
     inputs:
       check_live:
@@ -23,6 +20,8 @@ jobs:
   regressions:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    env:
+      SEKTA_SERVER_CHECKS: '1'
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -31,7 +30,7 @@ jobs:
         with:
           node-version: '22'
       - name: Source and storage regressions
-        run: node --test tests/media-source.test.cjs tests/media-overrides.test.cjs
+        run: node --test tests/media-source.test.cjs tests/media-overrides.test.cjs tests/workspace-safety.test.cjs tests/workspace-backup.test.cjs
 
   browser:
     needs: regressions

@@ -119,7 +119,7 @@ async function check(name, run, viewport) {
     results.push({ name, passed: true });
     console.log(`PASS ${engine}: ${name}`);
   } catch (error) {
-    await state.page.screenshot({ path: path.join(output, `failure-${results.length}.png`), fullPage: true }).catch(() => {});
+    await state.page.screenshot({ path: path.join(output, `failure-${results.length}.png`), fullPage: true, animations: "disabled", timeout: 15000 }).catch(() => {});
     results.push({ name, passed: false, error: error.stack, pageErrors: state.errors, missing: state.missing });
     throw error;
   } finally { clearTimeout(deadline); await state.context.close(); }
@@ -138,6 +138,27 @@ async function main() {
     const frame = page.frames().find((frame) => frame.url().includes("carousel-type-lab.html"));
     assert(frame, "Typography iframe loaded");
     assert(await frame.locator("body").innerText());
+  });
+
+  await check("app version and snapshot date have separate sources", async ({ page }) => {
+    const metadata = await page.evaluate(() => ({ release: window.SEKTA_APP_VERSION, snapshot: window.SEKTA_CURRENT_GRID_META }));
+    assert.match(metadata.release.version, /^\d{4}\.\d{2}\.\d{2}(?:\.[1-9]\d*)?$/);
+    assert(["preview", "released"].includes(metadata.release.stage));
+    assert.equal(await page.locator("#appVersion").innerText(), `v${metadata.release.version}`);
+    assert.equal(await page.locator("#appVersionStage").isVisible(), metadata.release.stage === "preview");
+    if (metadata.release.stage === "preview") assert.match(await page.locator("#appVersionStage").innerText(), /превью/);
+    assert.equal(await page.locator("#snapshotDate").getAttribute("datetime"), metadata.snapshot.asOf);
+    const date = await page.locator("#snapshotDate").innerText();
+    assert.match(date, /25 августа 2026/);
+    await view(page, "current");
+    assert((await page.locator("#gridVersionLabel").innerText()).includes(date));
+    assert((await page.locator("#coverModeNote").innerText()).includes(date));
+    assert.match(await page.locator("#coverModeNote").innerText(), /Не обновляется автоматически/);
+    assert.doesNotMatch(await page.locator(".sidebar-note").innerText(), /13 августа|актуален/);
+    assert.equal(await page.locator("#currentGridSummary").innerText(), "Сохранённая сетка");
+    assert.match(await page.locator("#currentGridCounts").innerText(), /12 публикаций · 3 закреплено/);
+    assert.match(await page.locator('.current-heading-actions a').innerText(), /Архивная примерка/);
+    await page.screenshot({ path: path.join(output, "room-desktop.png"), fullPage: true, animations: "disabled", timeout: 15000 });
   });
 
   await check("draft roundtrip, JSON validation and missing media", async ({ page }) => {
@@ -174,6 +195,109 @@ async function main() {
     assert.match(await page.locator("#builderSourceStatus").innerText(), /отсутствует/);
     assert.equal(await page.locator("#builderSlides img[src=x]").count(), 0);
     assert.equal(await page.evaluate(() => window.unexpected), undefined);
+  });
+
+  await check("manual script survives cancelled regeneration and reload", async (state) => {
+    const { page } = state;
+    await view(page, "builder");
+    await page.locator("#builderHook").fill("Ручной хук: сохранить при обновлении структуры");
+    await page.locator("#builderSlides p").first().fill("Ручной сценарий: не заменять без согласия");
+    await saveDraft(page);
+    const before = await stored(page, draftKey);
+    assert.equal(before.scriptEdited, true);
+    await page.reload();
+    await view(page, "builder");
+    state.dialogs = "dismiss";
+    const unchanged = async () => {
+      assert.equal(await page.locator("#builderSlides p").first().innerText(), before.slides[0].body);
+      assert.equal(await page.locator("#builderHook").inputValue(), before.hook);
+    };
+    await page.locator("#builderRefreshScript").click();
+    await unchanged();
+    await page.locator("[data-builder-idea]").first().click();
+    await unchanged();
+    await page.locator("#builderGoal").selectOption("comment");
+    await unchanged();
+    assert.equal(await page.locator("#builderGoal").inputValue(), before.controls.goal);
+    await page.locator("#builderControls [type=submit]").click();
+    await unchanged();
+    await saveDraft(page);
+    assert.deepEqual((await stored(page, draftKey)).slides, before.slides);
+    state.dialogs = "accept";
+    await page.locator("#builderRefreshScript").click();
+    assert.notEqual(await page.locator("#builderSlides p").first().innerText(), before.slides[0].body);
+    state.dialogs = "dismiss";
+    await page.locator("[data-builder-idea]").first().click();
+    assert.equal(await page.locator("#builderHook").inputValue(), before.hook);
+    state.dialogs = "accept";
+    const legacy = { ...before };
+    delete legacy.scriptEdited;
+    await page.locator("#builderDraftFile").setInputFiles({ name: "legacy.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(legacy)) });
+    await page.waitForFunction(() => document.querySelector("#builderStatus").textContent.includes("JSON открыт"));
+    state.dialogs = "dismiss";
+    await page.locator("#builderRefreshScript").click();
+    await unchanged();
+  });
+
+  await check("clipboard refusal is visible and legacy success is acknowledged", async ({ page }) => {
+    await view(page, "builder");
+    await page.evaluate(() => {
+      Object.defineProperty(navigator, "clipboard", { configurable: true, value: { writeText: async () => { throw new Error("denied"); } } });
+      document.execCommand = () => false;
+    });
+    await page.locator("#builderCopyScript").focus();
+    await page.locator("#builderCopyScript").click();
+    await page.waitForFunction(() => document.querySelector("#builderStatus").textContent.includes("Не удалось скопировать"));
+    assert(await page.locator("#builderCopyScript").evaluate((button) => document.activeElement === button));
+    await page.evaluate(() => { document.execCommand = (command) => command === "copy"; });
+    await page.locator("#builderCopyScript").click();
+    await page.waitForFunction(() => document.querySelector("#builderStatus").textContent.includes("Сценарий скопирован"));
+  });
+
+  await check("workspace backup includes raw data and unsaved cover without changing view or storage", async ({ page }) => {
+    await view(page, "builder");
+    await saveDraft(page);
+    const before = await page.evaluate((key) => {
+      localStorage.setItem("sekta-sandbox", "{broken-preserve-me");
+      localStorage.setItem("sekta-media-people-overrides-v1", '{"fixture":{"people":["Оля"]}}');
+      localStorage.setItem("unrelated-service-token", "do-not-export");
+      const raw = localStorage.getItem(key);
+      const original = Storage.prototype.setItem;
+      Storage.prototype.setItem = function (name, value) {
+        if (name === key) throw new Error("quota");
+        return original.call(this, name, value);
+      };
+      return raw;
+    }, draftKey);
+    await page.locator("#builderHook").fill("Текущая несохранённая обложка");
+    const json = JSON.parse(await download(page, "#exportWorkspaceBackup", "local-backup.json"));
+    assert.equal(json.schema, "sekta-local-backup");
+    assert.equal(json.version, 1);
+    assert.equal(json.coverDraft.hook, "Текущая несохранённая обложка");
+    assert.equal(json.entries.find((entry) => entry.key === draftKey).raw, before);
+    assert.equal(json.entries.find((entry) => entry.key === "sekta-sandbox").raw, "{broken-preserve-me");
+    assert.deepEqual(JSON.parse(json.entries.find((entry) => entry.key === mediaKey).raw), { fixture: { people: ["Оля"] } });
+    assert(!JSON.stringify(json).includes("do-not-export"));
+    assert(await page.locator('[data-view-panel="builder"]').evaluate((panel) => panel.classList.contains("is-active")));
+    assert.equal(await page.evaluate((key) => localStorage.getItem(key), draftKey), before);
+    assert.equal(await page.evaluate(() => localStorage.getItem("sekta-sandbox")), "{broken-preserve-me");
+    assert.match(await page.locator("#workspaceBackupStatus").innerText(), /Автовосстановления пока нет/);
+    assert.equal(await page.locator("#exportWorkspaceBackup").getAttribute("aria-pressed"), null);
+  });
+
+  await check("workspace backup refuses a partial copy when a key cannot be read", async ({ page }) => {
+    await page.evaluate(() => {
+      const original = Storage.prototype.getItem;
+      Storage.prototype.getItem = function (key) {
+        if (key === "olymarkes-type-case-mode-v1") throw new Error("blocked");
+        return original.call(this, key);
+      };
+    });
+    let downloads = 0;
+    page.on("download", () => { downloads += 1; });
+    await page.locator("#exportWorkspaceBackup").click();
+    assert.match(await page.locator("#workspaceBackupStatus").innerText(), /Копия не создана/);
+    assert.equal(downloads, 0);
   });
 
   await check("draft storage failure and two-tab conflict", async (state) => {
@@ -226,7 +350,8 @@ async function main() {
     await page.locator("#detailDialog [data-toggle-top]").click();
     assert.equal(await page.locator('.people-form input[name="people"]').inputValue(), "Оля, Вера");
     await page.locator('.people-form [type="submit"]').click();
-    await page.waitForFunction(({ key, id }) => JSON.parse(localStorage.getItem(key))[id].pending === false, { key: mediaKey, id });
+    await page.waitForFunction(({ key, id }) => JSON.parse(localStorage.getItem(key))[id].people?.includes("Оля"), { key: mediaKey, id });
+    assert.deepEqual(state.posts, [], "Local edits must not be sent to an unconfigured service");
     const saved = (await stored(page, mediaKey))[id];
     assert.deepEqual(saved.people, ["Оля", "Вера"]);
     await page.reload();
@@ -256,7 +381,63 @@ async function main() {
     assert.equal(await page.locator('.people-form input[name="people"]').inputValue(), "Не терять введённый текст");
     await page.locator("#detailDialog [data-toggle-top]").click();
     assert.equal((await stored(page, mediaKey))[id].top, saved.top);
+    assert.deepEqual(state.posts, [], "Reload must not send pending names to localhost");
   });
+
+  await check("sandbox quota failure preserves the visible and stored grid", async ({ page }) => {
+    await view(page, "planner");
+    const before = await stored(page, "sekta-sandbox");
+    await page.evaluate(() => {
+      const original = Storage.prototype.setItem;
+      Storage.prototype.setItem = function (key, value) {
+        if (key === "sekta-sandbox") throw new Error("quota");
+        return original.call(this, key, value);
+      };
+    });
+    await page.locator("#sandboxGrid [data-remove]").first().click();
+    assert.equal(await page.locator("#sandboxGrid [data-remove]").count(), 1);
+    assert.deepEqual(await stored(page, "sekta-sandbox"), before);
+    assert.match(await page.locator("#sandboxSaveStatus").innerText(), /не удалось сохранить/i);
+  });
+
+  await check("CSP blocks inline script and branding keeps intrinsic dimensions", async ({ page }) => {
+    await page.evaluate(() => {
+      const script = document.createElement("script");
+      script.textContent = "window.inlineScriptExecuted = true";
+      document.body.append(script);
+    });
+    assert.equal(await page.evaluate(() => window.inlineScriptExecuted), undefined);
+    assert(await page.locator(".brand-mark").evaluate((image) => image.complete && image.naturalWidth === 988));
+    assert.equal(await page.locator('[data-cover-mode="proposed"]').isEnabled(), false);
+  });
+
+  await check("typography survives unavailable storage with visible warning", async (state) => {
+    await state.context.addInitScript(() => {
+      const original = Storage.prototype.getItem;
+      Storage.prototype.getItem = function (key) {
+        if (key === "olymarkes-type-case-mode-v1") throw new Error("blocked storage");
+        return original.call(this, key);
+      };
+    });
+    await state.page.reload();
+    await view(state.page, "typography");
+    const frame = state.page.frameLocator("#coverTypographyFrame");
+    await frame.locator(".font-card").first().waitFor();
+    assert(await frame.locator("#storageNotice").isVisible());
+    assert.match(await frame.locator("#storageNotice").innerText(), /приостановлена/);
+  });
+
+  await check("mobile menu communicates state and closes with Escape", async ({ page }) => {
+    assert.equal(await page.locator("#sidebar").evaluate((sidebar) => sidebar.inert), true);
+    await page.locator("#mobileMenu").click();
+    assert.equal(await page.locator("#mobileMenu").getAttribute("aria-expanded"), "true");
+    await page.screenshot({ path: path.join(output, "navigation-mobile.png"), animations: "disabled", timeout: 15000 });
+    const bounds = await page.locator("#sidebar").boundingBox();
+    assert(bounds && Math.abs(bounds.x) < 1 && bounds.width <= 390, "Open mobile sidebar must be fully on screen");
+    await page.keyboard.press("Escape");
+    assert.equal(await page.locator("#mobileMenu").getAttribute("aria-expanded"), "false");
+    assert(await page.locator("#mobileMenu").evaluate((button) => button === document.activeElement));
+  }, { width: 390, height: 844 });
 
   await check("PNG source, frozen scene, CORS and explicit preview fallback", async (state) => {
     const { page } = state;

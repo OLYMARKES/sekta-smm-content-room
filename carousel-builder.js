@@ -143,6 +143,8 @@
   let lastStoredDraft = null;
   let missingDraftPhotoId = null;
   let draftSlides = [];
+  let scriptEdited = false;
+  let currentGoal = ui.goal.value;
 
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
   const plural = (number, one, few, many) => {
@@ -177,7 +179,7 @@
       topicId: activeTopic.id, style: activeStyle, placement: activePlacement,
       font: activeFont, textColor: activeTextColor, tasteFont,
       photoId: selectedPhoto?.id || missingDraftPhotoId,
-      hook: ui.hook.value, subtitle: ui.subtitle.value, scriptVariant,
+      hook: ui.hook.value, subtitle: ui.subtitle.value, scriptVariant, scriptEdited,
       controls: { topic: ui.topic.value, goal: ui.goal.value, account: ui.account.value, tone: ui.tone.value,
         focusX: Number(ui.focusX.value), focusY: Number(ui.focusY.value) },
       slides: draftSlides.map((slide) => ({ ...slide })),
@@ -200,6 +202,7 @@
     if (value.tasteFont !== null && (!value.tasteFont || typeof value.tasteFont.family !== "string" || !/^[\p{L}\p{N} .'-]{1,100}$/u.test(value.tasteFont.family) || !["lower", "upper"].includes(value.tasteFont.caseKind))) invalid();
     if (value.font === "taste" && !value.tasteFont) invalid();
     if (!Array.isArray(value.slides) || !value.slides.length || value.slides.length > 30) invalid();
+    if (value.scriptEdited !== undefined && typeof value.scriptEdited !== "boolean") invalid();
     if (!value.slides.every((slide) => slide && string(slide.role) && string(slide.title) && string(slide.body) && photoId(slide.photoId))) invalid();
     return value;
   }
@@ -229,6 +232,9 @@
     renderMedia();
     renderCover();
     renderSlides(value.slides);
+    // Older JSON copies may contain manual edits without an explicit marker.
+    scriptEdited = value.scriptEdited !== false;
+    currentGoal = ui.goal.value;
   }
 
   function restoreDraft() {
@@ -320,8 +326,9 @@
     const votes = readLocalJson("olymarkes-cyrillic-font-taste-v1", {});
     const choice = layoutPrefs.choice || pickerPrefs.choice || Object.keys(votes).find((key) => key.includes("|") && votes[key] === "like");
     if (!choice) return null;
+    if (typeof choice !== "string") return null;
     const [family, caseKind] = choice.split("|");
-    return family && ["lower", "upper"].includes(caseKind) ? { family, caseKind } : null;
+    return /^[\p{L}\p{N} .'-]{1,100}$/u.test(family) && ["lower", "upper"].includes(caseKind) ? { family, caseKind } : null;
   }
 
   function ensureTasteFont(font) {
@@ -373,6 +380,7 @@
   function selectIdea(key) {
     const idea = currentIdeas.find((item) => item.key === key);
     if (!idea) return;
+    if (!confirmScriptReplacement()) return;
     selectedIdeaKey = idea.key;
     activeTopic = idea.topic;
     hookIndex = [...activeTopic.hooks, ...(extraHooks[activeTopic.id] || [])].indexOf(idea.hook);
@@ -509,6 +517,7 @@
   }
 
   function renderSlides(savedSlides = null) {
+    scriptEdited = Boolean(savedSlides);
     const slideMedia = currentSlideMedia();
     const photoSlots = new Map([[0, slideMedia[0]], [3, slideMedia[1]], [6, slideMedia[2]], [8, slideMedia[3]]]);
     draftSlides = (savedSlides || buildSlides()).map((slide, index) => ({
@@ -519,7 +528,7 @@
       const photoId = slide.photoId;
       const photo = selectablePhoto(photoId);
       const visual = photo ? `<div class="builder-slide-visual" data-photo-id="${escapeHtml(photoId)}"><img src="${escapeHtml(photo.thumb)}" alt=""></div>` : `<div class="builder-slide-visual is-text" data-photo-id="${escapeHtml(photoId || "")}">${photoId ? "НЕТ ФОТО" : "ТЕКСТ"}</div>`;
-      return `<article class="builder-slide" data-builder-slide="${index + 1}"><span class="builder-slide-number">${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="true" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="true" spellcheck="true">${escapeHtml(slide.body)}</p></div>${visual}</article>`;
+      return `<article class="builder-slide" data-builder-slide="${index + 1}"><span class="builder-slide-number">${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="plaintext-only" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="plaintext-only" spellcheck="true">${escapeHtml(slide.body)}</p></div>${visual}</article>`;
     }).join("");
     updateWordCount();
   }
@@ -543,6 +552,7 @@
   }
 
   function syncCoverToSlide() {
+    scriptEdited = true;
     const first = ui.slides.querySelector('[data-builder-slide="1"] strong');
     if (first) first.textContent = ui.hook.value;
     if (draftSlides[0]) draftSlides[0].title = ui.hook.value;
@@ -550,7 +560,13 @@
     updateWordCount();
   }
 
+  function confirmScriptReplacement() {
+    return !scriptEdited || confirm("В сценарии есть ручной или восстановленный текст. Заменить его новым вариантом? Чтобы сохранить текущую версию, отмените и скачайте JSON.");
+  }
+
   function generateConcept({ preserveHook = false } = {}) {
+    if (!confirmScriptReplacement()) return false;
+    const keepTextProtection = preserveHook && scriptEdited;
     activeTopic = config.topics.find((topic) => topic.id === ui.topic.value) || config.topics[0];
     const toneHook = { warm: 0, bold: 1, expert: 2 }[ui.tone.value] ?? 0;
     hookIndex = preserveHook ? hookIndex : toneHook % activeTopic.hooks.length;
@@ -565,7 +581,10 @@
     renderMedia();
     renderCover();
     renderSlides();
+    scriptEdited = keepTextProtection;
     setStatus(`Концепт «${activeTopic.label}» обновлён: обложка, фотографии и сценарий синхронизированы.`);
+    currentGoal = ui.goal.value;
+    return true;
   }
 
   function scriptText() {
@@ -576,14 +595,20 @@
   async function copyText(value) {
     try {
       await navigator.clipboard.writeText(value);
-    } catch {
-      const textarea = document.createElement("textarea");
-      textarea.value = value;
+      return true;
+    } catch { /* Try the legacy clipboard path without claiming success early. */ }
+    const focused = document.activeElement;
+    const textarea = document.createElement("textarea");
+    textarea.value = value;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    try {
       document.body.append(textarea);
       textarea.select();
-      document.execCommand("copy");
-      textarea.remove();
-    }
+      return document.execCommand("copy") === true;
+    } catch { return false; }
+    finally { textarea.remove(); focused?.focus({ preventScroll: true }); }
   }
 
   function drawCoverImage(context, image, x, y, width, height, focusX, focusY) {
@@ -766,13 +791,15 @@
     try {
       const { canvas, topicId, title } = await makeCoverCanvas(540, 675, { previewOnly: true });
       const thumb = canvas.toDataURL("image/jpeg", .82);
-      window.dispatchEvent(new CustomEvent("sekta:add-generated-cover", { detail: {
+      const detail = {
         id: `builder-${topicId}-${Date.now()}`,
         thumb,
         title,
         source: "Конструктор идей и обложек",
-      } }));
-      setStatus("Обложка добавлена в будущую сетку.");
+        saved: false,
+      };
+      window.dispatchEvent(new CustomEvent("sekta:add-generated-cover", { detail }));
+      setStatus(detail.saved ? "Обложка добавлена в будущую сетку." : "Обложка не добавлена: сетка заполнена или сохранение недоступно. Скачайте PNG отдельно.");
     } catch {
       setStatus("Не удалось добавить обложку. Попробуйте в версии на GitHub Pages.");
     }
@@ -809,26 +836,36 @@
   });
   document.querySelectorAll("[data-builder-text-color]").forEach((button) => button.addEventListener("click", () => { activeTextColor = button.dataset.builderTextColor; renderCover(); }));
   ui.hook.addEventListener("input", syncCoverToSlide);
-  ui.subtitle.addEventListener("input", renderCover);
+  ui.subtitle.addEventListener("input", () => { scriptEdited = true; renderCover(); });
   ui.account.addEventListener("change", renderCover);
-  ui.goal.addEventListener("change", () => generateConcept({ preserveHook: true }));
+  ui.goal.addEventListener("change", () => {
+    if (!generateConcept({ preserveHook: true })) ui.goal.value = currentGoal;
+  });
   ui.focusX.addEventListener("input", renderCover);
   ui.focusY.addEventListener("input", renderCover);
   ui.slides.addEventListener("input", (event) => {
     const row = event.target.closest("[data-builder-slide]");
     const slide = draftSlides[Number(row?.dataset.builderSlide) - 1];
     if (slide) {
+      scriptEdited = true;
       slide.title = row.querySelector("strong").innerText;
       slide.body = row.querySelector("p").innerText;
     }
     updateWordCount();
   });
   ui.refreshScript.addEventListener("click", () => {
+    if (!confirmScriptReplacement()) return;
+    const keepTextProtection = scriptEdited;
     scriptVariant = (scriptVariant + 1) % 3;
     renderSlides();
+    // Refresh keeps the cover text, which may still contain manual edits.
+    scriptEdited = keepTextProtection;
     setStatus(`Сценарий обновлён: вариант ${scriptVariant + 1} из 3.`);
   });
-  ui.copyScript.addEventListener("click", async () => { await copyText(scriptText()); setStatus("Сценарий скопирован в буфер обмена."); });
+  ui.copyScript.addEventListener("click", async () => {
+    const copied = await copyText(scriptText());
+    setStatus(copied ? "Сценарий скопирован в буфер обмена." : "Не удалось скопировать сценарий. Скачайте JSON или выделите текст вручную.");
+  });
   ui.mediaSearch.addEventListener("input", () => { mediaLimit = 24; renderMedia(); });
   ui.mediaFolder.addEventListener("change", () => { mediaLimit = 24; renderMedia(); });
   ui.newestMedia?.addEventListener("click", () => {
@@ -891,6 +928,9 @@
   ui.saveDraft.addEventListener("click", () => saveDraft(true));
   ui.exportDraft.addEventListener("click", exportDraft);
   ui.importDraft.addEventListener("click", () => ui.draftFile.click());
+  window.addEventListener("sekta:collect-cover-draft", (event) => {
+    event.detail.coverDraft = captureDraft();
+  });
   ui.draftFile.addEventListener("change", importDraft);
   ui.root.addEventListener("input", (event) => {
     if (!event.isComposing && event.target !== ui.draftFile) queueDraftSave();

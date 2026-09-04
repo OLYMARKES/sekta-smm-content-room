@@ -29,9 +29,16 @@ img { display: block; max-width: 100%; }
 .skip-link:focus { transform: none; }
 
 .app-shell { min-height: 100vh; display: grid; grid-template-columns: var(--sidebar) minmax(0, 1fr); }
-.sidebar { position: fixed; inset: 0 auto 0 0; z-index: 20; width: var(--sidebar); display: flex; flex-direction: column; padding: 22px 16px 18px; color: #f8fbf9; background: #17221f; border-right: 1px solid #26332f; }
+.sidebar { position: fixed; inset: 0 auto 0 0; z-index: 20; width: var(--sidebar); display: flex; flex-direction: column; padding: 22px 16px 18px; overflow-y: auto; color: #f8fbf9; background: #17221f; border-right: 1px solid #26332f; }
+.sidebar :focus-visible { outline: 2px solid #f8fbf9; outline-offset: 2px; }
+.sidebar-backdrop { position: fixed; inset: 0; z-index: 19; border: 0; background: rgba(12, 20, 17, .4); }
+.sidebar-backdrop[hidden] { display: none; }
+.snapshot-dot { width: 7px; height: 7px; flex: 0 0 7px; margin-top: 3px; border-radius: 50%; background: #879690; }
+.sidebar-backup { margin-top: 24px; padding-bottom: 12px; }
+.sidebar-backup p { margin: 4px 10px 0; color: #bfc9c5; font-size: 11px; line-height: 1.5; }
+.sandbox-save-status { color: var(--muted); font-size: 12px; line-height: 1.5; }
 .brand { display: flex; align-items: center; gap: 11px; padding: 0 8px 24px; border-bottom: 1px solid #2e3b37; }
-.brand-mark { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid #668077; border-radius: 10px; background: #23332e; font: 700 17px/1 Georgia, serif; }
+.brand-mark { width: 48px; height: 48px; flex: 0 0 48px; object-fit: contain; border-radius: 50%; }
 .brand strong, .brand span { display: block; }
 .brand strong { font-size: 15px; letter-spacing: .01em; }
 .brand span { margin-top: 2px; color: #aab7b2; font-size: 11px; }
@@ -45,7 +52,9 @@ img { display: block; max-width: 100%; }
 .sidebar-note { margin-top: auto; display: flex; align-items: flex-start; gap: 9px; padding: 14px 10px 4px; border-top: 1px solid #2e3b37; }
 .sidebar-note strong, .sidebar-note span { display: block; }
 .sidebar-note strong { font-size: 11px; font-weight: 600; }
-.sidebar-note div span { margin-top: 3px; color: #879690; font-size: 10px; }
+.sidebar-note .snapshot-date { display: block; margin-top: 3px; color: #aab7b2; font-size: 11px; line-height: 1.5; }
+.app-version { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 7px; margin-top: 8px; color: #aab7b2; font-size: 11px; line-height: 1.5; font-variant-numeric: tabular-nums; }
+.app-version [hidden] { display: none; }
 .live-dot { width: 7px; height: 7px; margin-top: 3px; border-radius: 50%; background: #70c598; box-shadow: 0 0 0 4px rgba(112,197,152,.12); }
 
 .main-column { grid-column: 2; min-width: 0; }
@@ -426,7 +435,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .builder-slide-copy strong, .builder-slide-copy p { display: block; outline: none; white-space: pre-wrap; }
 .builder-slide-copy strong { font-size: 10px; line-height: 1.35; }
 .builder-slide-copy p { margin: 4px 0 0; color: var(--muted); font-size: 9px; line-height: 1.4; }
-.builder-slide-copy [contenteditable="true"]:focus { border-radius: 3px; background: #eef4f1; box-shadow: 0 0 0 3px #eef4f1; }
+.builder-slide-copy [contenteditable]:not([contenteditable="false"]):focus { border-radius: 3px; background: #eef4f1; box-shadow: 0 0 0 3px #eef4f1; }
 .builder-slide-visual { width: 62px; height: 62px; overflow: hidden; border-radius: 7px; background: #eef1ef; }
 .builder-slide-visual img { width: 100%; height: 100%; object-fit: cover; }
 .builder-slide-visual.is-text { display: grid; place-items: center; color: #94a19b; font-size: 8px; font-weight: 750; }
@@ -743,7 +752,7 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
   .sidebar { transform: translateX(-102%); transition: transform .2s ease; box-shadow: 10px 0 35px rgba(0,0,0,.22); }
   .sidebar.is-open { transform: none; }
   .main-column { width: 100%; }
-  .mobile-menu { display: grid; width: 34px; height: 34px; place-items: center; margin-right: 8px; }
+  .mobile-menu { display: grid; width: 44px; height: 44px; flex: 0 0 44px; place-items: center; margin-right: 8px; }
   .topbar { justify-content: flex-start; padding: 0 16px; }
   .topbar-actions { margin-left: auto; }
   main { padding: 24px 16px 42px; }

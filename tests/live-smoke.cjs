@@ -13,7 +13,7 @@ const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 let browser;
 
 async function main() {
-  const files = ["index.html", "app.js", "carousel-builder.js", "media-source.js", "media-overrides.js", "styles.css"];
+  const files = ["index.html", "app-version.js", "data/current-grid.js", "app.js", "carousel-builder.js", "media-source.js", "media-overrides.js", "workspace-safety.js", "workspace-backup.js", "styles.css", "type-studio/carousel-type-lab.html", "type-studio/carousel-type-lab.js", "type-studio/media-library-data.js", "type-studio/embedded.js", "assets/brand/sekta-logo-round.png"];
   const verified = [];
   for (const file of files) {
     const expected = await fs.readFile(path.join(root, file));
