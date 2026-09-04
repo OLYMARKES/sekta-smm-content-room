@@ -1,5 +1,7 @@
 # Состояние Content Room
 
+Исторический разбор перед PR #1. Последующие изменения — в [ревью безопасности и удобства](SECURITY_UX_REVIEW.md): автоматические запросы к localhost отключены, сохранение песочницы защищено, подписи архивных данных уточнены. Ниже сохранён контекст первого выпуска.
+
 Разбор от **4 сентября 2026**. База объединения: [`86b5209`](https://github.com/OLYMARKES/sekta-smm-content-room/commit/86b5209) и изменения этой ветки.
 
 Первичный разбор основан на коде, опубликованном каталоге и метаданных GitHub. С 4 сентября по разрешению пользователя выполняется серверная приёмка в GitHub Actions. На Mac проверки не запускались. Результаты и проверенные SHA фиксируются в [PR #1](https://github.com/OLYMARKES/sekta-smm-content-room/pull/1) и [Server acceptance](https://github.com/OLYMARKES/sekta-smm-content-room/actions/workflows/server-checks.yml); чтение кода само по себе не является тестом.
