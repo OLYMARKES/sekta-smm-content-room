@@ -170,7 +170,7 @@
   function setView(view) {
     if (!Object.hasOwn(viewLabels, view)) view = "overview";
     document.querySelectorAll("[data-view-panel]").forEach((panel) => panel.classList.toggle("is-active", panel.dataset.viewPanel === view));
-    document.querySelectorAll(".nav-item").forEach((button) => {
+    document.querySelectorAll(".nav-item[data-view]").forEach((button) => {
       const active = button.dataset.view === view;
       button.classList.toggle("is-active", active);
       button.setAttribute("aria-pressed", String(active));
@@ -641,7 +641,7 @@
     renderReturnCarousel();
   }
 
-  document.querySelectorAll(".nav-item").forEach((button) => button.addEventListener("click", () => setView(button.dataset.view)));
+  document.querySelectorAll(".nav-item[data-view]").forEach((button) => button.addEventListener("click", () => setView(button.dataset.view)));
   document.querySelectorAll("[data-jump]").forEach((button) => button.addEventListener("click", () => setView(button.dataset.jump)));
   const mobileMenu = document.querySelector("#mobileMenu");
   const sidebarBackdrop = document.querySelector("#sidebarBackdrop");

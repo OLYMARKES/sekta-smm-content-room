@@ -34,6 +34,8 @@ img { display: block; max-width: 100%; }
 .sidebar-backdrop { position: fixed; inset: 0; z-index: 19; border: 0; background: rgba(12, 20, 17, .4); }
 .sidebar-backdrop[hidden] { display: none; }
 .snapshot-dot { width: 7px; height: 7px; flex: 0 0 7px; margin-top: 3px; border-radius: 50%; background: #879690; }
+.sidebar-backup { margin-top: 24px; padding-bottom: 12px; }
+.sidebar-backup p { margin: 4px 10px 0; color: #bfc9c5; font-size: 11px; line-height: 1.5; }
 .sandbox-save-status { color: var(--muted); font-size: 12px; line-height: 1.5; }
 .brand { display: flex; align-items: center; gap: 11px; padding: 0 8px 24px; border-bottom: 1px solid #2e3b37; }
 .brand-mark { width: 48px; height: 48px; flex: 0 0 48px; object-fit: contain; border-radius: 50%; }

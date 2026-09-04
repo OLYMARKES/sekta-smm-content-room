@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Security-Policy" content="script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260904-3">
+  <link rel="stylesheet" href="styles.css?v=20260904-4">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -36,6 +36,10 @@
         <button class="nav-item" data-view="library"><span>▧</span>Медиатека <em id="navLibraryCount">1059</em></button>
         <button class="nav-item" data-view="planner"><span>↗</span>План и сетка <em id="navPlanCount" title="Материалов в будущей сетке">1</em></button>
       </nav>
+      <div class="sidebar-backup">
+        <button class="nav-item" id="exportWorkspaceBackup" type="button"><span aria-hidden="true">↓</span>Скачать копию</button>
+        <p id="workspaceBackupStatus" role="status" aria-live="polite">Сохранённые данные и текущая обложка в JSON. Храните приватно; автовосстановления пока нет.</p>
+      </div>
       <div class="sidebar-note">
         <span class="snapshot-dot" aria-hidden="true"></span>
         <div><strong>Архивный снимок</strong><span>13 августа 2026</span></div>
@@ -600,8 +604,9 @@
   <script src="media-source.js?v=20260904-1"></script>
   <script src="media-overrides.js?v=20260904-1"></script>
   <script src="workspace-safety.js?v=20260904-1"></script>
-  <script src="app.js?v=20260904-3"></script>
-  <script src="carousel-builder.js?v=20260904-2"></script>
+  <script src="app.js?v=20260904-4"></script>
+  <script src="carousel-builder.js?v=20260904-3"></script>
+  <script src="workspace-backup.js?v=20260904-1"></script>
   <script src="carousel-studio.js?v=20260903-2"></script>
 </body>
 </html>
