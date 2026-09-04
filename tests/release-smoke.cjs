@@ -155,6 +155,7 @@ async function main() {
     assert((await page.locator("#coverModeNote").innerText()).includes(date));
     assert.match(await page.locator("#coverModeNote").innerText(), /Не обновляется автоматически/);
     assert.doesNotMatch(await page.locator(".sidebar-note").innerText(), /13 августа|актуален/);
+    await page.screenshot({ path: path.join(output, "room-desktop.png"), fullPage: true });
   });
 
   await check("draft roundtrip, JSON validation and missing media", async ({ page }) => {
@@ -427,6 +428,7 @@ async function main() {
     assert.equal(await page.locator("#sidebar").evaluate((sidebar) => sidebar.inert), true);
     await page.locator("#mobileMenu").click();
     assert.equal(await page.locator("#mobileMenu").getAttribute("aria-expanded"), "true");
+    await page.screenshot({ path: path.join(output, "navigation-mobile.png"), fullPage: true });
     await page.keyboard.press("Escape");
     assert.equal(await page.locator("#mobileMenu").getAttribute("aria-expanded"), "false");
     assert(await page.locator("#mobileMenu").evaluate((button) => button === document.activeElement));
