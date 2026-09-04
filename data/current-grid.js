@@ -1,3 +1,6 @@
+// Date of this saved grid, not the app release or the media catalogue update.
+window.SEKTA_CURRENT_GRID_META = Object.freeze({ asOf: "2026-08-25" });
+
 window.SEKTA_CURRENT_GRID = [
   { id: "DcMA4Lsgiaa", image: "assets/current-2026-08-25/01.jpg", type: "Карусель", pinned: true, date: "18 августа", title: "Летний прайм — 3 недели", note: "Закреплённая продуктовая публикация", url: "https://www.instagram.com/sektaschool/p/DcMA4Lsgiaa/" },
   { id: "DbBgQmPDr5z", image: "assets/current-2026-08-25/02.jpg", type: "Карусель", pinned: true, date: "20 июля", title: "Начните с одной минуты", note: "Закреплённый вход в метод #Sekta", url: "https://www.instagram.com/sektaschool/p/DbBgQmPDr5z/" },

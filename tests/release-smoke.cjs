@@ -140,6 +140,23 @@ async function main() {
     assert(await frame.locator("body").innerText());
   });
 
+  await check("app version and snapshot date have separate sources", async ({ page }) => {
+    const metadata = await page.evaluate(() => ({ release: window.SEKTA_APP_VERSION, snapshot: window.SEKTA_CURRENT_GRID_META }));
+    assert.match(metadata.release.version, /^\d{4}\.\d{2}\.\d{2}(?:\.[1-9]\d*)?$/);
+    assert(["preview", "released"].includes(metadata.release.stage));
+    assert.equal(await page.locator("#appVersion").innerText(), `v${metadata.release.version}`);
+    assert.equal(await page.locator("#appVersionStage").isVisible(), metadata.release.stage === "preview");
+    if (metadata.release.stage === "preview") assert.match(await page.locator("#appVersionStage").innerText(), /превью/);
+    assert.equal(await page.locator("#snapshotDate").getAttribute("datetime"), metadata.snapshot.asOf);
+    const date = await page.locator("#snapshotDate").innerText();
+    assert.match(date, /25 августа 2026/);
+    await view(page, "current");
+    assert((await page.locator("#gridVersionLabel").innerText()).includes(date));
+    assert((await page.locator("#coverModeNote").innerText()).includes(date));
+    assert.match(await page.locator("#coverModeNote").innerText(), /Не обновляется автоматически/);
+    assert.doesNotMatch(await page.locator(".sidebar-note").innerText(), /13 августа|актуален/);
+  });
+
   await check("draft roundtrip, JSON validation and missing media", async ({ page }) => {
     await view(page, "builder");
     await page.locator("#builderHook").fill("Возвращаемся к движению без спешки");

@@ -1,5 +1,11 @@
 (() => {
   const currentGrid = window.SEKTA_CURRENT_GRID || [];
+  const snapshotAsOf = window.SEKTA_CURRENT_GRID_META?.asOf;
+  const snapshotDate = new Date(`${snapshotAsOf}T00:00:00Z`);
+  const hasSnapshotDate = Number.isFinite(snapshotDate.getTime());
+  const snapshotDateLabel = hasSnapshotDate
+    ? snapshotDate.toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })
+    : "дата не указана";
   const weekPlan = window.SEKTA_SEED_PLAN || [];
   const idealGrid = window.SEKTA_IDEAL_GRID || [];
   const growthRoom = window.SEKTA_GROWTH_ROOM || { principles: [], next: [], ideas: [] };
@@ -204,8 +210,20 @@
       button.disabled = button.dataset.coverMode === "proposed" && proposedCount === 0;
       button.title = button.disabled ? "Новые обложки пока не подключены" : "";
     });
-    if (ui.gridVersionLabel) ui.gridVersionLabel.textContent = currentCoverMode === "proposed" ? `примерка · ${proposedCount} новых обложек` : "архивный снимок · 13 августа";
-    if (ui.coverModeNote) ui.coverModeNote.textContent = currentCoverMode === "proposed" ? "Предлагаемая примерка: публикации остаются на месте, меняется только то, что человек видит в профиле." : "Фактический снимок: обложки показаны ровно такими, какими они были в профиле 13 августа.";
+    if (ui.gridVersionLabel) ui.gridVersionLabel.textContent = currentCoverMode === "proposed" ? `примерка · ${proposedCount} новых обложек` : `снимок Instagram · ${snapshotDateLabel}`;
+    if (ui.coverModeNote) ui.coverModeNote.textContent = currentCoverMode === "proposed" ? "Предлагаемая примерка: публикации остаются на месте, меняется только то, что человек видит в профиле." : `Сохранённая сетка Instagram · ${snapshotDateLabel}. Не обновляется автоматически.`;
+  }
+
+  function renderAppInfo() {
+    const date = document.querySelector("#snapshotDate");
+    date.textContent = snapshotDateLabel;
+    if (hasSnapshotDate) date.dateTime = snapshotAsOf;
+    const release = window.SEKTA_APP_VERSION;
+    const version = document.querySelector("#appVersion");
+    version.textContent = release?.version ? `v${release.version}` : "Версия не указана";
+    const stage = document.querySelector("#appVersionStage");
+    stage.hidden = release?.stage === "released";
+    stage.textContent = release?.stage === "preview" ? "· превью" : "· статус не указан";
   }
 
   function weekItem(item) {
@@ -859,6 +877,7 @@
   const collectionCount = Object.keys(libraryPayload.byCollection || {}).filter((key) => key !== "archive").length;
   document.querySelector("#libraryCollectionCount").textContent = `${collectionCount} ${plural(collectionCount, "коллекция", "коллекции", "коллекций")}`;
   ui.libraryDuplicateSummary.textContent = `${libraryPayload.duplicateCount} ${plural(libraryPayload.duplicateCount, "точный дубль скрыт", "точных дубля скрыты", "точных дублей скрыты")}`;
+  renderAppInfo();
   renderCurrent();
   renderWeek();
   renderIdealGrid();

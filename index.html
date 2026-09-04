@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Security-Policy" content="script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260904-4">
+  <link rel="stylesheet" href="styles.css?v=20260904-5">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -42,7 +42,11 @@
       </div>
       <div class="sidebar-note">
         <span class="snapshot-dot" aria-hidden="true"></span>
-        <div><strong>Архивный снимок</strong><span>13 августа 2026</span></div>
+        <div>
+          <strong>Снимок Instagram</strong>
+          <time class="snapshot-date" id="snapshotDate" title="Сохранённая сетка, без автообновления">Дата не указана</time>
+          <small class="app-version" aria-label="Версия приложения"><span id="appVersion">Версия не указана</span><span id="appVersionStage" hidden></span></small>
+        </div>
       </div>
     </aside>
 
@@ -595,7 +599,8 @@
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="data/current-grid.js"></script>
+  <script src="app-version.js?v=20260904-1"></script>
+  <script src="data/current-grid.js?v=20260904-1"></script>
   <script src="data/growth-room.js"></script>
   <script src="data/library-data.js?v=20260903-1"></script>
   <script src="data/drive-originals.js?v=20260903-1"></script>
@@ -604,7 +609,7 @@
   <script src="media-source.js?v=20260904-1"></script>
   <script src="media-overrides.js?v=20260904-1"></script>
   <script src="workspace-safety.js?v=20260904-1"></script>
-  <script src="app.js?v=20260904-4"></script>
+  <script src="app.js?v=20260904-5"></script>
   <script src="carousel-builder.js?v=20260904-3"></script>
   <script src="workspace-backup.js?v=20260904-1"></script>
   <script src="carousel-studio.js?v=20260903-2"></script>
