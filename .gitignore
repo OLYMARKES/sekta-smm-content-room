@@ -1,2 +1,11 @@
 # Artifacts from explicitly approved server acceptance runs.
 /output/playwright/
+
+# Local credentials and machine-specific files must not enter the public site.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.DS_Store
+node_modules/

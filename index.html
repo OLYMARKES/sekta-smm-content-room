@@ -4,8 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>#Sekta — сетка и медиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260904-1">
+  <link rel="stylesheet" href="styles.css?v=20260904-3">
   <link rel="stylesheet" href="type-studio/fonts.css">
 </head>
 <body>
@@ -21,7 +23,7 @@
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <div class="brand">
-        <div class="brand-mark">S</div>
+        <img class="brand-mark" src="assets/brand/sekta-logo-round.png" width="48" height="48" alt="">
         <div><strong>#Sekta</strong><span>Content room</span></div>
       </div>
       <nav class="primary-nav" aria-label="Разделы">
@@ -32,20 +34,21 @@
         <button class="nav-item" data-view="typography"><span class="nav-type-mark">Ж</span>Типографика <em>588</em></button>
         <button class="nav-item" data-view="current"><span>▦</span>Текущая сетка</button>
         <button class="nav-item" data-view="library"><span>▧</span>Медиатека <em id="navLibraryCount">1059</em></button>
-        <button class="nav-item" data-view="planner"><span>↗</span>План недели <em id="navPlanCount">7</em></button>
+        <button class="nav-item" data-view="planner"><span>↗</span>План и сетка <em id="navPlanCount" title="Материалов в будущей сетке">1</em></button>
       </nav>
       <div class="sidebar-note">
-        <span class="live-dot"></span>
-        <div><strong>Снимок актуален</strong><span>13 августа 2026</span></div>
+        <span class="snapshot-dot" aria-hidden="true"></span>
+        <div><strong>Архивный снимок</strong><span>13 августа 2026</span></div>
       </div>
     </aside>
 
+    <button class="sidebar-backdrop" id="sidebarBackdrop" aria-label="Закрыть меню" tabindex="-1" hidden></button>
     <div class="main-column">
       <header class="topbar">
-        <button class="icon-button mobile-menu" id="mobileMenu" aria-label="Открыть меню">☰</button>
+        <button class="icon-button mobile-menu" id="mobileMenu" aria-label="Открыть меню" aria-controls="sidebar" aria-expanded="false">☰</button>
         <div class="topbar-title"><span>Instagram</span><strong id="viewTitle">Рабочий обзор</strong></div>
         <div class="topbar-actions">
-          <button class="button button-quiet" id="resetPlanner">Сбросить черновик</button>
+          <button class="button button-quiet" id="resetPlanner">Сбросить сетку</button>
           <button class="avatar-button" title="Рабочий профиль">OL</button>
         </div>
       </header>
@@ -78,7 +81,7 @@
             </section>
 
             <section class="panel week-panel">
-              <div class="section-head"><div><h2>Неделя 17–23 августа</h2><p>Семь опорных выходов</p></div><button class="text-button" data-jump="planner">Редактировать →</button></div>
+              <div class="section-head"><div><h2>Неделя 17–23 августа</h2><p>Семь опорных выходов</p></div><button class="text-button" data-jump="planner">Посмотреть план →</button></div>
               <div class="week-list" id="overviewWeek"></div>
             </section>
           </div>
@@ -225,7 +228,7 @@
         </section>
 
         <section class="view" data-view-panel="current">
-          <div class="page-heading compact"><div><p class="eyebrow">Примерка без удаления публикаций</p><h1>Сетка с новыми обложками</h1><p>Пять слабых входов пересобраны: «Летний прайм» и все четыре Reels. Переключайтесь между фактическим снимком и предлагаемой версией.</p></div><div class="current-heading-actions"><div class="cover-mode-switch" role="group" aria-label="Версия сетки"><button data-cover-mode="current">Сейчас</button><button class="is-active" data-cover-mode="proposed">Новые обложки</button></div><a class="button button-primary" href="assets/proposed-covers/feed-preview-v2.png" target="_blank">PNG всей сетки ↗</a></div></div>
+          <div class="page-heading compact"><div><p class="eyebrow">Примерка без удаления публикаций</p><h1>Снимок сетки и примерка</h1><p>Архивный снимок профиля. Примерка доступна, когда к публикациям подключены новые обложки.</p></div><div class="current-heading-actions"><div class="cover-mode-switch" role="group" aria-label="Версия сетки"><button class="is-active" data-cover-mode="current" aria-pressed="true">Снимок</button><button data-cover-mode="proposed" aria-pressed="false">Новые обложки</button></div><a class="button button-primary" href="assets/proposed-covers/feed-preview-v2.png" target="_blank">PNG всей сетки ↗</a></div></div>
           <div class="cover-redesign-strip"><div><strong>5 обложек обновлено</strong><span>1 закреп · 4 Reels</span></div><p id="coverModeNote">Предлагаемая примерка: публикации остаются на месте, меняется только то, что человек видит в профиле.</p><a href="assets/proposed-covers/" target="_blank">Открыть файлы →</a></div>
           <div class="current-layout">
             <div class="instagram-frame">
@@ -375,7 +378,7 @@
               <div><span>Все шрифты сразу</span><strong>поиск · категории · сетка · по одному · нравится / возможно / не моё</strong></div>
               <span class="type-studio-live"><i></i>полная версия</span>
             </div>
-            <iframe id="coverTypographyFrame" src="type-studio/carousel-type-lab.html?v=20260818-6" title="Полная примерочная шрифтов на обложке" loading="eager"></iframe>
+            <iframe id="coverTypographyFrame" src="type-studio/carousel-type-lab.html?v=20260904-1" title="Полная примерочная шрифтов на обложке" loading="lazy"></iframe>
           </section>
 
           <template id="legacyCarouselStudio">
@@ -553,8 +556,8 @@
         <section class="view" data-view-panel="planner">
           <div class="page-heading compact"><div><p class="eyebrow">Черновик хранится в этом браузере</p><h1>План недели и будущая сетка</h1><p>Добавляйте фото из медиатеки, меняйте порядок и смотрите ритм будущих публикаций.</p></div><button class="button button-primary" data-jump="library">+ Выбрать фото</button></div>
           <div class="planner-layout">
-            <section class="panel calendar-panel"><div class="section-head"><div><h2>17–23 августа</h2><p>Редакционный календарь</p></div><span class="status status-draft">Черновик</span></div><div class="calendar-list" id="calendarList"></div></section>
-            <section class="panel sandbox-panel"><div class="section-head"><div><h2>Песочница сетки</h2><p>Новое сверху, как в Instagram</p></div><span id="sandboxCount">1 / 9</span></div><div class="sandbox-grid" id="sandboxGrid"></div><div class="sandbox-help"><span>Совет</span><p>Соберите 6–9 обложек: так проще увидеть, где подряд стоят текстовые карточки или похожие крупности.</p></div></section>
+            <section class="panel calendar-panel"><div class="section-head"><div><h2>17–23 августа</h2><p>Архивный пример · календарь пока не редактируется</p></div><span class="status status-draft">Черновик</span></div><div class="calendar-list" id="calendarList"></div></section>
+            <section class="panel sandbox-panel"><div class="section-head"><div><h2>Песочница сетки</h2><p>Новое сверху, как в Instagram</p></div><span id="sandboxCount">1 / 9</span></div><p class="sandbox-save-status" id="sandboxSaveStatus" role="status" aria-live="polite"></p><div class="sandbox-grid" id="sandboxGrid"></div><div class="sandbox-help"><span>Совет</span><p>Соберите 6–9 обложек: так проще увидеть, где подряд стоят текстовые карточки или похожие крупности.</p></div></section>
           </div>
         </section>
       </main>
@@ -596,8 +599,9 @@
   <script src="data/carousel-builder-data.js"></script>
   <script src="media-source.js?v=20260904-1"></script>
   <script src="media-overrides.js?v=20260904-1"></script>
-  <script src="app.js?v=20260904-2"></script>
-  <script src="carousel-builder.js?v=20260904-1"></script>
+  <script src="workspace-safety.js?v=20260904-1"></script>
+  <script src="app.js?v=20260904-3"></script>
+  <script src="carousel-builder.js?v=20260904-2"></script>
   <script src="carousel-studio.js?v=20260903-2"></script>
 </body>
 </html>

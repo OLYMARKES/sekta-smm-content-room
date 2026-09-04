@@ -8,10 +8,11 @@
   const library = libraryPayload.items || [];
   const driveOriginals = window.SEKTA_DRIVE_ORIGINALS || { items: {} };
   const peopleOverrideStorageKey = "sekta-media-people-overrides-v1";
-  const peopleOverrideEndpoint = "http://127.0.0.1:4318/api/media-overrides";
+  const { safeLink, createSandbox } = window.SEKTA_WORKSPACE_SAFETY;
   const canonicalPeopleOverrides = window.MEDIA_LIBRARY_MANUAL_OVERRIDES?.records || {};
   const mediaOverrides = window.SEKTA_MEDIA_OVERRIDES.create({
-    getStorage: () => localStorage, key: peopleOverrideStorageKey, write: writeMediaOverride,
+    getStorage: () => localStorage, key: peopleOverrideStorageKey,
+    write: async () => { throw new Error("Общая синхронизация не настроена."); },
   });
   library.forEach((item) => {
     try {
@@ -87,9 +88,12 @@
   let activeGrowthRoomTab = "ideas";
   let activeGrowthGoal = "all";
   let activeGrowthId = growthRoom.next?.[0] || growthIdeas[0]?.id;
-  let currentCoverMode = "proposed";
+  let currentCoverMode = "current";
   let toastTimer;
-  let sandbox = loadSandbox();
+  const sandboxStore = createSandbox({ getStorage: () => localStorage, fallback: [
+    { id: "approved-carousel", thumb: "assets/approved-carousel/slide-01.png", title: "Мои главные победы", source: "Готовая карусель" },
+  ] });
+  let sandbox = sandboxStore.get();
 
   function normalizePeople(values) {
     const people = [];
@@ -125,50 +129,12 @@
     if (item.isTop) item.searchAliases.push("топ");
   }
 
-  async function writeMediaOverride(id, patch) {
-    const requestPatch = { ...patch };
-    if (Array.isArray(requestPatch.people)) requestPatch.people = normalizePeople(requestPatch.people);
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
-    try {
-      const response = await fetch(peopleOverrideEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, ...requestPatch }),
-        signal: controller.signal,
-      });
-      const payload = await response.json().catch(() => ({}));
-      if (!response.ok || !payload.ok) throw new Error(payload.error || "Сервис общей медиатеки недоступен.");
-      return payload.record;
-    } finally {
-      clearTimeout(timeout);
-    }
-  }
-
-  async function syncPendingPeopleOverrides() {
-    for (const id of mediaOverrides.pendingIds()) {
-      try {
-        await mediaOverrides.sync(id);
-        refreshMediaSaveStatus(id);
-      } catch {
-        return;
-      }
-    }
-  }
-
   function mediaSaveStatus(id) {
     const error = mediaOverrides.storageError();
     if (error) return { message: error, state: "error" };
     const record = mediaOverrides.get(id);
     if (!record) return { message: "", state: "" };
-    return record.pending === false
-      ? { message: "Локальная копия сохранена. Сервис принял правки; обновление общего каталога не проверено.", state: "success" }
-      : { message: "Сохранено в этом браузере. Отправка сервису ещё не подтверждена.", state: "pending" };
-  }
-
-  async function syncMediaEdit(id) {
-    try { await mediaOverrides.sync(id); } catch { /* The local copy remains pending. */ }
-    refreshMediaSaveStatus(id);
+    return { message: "Сохранено только в этом браузере. Общая синхронизация не настроена.", state: "success" };
   }
 
   function refreshMediaSaveStatus(id) {
@@ -182,18 +148,16 @@
     status.dataset.state = saved.state;
   }
 
-  function loadSandbox() {
-    const fallback = [{ id: "approved-carousel", thumb: "assets/approved-carousel/slide-01.png", title: "Мои главные победы", source: "Готовая карусель" }];
+  function saveSandbox(next) {
     try {
-      const saved = JSON.parse(localStorage.getItem("sekta-sandbox"));
-      return Array.isArray(saved) ? saved.slice(0, 9) : fallback;
-    } catch {
-      return fallback;
+      sandbox = sandboxStore.commit(next);
+      renderSandbox();
+      return true;
+    } catch (error) {
+      document.querySelector("#sandboxSaveStatus").textContent = error.message;
+      toast(error.message, 8000);
+      return false;
     }
-  }
-
-  function saveSandbox() {
-    localStorage.setItem("sekta-sandbox", JSON.stringify(sandbox));
   }
 
   function toast(message, duration = 2200) {
@@ -204,12 +168,22 @@
   }
 
   function setView(view) {
+    if (!Object.hasOwn(viewLabels, view)) view = "overview";
     document.querySelectorAll("[data-view-panel]").forEach((panel) => panel.classList.toggle("is-active", panel.dataset.viewPanel === view));
-    document.querySelectorAll(".nav-item").forEach((button) => button.classList.toggle("is-active", button.dataset.view === view));
+    document.querySelectorAll(".nav-item").forEach((button) => {
+      const active = button.dataset.view === view;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
     ui.viewTitle.textContent = viewLabels[view] || viewLabels.overview;
-    ui.sidebar.classList.remove("is-open");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setMobileMenu(false);
+    window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
     if (view === "library") ui.librarySearch.focus({ preventScroll: true });
+    else {
+      const heading = document.querySelector(`[data-view-panel="${view}"] h1`);
+      heading?.setAttribute("tabindex", "-1");
+      heading?.focus({ preventScroll: true });
+    }
   }
 
   function feedTile(item, mode = "current") {
@@ -222,8 +196,15 @@
   function renderCurrent() {
     ui.overviewGrid.innerHTML = currentGrid.slice(0, 9).map((item) => feedTile(item)).join("");
     ui.currentGrid.innerHTML = currentGrid.map((item) => feedTile(item, currentCoverMode)).join("");
-    document.querySelectorAll("[data-cover-mode]").forEach((button) => button.classList.toggle("is-active", button.dataset.coverMode === currentCoverMode));
-    if (ui.gridVersionLabel) ui.gridVersionLabel.textContent = currentCoverMode === "proposed" ? "примерка новых обложек · 5 замен" : "фактический снимок · 13 августа";
+    const proposedCount = currentGrid.filter((item) => item.proposedImage).length;
+    document.querySelectorAll("[data-cover-mode]").forEach((button) => {
+      const active = button.dataset.coverMode === currentCoverMode;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", String(active));
+      button.disabled = button.dataset.coverMode === "proposed" && proposedCount === 0;
+      button.title = button.disabled ? "Новые обложки пока не подключены" : "";
+    });
+    if (ui.gridVersionLabel) ui.gridVersionLabel.textContent = currentCoverMode === "proposed" ? `примерка · ${proposedCount} новых обложек` : "архивный снимок · 13 августа";
     if (ui.coverModeNote) ui.coverModeNote.textContent = currentCoverMode === "proposed" ? "Предлагаемая примерка: публикации остаются на месте, меняется только то, что человек видит в профиле." : "Фактический снимок: обложки показаны ровно такими, какими они были в профиле 13 августа.";
   }
 
@@ -437,7 +418,7 @@
       const typeBadge = item.mediaType === "video" ? `<span class="media-type-tag">▶ Видео</span>` : item.materialType === "neuro-photo" ? `<span class="media-type-tag media-type-ai">AI</span>` : "";
       const statusBadge = item.publicationStatus === "not-public" ? `<span class="media-status-tag media-status-stop">Не публиковать</span>` : item.publicationStatus === "review" ? `<span class="media-status-tag">Проверить</span>` : "";
       const topIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></svg>`;
-      return `<article class="media-card${item.isTop ? " is-top" : ""}" data-name="${escapeHtml(item.fileName)}"><button class="media-card-open" data-media-id="${item.id}" aria-label="Открыть ${escapeHtml(item.fileName)}"><img src="${escapeHtml(item.thumb)}" alt="" loading="lazy">${typeBadge}${statusBadge}<span class="orientation-tag">${orientationIcon[item.orientation] || "□"}</span></button><button class="media-card-top" data-toggle-top="${item.id}" aria-pressed="${Boolean(item.isTop)}" aria-label="${item.isTop ? "Убрать из топа" : "Добавить в топ"}">${topIcon}<span>${item.isTop ? "В топе" : "В топ"}</span></button></article>`;
+      return `<article class="media-card${item.isTop ? " is-top" : ""}" data-name="${escapeHtml(item.fileName)}"><button class="media-card-open" data-media-id="${escapeHtml(item.id)}" aria-label="Открыть ${escapeHtml(item.fileName)}"><img src="${escapeHtml(item.thumb)}" alt="" loading="lazy">${typeBadge}${statusBadge}<span class="orientation-tag">${orientationIcon[item.orientation] || "□"}</span></button><button class="media-card-top" data-toggle-top="${escapeHtml(item.id)}" aria-pressed="${Boolean(item.isTop)}" aria-label="${item.isTop ? "Убрать из топа" : "Добавить в топ"}">${topIcon}<span>${item.isTop ? "В топе" : "В топ"}</span></button></article>`;
     }).join("");
     ui.libraryResultCount.textContent = `${filtered.length} ${plural(filtered.length, "материал", "материала", "материалов")}`;
     ui.scrollSentinel.hidden = shown.length >= filtered.length;
@@ -460,15 +441,16 @@
       return `<div class="sandbox-tile" tabindex="0" data-sandbox-index="${index}" title="${escapeHtml(item.title)}"><img src="${escapeHtml(item.thumb)}" alt="${escapeHtml(item.title)}"><div class="sandbox-controls"><button data-move="left" data-index="${index}" aria-label="Сдвинуть влево">←</button><button data-move="right" data-index="${index}" aria-label="Сдвинуть вправо">→</button><button data-remove="${index}" aria-label="Удалить из сетки">×</button></div></div>`;
     }).join("");
     ui.sandboxCount.textContent = `${sandbox.length} / 9`;
-    document.querySelector("#navPlanCount").textContent = weekPlan.length + Math.max(0, sandbox.length - 1);
+    document.querySelector("#navPlanCount").textContent = sandbox.length;
+    document.querySelector("#sandboxSaveStatus").textContent = sandboxStore.error() || "Сетка сохранена только в этом браузере.";
   }
 
   function openCurrent(item) {
     const showProposed = currentCoverMode === "proposed" && item.proposedImage;
     const shownImage = showProposed ? item.proposedImage : item.image;
     const reason = showProposed ? item.coverReason : item.note;
-    const download = showProposed ? `<a class="button button-secondary" href="${escapeHtml(item.proposedImage)}" download>Скачать PNG</a>` : "";
-    ui.dialogContent.innerHTML = `<div class="detail-layout"><div class="detail-image"><img src="${escapeHtml(shownImage)}" alt="${showProposed ? "Новая обложка" : "Превью публикации"} ${escapeHtml(item.title)}"></div><div class="detail-copy"><p class="eyebrow">${showProposed ? "Предлагаемая обложка" : item.pinned ? "Закреплённая публикация" : "Актуальная сетка"}</p><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(reason)}</p><div class="meta-list"><div class="meta-row"><span>Формат</span><strong>${escapeHtml(item.type)}</strong></div><div class="meta-row"><span>Дата</span><strong>${escapeHtml(item.date)} 2026</strong></div><div class="meta-row"><span>Версия</span><strong>${showProposed ? "Новая · 1080 × 1350" : "Сейчас"}</strong></div></div><div class="detail-actions"><a class="button button-primary" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">Открыть пост ↗</a>${download}</div></div></div>`;
+    const download = showProposed ? `<a class="button button-secondary" href="${escapeHtml(safeLink(item.proposedImage))}" download>Скачать PNG</a>` : "";
+    ui.dialogContent.innerHTML = `<div class="detail-layout"><div class="detail-image"><img src="${escapeHtml(shownImage)}" alt="${showProposed ? "Новая обложка" : "Превью публикации"} ${escapeHtml(item.title)}"></div><div class="detail-copy"><p class="eyebrow">${showProposed ? "Предлагаемая обложка" : item.pinned ? "Закреплённая публикация" : "Актуальная сетка"}</p><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(reason)}</p><div class="meta-list"><div class="meta-row"><span>Формат</span><strong>${escapeHtml(item.type)}</strong></div><div class="meta-row"><span>Дата</span><strong>${escapeHtml(item.date)} 2026</strong></div><div class="meta-row"><span>Версия</span><strong>${showProposed ? "Новая · 1080 × 1350" : "Сейчас"}</strong></div></div><div class="detail-actions"><a class="button button-primary" href="${escapeHtml(safeLink(item.url))}" target="_blank" rel="noreferrer">Открыть пост ↗</a>${download}</div></div></div>`;
     ui.detailDialog.classList.remove("is-landscape");
     ui.detailDialog.showModal();
   }
@@ -481,14 +463,14 @@
       : `<span class="people-empty">Не определено</span>`;
     const buttonLabel = people.length ? "Изменить" : "Добавить";
     const inputId = `people-input-${item.id}`;
-    return `<div class="media-taxonomy people-editor" data-people-editor="${escapeHtml(item.id)}"><div class="people-editor-head"><span>Кто в кадре</span><button type="button" class="people-edit-button" data-edit-people="${escapeHtml(item.id)}">${buttonLabel}</button></div><div class="people-tags">${tags}</div><form class="people-form" data-people-form="${escapeHtml(item.id)}" hidden><label for="${inputId}">Имена через запятую</label><input id="${inputId}" name="people" value="${escapeHtml(people.join(", "))}" maxlength="980" autocomplete="off" placeholder="Например: Вера, Оля"><p class="people-hint">До 12 имён. Пустое поле вернёт статус «Не определено».</p><div class="people-form-actions"><button type="submit" class="button button-primary">Сохранить</button><button type="button" class="button button-secondary" data-cancel-people>Отмена</button></div></form><p class="people-save-status" role="status" aria-live="polite" data-state="${saved.state}">${escapeHtml(saved.message)}</p></div>`;
+    return `<div class="media-taxonomy people-editor" data-people-editor="${escapeHtml(item.id)}"><div class="people-editor-head"><span>Кто в кадре</span><button type="button" class="people-edit-button" data-edit-people="${escapeHtml(item.id)}">${buttonLabel}</button></div><div class="people-tags">${tags}</div><form class="people-form" data-people-form="${escapeHtml(item.id)}" hidden><label for="${escapeHtml(inputId)}">Имена через запятую</label><input id="${escapeHtml(inputId)}" name="people" value="${escapeHtml(people.join(", "))}" maxlength="980" autocomplete="off" placeholder="Например: Вера, Оля"><p class="people-hint">До 12 имён. Пустое поле вернёт статус «Не определено».</p><div class="people-form-actions"><button type="submit" class="button button-primary">Сохранить</button><button type="button" class="button button-secondary" data-cancel-people>Отмена</button></div></form><p class="people-save-status" role="status" aria-live="polite" data-state="${saved.state}">${escapeHtml(saved.message)}</p></div>`;
   }
 
   function replacePeopleEditor(item, message = "", state = "") {
-    const current = ui.dialogContent.querySelector(`[data-people-editor="${item.id}"]`);
+    const current = ui.dialogContent.querySelector(`[data-people-editor="${CSS.escape(item.id)}"]`);
     if (!current) return;
     current.outerHTML = peopleEditorMarkup(item);
-    const next = ui.dialogContent.querySelector(`[data-people-editor="${item.id}"]`);
+    const next = ui.dialogContent.querySelector(`[data-people-editor="${CSS.escape(item.id)}"]`);
     const status = next?.querySelector(".people-save-status");
     if (status) {
       status.textContent = message;
@@ -514,7 +496,6 @@
     replacePeopleEditor(item, saved.message, saved.state);
     renderLibrary();
     toast("Имена сохранены в этом браузере");
-    syncMediaEdit(item.id);
   }
 
   function toggleTop(item) {
@@ -538,7 +519,6 @@
     // Updating the top button must not discard unsaved names in the open form.
     refreshMediaSaveStatus(item.id);
     toast(next ? "Добавлено в топ в этом браузере" : "Убрано из топа в этом браузере");
-    syncMediaEdit(item.id);
   }
 
   function openMedia(item) {
@@ -548,11 +528,11 @@
     const category = item.sourceCategory ? ` · ${escapeHtml(formatTaxonomy(item.sourceCategory))}` : "";
     const localPathAvailable = Boolean(item.originalPath && !String(item.originalPath).includes("скрыт в публичной версии"));
     const driveOriginal = driveOriginals.items?.[item.id];
-    const remoteOriginalUrl = item.originalResolution?.remoteUrl || item.originalUrl || "";
+    const remoteOriginalUrl = safeLink(item.originalResolution?.remoteUrl) || safeLink(item.originalUrl);
     const originalDownloadUrl = driveOriginal?.id
       ? `https://drive.google.com/uc?export=download&id=${encodeURIComponent(driveOriginal.id)}`
       : remoteOriginalUrl;
-    const previewDownloadUrl = item.thumb || "";
+    const previewDownloadUrl = safeLink(item.thumb);
     const originalFileName = String(driveOriginal?.fileName || item.fileName || `sekta-${item.id || "media"}`);
     const extensionMatch = originalFileName.match(/\.([a-z0-9]+)$/i);
     const extension = (extensionMatch?.[1] || item.fileExtension || "jpg").toLocaleLowerCase("ru");
@@ -578,8 +558,8 @@
     const captureDate = item.captureDate ? new Date(item.captureDate).toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" }) : "не определена";
     const camera = [item.camera?.make, item.camera?.model].filter(Boolean).join(" · ") || "не определена";
     const originalStatus = ({ "verified-local": "Локальный оригинал проверен", "verified-local-and-remote": "Локальный и Drive-оригинал", "remote-only": "Только удалённый оригинал", unresolved: "Оригинал не найден" })[item.originalResolution?.status] || "Не проверено";
-    const addAction = item.publicationStatus === "not-public" || item.mediaType === "video" ? "" : `<button class="button button-primary" data-add-media="${item.id}">+ В будущую сетку</button>`;
-    const topAction = `<button class="button ${item.isTop ? "button-top-active" : "button-secondary"}" data-toggle-top="${item.id}">${item.isTop ? "В топе" : "Добавить в топ"}</button>`;
+    const addAction = item.publicationStatus === "not-public" || item.mediaType === "video" ? "" : `<button class="button button-primary" data-add-media="${escapeHtml(item.id)}">+ В будущую сетку</button>`;
+    const topAction = `<button class="button ${item.isTop ? "button-top-active" : "button-secondary"}" data-toggle-top="${escapeHtml(item.id)}">${item.isTop ? "В топе" : "Добавить в топ"}</button>`;
     ui.dialogContent.innerHTML = `<div class="detail-layout"><div class="detail-image">${media}</div><div class="detail-copy"><p class="eyebrow">${escapeHtml(item.folderLabel)}${category}</p><h2>${escapeHtml(item.fileName)}</h2><p>В интерфейсе используется лёгкое превью. «Скачать оригинал» берёт только исходный файл и больше не подменяет его уменьшенной картинкой.</p><div class="meta-list"><div class="meta-row"><span>Тип</span><strong>${escapeHtml(typeLabels[item.materialType] || item.materialType || "Материал")}</strong></div><div class="meta-row"><span>Публикация</span><strong>${escapeHtml(statusLabels[item.publicationStatus] || item.publicationStatus || "Не указан")}</strong></div><div class="meta-row"><span>Дата съёмки</span><strong>${escapeHtml(captureDate)}</strong></div><div class="meta-row"><span>Камера</span><strong>${escapeHtml(camera)}</strong></div><div class="meta-row"><span>Оригинал</span><strong>${escapeHtml(originalDownloadUrl ? "Подключён без уменьшения" : originalStatus)}</strong></div><div class="meta-row"><span>Размер превью</span><strong>${item.width} × ${item.height}</strong></div><div class="meta-row"><span>Ориентация</span><strong>${orientationLabel(item.orientation)}</strong></div><div class="meta-row"><span>Вес оригинала</span><strong>${item.sizeMb} МБ</strong></div><div class="meta-row"><span>SHA-256</span><strong>${escapeHtml(item.sha256 ? item.sha256.slice(0, 12) + "…" : "не рассчитан")}</strong></div><div class="meta-row"><span>Точные дубли</span><strong>${duplicateText}</strong></div></div>${projects}${people}${themes}${roles}<div class="detail-actions">${originalAction}${previewAction}${topAction}${addAction}${copyAction}</div>${sourceNote}</div></div>`;
     ui.detailDialog.classList.toggle("is-landscape", item.orientation === "landscape");
     if (!ui.detailDialog.open) ui.detailDialog.showModal();
@@ -597,11 +577,10 @@
   }
 
   function addMedia(item) {
+    if (!item || item.publicationStatus === "not-public" || item.mediaType === "video") return;
     if (sandbox.some((entry) => entry.id === item.id)) return toast("Это фото уже есть в будущей сетке");
     if (sandbox.length >= 9) return toast("В песочнице уже девять ячеек — удалите одну");
-    sandbox.unshift({ id: item.id, thumb: item.thumb, title: item.fileName, source: item.folderLabel });
-    saveSandbox();
-    renderSandbox();
+    if (!saveSandbox([{ id: item.id, thumb: item.thumb, title: item.fileName, source: item.folderLabel }, ...sandbox])) return;
     ui.detailDialog.close();
     toast("Фото добавлено в начало будущей сетки");
   }
@@ -618,9 +597,10 @@
   function moveSandbox(index, direction) {
     const target = direction === "left" ? index - 1 : index + 1;
     if (target < 0 || target >= sandbox.length) return;
-    [sandbox[index], sandbox[target]] = [sandbox[target], sandbox[index]];
-    saveSandbox();
-    renderSandbox();
+    if (!Number.isInteger(index) || index < 0 || index >= sandbox.length) return;
+    const next = [...sandbox];
+    [next[index], next[target]] = [next[target], next[index]];
+    if (saveSandbox(next)) ui.sandboxGrid.querySelector(`[data-index="${target}"][data-move="${direction}"]`)?.focus();
   }
 
   function openCarousel() {
@@ -663,7 +643,26 @@
 
   document.querySelectorAll(".nav-item").forEach((button) => button.addEventListener("click", () => setView(button.dataset.view)));
   document.querySelectorAll("[data-jump]").forEach((button) => button.addEventListener("click", () => setView(button.dataset.jump)));
-  document.querySelector("#mobileMenu").addEventListener("click", () => ui.sidebar.classList.toggle("is-open"));
+  const mobileMenu = document.querySelector("#mobileMenu");
+  const sidebarBackdrop = document.querySelector("#sidebarBackdrop");
+  const mobileViewport = window.matchMedia("(max-width: 820px)");
+  function setMobileMenu(open, restoreFocus = false) {
+    const expanded = mobileViewport.matches && open;
+    ui.sidebar.classList.toggle("is-open", expanded);
+    ui.sidebar.inert = mobileViewport.matches && !expanded;
+    sidebarBackdrop.hidden = !expanded;
+    mobileMenu.setAttribute("aria-expanded", String(expanded));
+    mobileMenu.setAttribute("aria-label", expanded ? "Закрыть меню" : "Открыть меню");
+    if (expanded) ui.sidebar.querySelector(".nav-item.is-active")?.focus();
+    else if (restoreFocus) mobileMenu.focus();
+  }
+  mobileMenu.addEventListener("click", () => setMobileMenu(!ui.sidebar.classList.contains("is-open")));
+  sidebarBackdrop.addEventListener("click", () => setMobileMenu(false, true));
+  mobileViewport.addEventListener("change", () => setMobileMenu(false));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && ui.sidebar.classList.contains("is-open")) setMobileMenu(false, true);
+  });
+  setMobileMenu(false);
   document.querySelectorAll("#openCarousel, #openCarouselVisual, #openCarouselSecond").forEach((button) => button.addEventListener("click", openCarousel));
   document.querySelectorAll("#openReturnCarousel, #openReturnCarouselSecond").forEach((button) => button.addEventListener("click", openReturnCarousel));
   document.querySelector("#openIdealPoster").addEventListener("click", () => ui.idealPosterDialog.showModal());
@@ -677,9 +676,7 @@
   document.querySelector("[data-close-ideal-poster]").addEventListener("click", () => ui.idealPosterDialog.close());
   document.querySelector("#resetPlanner").addEventListener("click", () => {
     if (!confirm("Вернуть песочницу к исходному состоянию?")) return;
-    sandbox = [{ id: "approved-carousel", thumb: "assets/approved-carousel/slide-01.png", title: "Мои главные победы", source: "Готовая карусель" }];
-    saveSandbox();
-    renderSandbox();
+    if (!saveSandbox([{ id: "approved-carousel", thumb: "assets/approved-carousel/slide-01.png", title: "Мои главные победы", source: "Готовая карусель" }])) return;
     toast("Черновая сетка сброшена");
   });
 
@@ -687,9 +684,8 @@
     const item = event.detail;
     if (!item?.thumb) return;
     if (sandbox.length >= 9) return toast("В песочнице уже девять ячеек — удалите одну");
-    sandbox.unshift(item);
-    saveSandbox();
-    renderSandbox();
+    if (!saveSandbox([item, ...sandbox])) return;
+    item.saved = true;
     toast("Обложка добавлена в будущую сетку");
   });
 
@@ -708,7 +704,7 @@
     if (addButton) addMedia(library.find((item) => item.id === addButton.dataset.addMedia));
     const copyButton = event.target.closest("[data-copy-path]");
     if (copyButton) copyPath(copyButton.dataset.copyPath);
-    if (event.target.closest("[data-download-original]")) toast("Скачивается исходный файл без уменьшения");
+    if (event.target.closest("[data-download-original]")) toast("Открываем ссылку на оригинал. Доступ и начало скачивания зависят от источника.");
     if (event.target.closest("[data-download-preview]")) toast("Скачивается лёгкое превью");
     const editPeopleButton = event.target.closest("[data-edit-people]");
     if (editPeopleButton) {
@@ -733,9 +729,10 @@
     }
     const removeButton = event.target.closest("[data-remove]");
     if (removeButton) {
-      sandbox.splice(Number(removeButton.dataset.remove), 1);
-      saveSandbox();
-      renderSandbox();
+      const index = Number(removeButton.dataset.remove);
+      if (!Number.isInteger(index) || index < 0 || index >= sandbox.length) return;
+      if (!saveSandbox(sandbox.filter((_, position) => position !== index))) return;
+      (ui.sandboxGrid.querySelector(`[data-remove="${Math.min(index, sandbox.length - 1)}"]`) || document.querySelector("#resetPlanner"))?.focus();
       toast("Материал удалён из песочницы");
     }
     const moveButton = event.target.closest("[data-move]");
@@ -871,7 +868,6 @@
   syncLibrarySortUi();
   renderLibrary();
   renderSandbox();
-  syncPendingPeopleOverrides();
   const mediaAuditLink = document.querySelector("#mediaAuditLink");
   if (mediaAuditLink && location.protocol === "file:") mediaAuditLink.hidden = false;
   if (location.hash === "#typography") setView("typography");

@@ -320,8 +320,9 @@
     const votes = readLocalJson("olymarkes-cyrillic-font-taste-v1", {});
     const choice = layoutPrefs.choice || pickerPrefs.choice || Object.keys(votes).find((key) => key.includes("|") && votes[key] === "like");
     if (!choice) return null;
+    if (typeof choice !== "string") return null;
     const [family, caseKind] = choice.split("|");
-    return family && ["lower", "upper"].includes(caseKind) ? { family, caseKind } : null;
+    return /^[\p{L}\p{N} .'-]{1,100}$/u.test(family) && ["lower", "upper"].includes(caseKind) ? { family, caseKind } : null;
   }
 
   function ensureTasteFont(font) {
@@ -519,7 +520,7 @@
       const photoId = slide.photoId;
       const photo = selectablePhoto(photoId);
       const visual = photo ? `<div class="builder-slide-visual" data-photo-id="${escapeHtml(photoId)}"><img src="${escapeHtml(photo.thumb)}" alt=""></div>` : `<div class="builder-slide-visual is-text" data-photo-id="${escapeHtml(photoId || "")}">${photoId ? "НЕТ ФОТО" : "ТЕКСТ"}</div>`;
-      return `<article class="builder-slide" data-builder-slide="${index + 1}"><span class="builder-slide-number">${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="true" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="true" spellcheck="true">${escapeHtml(slide.body)}</p></div>${visual}</article>`;
+      return `<article class="builder-slide" data-builder-slide="${index + 1}"><span class="builder-slide-number">${String(index + 1).padStart(2, "0")}</span><div class="builder-slide-copy"><span class="builder-slide-role">${escapeHtml(slide.role)}</span><strong contenteditable="plaintext-only" spellcheck="true">${escapeHtml(slide.title)}</strong><p contenteditable="plaintext-only" spellcheck="true">${escapeHtml(slide.body)}</p></div>${visual}</article>`;
     }).join("");
     updateWordCount();
   }
@@ -766,13 +767,15 @@
     try {
       const { canvas, topicId, title } = await makeCoverCanvas(540, 675, { previewOnly: true });
       const thumb = canvas.toDataURL("image/jpeg", .82);
-      window.dispatchEvent(new CustomEvent("sekta:add-generated-cover", { detail: {
+      const detail = {
         id: `builder-${topicId}-${Date.now()}`,
         thumb,
         title,
         source: "Конструктор идей и обложек",
-      } }));
-      setStatus("Обложка добавлена в будущую сетку.");
+        saved: false,
+      };
+      window.dispatchEvent(new CustomEvent("sekta:add-generated-cover", { detail }));
+      setStatus(detail.saved ? "Обложка добавлена в будущую сетку." : "Обложка не добавлена: сетка заполнена или сохранение недоступно. Скачайте PNG отдельно.");
     } catch {
       setStatus("Не удалось добавить обложку. Попробуйте в версии на GitHub Pages.");
     }
