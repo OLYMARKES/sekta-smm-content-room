@@ -15,6 +15,7 @@ let browser;
 async function main() {
   const files = ["index.html", "app-version.js", "data/current-grid.js", "app.js", "carousel-builder.js", "media-source.js", "media-overrides.js", "workspace-safety.js", "workspace-backup.js", "styles.css", "type-studio/carousel-type-lab.html", "type-studio/carousel-type-lab.js", "type-studio/media-library-data.js", "type-studio/embedded.js", "assets/brand/sekta-logo-round.png"];
   const verified = [];
+  files.push("README.md", "docs/system-consolidation.md", "docs/system-surface.json", "data/library-data.js", "data/drive-originals.js", "data/public-media-build-report.json");
   for (const file of files) {
     const expected = await fs.readFile(path.join(root, file));
     const response = await fetch(`${base}${file}?release=${process.env.GITHUB_SHA}`, { signal: AbortSignal.timeout(30000) });

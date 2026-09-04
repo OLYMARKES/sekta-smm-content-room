@@ -2,7 +2,7 @@
 
 Рабочая комната SMM-команды: найти кадр, собрать обложку, примерить шрифт и увидеть будущую ленту.
 
-[Открыть комнату ↗](https://olymarkes.github.io/sekta-smm-content-room/) · [Состояние проекта](docs/PROJECT_REVIEW.md) · [Участие в разработке](CONTRIBUTING.md)
+[Открыть комнату ↗](https://olymarkes.github.io/sekta-smm-content-room/) · [Состояние проекта](docs/PROJECT_REVIEW.md) · [Карта полной системы и восстановления](docs/system-consolidation.md) · [Участие в разработке](CONTRIBUTING.md)
 
 > Статическое приложение на GitHub Pages. Черновики и оценки хранятся в браузере; общего аккаунта, командного хранилища и автопубликации пока нет.
 

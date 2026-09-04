@@ -1,0 +1,112 @@
+{
+  "schema": "sekta-system-surface",
+  "version": 1,
+  "auditedAt": "2026-09-04",
+  "currentBaseline": "7db0f732e7885b48bfd12326efcbe7f4415ae14b",
+  "lastFullInterface": "77927d72222394d33a06652ba14e27dd7b99a307",
+  "collapseCommit": "81ec652cbcb07eac525efc5bbf19d315c16589bc",
+  "sections": [
+    {
+      "id": "overview",
+      "label": "Обзор",
+      "status": "partial",
+      "decision": "merge",
+      "missing": ["public-stats", "grid-snapshot-history"]
+    },
+    {
+      "id": "ideal",
+      "label": "Идеальная сетка",
+      "status": "active",
+      "decision": "keep"
+    },
+    {
+      "id": "growth",
+      "label": "Банк идей / Рост и идеи",
+      "status": "partial",
+      "decision": "merge",
+      "sourceFiles": ["data/growth-room.js", "data/idea-radar.js", "data/science-library.js"]
+    },
+    {
+      "id": "builder",
+      "label": "Идеи и обложки",
+      "status": "partial",
+      "decision": "merge",
+      "sourceFiles": ["carousel-builder.js", "data/carousel-builder-data.js", "data/visual-canon.js"]
+    },
+    {
+      "id": "typography",
+      "label": "Типографика",
+      "status": "active",
+      "decision": "keep"
+    },
+    {
+      "id": "current",
+      "label": "Текущая сетка",
+      "status": "partial",
+      "decision": "keep-current-fix",
+      "sourceFiles": ["data/current-grid.js"]
+    },
+    {
+      "id": "library",
+      "label": "Медиатека",
+      "status": "active",
+      "decision": "keep",
+      "sourceFiles": ["data/library-data.js", "data/drive-originals.js", "media-source.js", "media-overrides.js"]
+    },
+    {
+      "id": "planner",
+      "label": "План недели",
+      "status": "active",
+      "decision": "keep"
+    },
+    {
+      "id": "postbuilder",
+      "label": "Конструктор поста",
+      "status": "source-only",
+      "decision": "restore-first",
+      "sourceFiles": ["carousel-studio.js", "data/visual-canon.js"]
+    },
+    {
+      "id": "mobileeditor",
+      "label": "Мобильный редактор",
+      "status": "source-only",
+      "decision": "restore",
+      "sourceFiles": ["mobile-editor.js"]
+    },
+    {
+      "id": "timehop",
+      "label": "Таймхоп Оли",
+      "status": "source-only",
+      "decision": "restore",
+      "sourceFiles": ["data/idea-radar.js"]
+    },
+    {
+      "id": "production",
+      "label": "Материалы",
+      "status": "source-only",
+      "decision": "restore",
+      "sourceFiles": ["production-room.js", "data/production-projects.js"]
+    },
+    {
+      "id": "coach",
+      "label": "Коуч роста",
+      "status": "source-only",
+      "decision": "restore",
+      "sourceFiles": ["growth-coach.js", "data/growth-coach-demo.js"]
+    },
+    {
+      "id": "moms",
+      "label": "Для мам",
+      "status": "source-only",
+      "decision": "restore",
+      "sourceFiles": ["moms-room.js", "data/moms-room-data.js"]
+    },
+    {
+      "id": "identity",
+      "label": "Визуальная система / Темп",
+      "status": "source-only",
+      "decision": "review-placement",
+      "sourceFiles": ["grid-studio.js", "data/grid-directions.js"]
+    }
+  ]
+}
