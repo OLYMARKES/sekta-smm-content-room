@@ -176,6 +176,109 @@ async function main() {
     assert.equal(await page.evaluate(() => window.unexpected), undefined);
   });
 
+  await check("manual script survives cancelled regeneration and reload", async (state) => {
+    const { page } = state;
+    await view(page, "builder");
+    await page.locator("#builderHook").fill("Ручной хук: сохранить при обновлении структуры");
+    await page.locator("#builderSlides p").first().fill("Ручной сценарий: не заменять без согласия");
+    await saveDraft(page);
+    const before = await stored(page, draftKey);
+    assert.equal(before.scriptEdited, true);
+    await page.reload();
+    await view(page, "builder");
+    state.dialogs = "dismiss";
+    const unchanged = async () => {
+      assert.equal(await page.locator("#builderSlides p").first().innerText(), before.slides[0].body);
+      assert.equal(await page.locator("#builderHook").inputValue(), before.hook);
+    };
+    await page.locator("#builderRefreshScript").click();
+    await unchanged();
+    await page.locator("[data-builder-idea]").first().click();
+    await unchanged();
+    await page.locator("#builderGoal").selectOption("comment");
+    await unchanged();
+    assert.equal(await page.locator("#builderGoal").inputValue(), before.controls.goal);
+    await page.locator("#builderControls [type=submit]").click();
+    await unchanged();
+    await saveDraft(page);
+    assert.deepEqual((await stored(page, draftKey)).slides, before.slides);
+    state.dialogs = "accept";
+    await page.locator("#builderRefreshScript").click();
+    assert.notEqual(await page.locator("#builderSlides p").first().innerText(), before.slides[0].body);
+    state.dialogs = "dismiss";
+    await page.locator("[data-builder-idea]").first().click();
+    assert.equal(await page.locator("#builderHook").inputValue(), before.hook);
+    state.dialogs = "accept";
+    const legacy = { ...before };
+    delete legacy.scriptEdited;
+    await page.locator("#builderDraftFile").setInputFiles({ name: "legacy.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(legacy)) });
+    await page.waitForFunction(() => document.querySelector("#builderStatus").textContent.includes("JSON открыт"));
+    state.dialogs = "dismiss";
+    await page.locator("#builderRefreshScript").click();
+    await unchanged();
+  });
+
+  await check("clipboard refusal is visible and legacy success is acknowledged", async ({ page }) => {
+    await view(page, "builder");
+    await page.evaluate(() => {
+      Object.defineProperty(navigator, "clipboard", { configurable: true, value: { writeText: async () => { throw new Error("denied"); } } });
+      document.execCommand = () => false;
+    });
+    await page.locator("#builderCopyScript").focus();
+    await page.locator("#builderCopyScript").click();
+    await page.waitForFunction(() => document.querySelector("#builderStatus").textContent.includes("Не удалось скопировать"));
+    assert(await page.locator("#builderCopyScript").evaluate((button) => document.activeElement === button));
+    await page.evaluate(() => { document.execCommand = (command) => command === "copy"; });
+    await page.locator("#builderCopyScript").click();
+    await page.waitForFunction(() => document.querySelector("#builderStatus").textContent.includes("Сценарий скопирован"));
+  });
+
+  await check("workspace backup includes raw data and unsaved cover without changing view or storage", async ({ page }) => {
+    await view(page, "builder");
+    await saveDraft(page);
+    const before = await page.evaluate((key) => {
+      localStorage.setItem("sekta-sandbox", "{broken-preserve-me");
+      localStorage.setItem("sekta-media-people-overrides-v1", '{"fixture":{"people":["Оля"]}}');
+      localStorage.setItem("unrelated-service-token", "do-not-export");
+      const raw = localStorage.getItem(key);
+      const original = Storage.prototype.setItem;
+      Storage.prototype.setItem = function (name, value) {
+        if (name === key) throw new Error("quota");
+        return original.call(this, name, value);
+      };
+      return raw;
+    }, draftKey);
+    await page.locator("#builderHook").fill("Текущая несохранённая обложка");
+    const json = JSON.parse(await download(page, "#exportWorkspaceBackup", "local-backup.json"));
+    assert.equal(json.schema, "sekta-local-backup");
+    assert.equal(json.version, 1);
+    assert.equal(json.coverDraft.hook, "Текущая несохранённая обложка");
+    assert.equal(json.entries.find((entry) => entry.key === draftKey).raw, before);
+    assert.equal(json.entries.find((entry) => entry.key === "sekta-sandbox").raw, "{broken-preserve-me");
+    assert.deepEqual(JSON.parse(json.entries.find((entry) => entry.key === mediaKey).raw), { fixture: { people: ["Оля"] } });
+    assert(!JSON.stringify(json).includes("do-not-export"));
+    assert(await page.locator('[data-view-panel="builder"]').evaluate((panel) => panel.classList.contains("is-active")));
+    assert.equal(await page.evaluate((key) => localStorage.getItem(key), draftKey), before);
+    assert.equal(await page.evaluate(() => localStorage.getItem("sekta-sandbox")), "{broken-preserve-me");
+    assert.match(await page.locator("#workspaceBackupStatus").innerText(), /Автовосстановления пока нет/);
+    assert.equal(await page.locator("#exportWorkspaceBackup").getAttribute("aria-pressed"), null);
+  });
+
+  await check("workspace backup refuses a partial copy when a key cannot be read", async ({ page }) => {
+    await page.evaluate(() => {
+      const original = Storage.prototype.getItem;
+      Storage.prototype.getItem = function (key) {
+        if (key === "olymarkes-type-case-mode-v1") throw new Error("blocked");
+        return original.call(this, key);
+      };
+    });
+    let downloads = 0;
+    page.on("download", () => { downloads += 1; });
+    await page.locator("#exportWorkspaceBackup").click();
+    assert.match(await page.locator("#workspaceBackupStatus").innerText(), /Копия не создана/);
+    assert.equal(downloads, 0);
+  });
+
   await check("draft storage failure and two-tab conflict", async (state) => {
     const { page } = state;
     await view(page, "builder");

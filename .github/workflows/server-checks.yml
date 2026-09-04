@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: '22'
       - name: Source and storage regressions
-        run: node --test tests/media-source.test.cjs tests/media-overrides.test.cjs tests/workspace-safety.test.cjs
+        run: node --test tests/media-source.test.cjs tests/media-overrides.test.cjs tests/workspace-safety.test.cjs tests/workspace-backup.test.cjs
 
   browser:
     needs: regressions
