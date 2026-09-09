@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>#Sekta — фотомедиатека</title>
+  <link rel="stylesheet" href="styles.css?v=20260909-1">
+  <link rel="stylesheet" href="media-library.css?v=20260909-1">
+</head>
+<body class="library-page">
+  <a class="skip-link" href="#libraryMain">К фотографиям</a>
+  <header class="library-header">
+    <a class="library-brand" href="media-library.html" aria-label="Фотомедиатека, главная">
+      <span class="library-brand-mark" aria-hidden="true">S</span>
+      <span><strong>Фотомедиатека</strong><small id="libraryModeLabel">единый каталог фотографий</small></span>
+    </a>
+    <nav class="library-global-nav" aria-label="Продукты #Sekta">
+      <span class="library-product-current" aria-current="page">Фотографии</span>
+      <a href="index.html">Контент-система</a>
+    </nav>
+  </header>
+
+  <main id="libraryMain" class="library-main">
+    <div class="library-heading">
+      <div>
+        <h1>Все фотографии в одном месте</h1>
+        <p><span id="librarySummary">Загружаем каталог</span>. Ищите по человеку, теме, проекту, дате съёмки или слову в описании.</p>
+      </div>
+      <div class="library-heading-actions">
+        <span class="library-environment" id="libraryEnvironment">Версия с превью</span>
+        <a class="button button-secondary" id="mediaAuditLink" href="http://127.0.0.1:4318/media-audit" hidden>Похожие фотографии</a>
+      </div>
+    </div>
+
+    <section class="toolbar library-toolbar" aria-label="Поиск и сортировка фотографий">
+      <label class="search-box library-search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
+        <span class="visually-hidden">Поиск</span>
+        <input id="librarySearch" type="search" placeholder="Например: Вера, BASIC, море, беременность…" autocomplete="off">
+      </label>
+
+      <div class="filter-group human-sections" aria-label="Раздел фотографий">
+        <button class="filter-chip is-active" data-section="all">Все фотографии</button>
+        <button class="filter-chip" data-section="favorites">Избранное</button>
+        <button class="filter-chip filter-chip-top" data-section="top">Топ</button>
+        <button class="filter-chip" data-section="photoshoots">Фотосессии</button>
+        <button class="filter-chip" data-section="old-photos">Старые фотографии</button>
+        <button class="filter-chip" data-section="neuro">Нейрофотосеты</button>
+        <button class="filter-chip" data-section="events">События и лагерь</button>
+        <button class="filter-chip" data-section="family">Семья и материнство</button>
+        <button class="filter-chip" data-section="body">Тело и тренировки</button>
+        <button class="filter-chip" data-section="portraits">Авторские портреты</button>
+        <button class="filter-chip" data-section="music">Музыка и сцена</button>
+        <button class="filter-chip" data-section="travel">Места и путешествия</button>
+      </div>
+
+      <div class="secondary-filters" aria-label="Дополнительные фильтры">
+        <label><span>Проект</span><select id="projectFilter"><option value="all">Все проекты</option><option value="BASIC">BASIC</option><option value="GLP-1">GLP‑1</option><option value="SEKTA CAMP">SEKTA CAMP</option><option value="SEKTA MAMA">SEKTA MAMA</option><option value="ALAI OLI">ALAI OLI</option><option value="ЛИЧНЫЙ SMM">Личный SMM</option></select></label>
+        <label><span>Тип</span><select id="materialTypeFilter"><option value="all">Все фотографии</option><option value="real-photo">Реальные</option><option value="neuro-photo">Нейрофото</option></select></label>
+        <label><span>Публикация</span><select id="publicationFilter"><option value="all">Любой статус</option><option value="approved">Можно публиковать</option><option value="review">Проверить</option><option value="not-public">Не публиковать</option></select></label>
+        <label><span>Тема</span><select id="themeFilter"><option value="all">Все темы</option><option value="pregnancy">Беременность и материнство</option><option value="parenting">Дети и родительство</option><option value="family">Семья и отношения</option><option value="body">Тело, спорт и сила</option><option value="self-image">Красота и самообраз</option><option value="music">Музыка и творчество</option><option value="community">Классы и комьюнити</option><option value="detail">Детали и метафоры</option><option value="travel">Путешествия и жизнь</option><option value="archive">Архив</option></select></label>
+        <label><span>Ориентация</span><select id="orientationFilter"><option value="all">Любая</option><option value="portrait">Вертикальные</option><option value="landscape">Горизонтальные</option><option value="square">Квадратные</option></select></label>
+        <label><span>Сортировка</span><select id="librarySort"><option value="capture-desc" selected>Сначала новые съёмки</option><option value="capture-asc">Сначала старые съёмки</option><option value="modified-desc">Недавно добавленные</option><option value="default">Порядок каталога</option></select></label>
+        <button class="button button-secondary" id="libraryClearFilters" type="button">Сбросить</button>
+        <button class="button button-secondary" id="libraryShuffle" type="button">Перемешать</button>
+      </div>
+    </section>
+
+    <div class="result-line"><span id="libraryResultCount">Считаем фотографии…</span><span>Нажмите на фотографию, чтобы открыть крупно и посмотреть метаданные</span></div>
+    <section class="media-grid standalone-media-grid" id="mediaGrid" aria-label="Фотографии"></section>
+    <div class="infinite-scroll-sentinel" id="libraryScrollSentinel" role="status" aria-live="polite"><span class="infinite-scroll-spinner" aria-hidden="true"></span><span>Загружаю ещё фотографии…</span></div>
+  </main>
+
+  <dialog class="detail-dialog" id="detailDialog">
+    <button class="dialog-close" data-close aria-label="Закрыть фотографию">×</button>
+    <div id="dialogContent"></div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="data/library-data.js?v=20260909-1"></script>
+  <script src="data/media-library-manual-overrides.js?v=20260909-1"></script>
+  <script src="media-library.js?v=20260909-1"></script>
+</body>
+</html>

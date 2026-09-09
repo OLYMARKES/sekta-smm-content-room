@@ -1,38 +1,32 @@
 (() => {
   const currentGrid = window.SEKTA_CURRENT_GRID || [];
-  const snapshotAsOf = window.SEKTA_CURRENT_GRID_META?.asOf;
-  const snapshotDate = new Date(`${snapshotAsOf}T00:00:00Z`);
-  const hasSnapshotDate = Number.isFinite(snapshotDate.getTime());
-  const snapshotDateLabel = hasSnapshotDate
-    ? snapshotDate.toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })
-    : "дата не указана";
   const weekPlan = window.SEKTA_SEED_PLAN || [];
   const idealGrid = window.SEKTA_IDEAL_GRID || [];
   const growthRoom = window.SEKTA_GROWTH_ROOM || { principles: [], next: [], ideas: [] };
   const growthIdeas = growthRoom.ideas || [];
   const libraryPayload = window.SEKTA_LIBRARY || { items: [], uniqueCount: 0, duplicateCount: 0, sourceCount: 0 };
   const library = libraryPayload.items || [];
-  const driveOriginals = window.SEKTA_DRIVE_ORIGINALS || { items: {} };
+  const photoLibraryCount = library.filter((item) => item.mediaType !== "video"
+    && ["real-photo", "neuro-photo"].includes(item.materialType)
+    && !(item.visionKeywords || []).includes("screenshot")
+    && !/^(screenshot|снимок экрана)/i.test(item.fileName || "")).length;
   const peopleOverrideStorageKey = "sekta-media-people-overrides-v1";
-  const { safeLink, createSandbox } = window.SEKTA_WORKSPACE_SAFETY;
+  const peopleOverrideEndpoint = "http://127.0.0.1:4318/api/media-overrides";
   const canonicalPeopleOverrides = window.MEDIA_LIBRARY_MANUAL_OVERRIDES?.records || {};
-  const mediaOverrides = window.SEKTA_MEDIA_OVERRIDES.create({
-    getStorage: () => localStorage, key: peopleOverrideStorageKey,
-    write: async () => { throw new Error("Общая синхронизация не настроена."); },
-  });
+  const localPeopleOverrides = loadPeopleOverrides();
   library.forEach((item) => {
     try {
       const canonicalRecord = canonicalPeopleOverrides[item.id];
       if (Array.isArray(canonicalRecord?.people)) applyPeopleToItem(item, canonicalRecord.people);
       if (typeof canonicalRecord?.top === "boolean") applyTopToItem(item, canonicalRecord.top);
-      const localRecord = mediaOverrides.get(item.id);
+      const localRecord = localPeopleOverrides[item.id];
       if (Array.isArray(localRecord?.people)) applyPeopleToItem(item, localRecord.people);
       if (typeof localRecord?.top === "boolean") applyTopToItem(item, localRecord.top);
     } catch {
-      // Leave malformed stored records untouched; never erase a user's copy on startup.
+      delete localPeopleOverrides[item.id];
     }
   });
-  const viewLabels = { overview: "Рабочий обзор", ideal: "Идеальная сетка", growth: "Рост и идеи", builder: "Идеи и обложки", typography: "Типографика обложки", current: "Текущая сетка", library: "Медиатека", planner: "План недели" };
+  const viewLabels = { overview: "Рабочий обзор", ideal: "Идеальная сетка", growth: "Рост и идеи", builder: "Идеи и обложки", typography: "Типографика обложки", current: "Текущая сетка", planner: "План недели" };
   const statusClass = (status) => status === "Готово" ? "status-ready" : status === "На ревью" || status === "Текст готов" ? "status-review" : "status-shoot";
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
 
@@ -94,12 +88,22 @@
   let activeGrowthRoomTab = "ideas";
   let activeGrowthGoal = "all";
   let activeGrowthId = growthRoom.next?.[0] || growthIdeas[0]?.id;
-  let currentCoverMode = "current";
+  let currentCoverMode = "proposed";
   let toastTimer;
-  const sandboxStore = createSandbox({ getStorage: () => localStorage, fallback: [
-    { id: "approved-carousel", thumb: "assets/approved-carousel/slide-01.png", title: "Мои главные победы", source: "Готовая карусель" },
-  ] });
-  let sandbox = sandboxStore.get();
+  let sandbox = loadSandbox();
+
+  function loadPeopleOverrides() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(peopleOverrideStorageKey) || "{}");
+      return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function savePeopleOverrides() {
+    localStorage.setItem(peopleOverrideStorageKey, JSON.stringify(localPeopleOverrides));
+  }
 
   function normalizePeople(values) {
     const people = [];
@@ -135,61 +139,68 @@
     if (item.isTop) item.searchAliases.push("топ");
   }
 
-  function mediaSaveStatus(id) {
-    const error = mediaOverrides.storageError();
-    if (error) return { message: error, state: "error" };
-    const record = mediaOverrides.get(id);
-    if (!record) return { message: "", state: "" };
-    return { message: "Сохранено только в этом браузере. Общая синхронизация не настроена.", state: "success" };
-  }
-
-  function refreshMediaSaveStatus(id) {
-    const editor = ui.dialogContent.querySelector(`[data-people-editor="${CSS.escape(id)}"]`);
-    // Do not replace an editor or its error message while the user is typing.
-    if (!editor || !editor.querySelector("form")?.hidden) return;
-    const status = editor.querySelector(".people-save-status");
-    if (!status) return;
-    const saved = mediaSaveStatus(id);
-    status.textContent = saved.message;
-    status.dataset.state = saved.state;
-  }
-
-  function saveSandbox(next) {
+  async function writeMediaOverride(id, patch) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
     try {
-      sandbox = sandboxStore.commit(next);
-      renderSandbox();
-      return true;
-    } catch (error) {
-      document.querySelector("#sandboxSaveStatus").textContent = error.message;
-      toast(error.message, 8000);
-      return false;
+      const response = await fetch(peopleOverrideEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, ...patch }),
+        signal: controller.signal,
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || !payload.ok) throw new Error(payload.error || "Сервис общей медиатеки недоступен.");
+      return payload.record;
+    } finally {
+      clearTimeout(timeout);
     }
   }
 
-  function toast(message, duration = 2200) {
+  async function syncPendingPeopleOverrides() {
+    const pending = Object.entries(localPeopleOverrides).filter(([, record]) => record?.pending && (Array.isArray(record.people) || typeof record.top === "boolean"));
+    for (const [id, record] of pending) {
+      try {
+        const patch = {};
+        if (Array.isArray(record.people)) patch.people = normalizePeople(record.people);
+        if (typeof record.top === "boolean") patch.top = record.top;
+        await writeMediaOverride(id, patch);
+        delete localPeopleOverrides[id];
+        savePeopleOverrides();
+      } catch {
+        return;
+      }
+    }
+  }
+
+  function loadSandbox() {
+    const fallback = [{ id: "approved-carousel", thumb: "assets/approved-carousel/slide-01.png", title: "Мои главные победы", source: "Готовая карусель" }];
+    try {
+      const saved = JSON.parse(localStorage.getItem("sekta-sandbox"));
+      return Array.isArray(saved) && saved.length ? saved.slice(0, 9) : fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function saveSandbox() {
+    localStorage.setItem("sekta-sandbox", JSON.stringify(sandbox));
+  }
+
+  function toast(message) {
     clearTimeout(toastTimer);
     ui.toast.textContent = message;
     ui.toast.classList.add("is-visible");
-    toastTimer = setTimeout(() => ui.toast.classList.remove("is-visible"), duration);
+    toastTimer = setTimeout(() => ui.toast.classList.remove("is-visible"), 2200);
   }
 
   function setView(view) {
-    if (!Object.hasOwn(viewLabels, view)) view = "overview";
     document.querySelectorAll("[data-view-panel]").forEach((panel) => panel.classList.toggle("is-active", panel.dataset.viewPanel === view));
-    document.querySelectorAll(".nav-item[data-view]").forEach((button) => {
-      const active = button.dataset.view === view;
-      button.classList.toggle("is-active", active);
-      button.setAttribute("aria-pressed", String(active));
-    });
+    document.querySelectorAll(".nav-item").forEach((button) => button.classList.toggle("is-active", button.dataset.view === view));
     ui.viewTitle.textContent = viewLabels[view] || viewLabels.overview;
-    setMobileMenu(false);
-    window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    ui.sidebar.classList.remove("is-open");
+    window.scrollTo({ top: 0, behavior: "smooth" });
     if (view === "library") ui.librarySearch.focus({ preventScroll: true });
-    else {
-      const heading = document.querySelector(`[data-view-panel="${view}"] h1`);
-      heading?.setAttribute("tabindex", "-1");
-      heading?.focus({ preventScroll: true });
-    }
   }
 
   function feedTile(item, mode = "current") {
@@ -202,31 +213,9 @@
   function renderCurrent() {
     ui.overviewGrid.innerHTML = currentGrid.slice(0, 9).map((item) => feedTile(item)).join("");
     ui.currentGrid.innerHTML = currentGrid.map((item) => feedTile(item, currentCoverMode)).join("");
-    const proposedCount = currentGrid.filter((item) => item.proposedImage).length;
-    document.querySelector("#currentGridSummary").textContent = currentCoverMode === "proposed"
-      ? `${proposedCount} ${plural(proposedCount, "новая обложка", "новые обложки", "новых обложек")}` : "Сохранённая сетка";
-    document.querySelector("#currentGridCounts").textContent = `${currentGrid.length} ${plural(currentGrid.length, "публикация", "публикации", "публикаций")} · ${currentGrid.filter((item) => item.pinned).length} закреплено`;
-    document.querySelectorAll("[data-cover-mode]").forEach((button) => {
-      const active = button.dataset.coverMode === currentCoverMode;
-      button.classList.toggle("is-active", active);
-      button.setAttribute("aria-pressed", String(active));
-      button.disabled = button.dataset.coverMode === "proposed" && proposedCount === 0;
-      button.title = button.disabled ? "Новые обложки пока не подключены" : "";
-    });
-    if (ui.gridVersionLabel) ui.gridVersionLabel.textContent = currentCoverMode === "proposed" ? `примерка · ${proposedCount} новых обложек` : `снимок Instagram · ${snapshotDateLabel}`;
-    if (ui.coverModeNote) ui.coverModeNote.textContent = currentCoverMode === "proposed" ? "Предлагаемая примерка: публикации остаются на месте, меняется только то, что человек видит в профиле." : `Сохранённая сетка Instagram · ${snapshotDateLabel}. Не обновляется автоматически.`;
-  }
-
-  function renderAppInfo() {
-    const date = document.querySelector("#snapshotDate");
-    date.textContent = snapshotDateLabel;
-    if (hasSnapshotDate) date.dateTime = snapshotAsOf;
-    const release = window.SEKTA_APP_VERSION;
-    const version = document.querySelector("#appVersion");
-    version.textContent = release?.version ? `v${release.version}` : "Версия не указана";
-    const stage = document.querySelector("#appVersionStage");
-    stage.hidden = release?.stage === "released";
-    stage.textContent = release?.stage === "preview" ? "· превью" : "· статус не указан";
+    document.querySelectorAll("[data-cover-mode]").forEach((button) => button.classList.toggle("is-active", button.dataset.coverMode === currentCoverMode));
+    if (ui.gridVersionLabel) ui.gridVersionLabel.textContent = currentCoverMode === "proposed" ? "примерка новых обложек · 5 замен" : "фактический снимок · 13 августа";
+    if (ui.coverModeNote) ui.coverModeNote.textContent = currentCoverMode === "proposed" ? "Предлагаемая примерка: публикации остаются на месте, меняется только то, что человек видит в профиле." : "Фактический снимок: обложки показаны ровно такими, какими они были в профиле 13 августа.";
   }
 
   function weekItem(item) {
@@ -439,7 +428,7 @@
       const typeBadge = item.mediaType === "video" ? `<span class="media-type-tag">▶ Видео</span>` : item.materialType === "neuro-photo" ? `<span class="media-type-tag media-type-ai">AI</span>` : "";
       const statusBadge = item.publicationStatus === "not-public" ? `<span class="media-status-tag media-status-stop">Не публиковать</span>` : item.publicationStatus === "review" ? `<span class="media-status-tag">Проверить</span>` : "";
       const topIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></svg>`;
-      return `<article class="media-card${item.isTop ? " is-top" : ""}" data-name="${escapeHtml(item.fileName)}"><button class="media-card-open" data-media-id="${escapeHtml(item.id)}" aria-label="Открыть ${escapeHtml(item.fileName)}"><img src="${escapeHtml(item.thumb)}" alt="" loading="lazy">${typeBadge}${statusBadge}<span class="orientation-tag">${orientationIcon[item.orientation] || "□"}</span></button><button class="media-card-top" data-toggle-top="${escapeHtml(item.id)}" aria-pressed="${Boolean(item.isTop)}" aria-label="${item.isTop ? "Убрать из топа" : "Добавить в топ"}">${topIcon}<span>${item.isTop ? "В топе" : "В топ"}</span></button></article>`;
+      return `<article class="media-card${item.isTop ? " is-top" : ""}" data-name="${escapeHtml(item.fileName)}"><button class="media-card-open" data-media-id="${item.id}" aria-label="Открыть ${escapeHtml(item.fileName)}"><img src="${escapeHtml(item.thumb)}" alt="" loading="lazy">${typeBadge}${statusBadge}<span class="orientation-tag">${orientationIcon[item.orientation] || "□"}</span></button><button class="media-card-top" data-toggle-top="${item.id}" aria-pressed="${Boolean(item.isTop)}" aria-label="${item.isTop ? "Убрать из топа" : "Добавить в топ"}">${topIcon}<span>${item.isTop ? "В топе" : "В топ"}</span></button></article>`;
     }).join("");
     ui.libraryResultCount.textContent = `${filtered.length} ${plural(filtered.length, "материал", "материала", "материалов")}`;
     ui.scrollSentinel.hidden = shown.length >= filtered.length;
@@ -462,36 +451,34 @@
       return `<div class="sandbox-tile" tabindex="0" data-sandbox-index="${index}" title="${escapeHtml(item.title)}"><img src="${escapeHtml(item.thumb)}" alt="${escapeHtml(item.title)}"><div class="sandbox-controls"><button data-move="left" data-index="${index}" aria-label="Сдвинуть влево">←</button><button data-move="right" data-index="${index}" aria-label="Сдвинуть вправо">→</button><button data-remove="${index}" aria-label="Удалить из сетки">×</button></div></div>`;
     }).join("");
     ui.sandboxCount.textContent = `${sandbox.length} / 9`;
-    document.querySelector("#navPlanCount").textContent = sandbox.length;
-    document.querySelector("#sandboxSaveStatus").textContent = sandboxStore.error() || "Сетка сохранена только в этом браузере.";
+    document.querySelector("#navPlanCount").textContent = weekPlan.length + Math.max(0, sandbox.length - 1);
   }
 
   function openCurrent(item) {
     const showProposed = currentCoverMode === "proposed" && item.proposedImage;
     const shownImage = showProposed ? item.proposedImage : item.image;
     const reason = showProposed ? item.coverReason : item.note;
-    const download = showProposed ? `<a class="button button-secondary" href="${escapeHtml(safeLink(item.proposedImage))}" download>Скачать PNG</a>` : "";
-    ui.dialogContent.innerHTML = `<div class="detail-layout"><div class="detail-image"><img src="${escapeHtml(shownImage)}" alt="${showProposed ? "Новая обложка" : "Превью публикации"} ${escapeHtml(item.title)}"></div><div class="detail-copy"><p class="eyebrow">${showProposed ? "Предлагаемая обложка" : item.pinned ? "Закреплённая публикация" : "Актуальная сетка"}</p><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(reason)}</p><div class="meta-list"><div class="meta-row"><span>Формат</span><strong>${escapeHtml(item.type)}</strong></div><div class="meta-row"><span>Дата</span><strong>${escapeHtml(item.date)} 2026</strong></div><div class="meta-row"><span>Версия</span><strong>${showProposed ? "Новая · 1080 × 1350" : "Сейчас"}</strong></div></div><div class="detail-actions"><a class="button button-primary" href="${escapeHtml(safeLink(item.url))}" target="_blank" rel="noreferrer">Открыть пост ↗</a>${download}</div></div></div>`;
+    const download = showProposed ? `<a class="button button-secondary" href="${escapeHtml(item.proposedImage)}" download>Скачать PNG</a>` : "";
+    ui.dialogContent.innerHTML = `<div class="detail-layout"><div class="detail-image"><img src="${escapeHtml(shownImage)}" alt="${showProposed ? "Новая обложка" : "Превью публикации"} ${escapeHtml(item.title)}"></div><div class="detail-copy"><p class="eyebrow">${showProposed ? "Предлагаемая обложка" : item.pinned ? "Закреплённая публикация" : "Актуальная сетка"}</p><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(reason)}</p><div class="meta-list"><div class="meta-row"><span>Формат</span><strong>${escapeHtml(item.type)}</strong></div><div class="meta-row"><span>Дата</span><strong>${escapeHtml(item.date)} 2026</strong></div><div class="meta-row"><span>Версия</span><strong>${showProposed ? "Новая · 1080 × 1350" : "Сейчас"}</strong></div></div><div class="detail-actions"><a class="button button-primary" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">Открыть пост ↗</a>${download}</div></div></div>`;
     ui.detailDialog.classList.remove("is-landscape");
     ui.detailDialog.showModal();
   }
 
   function peopleEditorMarkup(item) {
     const people = normalizePeople(item.people || []);
-    const saved = mediaSaveStatus(item.id);
     const tags = people.length
       ? people.map((person) => `<span class="people-tag">${escapeHtml(person)}</span>`).join("")
       : `<span class="people-empty">Не определено</span>`;
     const buttonLabel = people.length ? "Изменить" : "Добавить";
     const inputId = `people-input-${item.id}`;
-    return `<div class="media-taxonomy people-editor" data-people-editor="${escapeHtml(item.id)}"><div class="people-editor-head"><span>Кто в кадре</span><button type="button" class="people-edit-button" data-edit-people="${escapeHtml(item.id)}">${buttonLabel}</button></div><div class="people-tags">${tags}</div><form class="people-form" data-people-form="${escapeHtml(item.id)}" hidden><label for="${escapeHtml(inputId)}">Имена через запятую</label><input id="${escapeHtml(inputId)}" name="people" value="${escapeHtml(people.join(", "))}" maxlength="980" autocomplete="off" placeholder="Например: Вера, Оля"><p class="people-hint">До 12 имён. Пустое поле вернёт статус «Не определено».</p><div class="people-form-actions"><button type="submit" class="button button-primary">Сохранить</button><button type="button" class="button button-secondary" data-cancel-people>Отмена</button></div></form><p class="people-save-status" role="status" aria-live="polite" data-state="${saved.state}">${escapeHtml(saved.message)}</p></div>`;
+    return `<div class="media-taxonomy people-editor" data-people-editor="${escapeHtml(item.id)}"><div class="people-editor-head"><span>Кто в кадре</span><button type="button" class="people-edit-button" data-edit-people="${escapeHtml(item.id)}">${buttonLabel}</button></div><div class="people-tags">${tags}</div><form class="people-form" data-people-form="${escapeHtml(item.id)}" hidden><label for="${inputId}">Имена через запятую</label><input id="${inputId}" name="people" value="${escapeHtml(people.join(", "))}" maxlength="980" autocomplete="off" placeholder="Например: Вера, Оля"><p class="people-hint">До 12 имён. Пустое поле вернёт статус «Не определено».</p><div class="people-form-actions"><button type="submit" class="button button-primary">Сохранить</button><button type="button" class="button button-secondary" data-cancel-people>Отмена</button></div></form><p class="people-save-status" role="status" aria-live="polite"></p></div>`;
   }
 
   function replacePeopleEditor(item, message = "", state = "") {
-    const current = ui.dialogContent.querySelector(`[data-people-editor="${CSS.escape(item.id)}"]`);
+    const current = ui.dialogContent.querySelector(`[data-people-editor="${item.id}"]`);
     if (!current) return;
     current.outerHTML = peopleEditorMarkup(item);
-    const next = ui.dialogContent.querySelector(`[data-people-editor="${CSS.escape(item.id)}"]`);
+    const next = ui.dialogContent.querySelector(`[data-people-editor="${item.id}"]`);
     const status = next?.querySelector(".people-save-status");
     if (status) {
       status.textContent = message;
@@ -499,47 +486,61 @@
     }
   }
 
-  function savePeopleFromForm(form) {
+  async function savePeopleFromForm(form) {
     const item = library.find((entry) => entry.id === form.dataset.peopleForm);
     if (!item) return;
     const status = form.parentElement.querySelector(".people-save-status");
+    const submit = form.querySelector('[type="submit"]');
     let people;
     try {
       people = parsePeople(new FormData(form).get("people"));
-      mediaOverrides.stage(item.id, { people });
     } catch (error) {
       status.textContent = error.message;
       status.dataset.state = "error";
       return;
     }
-    applyPeopleToItem(item, people);
-    const saved = mediaSaveStatus(item.id);
-    replacePeopleEditor(item, saved.message, saved.state);
-    renderLibrary();
-    toast("Имена сохранены в этом браузере");
+    submit.disabled = true;
+    form.setAttribute("aria-busy", "true");
+    status.textContent = "Сохраняю в общей медиатеке…";
+    status.dataset.state = "loading";
+    try {
+      await writeMediaOverride(item.id, { people });
+      applyPeopleToItem(item, people);
+      delete localPeopleOverrides[item.id];
+      savePeopleOverrides();
+      replacePeopleEditor(item, "Сохранено в общей медиатеке.", "success");
+      renderLibrary();
+      toast("Имя сохранено в общей медиатеке");
+    } catch {
+      applyPeopleToItem(item, people);
+      localPeopleOverrides[item.id] = { ...(localPeopleOverrides[item.id] || {}), people, pending: true, updatedAt: new Date().toISOString() };
+      savePeopleOverrides();
+      replacePeopleEditor(item, "Сохранено на этом компьютере. Общая синхронизация ожидает запуска сервиса.", "pending");
+      renderLibrary();
+      toast("Сохранено локально; общая синхронизация ожидает");
+    }
   }
 
-  function toggleTop(item) {
+  async function toggleTop(item) {
     if (!item) return;
     const next = !item.isTop;
-    try {
-      mediaOverrides.stage(item.id, { top: next });
-    } catch (error) {
-      toast(error.message, 8000);
-      return;
-    }
     applyTopToItem(item, next);
     renderLibrary();
-    const dialogTop = ui.dialogContent.querySelector(`[data-toggle-top="${CSS.escape(item.id)}"]`);
-    if (dialogTop) {
-      dialogTop.textContent = next ? "В топе" : "Добавить в топ";
-      dialogTop.classList.toggle("button-top-active", next);
-      dialogTop.classList.toggle("button-secondary", !next);
-      dialogTop.setAttribute("aria-pressed", String(next));
+    if (ui.detailDialog.open) openMedia(item);
+    try {
+      await writeMediaOverride(item.id, { top: next });
+      const pending = localPeopleOverrides[item.id];
+      if (pending) {
+        delete pending.top;
+        if (!pending.pending || (!Array.isArray(pending.people) && typeof pending.top !== "boolean")) delete localPeopleOverrides[item.id];
+        savePeopleOverrides();
+      }
+      toast(next ? "Добавлено в топ общей медиатеки" : "Убрано из топа");
+    } catch {
+      localPeopleOverrides[item.id] = { ...(localPeopleOverrides[item.id] || {}), top: next, pending: true, updatedAt: new Date().toISOString() };
+      savePeopleOverrides();
+      toast("Сохранено локально; общая синхронизация ожидает");
     }
-    // Updating the top button must not discard unsaved names in the open form.
-    refreshMediaSaveStatus(item.id);
-    toast(next ? "Добавлено в топ в этом браузере" : "Убрано из топа в этом браузере");
   }
 
   function openMedia(item) {
@@ -548,29 +549,8 @@
     const roles = (item.carouselRoles || []).length ? `<div class="media-taxonomy"><span>Роли в карусели</span><p>${item.carouselRoles.map((tag) => escapeHtml(formatTaxonomy(tag))).join(" · ")}</p></div>` : "";
     const category = item.sourceCategory ? ` · ${escapeHtml(formatTaxonomy(item.sourceCategory))}` : "";
     const localPathAvailable = Boolean(item.originalPath && !String(item.originalPath).includes("скрыт в публичной версии"));
-    const driveOriginal = driveOriginals.items?.[item.id];
-    const remoteOriginalUrl = safeLink(item.originalResolution?.remoteUrl) || safeLink(item.originalUrl);
-    const originalDownloadUrl = driveOriginal?.id
-      ? `https://drive.google.com/uc?export=download&id=${encodeURIComponent(driveOriginal.id)}`
-      : remoteOriginalUrl;
-    const previewDownloadUrl = safeLink(item.thumb);
-    const originalFileName = String(driveOriginal?.fileName || item.fileName || `sekta-${item.id || "media"}`);
-    const extensionMatch = originalFileName.match(/\.([a-z0-9]+)$/i);
-    const extension = (extensionMatch?.[1] || item.fileExtension || "jpg").toLocaleLowerCase("ru");
-    const safeBaseName = String(item.fileName || `sekta-${item.id || "media"}`).replace(/\.[^.]+$/, "").replace(/[\\/:*?"<>|]+/g, "-").trim() || `sekta-${item.id || "media"}`;
-    const originalIsRemote = /^https?:\/\//i.test(originalDownloadUrl);
-    const originalAction = originalDownloadUrl
-      ? `<a class="button button-primary" href="${escapeHtml(originalDownloadUrl)}" ${originalIsRemote ? 'target="_blank" rel="noreferrer"' : `download="${escapeHtml(originalFileName)}"`} data-download-original="true">Скачать оригинал · ${escapeHtml(extension.toLocaleUpperCase("ru"))}</a>`
-      : `<button class="button button-primary" type="button" disabled title="Оригинал ещё не подключён">Оригинал пока недоступен</button>`;
-    const previewAction = previewDownloadUrl ? `<a class="button button-secondary" href="${escapeHtml(previewDownloadUrl)}" download="${escapeHtml(`${safeBaseName}-preview.jpg`)}" data-download-preview>Скачать превью</a>` : "";
     const copyAction = localPathAvailable ? `<button class="button button-secondary" data-copy-path="${escapeHtml(item.originalPath)}">Скопировать путь</button>` : "";
-    const sourceNote = driveOriginal
-      ? `<div class="path-box path-box-ready"><span aria-hidden="true">●</span> Оригинал подключён из командного архива Google Drive</div>`
-      : originalDownloadUrl
-        ? `<div class="path-box path-box-ready"><span aria-hidden="true">●</span> Оригинал подключён к загрузке без уменьшения</div>`
-        : localPathAvailable
-          ? `<div class="path-box" title="${escapeHtml(item.originalPath)}">${escapeHtml(item.originalPath)}</div>`
-          : `<div class="path-box">Оригинал ещё не подключён. Превью остаётся отдельным файлом.</div>`;
+    const sourceNote = localPathAvailable ? `<div class="path-box" title="${escapeHtml(item.originalPath)}">${escapeHtml(item.originalPath)}</div>` : `<div class="path-box">Оригинал — в личной медиатеке; для передачи используйте имя файла выше.</div>`;
     const media = `<img src="${escapeHtml(item.thumb)}" alt="${escapeHtml(item.fileName)}">`;
     const projects = (item.projects || []).length ? `<div class="media-taxonomy"><span>Проекты</span><p>${item.projects.map(escapeHtml).join(" · ")}</p></div>` : "";
     const people = peopleEditorMarkup(item);
@@ -579,9 +559,9 @@
     const captureDate = item.captureDate ? new Date(item.captureDate).toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" }) : "не определена";
     const camera = [item.camera?.make, item.camera?.model].filter(Boolean).join(" · ") || "не определена";
     const originalStatus = ({ "verified-local": "Локальный оригинал проверен", "verified-local-and-remote": "Локальный и Drive-оригинал", "remote-only": "Только удалённый оригинал", unresolved: "Оригинал не найден" })[item.originalResolution?.status] || "Не проверено";
-    const addAction = item.publicationStatus === "not-public" || item.mediaType === "video" ? "" : `<button class="button button-primary" data-add-media="${escapeHtml(item.id)}">+ В будущую сетку</button>`;
-    const topAction = `<button class="button ${item.isTop ? "button-top-active" : "button-secondary"}" data-toggle-top="${escapeHtml(item.id)}">${item.isTop ? "В топе" : "Добавить в топ"}</button>`;
-    ui.dialogContent.innerHTML = `<div class="detail-layout"><div class="detail-image">${media}</div><div class="detail-copy"><p class="eyebrow">${escapeHtml(item.folderLabel)}${category}</p><h2>${escapeHtml(item.fileName)}</h2><p>В интерфейсе используется лёгкое превью. «Скачать оригинал» берёт только исходный файл и больше не подменяет его уменьшенной картинкой.</p><div class="meta-list"><div class="meta-row"><span>Тип</span><strong>${escapeHtml(typeLabels[item.materialType] || item.materialType || "Материал")}</strong></div><div class="meta-row"><span>Публикация</span><strong>${escapeHtml(statusLabels[item.publicationStatus] || item.publicationStatus || "Не указан")}</strong></div><div class="meta-row"><span>Дата съёмки</span><strong>${escapeHtml(captureDate)}</strong></div><div class="meta-row"><span>Камера</span><strong>${escapeHtml(camera)}</strong></div><div class="meta-row"><span>Оригинал</span><strong>${escapeHtml(originalDownloadUrl ? "Подключён без уменьшения" : originalStatus)}</strong></div><div class="meta-row"><span>Размер превью</span><strong>${item.width} × ${item.height}</strong></div><div class="meta-row"><span>Ориентация</span><strong>${orientationLabel(item.orientation)}</strong></div><div class="meta-row"><span>Вес оригинала</span><strong>${item.sizeMb} МБ</strong></div><div class="meta-row"><span>SHA-256</span><strong>${escapeHtml(item.sha256 ? item.sha256.slice(0, 12) + "…" : "не рассчитан")}</strong></div><div class="meta-row"><span>Точные дубли</span><strong>${duplicateText}</strong></div></div>${projects}${people}${themes}${roles}<div class="detail-actions">${originalAction}${previewAction}${topAction}${addAction}${copyAction}</div>${sourceNote}</div></div>`;
+    const addAction = item.publicationStatus === "not-public" || item.mediaType === "video" ? "" : `<button class="button button-primary" data-add-media="${item.id}">+ В будущую сетку</button>`;
+    const topAction = `<button class="button ${item.isTop ? "button-top-active" : "button-secondary"}" data-toggle-top="${item.id}">${item.isTop ? "В топе" : "Добавить в топ"}</button>`;
+    ui.dialogContent.innerHTML = `<div class="detail-layout"><div class="detail-image">${media}</div><div class="detail-copy"><p class="eyebrow">${escapeHtml(item.folderLabel)}${category}</p><h2>${escapeHtml(item.fileName)}</h2><p>В интерфейсе используется превью; финальный экспорт берёт HQ через resolver оригиналов.</p><div class="meta-list"><div class="meta-row"><span>Тип</span><strong>${escapeHtml(typeLabels[item.materialType] || item.materialType || "Материал")}</strong></div><div class="meta-row"><span>Публикация</span><strong>${escapeHtml(statusLabels[item.publicationStatus] || item.publicationStatus || "Не указан")}</strong></div><div class="meta-row"><span>Дата съёмки</span><strong>${escapeHtml(captureDate)}</strong></div><div class="meta-row"><span>Камера</span><strong>${escapeHtml(camera)}</strong></div><div class="meta-row"><span>Оригинал</span><strong>${escapeHtml(originalStatus)}</strong></div><div class="meta-row"><span>Размер</span><strong>${item.width} × ${item.height}</strong></div><div class="meta-row"><span>Ориентация</span><strong>${orientationLabel(item.orientation)}</strong></div><div class="meta-row"><span>Вес оригинала</span><strong>${item.sizeMb} МБ</strong></div><div class="meta-row"><span>SHA-256</span><strong>${escapeHtml(item.sha256 ? item.sha256.slice(0, 12) + "…" : "не рассчитан")}</strong></div><div class="meta-row"><span>Точные дубли</span><strong>${duplicateText}</strong></div></div>${projects}${people}${themes}${roles}<div class="detail-actions">${topAction}${addAction}${copyAction}</div>${sourceNote}</div></div>`;
     ui.detailDialog.classList.toggle("is-landscape", item.orientation === "landscape");
     if (!ui.detailDialog.open) ui.detailDialog.showModal();
   }
@@ -598,10 +578,11 @@
   }
 
   function addMedia(item) {
-    if (!item || item.publicationStatus === "not-public" || item.mediaType === "video") return;
     if (sandbox.some((entry) => entry.id === item.id)) return toast("Это фото уже есть в будущей сетке");
     if (sandbox.length >= 9) return toast("В песочнице уже девять ячеек — удалите одну");
-    if (!saveSandbox([{ id: item.id, thumb: item.thumb, title: item.fileName, source: item.folderLabel }, ...sandbox])) return;
+    sandbox.unshift({ id: item.id, thumb: item.thumb, title: item.fileName, source: item.folderLabel });
+    saveSandbox();
+    renderSandbox();
     ui.detailDialog.close();
     toast("Фото добавлено в начало будущей сетки");
   }
@@ -618,10 +599,9 @@
   function moveSandbox(index, direction) {
     const target = direction === "left" ? index - 1 : index + 1;
     if (target < 0 || target >= sandbox.length) return;
-    if (!Number.isInteger(index) || index < 0 || index >= sandbox.length) return;
-    const next = [...sandbox];
-    [next[index], next[target]] = [next[target], next[index]];
-    if (saveSandbox(next)) ui.sandboxGrid.querySelector(`[data-index="${target}"][data-move="${direction}"]`)?.focus();
+    [sandbox[index], sandbox[target]] = [sandbox[target], sandbox[index]];
+    saveSandbox();
+    renderSandbox();
   }
 
   function openCarousel() {
@@ -662,28 +642,9 @@
     renderReturnCarousel();
   }
 
-  document.querySelectorAll(".nav-item[data-view]").forEach((button) => button.addEventListener("click", () => setView(button.dataset.view)));
+  document.querySelectorAll("button.nav-item").forEach((button) => button.addEventListener("click", () => setView(button.dataset.view)));
   document.querySelectorAll("[data-jump]").forEach((button) => button.addEventListener("click", () => setView(button.dataset.jump)));
-  const mobileMenu = document.querySelector("#mobileMenu");
-  const sidebarBackdrop = document.querySelector("#sidebarBackdrop");
-  const mobileViewport = window.matchMedia("(max-width: 820px)");
-  function setMobileMenu(open, restoreFocus = false) {
-    const expanded = mobileViewport.matches && open;
-    ui.sidebar.classList.toggle("is-open", expanded);
-    ui.sidebar.inert = mobileViewport.matches && !expanded;
-    sidebarBackdrop.hidden = !expanded;
-    mobileMenu.setAttribute("aria-expanded", String(expanded));
-    mobileMenu.setAttribute("aria-label", expanded ? "Закрыть меню" : "Открыть меню");
-    if (expanded) ui.sidebar.querySelector(".nav-item.is-active")?.focus();
-    else if (restoreFocus) mobileMenu.focus();
-  }
-  mobileMenu.addEventListener("click", () => setMobileMenu(!ui.sidebar.classList.contains("is-open")));
-  sidebarBackdrop.addEventListener("click", () => setMobileMenu(false, true));
-  mobileViewport.addEventListener("change", () => setMobileMenu(false));
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && ui.sidebar.classList.contains("is-open")) setMobileMenu(false, true);
-  });
-  setMobileMenu(false);
+  document.querySelector("#mobileMenu").addEventListener("click", () => ui.sidebar.classList.toggle("is-open"));
   document.querySelectorAll("#openCarousel, #openCarouselVisual, #openCarouselSecond").forEach((button) => button.addEventListener("click", openCarousel));
   document.querySelectorAll("#openReturnCarousel, #openReturnCarouselSecond").forEach((button) => button.addEventListener("click", openReturnCarousel));
   document.querySelector("#openIdealPoster").addEventListener("click", () => ui.idealPosterDialog.showModal());
@@ -697,7 +658,9 @@
   document.querySelector("[data-close-ideal-poster]").addEventListener("click", () => ui.idealPosterDialog.close());
   document.querySelector("#resetPlanner").addEventListener("click", () => {
     if (!confirm("Вернуть песочницу к исходному состоянию?")) return;
-    if (!saveSandbox([{ id: "approved-carousel", thumb: "assets/approved-carousel/slide-01.png", title: "Мои главные победы", source: "Готовая карусель" }])) return;
+    sandbox = [{ id: "approved-carousel", thumb: "assets/approved-carousel/slide-01.png", title: "Мои главные победы", source: "Готовая карусель" }];
+    saveSandbox();
+    renderSandbox();
     toast("Черновая сетка сброшена");
   });
 
@@ -705,8 +668,9 @@
     const item = event.detail;
     if (!item?.thumb) return;
     if (sandbox.length >= 9) return toast("В песочнице уже девять ячеек — удалите одну");
-    if (!saveSandbox([item, ...sandbox])) return;
-    item.saved = true;
+    sandbox.unshift(item);
+    saveSandbox();
+    renderSandbox();
     toast("Обложка добавлена в будущую сетку");
   });
 
@@ -725,8 +689,6 @@
     if (addButton) addMedia(library.find((item) => item.id === addButton.dataset.addMedia));
     const copyButton = event.target.closest("[data-copy-path]");
     if (copyButton) copyPath(copyButton.dataset.copyPath);
-    if (event.target.closest("[data-download-original]")) toast("Открываем ссылку на оригинал. Доступ и начало скачивания зависят от источника.");
-    if (event.target.closest("[data-download-preview]")) toast("Скачивается лёгкое превью");
     const editPeopleButton = event.target.closest("[data-edit-people]");
     if (editPeopleButton) {
       const editor = editPeopleButton.closest("[data-people-editor]");
@@ -750,10 +712,9 @@
     }
     const removeButton = event.target.closest("[data-remove]");
     if (removeButton) {
-      const index = Number(removeButton.dataset.remove);
-      if (!Number.isInteger(index) || index < 0 || index >= sandbox.length) return;
-      if (!saveSandbox(sandbox.filter((_, position) => position !== index))) return;
-      (ui.sandboxGrid.querySelector(`[data-remove="${Math.min(index, sandbox.length - 1)}"]`) || document.querySelector("#resetPlanner"))?.focus();
+      sandbox.splice(Number(removeButton.dataset.remove), 1);
+      saveSandbox();
+      renderSandbox();
       toast("Материал удалён из песочницы");
     }
     const moveButton = event.target.closest("[data-move]");
@@ -873,14 +834,13 @@
     }
   });
 
-  document.querySelector("#metricUnique").textContent = libraryPayload.uniqueCount;
-  document.querySelector("#navLibraryCount").textContent = libraryPayload.uniqueCount;
-  document.querySelector("#builderLibraryCount").textContent = libraryPayload.uniqueCount;
+  document.querySelector("#metricUnique").textContent = photoLibraryCount;
+  document.querySelector("#navLibraryCount").textContent = photoLibraryCount;
+  document.querySelector("#builderLibraryCount").textContent = photoLibraryCount;
   document.querySelector("#librarySummary").textContent = `${libraryPayload.uniqueCount} материалов в едином каталоге`;
   const collectionCount = Object.keys(libraryPayload.byCollection || {}).filter((key) => key !== "archive").length;
   document.querySelector("#libraryCollectionCount").textContent = `${collectionCount} ${plural(collectionCount, "коллекция", "коллекции", "коллекций")}`;
   ui.libraryDuplicateSummary.textContent = `${libraryPayload.duplicateCount} ${plural(libraryPayload.duplicateCount, "точный дубль скрыт", "точных дубля скрыты", "точных дублей скрыты")}`;
-  renderAppInfo();
   renderCurrent();
   renderWeek();
   renderIdealGrid();
@@ -890,6 +850,7 @@
   syncLibrarySortUi();
   renderLibrary();
   renderSandbox();
+  syncPendingPeopleOverrides();
   const mediaAuditLink = document.querySelector("#mediaAuditLink");
   if (mediaAuditLink && location.protocol === "file:") mediaAuditLink.hidden = false;
   if (location.hash === "#typography") setView("typography");
