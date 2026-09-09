@@ -8,6 +8,7 @@
   const library = allItems.filter(isPhotograph);
   const isLocal = location.protocol === "file:";
   const overrideKey = "sekta-media-people-overrides-v1";
+  const randomStartKey = "sekta-media-random-start-v1";
   const overrideEndpoint = "http://127.0.0.1:4318/api/media-overrides";
   const canonicalOverrides = window.MEDIA_LIBRARY_MANUAL_OVERRIDES?.records || {};
   const localOverrides = loadOverrides();
@@ -71,6 +72,23 @@
 
   function saveOverrides() {
     localStorage.setItem(overrideKey, JSON.stringify(localOverrides));
+  }
+
+  function shuffleOrder() {
+    for (let index = order.length - 1; index > 0; index -= 1) {
+      const target = Math.floor(Math.random() * (index + 1));
+      [order[index], order[target]] = [order[target], order[index]];
+    }
+    try {
+      const previousStart = localStorage.getItem(randomStartKey);
+      if (order.length > 1 && order[0]?.id === previousStart) {
+        const replacement = 1 + Math.floor(Math.random() * (order.length - 1));
+        [order[0], order[replacement]] = [order[replacement], order[0]];
+      }
+      if (order[0]?.id) localStorage.setItem(randomStartKey, order[0].id);
+    } catch {
+      // The shuffled order still works when browser storage is unavailable.
+    }
   }
 
   function normalizePeople(values) {
@@ -292,22 +310,24 @@
     document.querySelectorAll("[data-section]").forEach((chip) => chip.classList.toggle("is-active", chip === button));
     render(true);
   }));
-  [ui.search, ui.project, ui.materialType, ui.publication, ui.theme, ui.orientation, ui.sort].forEach((control) => control.addEventListener(control === ui.search ? "input" : "change", () => render(true)));
+  [ui.search, ui.project, ui.materialType, ui.publication, ui.theme, ui.orientation].forEach((control) => control.addEventListener(control === ui.search ? "input" : "change", () => render(true)));
+  ui.sort.addEventListener("change", () => {
+    if (ui.sort.value === "random") shuffleOrder();
+    render(true);
+  });
   ui.clear.addEventListener("click", () => {
     section = "all";
     ui.search.value = "";
     [ui.project, ui.materialType, ui.publication, ui.theme, ui.orientation].forEach((select) => { select.value = "all"; });
-    ui.sort.value = "capture-desc";
+    ui.sort.value = "random";
+    shuffleOrder();
     document.querySelectorAll("[data-section]").forEach((chip) => chip.classList.toggle("is-active", chip.dataset.section === "all"));
     render(true);
     showToast("Фильтры сброшены");
   });
   ui.shuffle.addEventListener("click", () => {
-    for (let index = order.length - 1; index > 0; index -= 1) {
-      const target = Math.floor(Math.random() * (index + 1));
-      [order[index], order[target]] = [order[target], order[index]];
-    }
-    ui.sort.value = "default";
+    shuffleOrder();
+    ui.sort.value = "random";
     render(true);
     showToast("Показываем новую случайную подборку");
   });
@@ -356,5 +376,6 @@
   ui.modeLabel.textContent = isLocal ? "полная локальная медиатека" : "публичная медиатека";
   ui.audit.hidden = !isLocal;
   if (!isLocal) ui.publication.querySelector('option[value="not-public"]')?.remove();
+  shuffleOrder();
   render();
 })();
