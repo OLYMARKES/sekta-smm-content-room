@@ -397,8 +397,8 @@ main { width: min(1480px, 100%); margin: 0 auto; padding: 30px 32px 56px; }
 .builder-focus-control legend { grid-column: 1 / -1; margin-bottom: -2px; }
 .builder-focus-control label { display: grid; gap: 5px; color: var(--muted); font-size: 8px; }
 .builder-focus-control input { width: 100%; accent-color: var(--accent); }
-.builder-cover-actions { display: flex; gap: 7px; margin-top: 16px; }
-.builder-cover-actions .button { flex: 1; }
+.builder-cover-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+.builder-cover-actions .button { flex: 1 1 140px; }
 .builder-media-panel { min-width: 0; }
 .builder-media-head { padding: 0 0 14px; }
 .builder-media-toolbar { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(140px, .7fr) auto auto auto; gap: 7px; margin-bottom: 10px; }

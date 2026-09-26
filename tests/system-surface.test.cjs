@@ -29,7 +29,7 @@ test("system surface inventory is complete and matches the mounted shell", () =>
   assert.deepEqual(mountedNavigationIds, expectedMountedIds, "navigation and inventory must describe the same mounted rooms");
 
   for (const section of inventory.sections) {
-    assert(["active", "partial", "source-only"].includes(section.status), `${section.id}: unknown status`);
+    assert(["active", "partial", "standalone", "source-only"].includes(section.status), `${section.id}: unknown status`);
     assert(section.decision, `${section.id}: recovery decision is missing`);
 
     const hasPanel = html.includes(`data-view-panel="${section.id}"`);
@@ -41,6 +41,10 @@ test("system surface inventory is complete and matches the mounted shell", () =>
     } else {
       assert(!hasPanel, `${section.id}: panel was restored; update the inventory status`);
       assert(!hasNavigation, `${section.id}: navigation was restored; update the inventory status`);
+      if (section.status === "standalone") {
+        assert(section.page && fs.existsSync(path.join(root, section.page)), `${section.id}: standalone page is missing`);
+        assert(html.includes(`href="${section.page}"`), `${section.id}: standalone page is not linked from the shell`);
+      }
     }
 
     for (const filename of section.sourceFiles || []) {

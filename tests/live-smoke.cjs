@@ -13,7 +13,7 @@ const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 let browser;
 
 async function main() {
-  const files = ["index.html", "media-library.html", "media-library.js", "media-library.css", "app-version.js", "data/current-grid.js", "app.js", "carousel-builder.js", "media-source.js", "media-overrides.js", "workspace-safety.js", "workspace-backup.js", "styles.css", "type-studio/carousel-type-lab.html", "type-studio/carousel-type-lab.js", "type-studio/media-library-data.js", "type-studio/embedded.js", "assets/brand/sekta-logo-round.png"];
+  const files = ["index.html", "media-library.html", "media-library.js", "media-library.css", "postbuilder.html", "postbuilder.css", "carousel-studio.js", "data/visual-canon.js", "data/science-library.js", "type-studio/font-data.js", "app-version.js", "data/current-grid.js", "app.js", "carousel-builder.js", "media-source.js", "media-overrides.js", "workspace-safety.js", "workspace-backup.js", "styles.css", "type-studio/carousel-type-lab.html", "type-studio/carousel-type-lab.js", "type-studio/media-library-data.js", "type-studio/embedded.js", "assets/brand/sekta-logo-round.png"];
   const verified = [];
   files.push("README.md", "docs/system-consolidation.md", "docs/system-surface.json", "data/library-data.js", "data/drive-originals.js", "data/public-media-build-report.json");
   for (const file of files) {
@@ -38,6 +38,10 @@ async function main() {
   libraryPage.on("pageerror", (error) => errors.push(error.message));
   await libraryPage.goto(`${base}media-library.html?release=${process.env.GITHUB_SHA}`, { waitUntil: "load", timeout: 60000 });
   await libraryPage.waitForFunction(() => document.querySelectorAll("#mediaGrid .media-card").length > 0);
+  const postbuilderPage = await context.newPage();
+  postbuilderPage.on("pageerror", (error) => errors.push(error.message));
+  await postbuilderPage.goto(`${base}postbuilder.html?release=${process.env.GITHUB_SHA}`, { waitUntil: "load", timeout: 60000 });
+  await postbuilderPage.waitForFunction(() => document.querySelectorAll("#carouselCoverMedia [data-carousel-photo]").length > 0);
   assert.deepEqual(errors, [], "Published page errors");
   await fs.mkdir(output, { recursive: true });
   await page.screenshot({ path: path.join(output, "published-builder.png"), fullPage: true });

@@ -2,6 +2,7 @@
   // Read only this product's known keys, never the whole shared origin's storage.
   const keys = Object.freeze([
     "sekta-sandbox", "sekta-media-people-overrides-v1", "sekta-cover-builder-draft-v1",
+    "sekta-carousel-studio-draft-v1", "sekta-carousel-studio-draft-v2", "sekta-carousel-studio-series-v1",
     "olymarkes-cyrillic-font-taste-v1", "olymarkes-cover-builder-v1",
     "olymarkes-type-case-mode-v1", "olymarkes-text-layout-prefs-v1", "olymarkes-type-studio-picker-v1",
   ]);
