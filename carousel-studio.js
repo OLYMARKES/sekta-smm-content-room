@@ -3293,10 +3293,18 @@
     renderSplitPreview();
     markChanged();
   });
-  ui.generateLongread?.addEventListener("click", () => generateFromIdea(false));
-  ui.regenerateLongread?.addEventListener("click", () => generateFromIdea(true));
+  ui.generateLongread?.addEventListener("click", () => {
+    if (!confirm("Создать новый лонгрид и разложить слайды заново? Ручные правки текущего текста и кадров будут заменены. Перед этим можно экспортировать серию в JSON.")) return;
+    generateFromIdea(false);
+  });
+  ui.regenerateLongread?.addEventListener("click", () => {
+    if (!confirm("Создать другой вариант лонгрида и разложить слайды заново? Ручные правки текущего текста и кадров будут заменены.")) return;
+    generateFromIdea(true);
+  });
   ui.slideCount.addEventListener("change", renderSplitPreview);
-  ui.splitText.addEventListener("click", performSplit);
+  ui.splitText.addEventListener("click", () => {
+    if (!ui.longread.value.trim() || confirm("Разложить лонгрид по слайдам заново? Ручные правки текущих кадров будут заменены.")) performSplit();
+  });
   ui.splitPreview.addEventListener("click", (event) => {
     const button = event.target.closest("[data-edit-split]");
     if (!button) return;
@@ -3483,6 +3491,10 @@
   ui.saveSlide.addEventListener("click", () => saveCurrentSlide());
   ui.downloadActive.addEventListener("click", () => downloadSlide(activeSlide(), series.activeSlide));
   ui.duplicateSlide.addEventListener("click", () => {
+    if (series.slides.length >= 30) {
+      setStatus("В серии уже 30 слайдов — это предел для сохранения и переноса через JSON.");
+      return;
+    }
     const source = deepClone(activeSlide());
     delete source.id;
     const clone = makeSlide({ ...source, savedAt: null });
@@ -3534,6 +3546,7 @@
     if (load) {
       const item = savedSeries.find((entry) => entry.id === load.dataset.loadSeries);
       if (!item) return;
+      if (!confirm(`Открыть сохранённую серию «${item.name}»? Текущий черновик будет заменён. Перед этим можно экспортировать его в JSON.`)) return;
       series = normalizeSeries(deepClone(item));
       setStage("cover");
       renderAll();
@@ -3543,6 +3556,7 @@
     if (duplicate) {
       const item = savedSeries.find((entry) => entry.id === duplicate.dataset.duplicateSeries);
       if (!item) return;
+      if (!confirm(`Сделать копию серии «${item.name}»? Текущий черновик будет заменён новой копией.`)) return;
       series = normalizeSeries({ ...deepClone(item), id: `series-${Date.now()}`, name: `${item.name} — копия`, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
       setStage("cover");
       renderAll();
@@ -3593,7 +3607,9 @@
     } catch (error) { setStatus(error.message || "Обложку не удалось прочитать."); }
   });
   window.addEventListener("sekta:open-carousel-studio", () => renderAll());
-  window.addEventListener("sekta:post-builder-load", (event) => loadIdea(event.detail || fallbackIdea));
+  window.addEventListener("sekta:post-builder-load", (event) => {
+    if (confirm("Открыть новую идею? Текущие тексты и слайды будут заменены. Перед этим можно экспортировать серию в JSON.")) loadIdea(event.detail || fallbackIdea);
+  });
 
   bindCanvasLayerDrag(ui.coverCanvas, "cover");
   bindCanvasLayerDrag(ui.activeCanvas, "slide");

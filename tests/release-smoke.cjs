@@ -557,6 +557,17 @@ async function main() {
     assert.equal((await stored(page, "sekta-cover-builder-draft-v1")).hook, "Новая обложка для серии");
   });
 
+  await check("declining a saved series keeps the current post draft", async (state) => {
+    const { page } = state;
+    await page.locator('a[href="postbuilder.html"]').first().click();
+    await page.locator("#carouselSaveSeries").click();
+    await page.locator("#carouselSeriesName").fill("Несохранённая редактура");
+    await page.locator('[data-carousel-stage="saved"]').click();
+    state.dialogs = "dismiss";
+    await page.locator("#carouselSavedSeries [data-load-series]").first().click();
+    assert.equal(await page.locator("#carouselSeriesName").inputValue(), "Несохранённая редактура");
+  });
+
   await check("post builder leaves damaged saved series untouched", async ({ page }) => {
     const damaged = "{damaged series";
     await page.evaluate((raw) => localStorage.setItem("sekta-carousel-studio-series-v1", raw), damaged);
