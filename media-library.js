@@ -9,9 +9,12 @@
   const isLocal = location.protocol === "file:";
   const overrideKey = "sekta-media-people-overrides-v1";
   const randomStartKey = "sekta-media-random-start-v1";
-  const overrideEndpoint = "http://127.0.0.1:4318/api/media-overrides";
   const canonicalOverrides = window.MEDIA_LIBRARY_MANUAL_OVERRIDES?.records || {};
-  const localOverrides = loadOverrides();
+  const overrides = window.SEKTA_MEDIA_OVERRIDES.create({
+    getStorage: () => localStorage,
+    key: overrideKey,
+    write: async () => { throw new Error("Общая синхронизация не настроена."); },
+  });
 
   const ui = {
     search: document.querySelector("#librarySearch"),
@@ -42,11 +45,15 @@
 
   library.forEach((item) => {
     const canonical = canonicalOverrides[item.id];
-    const local = localOverrides[item.id];
-    if (Array.isArray(canonical?.people)) applyPeople(item, canonical.people);
-    if (typeof canonical?.top === "boolean") applyTop(item, canonical.top);
-    if (Array.isArray(local?.people)) applyPeople(item, local.people);
-    if (typeof local?.top === "boolean") applyTop(item, local.top);
+    const local = overrides.get(item.id);
+    try {
+      if (Array.isArray(canonical?.people)) applyPeople(item, canonical.people);
+      if (typeof canonical?.top === "boolean") applyTop(item, canonical.top);
+      if (Array.isArray(local?.people)) applyPeople(item, local.people);
+      if (typeof local?.top === "boolean") applyTop(item, local.top);
+    } catch {
+      // Keep the stored record for recovery; one damaged entry must not hide the catalog.
+    }
   });
 
   function escapeHtml(value) {
@@ -59,19 +66,6 @@
     if (mod10 === 1 && mod100 !== 11) return one;
     if (mod10 >= 2 && mod10 <= 4 && !(mod100 >= 12 && mod100 <= 14)) return few;
     return many;
-  }
-
-  function loadOverrides() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(overrideKey) || "{}");
-      return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
-    } catch {
-      return {};
-    }
-  }
-
-  function saveOverrides() {
-    localStorage.setItem(overrideKey, JSON.stringify(localOverrides));
   }
 
   function shuffleOrder() {
@@ -113,24 +107,6 @@
 
   function applyTop(item, value) {
     item.isTop = Boolean(value);
-  }
-
-  async function writeOverride(id, patch) {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
-    try {
-      const response = await fetch(overrideEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, ...patch }),
-        signal: controller.signal,
-      });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok || !result.ok) throw new Error(result.error || "Сервис разметки недоступен.");
-      return result.record;
-    } finally {
-      clearTimeout(timeout);
-    }
   }
 
   function searchableText(item) {
@@ -198,6 +174,7 @@
 
   function peopleEditor(item) {
     const people = normalizePeople(item.people || []);
+    const storageError = overrides.storageError();
     const tags = people.length ? people.map((person) => `<span class="people-tag">${escapeHtml(person)}</span>`).join("") : '<span class="people-empty">Не определено</span>';
     return `<div class="media-taxonomy people-editor" data-people-editor="${escapeHtml(item.id)}">
       <div class="people-editor-head"><span>Кто в кадре</span><button type="button" class="people-edit-button" data-edit-people="${escapeHtml(item.id)}">${people.length ? "Изменить" : "Добавить"}</button></div>
@@ -207,7 +184,7 @@
         <input id="people-${escapeHtml(item.id)}" name="people" value="${escapeHtml(people.join(", "))}" maxlength="980" autocomplete="off" placeholder="Например: Вера, Оля">
         <div class="people-form-actions"><button type="submit" class="button button-primary">Сохранить</button><button type="button" class="button button-secondary" data-cancel-people>Отмена</button></div>
       </form>
-      <p class="people-save-status" role="status" aria-live="polite"></p>
+      <p class="people-save-status" role="status" aria-live="polite" data-state="${storageError ? "error" : "success"}">${escapeHtml(storageError || "Сохранено только в этом браузере. Общая синхронизация не настроена.")}</p>
     </div>`;
   }
 
@@ -261,25 +238,21 @@
     toastTimer = setTimeout(() => ui.toast.classList.remove("is-visible"), 2600);
   }
 
-  async function toggleTop(item) {
+  function toggleTop(item) {
     if (!item) return;
     const next = !item.isTop;
-    applyTop(item, next);
-    render();
-    if (ui.dialog.open) openMedia(item);
     try {
-      await writeOverride(item.id, { top: next });
-      delete localOverrides[item.id]?.top;
-      saveOverrides();
-      showToast(next ? "Фотография добавлена в топ" : "Фотография убрана из топа");
-    } catch {
-      localOverrides[item.id] = { ...(localOverrides[item.id] || {}), top: next, pending: true, updatedAt: new Date().toISOString() };
-      saveOverrides();
+      overrides.stage(item.id, { top: next });
+      applyTop(item, next);
+      render();
+      if (ui.dialog.open) openMedia(item);
       showToast("Выбор сохранён в этом браузере");
+    } catch (error) {
+      showToast(error.message);
     }
   }
 
-  async function savePeople(form) {
+  function savePeople(form) {
     const item = library.find((entry) => entry.id === form.dataset.peopleForm);
     if (!item) return;
     const status = form.parentElement.querySelector(".people-save-status");
@@ -290,19 +263,16 @@
       status.textContent = error.message;
       return;
     }
-    applyPeople(item, people);
     try {
-      await writeOverride(item.id, { people });
-      delete localOverrides[item.id]?.people;
-      saveOverrides();
-      showToast("Разметка фотографии сохранена");
-    } catch {
-      localOverrides[item.id] = { ...(localOverrides[item.id] || {}), people, pending: true, updatedAt: new Date().toISOString() };
-      saveOverrides();
+      overrides.stage(item.id, { people });
+      applyPeople(item, people);
+      openMedia(item);
+      render();
       showToast("Разметка сохранена в этом браузере");
+    } catch (error) {
+      status.textContent = error.message;
+      status.dataset.state = "error";
     }
-    openMedia(item);
-    render();
   }
 
   document.querySelectorAll("[data-section]").forEach((button) => button.addEventListener("click", () => {
