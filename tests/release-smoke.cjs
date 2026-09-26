@@ -551,7 +551,7 @@ async function main() {
     await page.locator("#builderHook").fill("Новая обложка для серии");
     await page.locator("#builderSubtitle").fill("Подстрочник для серии");
     await page.locator("#builderOpenPost").click();
-    await page.locator("#carouselCoverTitle").waitFor();
+    await page.waitForFunction(() => document.querySelector("#carouselCoverTitle")?.value === "Новая обложка для серии");
     assert.equal(await page.locator("#carouselCoverTitle").inputValue(), "Новая обложка для серии");
     assert.equal(await page.locator("#carouselCoverSubtitle").inputValue(), "Подстрочник для серии");
     assert.equal((await stored(page, "sekta-cover-builder-draft-v1")).hook, "Новая обложка для серии");
@@ -560,6 +560,7 @@ async function main() {
   await check("declining a saved series keeps the current post draft", async (state) => {
     const { page } = state;
     await page.locator('a[href="postbuilder.html"]').first().click();
+    await page.waitForFunction(() => Number(document.querySelector("#carouselCoverMedia")?.dataset.mediaTotal) > 0);
     await page.locator("#carouselSaveSeries").click();
     await page.locator("#carouselSeriesName").fill("Несохранённая редактура");
     await page.locator('[data-carousel-stage="saved"]').click();
@@ -572,7 +573,7 @@ async function main() {
     const damaged = "{damaged series";
     await page.evaluate((raw) => localStorage.setItem("sekta-carousel-studio-series-v1", raw), damaged);
     await page.goto(origin + prefix + "postbuilder.html", { waitUntil: "load" });
-    await page.locator("#carouselCoverCanvas").waitFor();
+    await page.waitForFunction(() => document.querySelector("#carouselSavedCount")?.textContent === "серии не прочитаны");
     assert.equal(await page.locator("#carouselSavedCount").textContent(), "серии не прочитаны");
     await page.locator("#carouselSaveSeries").click();
     assert.equal(await page.evaluate(() => localStorage.getItem("sekta-carousel-studio-series-v1")), damaged);
