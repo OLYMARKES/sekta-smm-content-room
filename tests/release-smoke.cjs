@@ -507,9 +507,9 @@ async function main() {
 
   await check("restored post builder saves series, splits text and protects another tab", async ({ page }) => {
     await page.locator('a[href="postbuilder.html"]').first().click();
-    await page.locator("#carouselCoverCanvas").waitFor();
+    await page.waitForFunction(() => Number(document.querySelector("#carouselCoverMedia")?.dataset.mediaTotal) > 0);
     await page.locator("#carouselCoverCollection").selectOption("portraits");
-    assert((await page.locator("#carouselCoverMedia [data-carousel-photo]").count()) > 0);
+    await page.locator("#carouselCoverMedia [data-carousel-photo]").first().waitFor();
     assert(await page.locator("#carouselCoverMedia [data-carousel-photo]").evaluateAll((buttons) => buttons.every((button) => {
       const item = window.SEKTA_LIBRARY.items.find((photo) => photo.id === button.dataset.carouselPhoto);
       return item?.collections?.includes("portraits") && item.mediaType !== "video" && item.publicationStatus !== "not-public";
