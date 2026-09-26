@@ -8,6 +8,8 @@
 .postbuilder-main { width: min(100%, 1660px); margin: 0 auto; padding: 26px clamp(16px, 3vw, 44px) 64px; }
 .carousel-save-state.is-error { color: var(--danger); }
 .carousel-save-state.is-error i { background: var(--danger); box-shadow: 0 0 0 4px rgba(138,54,54,.12); }
+.carousel-saved-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+.carousel-saved-panel .section-head { flex-wrap: wrap; }
 @media (max-width: 680px) { .postbuilder-site-header { align-items: flex-start; flex-direction: column; gap: 9px; } .postbuilder-main { padding-top: 18px; } }
 
 /* Carousel assembly studio */

@@ -114,6 +114,8 @@
     newSeries: document.querySelector("#carouselNewSeries"),
     importCover: document.querySelector("#carouselImportCover"),
     saveSeries: document.querySelector("#carouselSaveSeries"),
+    importSeries: document.querySelector("#carouselImportSeries"),
+    importSeriesFile: document.querySelector("#carouselImportSeriesFile"),
     coverCanvas: document.querySelector("#carouselCoverCanvas"),
     coverTitle: document.querySelector("#carouselCoverTitle"),
     coverSubtitle: document.querySelector("#carouselCoverSubtitle"),
@@ -284,11 +286,20 @@
   const protectedKeys = new Set([DRAFT_KEY, SAVED_KEY]);
   const storageSnapshots = new Map();
   const storageBlocked = new Set();
+  const validSeriesShape = (value) => value && typeof value === "object" && !Array.isArray(value)
+    && typeof value.name === "string" && value.name.length <= 10000
+    && Array.isArray(value.slides) && value.slides.length >= 2 && value.slides.length <= 30
+    && value.slides.every((slide) => slide && typeof slide === "object" && !Array.isArray(slide)
+      && (slide.title == null || typeof slide.title === "string")
+      && (slide.body == null || typeof slide.body === "string")
+      && (slide.photoId == null || typeof slide.photoId === "string")
+      && (slide.customLayers == null || (Array.isArray(slide.customLayers) && slide.customLayers.every((layer) => layer && typeof layer === "object" && !Array.isArray(layer)))));
   const readJson = (key, fallback) => {
     try {
       const raw = localStorage.getItem(key);
       if (protectedKeys.has(key)) storageSnapshots.set(key, raw);
       const parsed = JSON.parse(raw);
+      if (raw !== null && parsed === null && protectedKeys.has(key)) storageBlocked.add(key);
       return parsed ?? fallback;
     } catch {
       if (protectedKeys.has(key)) storageBlocked.add(key);
@@ -364,7 +375,8 @@
     return many;
   };
   const photoById = (id) => library.find((item) => item.id === id) || null;
-  const publishablePhotos = library.filter((item) => item.publicationStatus !== "not-public");
+  const isUsablePhoto = (item) => Boolean(item && item.thumb && item.mediaType !== "video" && item.materialType !== "video" && item.publicationStatus !== "not-public");
+  const publishablePhotos = library.filter(isUsablePhoto);
   const preferredPhoto = () => publishablePhotos.find((item) => item.orientation === "portrait" && item.carouselRoles?.includes("01_обложка_личное_присутствие")) || publishablePhotos.find((item) => item.orientation === "portrait") || publishablePhotos[0] || null;
 
   function fontChoices() {
@@ -790,7 +802,7 @@
     const definition = templateDefinitions[slide.template];
     const needsPhoto = definition?.usesPhoto === true;
     const currentPhoto = photoById(slide.photoId);
-    if (needsPhoto && (!currentPhoto || mediaLooksLikeDocument(currentPhoto) || usedPhotos.has(currentPhoto.id))) {
+    if (needsPhoto && (!isUsablePhoto(currentPhoto) || mediaLooksLikeDocument(currentPhoto) || usedPhotos.has(currentPhoto.id))) {
       const replacement = rankedSeriesPhotos(source).find((item) => !usedPhotos.has(item.id));
       if (replacement) slide.photoId = replacement.id;
       else Object.assign(slide, themedTemplate(montageTemplates.body[0], source), { photoId: null });
@@ -904,13 +916,13 @@
   }
 
   const storedDraft = readJson(DRAFT_KEY, null);
-  if (storedDraft !== null && (!Array.isArray(storedDraft?.slides) || storedDraft.slides.length < 2)) storageBlocked.add(DRAFT_KEY);
-  let series = normalizeSeries(storedDraft);
+  if (storedDraft !== null && !validSeriesShape(storedDraft)) storageBlocked.add(DRAFT_KEY);
+  let series = normalizeSeries(storageBlocked.has(DRAFT_KEY) ? null : storedDraft);
   if (series.montageVersion !== MONTAGE_VERSION) series = applyMontageGrammar(series);
   let savedSeries = readJson(SAVED_KEY, []);
   let coverMoveTarget = "title";
   let slideMoveTarget = "body";
-  if (!Array.isArray(savedSeries)) { storageBlocked.add(SAVED_KEY); savedSeries = []; }
+  if (!Array.isArray(savedSeries) || !savedSeries.every(validSeriesShape)) { storageBlocked.add(SAVED_KEY); savedSeries = []; }
   let activeStage = "cover";
   let generationVariant = 0;
   let saveTimer;
@@ -1016,7 +1028,7 @@
     const cover = coverSlide();
     cover.title = idea.hook;
     cover.body = idea.objective;
-    if (idea.photoId && photoById(idea.photoId)) cover.photoId = idea.photoId;
+    if (isUsablePhoto(photoById(idea.photoId))) cover.photoId = idea.photoId;
     cover.savedAt = null;
     const final = series.slides.at(-1);
     if (final?.role === "cta") {
@@ -1053,7 +1065,7 @@
           if (["top", "middle", "bottom", "left", "right"].includes(visual.placement)) slide.placement = visual.placement;
           if (visual.palette && paletteChoices()[visual.palette]) slide.palette = visual.palette;
           if (/^#[\da-f]{6}$/i.test(visual.accentColor || "")) slide.accentColor = visual.accentColor;
-          if (visual.photoId && photoById(visual.photoId)) slide.photoId = visual.photoId;
+          if (isUsablePhoto(photoById(visual.photoId))) slide.photoId = visual.photoId;
           const hasTransferredPlaque = typeof visual.plaqueEnabled === "boolean";
           if (hasTransferredPlaque) {
             slide.plaqueEnabled = visual.plaqueEnabled;
@@ -1688,7 +1700,7 @@
 
   function mediaPool(query = "", order = library, collection = "all") {
     const normalized = query.trim().toLocaleLowerCase("ru");
-    const available = order.filter((item) => item.publicationStatus !== "not-public");
+    const available = order.filter(isUsablePhoto);
     const section = collection === "all" ? available : available.filter((item) => (item.collections || []).includes(collection));
     const pool = normalized ? section.filter((item) => [item.fileName, item.folderLabel, item.sourceCategory, ...(item.collections || []), ...(item.contentThemes || []), ...(item.carouselRoles || [])].join(" ").toLocaleLowerCase("ru").includes(normalized)) : section;
     return order === library ? [...pool].sort((a, b) => Number(b.orientation === "portrait") - Number(a.orientation === "portrait")) : [...pool];
@@ -2073,9 +2085,11 @@
   }
 
   function renderSaved() {
-    ui.savedCount.textContent = savedSeries.length ? `${savedSeries.length} ${plural(savedSeries.length, "серия", "серии", "серий")}` : "пока нет серий";
+    ui.savedCount.textContent = storageBlocked.has(SAVED_KEY) ? "серии не прочитаны" : savedSeries.length ? `${savedSeries.length} ${plural(savedSeries.length, "серия", "серии", "серий")}` : "пока нет серий";
     if (!savedSeries.length) {
-      ui.savedSeries.innerHTML = `<div class="carousel-saved-empty"><strong>Здесь появятся собранные карусели</strong><span>Сохраните текущую серию — вместе останутся тексты, сцены, фотографии, цвета и шрифт.</span></div>`;
+      ui.savedSeries.innerHTML = storageBlocked.has(SAVED_KEY)
+        ? `<div class="carousel-saved-empty"><strong>Сохранённые серии не удалось прочитать</strong><span>Исходная запись не перезаписана. Скачайте общую копию из комнаты перед восстановлением данных.</span></div>`
+        : `<div class="carousel-saved-empty"><strong>Здесь появятся собранные карусели</strong><span>Сохраните текущую серию — вместе останутся тексты, сцены, фотографии, цвета и шрифт.</span></div>`;
       return;
     }
     ui.savedSeries.innerHTML = savedSeries.map((item) => {
@@ -3006,8 +3020,8 @@
         setStatus(`Слайд ${index + 1} не экспортирован: сначала добавьте фотографию или выберите текстовую композицию.`);
         return;
       }
-      if (photo?.publicationStatus === "not-public") {
-        setStatus(`Слайд ${index + 1} не экспортирован: фотография отмечена «Не публиковать». Выберите другую.`);
+      if (photo && !isUsablePhoto(photo)) {
+        setStatus(`Слайд ${index + 1} не экспортирован: изображение недоступно для публикации или не является фотографией. Выберите другое.`);
         return;
       }
       if (photo?.publicationStatus === "review" && !confirm("Фотография отмечена «Проверить». Редактор согласовал её для этого поста?")) {
@@ -3482,6 +3496,28 @@
 
   ui.saveSeries.addEventListener("click", saveWholeSeries);
   ui.exportSeries.addEventListener("click", exportSeries);
+  ui.importSeries.addEventListener("click", () => ui.importSeriesFile.click());
+  ui.importSeriesFile.addEventListener("change", async () => {
+    const file = ui.importSeriesFile.files?.[0];
+    ui.importSeriesFile.value = "";
+    if (!file) return;
+    try {
+      if (file.size > 5 * 1024 * 1024) throw new Error("Файл серии больше 5 МБ. Выберите отдельный экспорт серии.");
+      const imported = JSON.parse(await file.text());
+      if (!validSeriesShape(imported)) throw new Error("Нужен отдельный JSON серии из конструктора поста. Общая копия здесь не открывается.");
+      if (!confirm("Открыть серию из JSON как новый черновик? Текущий черновик будет заменён. Сначала его можно экспортировать в JSON.")) return;
+      const now = new Date().toISOString();
+      const next = normalizeSeries({ ...imported, id: `series-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, createdAt: now, updatedAt: now });
+      writeJson(DRAFT_KEY, next);
+      clearTimeout(saveTimer);
+      series = next;
+      setStage("cover");
+      renderAll();
+      ui.saveState.classList.remove("is-error", "is-saving");
+      ui.saveState.lastChild.textContent = "черновик сохранён локально";
+      setStatus(`Серия «${series.name}» открыта из JSON как новый черновик. Для списка серий нажмите «Сохранить серию».`);
+    } catch (error) { setStatus(error.message || "Не удалось открыть JSON серии."); }
+  });
   ui.newSeries.addEventListener("click", () => {
     if (!confirm("Начать новую серию? Текущий черновик останется только если вы сохранили серию.")) return;
     series = defaultSeries();
@@ -3528,9 +3564,9 @@
   window.addEventListener("sekta:seed-carousel-studio", (event) => {
     const detail = event.detail || {};
     const cover = coverSlide();
-    if (detail.title) cover.title = detail.title;
-    if (detail.subtitle) cover.body = detail.subtitle;
-    if (detail.photoId) cover.photoId = detail.photoId;
+    if (typeof detail.title === "string") cover.title = detail.title;
+    if (typeof detail.subtitle === "string") cover.body = detail.subtitle;
+    if (Object.hasOwn(detail, "photoId")) cover.photoId = detail.photoId || null;
     if (detail.font?.family) series.font = detail.font;
     if (paletteChoices()[detail.palette]) series.palette = detail.palette;
     cover.palette = series.palette;
@@ -3551,9 +3587,9 @@
       const photo = photoById(draft.photoId);
       window.dispatchEvent(new CustomEvent("sekta:seed-carousel-studio", { detail: {
         title: draft.hook, subtitle: draft.subtitle,
-        photoId: photo?.publicationStatus !== "not-public" ? photo?.id : null,
+        photoId: isUsablePhoto(photo) ? photo.id : null,
       } }));
-      if (draft.photoId && (!photo || photo.publicationStatus === "not-public")) setStatus("Текст обложки перенесён. Фото недоступно или закрыто для публикации — выберите другое.");
+      if (draft.photoId && !isUsablePhoto(photo)) setStatus("Текст обложки перенесён. Фото недоступно или закрыто для публикации — выберите другое.");
     } catch (error) { setStatus(error.message || "Обложку не удалось прочитать."); }
   });
   window.addEventListener("sekta:open-carousel-studio", () => renderAll());
@@ -3585,4 +3621,5 @@
   } else {
     ui.saveState.lastChild.textContent = "черновик загружен локально";
   }
+  if (storageBlocked.has(SAVED_KEY) && !storageBlocked.has(DRAFT_KEY)) setStatus("Сохранённые серии не удалось прочитать. Исходная запись не перезаписана; скачайте общую копию из комнаты.");
 })();

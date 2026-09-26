@@ -22,7 +22,7 @@
           <header class="carousel-studio-heading">
             <div>
               <h1>Конструктор поста</h1>
-              <p>Выберите идею, получите редактируемый черновик лонгрида, соберите обложку из всей медиатеки и разложите текст по слайдам.</p>
+              <p>Начните с предложенной идеи или перенесите сохранённую обложку. Отредактируйте лонгрид, выберите фотографии и разложите текст по слайдам.</p>
             </div>
             <div class="carousel-studio-heading-actions">
               <span class="carousel-save-state" id="carouselSaveState"><i></i>черновик сохранён локально</span>
@@ -45,7 +45,7 @@
             </dl>
             <div class="post-source-actions">
               <span id="postSourceReadiness">Текст + фото</span>
-              <a class="button button-secondary" href="index.html">Вернуться к идеям</a>
+              <a class="button button-secondary" href="index.html">Открыть Content Room</a>
             </div>
           </section>
 
@@ -133,7 +133,7 @@
                   <label><span>Выравнивание</span><select id="carouselCoverAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
                   <label><span>Регистр заголовка</span><select id="carouselCoverCase"><option value="original">Как написано</option><option value="lower">Строчные</option><option value="upper">КАПС</option></select></label>
                 </div>
-                <div class="carousel-media-head"><div><strong>Фотография · вся медиатека</strong><span id="carouselCoverPhotoName">листайте вниз или используйте поиск</span></div><div class="carousel-media-actions"><label class="carousel-collection-picker"><span>Раздел</span><select id="carouselCoverCollection" aria-label="Раздел медиатеки для обложки"><option value="all">Все фото</option><option value="neuro">Нейрофотосеты</option><option value="camp">Секта лагерь</option><option value="maternity">Материнство / беременность</option><option value="body">Тело / тренировки</option><option value="olya">Оля портреты</option></select></label><label class="carousel-search"><input id="carouselCoverMediaSearch" type="search" placeholder="Найти фото…"></label></div></div>
+                <div class="carousel-media-head"><div><strong>Фотография · вся медиатека</strong><span id="carouselCoverPhotoName">листайте вниз или используйте поиск</span></div><div class="carousel-media-actions"><label class="carousel-collection-picker"><span>Раздел</span><select id="carouselCoverCollection" aria-label="Раздел медиатеки для обложки"><option value="all">Все фото</option><option value="photoshoots">Фотосессии</option><option value="portraits">Портреты</option><option value="family">Семья и материнство</option><option value="body">Тело и тренировки</option><option value="events">События и лагерь</option><option value="travel">Путешествия</option><option value="old-photos">Старые фото</option><option value="neuro">Нейрофотосеты</option></select></label><label class="carousel-search"><input id="carouselCoverMediaSearch" type="search" placeholder="Найти фото…"></label></div></div>
                 <div class="carousel-media-strip" id="carouselCoverMedia"></div>
                 <button class="button button-secondary carousel-next-stage" type="button" data-carousel-go="longread">Дальше: вставить лонгрид →</button>
               </section>
@@ -249,7 +249,7 @@
                   <label><span>Положение блока</span><select id="carouselSlidePlacement"><option value="top">Сверху</option><option value="middle">По центру</option><option value="bottom">Снизу</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
                   <label><span>Выравнивание</span><select id="carouselSlideAlign"><option value="left">По левому краю</option><option value="center">По центру</option><option value="right">По правому краю</option></select></label>
                 </div>
-                <div class="carousel-media-head"><div><strong>Фото этого слайда · вся медиатека</strong><span id="carouselSlidePhotoName">листайте вниз или используйте поиск</span></div><div class="carousel-media-actions"><label class="carousel-collection-picker"><span>Раздел</span><select id="carouselSlideCollection" aria-label="Раздел медиатеки для слайда"><option value="all">Все фото</option><option value="neuro">Нейрофотосеты</option><option value="camp">Секта лагерь</option><option value="maternity">Материнство / беременность</option><option value="body">Тело / тренировки</option><option value="olya">Оля портреты</option></select></label><label class="carousel-search"><input id="carouselSlideMediaSearch" type="search" placeholder="Найти фото…"></label><button class="button button-quiet" id="carouselShuffleSlideMedia" type="button">Перемешать</button><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать</button></div></div>
+                <div class="carousel-media-head"><div><strong>Фото этого слайда · вся медиатека</strong><span id="carouselSlidePhotoName">листайте вниз или используйте поиск</span></div><div class="carousel-media-actions"><label class="carousel-collection-picker"><span>Раздел</span><select id="carouselSlideCollection" aria-label="Раздел медиатеки для слайда"><option value="all">Все фото</option><option value="photoshoots">Фотосессии</option><option value="portraits">Портреты</option><option value="family">Семья и материнство</option><option value="body">Тело и тренировки</option><option value="events">События и лагерь</option><option value="travel">Путешествия</option><option value="old-photos">Старые фото</option><option value="neuro">Нейрофотосеты</option></select></label><label class="carousel-search"><input id="carouselSlideMediaSearch" type="search" placeholder="Найти фото…"></label><button class="button button-quiet" id="carouselShuffleSlideMedia" type="button">Перемешать</button><button class="button button-quiet" id="carouselRemovePhoto" type="button">Убрать</button></div></div>
                 <div class="carousel-media-strip" id="carouselSlideMedia"></div>
               </section>
             </div>
@@ -257,7 +257,7 @@
 
           <div class="carousel-stage-panel" id="carouselStageSavedPanel" role="tabpanel" aria-labelledby="carouselStageSavedTab" data-carousel-stage-panel="saved" hidden>
             <section class="panel carousel-saved-panel">
-              <div class="section-head"><div><h2>Сохранённые серии</h2><p>Откройте серию, сделайте копию или экспортируйте структуру.</p></div><button class="button button-secondary" id="carouselExportSeries" type="button">Экспорт JSON</button></div>
+              <div class="section-head"><div><h2>Сохранённые серии</h2><p>Откройте серию, сделайте копию или перенесите её через JSON.</p></div><div class="carousel-saved-actions"><button class="button button-secondary" id="carouselImportSeries" type="button">Открыть JSON</button><input id="carouselImportSeriesFile" type="file" accept=".json,application/json" hidden><button class="button button-secondary" id="carouselExportSeries" type="button">Экспорт JSON</button></div></div>
               <div class="carousel-saved-grid" id="carouselSavedSeries"></div>
             </section>
             <section class="carousel-lab-link">
