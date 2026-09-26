@@ -4,9 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>#Sekta — фотомедиатека</title>
-  <link rel="stylesheet" href="styles.css?v=20260909-1">
-  <link rel="stylesheet" href="media-library.css?v=20260909-1">
+  <link rel="stylesheet" href="styles.css?v=20260926-1">
+  <link rel="stylesheet" href="media-library.css?v=20260926-1">
 </head>
 <body class="library-page">
   <a class="skip-link" href="#libraryMain">К фотографиям</a>
@@ -78,8 +80,9 @@
   </dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="data/library-data.js?v=20260909-1"></script>
+  <script src="data/library-data.js?v=20260916-1"></script>
   <script src="data/media-library-manual-overrides.js?v=20260909-1"></script>
-  <script src="media-library.js?v=20260909-2"></script>
+  <script src="media-overrides.js?v=20260904-1"></script>
+  <script src="media-library.js?v=20260926-1"></script>
 </body>
 </html>

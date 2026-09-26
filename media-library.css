@@ -1,4 +1,5 @@
 .library-page {
+  --surface-subtle: #f4f6f5;
   min-width: 0;
   background: #f4f6f5;
 }
