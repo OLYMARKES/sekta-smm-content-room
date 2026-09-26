@@ -106,6 +106,9 @@
     saveState: document.querySelector("#carouselSaveState"),
     status: document.querySelector("#carouselStudioStatus"),
     seriesName: document.querySelector("#carouselSeriesName"),
+    briefFields: [...document.querySelectorAll("[data-brief-field]")],
+    briefChecks: [...document.querySelectorAll("[data-brief-check]")],
+    copyBrief: document.querySelector("#carouselCopyBrief"),
     fontStrip: document.querySelector("#carouselFontStrip"),
     fontSummary: document.querySelector("#carouselFontSummary"),
     importTaste: document.querySelector("#carouselImportTaste"),
@@ -572,6 +575,18 @@
     };
   }
 
+  const briefFields = { owner: 80, reviewer: 80, publicationDate: 10, account: 80, objective: 500, cta: 500, notes: 2000 };
+  const briefChecks = ["textReviewed", "photosCleared", "slidesReviewed"];
+
+  function normalizeBrief(value) {
+    const source = value && typeof value === "object" && !Array.isArray(value) ? value : {};
+    const brief = {};
+    Object.entries(briefFields).forEach(([key, limit]) => { brief[key] = typeof source[key] === "string" ? source[key].slice(0, limit) : ""; });
+    if (brief.publicationDate && !/^\d{4}-\d{2}-\d{2}$/.test(brief.publicationDate)) brief.publicationDate = "";
+    briefChecks.forEach((key) => { brief[key] = source[key] === true; });
+    return brief;
+  }
+
   function defaultSeries() {
     const firstPhoto = preferredPhoto();
     const firstFont = { family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, recipe: "утверждённый канон #Sekta" };
@@ -580,6 +595,7 @@
       name: "Возвращение после паузы",
       font: firstFont,
       palette: "ink",
+      brief: normalizeBrief(),
       longread: DEFAULT_LONGREAD,
       totalSlides: 10,
       activeSlide: 0,
@@ -600,6 +616,7 @@
       ...candidate,
       font: normalizeFontSystem(candidate.font?.family ? candidate.font : { family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, recipe: "утверждённый канон #Sekta" }),
       palette: paletteChoices()[candidate.palette] ? candidate.palette : "ink",
+      brief: normalizeBrief(candidate.brief),
       longread: candidate.longread || DEFAULT_LONGREAD,
       totalSlides: candidate.slides.length,
       activeSlide: Math.min(Math.max(Number(candidate.activeSlide) || 0, 0), candidate.slides.length - 1),
@@ -944,6 +961,11 @@
     document.querySelector("#postSourceBar")?.classList.toggle("needs-review", /ревью|специалист|методическ|эксперт/i.test(idea.readiness));
   }
 
+  function renderBrief() {
+    ui.briefFields.forEach((field) => { field.value = series.brief[field.dataset.briefField] || ""; });
+    ui.briefChecks.forEach((check) => { check.checked = series.brief[check.dataset.briefCheck] === true; });
+  }
+
   function generatedLongread(idea, variant = 0) {
     const tokenize = (value) => new Set(String(value || "").toLocaleLowerCase("ru").split(/[^a-zа-яё0-9]+/i).filter((word) => word.length > 4));
     const query = tokenize([idea.title, idea.hook, idea.objective, idea.asset].join(" "));
@@ -1018,6 +1040,7 @@
     const idea = { ...fallbackIdea, ...detail };
     series.idea = idea;
     series.name = idea.title;
+    series.brief = normalizeBrief({ objective: idea.objective, cta: idea.cta });
     if (idea.coverDesign?.accent) series.coverAccent = idea.coverDesign.accent;
     if (idea.font?.family) {
       series.font = normalizeFontSystem(idea.font);
@@ -1156,6 +1179,7 @@
 
   function markChanged() {
     series.updatedAt = new Date().toISOString();
+    window.dispatchEvent(new Event("sekta:team-dirty"));
     ui.saveState.classList.add("is-saving");
     ui.saveState.lastChild.textContent = "сохраняем черновик…";
     clearTimeout(saveTimer);
@@ -2102,6 +2126,7 @@
 
   function renderAll() {
     renderSource();
+    renderBrief();
     renderFontStrip();
     renderPaletteState();
     renderCover();
@@ -3507,6 +3532,36 @@
   });
 
   ui.saveSeries.addEventListener("click", saveWholeSeries);
+  ui.briefFields.forEach((field) => field.addEventListener("input", () => {
+    series.brief[field.dataset.briefField] = field.value;
+    markChanged();
+  }));
+  ui.briefChecks.forEach((check) => check.addEventListener("change", () => {
+    series.brief[check.dataset.briefCheck] = check.checked;
+    markChanged();
+  }));
+  ui.copyBrief.addEventListener("click", async () => {
+    const brief = series.brief;
+    const lines = [
+      `Серия: ${series.name}`,
+      `Ответственный: ${brief.owner || "—"}`,
+      `Ревью: ${brief.reviewer || "—"}`,
+      `Дата публикации: ${brief.publicationDate || "—"}`,
+      `Аккаунт: ${brief.account || "—"}`,
+      `Задача: ${brief.objective || "—"}`,
+      `CTA: ${brief.cta || "—"}`,
+      `Комментарий: ${brief.notes || "—"}`,
+      `Текст вычитан: ${brief.textReviewed ? "да" : "нет"}`,
+      `Фото согласованы: ${brief.photosCleared ? "да" : "нет"}`,
+      `Кадры просмотрены: ${brief.slidesReviewed ? "да" : "нет"}`,
+    ];
+    try {
+      await navigator.clipboard.writeText(lines.join("\n"));
+      setStatus("Бриф скопирован. Для передачи всей серии экспортируйте JSON.");
+    } catch {
+      setStatus("Не удалось скопировать бриф. Проверьте разрешение браузера на доступ к буферу обмена.");
+    }
+  });
   ui.exportSeries.addEventListener("click", exportSeries);
   ui.importSeries.addEventListener("click", () => ui.importSeriesFile.click());
   ui.importSeriesFile.addEventListener("change", async () => {
@@ -3523,6 +3578,7 @@
       writeJson(DRAFT_KEY, next);
       clearTimeout(saveTimer);
       series = next;
+      window.dispatchEvent(new Event("sekta:team-detach"));
       setStage("cover");
       renderAll();
       ui.saveState.classList.remove("is-error", "is-saving");
@@ -3533,6 +3589,7 @@
   ui.newSeries.addEventListener("click", () => {
     if (!confirm("Начать новую серию? Текущий черновик останется только если вы сохранили серию.")) return;
     series = defaultSeries();
+    window.dispatchEvent(new Event("sekta:team-detach"));
     setStage("cover");
     renderAll();
     markChanged();
@@ -3548,6 +3605,7 @@
       if (!item) return;
       if (!confirm(`Открыть сохранённую серию «${item.name}»? Текущий черновик будет заменён. Перед этим можно экспортировать его в JSON.`)) return;
       series = normalizeSeries(deepClone(item));
+      window.dispatchEvent(new Event("sekta:team-detach"));
       setStage("cover");
       renderAll();
       markChanged();
@@ -3558,6 +3616,7 @@
       if (!item) return;
       if (!confirm(`Сделать копию серии «${item.name}»? Текущий черновик будет заменён новой копией.`)) return;
       series = normalizeSeries({ ...deepClone(item), id: `series-${Date.now()}`, name: `${item.name} — копия`, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
+      window.dispatchEvent(new Event("sekta:team-detach"));
       setStage("cover");
       renderAll();
       markChanged();
@@ -3608,7 +3667,28 @@
   });
   window.addEventListener("sekta:open-carousel-studio", () => renderAll());
   window.addEventListener("sekta:post-builder-load", (event) => {
-    if (confirm("Открыть новую идею? Текущие тексты и слайды будут заменены. Перед этим можно экспортировать серию в JSON.")) loadIdea(event.detail || fallbackIdea);
+    if (confirm("Открыть новую идею? Текущие тексты и слайды будут заменены. Перед этим можно экспортировать серию в JSON.")) {
+      window.dispatchEvent(new Event("sekta:team-detach"));
+      loadIdea(event.detail || fallbackIdea);
+    }
+  });
+  window.addEventListener("sekta:team-get-series", (event) => { event.detail.receive(deepClone(series)); });
+  window.addEventListener("sekta:team-open-series", (event) => {
+    const { document: incoming, receive } = event.detail || {};
+    if (!validSeriesShape(incoming)) { receive?.(false, "Неверный формат общей серии."); return; }
+    if (!confirm("Открыть общую серию? Текущий локальный черновик будет заменён. При необходимости сначала экспортируйте его в JSON.")) { receive?.(false); return; }
+    try {
+      const next = normalizeSeries(incoming);
+      writeJson(DRAFT_KEY, next);
+      clearTimeout(saveTimer);
+      series = next;
+      setStage("cover");
+      renderAll();
+      ui.saveState.classList.remove("is-error", "is-saving");
+      ui.saveState.lastChild.textContent = "общая серия открыта · локальная копия сохранена";
+      setStatus("Общая серия открыта. Изменения сохраняются локально; для коллег нажмите «Сохранить в команде».");
+      receive?.(true);
+    } catch (error) { receive?.(false, error.message || "Не удалось открыть серию."); }
   });
 
   bindCanvasLayerDrag(ui.coverCanvas, "cover");

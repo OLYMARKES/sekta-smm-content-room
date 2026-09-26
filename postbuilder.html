@@ -9,13 +9,13 @@
   <title>#Sekta — конструктор поста</title>
   <link rel="stylesheet" href="styles.css?v=20260926-1">
   <link rel="stylesheet" href="type-studio/fonts.css">
-  <link rel="stylesheet" href="postbuilder.css?v=20260926-1">
+  <link rel="stylesheet" href="postbuilder.css?v=20260926-2">
 </head>
 <body>
   <a class="skip-link" href="#postbuilderMain">К конструктору поста</a>
   <header class="postbuilder-site-header">
     <a href="index.html" class="postbuilder-brand"><img src="assets/brand/sekta-logo-round.png" width="38" height="38" alt=""><span>#Sekta Content Room</span></a>
-    <nav aria-label="Разделы Content Room"><a href="index.html">Комната</a><a href="media-library.html">Фотомедиатека</a><span aria-current="page">Конструктор поста</span></nav>
+    <nav aria-label="Разделы Content Room"><a id="carouselTeamLink" href="/team" hidden>Материалы команды</a><a href="index.html">Комната</a><a href="media-library.html">Фотомедиатека</a><span aria-current="page">Конструктор поста</span></nav>
   </header>
   <main class="postbuilder-main" id="postbuilderMain">
         <section class="view is-active" data-view-panel="postbuilder">
@@ -26,6 +26,7 @@
             </div>
             <div class="carousel-studio-heading-actions">
               <span class="carousel-save-state" id="carouselSaveState"><i></i>черновик сохранён локально</span>
+              <button class="button button-primary" id="carouselSaveToTeam" type="button" hidden>Сохранить в команде</button>
               <button class="button button-secondary" id="carouselImportCover" type="button">Взять текст и фото обложки</button>
               <button class="button button-secondary" id="carouselNewSeries" type="button">Новая серия</button>
               <button class="button button-primary" id="carouselSaveSeries" type="button">Сохранить серию</button>
@@ -48,6 +49,23 @@
               <a class="button button-secondary" href="index.html">Открыть Content Room</a>
             </div>
           </section>
+
+          <details class="carousel-handoff" id="carouselHandoff">
+            <summary><span><strong>Бриф для передачи</strong><small>Кто готовит, когда нужен пост и что проверить</small></span><span class="carousel-handoff-scope">Локально · входит в JSON</span></summary>
+            <div class="carousel-handoff-body">
+              <div class="carousel-handoff-fields">
+                <label><span>Ответственный</span><input data-brief-field="owner" type="text" maxlength="80" placeholder="Имя редактора"></label>
+                <label><span>Кому на ревью</span><input data-brief-field="reviewer" type="text" maxlength="80" placeholder="Имя согласующего"></label>
+                <label><span>Дата публикации</span><input data-brief-field="publicationDate" type="date"></label>
+                <label><span>Аккаунт</span><input data-brief-field="account" type="text" maxlength="80" placeholder="@sektaschool"></label>
+                <label class="carousel-handoff-wide"><span>Задача поста</span><input data-brief-field="objective" type="text" maxlength="500" placeholder="Какое действие или мысль ждём от читателя"></label>
+                <label class="carousel-handoff-wide"><span>CTA</span><input data-brief-field="cta" type="text" maxlength="500" placeholder="Что предложить читателю в конце"></label>
+                <label class="carousel-handoff-full"><span>Комментарий для коллеги</span><textarea data-brief-field="notes" rows="2" maxlength="2000" placeholder="Что уточнить перед выпуском"></textarea></label>
+              </div>
+              <fieldset class="carousel-handoff-checks"><legend>Перед публикацией</legend><label><input data-brief-check="textReviewed" type="checkbox">Текст вычитан</label><label><input data-brief-check="photosCleared" type="checkbox">Фото согласованы</label><label><input data-brief-check="slidesReviewed" type="checkbox">Кадры просмотрены</label></fieldset>
+              <div class="carousel-handoff-actions"><button class="button button-secondary" id="carouselCopyBrief" type="button">Скопировать бриф</button><span>Отметки относятся только к этой копии. Для передачи всей серии экспортируйте JSON во вкладке «Сохранённые».</span></div>
+            </div>
+          </details>
 
           <section class="panel carousel-system-bar" aria-label="Система всей карусели">
             <label class="carousel-series-name"><span>Название серии</span><input id="carouselSeriesName" type="text" value="Возвращение после паузы"></label>
@@ -275,6 +293,7 @@
   <script src="data/visual-canon.js?v=20260828-1"></script>
   <script src="type-studio/font-data.js"></script>
   <script src="media-source.js?v=20260904-1"></script>
-  <script src="carousel-studio.js?v=20260926-1"></script>
+  <script src="carousel-studio.js?v=20260926-2"></script>
+  <script src="team-bridge.js?v=20260926-2"></script>
 </body>
 </html>

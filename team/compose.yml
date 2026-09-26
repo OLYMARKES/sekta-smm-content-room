@@ -1,0 +1,44 @@
+services:
+  content-room:
+    build:
+      context: ..
+      dockerfile: team/Dockerfile
+    env_file: .env
+    environment:
+      HOSTNAME: 0.0.0.0
+      DATABASE_URL: postgres://content_room:${CONTENT_ROOM_DB_PASSWORD}@database:5432/content_room
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3097:3000"
+  migrate:
+    profiles: ["maintenance"]
+    build:
+      context: ..
+      dockerfile: team/Dockerfile
+      target: dependencies
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://content_room:${CONTENT_ROOM_DB_PASSWORD}@database:5432/content_room
+    depends_on:
+      database:
+        condition: service_healthy
+    command: ["sh", "-c", "npm run auth:migrate && npm run db:migrate"]
+  database:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_DB: content_room
+      POSTGRES_USER: content_room
+      POSTGRES_PASSWORD: ${CONTENT_ROOM_DB_PASSWORD}
+    volumes:
+      - content-room-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U content_room -d content_room"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+volumes:
+  content-room-pg:
