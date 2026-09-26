@@ -7,6 +7,17 @@ export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL,
   secret: process.env.BETTER_AUTH_SECRET,
   database: pool,
+  user: {
+    validateUserInfo: async ({ user }) => {
+      const email = user.email?.trim().toLowerCase();
+      if (email && email === process.env.TEAM_OWNER_EMAIL?.trim().toLowerCase()) return;
+      if (email) {
+        const { rowCount } = await pool.query("SELECT 1 FROM team_member WHERE email=$1", [email]);
+        if (rowCount) return;
+      }
+      return { error: "invitation_required", errorDescription: "Для входа нужно приглашение на этот адрес почты." };
+    },
+  },
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,

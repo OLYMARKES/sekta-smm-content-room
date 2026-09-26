@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const user = await actor();
   if (!user) return jsonError("Нет доступа к команде.", 403);
-  const { rows } = await pool.query(`SELECT id, name, status, revision, created_by AS "createdBy", updated_by AS "updatedBy", created_at AS "createdAt", updated_at AS "updatedAt", document->'brief' AS brief FROM content_series ORDER BY updated_at DESC LIMIT 200`);
+  const { rows } = await pool.query(`SELECT id, name, status, revision, created_by AS "createdBy", updated_by AS "updatedBy", created_at AS "createdAt", updated_at AS "updatedAt", document->'brief' AS brief FROM content_series ORDER BY updated_at DESC`);
   return Response.json({ items: rows, role: user.role }, { headers: { "Cache-Control": "no-store" } });
 }
 
