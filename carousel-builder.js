@@ -7,6 +7,7 @@
     root: document.querySelector('[data-view-panel="builder"]'),
     draftStatus: document.querySelector("#builderDraftStatus"),
     saveDraft: document.querySelector("#builderSaveDraft"),
+    openPost: document.querySelector("#builderOpenPost"),
     exportDraft: document.querySelector("#builderExportDraft"),
     importDraft: document.querySelector("#builderImportDraft"),
     draftFile: document.querySelector("#builderDraftFile"),
@@ -926,6 +927,11 @@
   restoreDraft();
 
   ui.saveDraft.addEventListener("click", () => saveDraft(true));
+  ui.openPost.addEventListener("click", (event) => {
+    if (saveDraft(true)) return;
+    event.preventDefault();
+    setStatus("Черновик не сохранён. Скачайте его через «Экспорт JSON» перед переходом к посту.");
+  });
   ui.exportDraft.addEventListener("click", exportDraft);
   ui.importDraft.addEventListener("click", () => ui.draftFile.click());
   window.addEventListener("sekta:collect-cover-draft", (event) => {

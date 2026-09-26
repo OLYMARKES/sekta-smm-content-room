@@ -546,6 +546,17 @@ async function main() {
     assert.equal((await stored(page, "sekta-carousel-studio-draft-v2")).name, "Правка другой вкладки");
   });
 
+  await check("saved cover opens in the post builder after confirmation", async ({ page }) => {
+    await view(page, "builder");
+    await page.locator("#builderHook").fill("Новая обложка для серии");
+    await page.locator("#builderSubtitle").fill("Подстрочник для серии");
+    await page.locator("#builderOpenPost").click();
+    await page.locator("#carouselCoverTitle").waitFor();
+    assert.equal(await page.locator("#carouselCoverTitle").inputValue(), "Новая обложка для серии");
+    assert.equal(await page.locator("#carouselCoverSubtitle").inputValue(), "Подстрочник для серии");
+    assert.equal((await stored(page, "sekta-cover-builder-draft-v1")).hook, "Новая обложка для серии");
+  });
+
   await check("post builder leaves damaged saved series untouched", async ({ page }) => {
     const damaged = "{damaged series";
     await page.evaluate((raw) => localStorage.setItem("sekta-carousel-studio-series-v1", raw), damaged);

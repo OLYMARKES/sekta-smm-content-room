@@ -3574,7 +3574,7 @@
     setStage("cover");
     renderAll();
     markChanged();
-    setStatus("Обложка из конструктора перенесена в монтаж серии.");
+    setStatus("Текст и фото обложки перенесены в серию. Оформление можно настроить здесь.");
   });
   ui.importCover?.addEventListener("click", () => {
     try {
@@ -3583,7 +3583,7 @@
       if (!raw) { setStatus("Сначала сохраните обложку в основном конструкторе."); return; }
       const draft = JSON.parse(raw);
       if (draft?.schema !== "sekta-cover-draft" || draft.version !== 1 || typeof draft.hook !== "string" || draft.hook.length > 100000 || typeof draft.subtitle !== "string" || draft.subtitle.length > 100000) throw new Error("Черновик обложки повреждён или имеет неподдерживаемый формат.");
-      if (!confirm("Заменить обложку текущей серии сохранённой обложкой из конструктора? Сначала можно сохранить серию или экспортировать её JSON.")) return;
+      if (!confirm("Перенести текст и фото сохранённой обложки в текущую серию? Её оформление настраивается отдельно. Перед заменой можно сохранить серию или экспортировать JSON.")) return;
       const photo = photoById(draft.photoId);
       window.dispatchEvent(new CustomEvent("sekta:seed-carousel-studio", { detail: {
         title: draft.hook, subtitle: draft.subtitle,
@@ -3622,4 +3622,11 @@
     ui.saveState.lastChild.textContent = "черновик загружен локально";
   }
   if (storageBlocked.has(SAVED_KEY) && !storageBlocked.has(DRAFT_KEY)) setStatus("Сохранённые серии не удалось прочитать. Исходная запись не перезаписана; скачайте общую копию из комнаты.");
+  const requestedCoverTransfer = new URLSearchParams(location.search).get("from") === "cover";
+  if (requestedCoverTransfer) {
+    const nextUrl = new URL(location.href);
+    nextUrl.searchParams.delete("from");
+    history.replaceState(null, "", `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`);
+    ui.importCover.click();
+  }
 })();
