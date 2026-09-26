@@ -6,6 +6,8 @@ RUN npm install --no-audit --no-fund
 RUN node scripts/sync-editor.mjs
 
 FROM dependencies AS build
+ENV BETTER_AUTH_URL=http://127.0.0.1:3000
+ENV BETTER_AUTH_SECRET=build-only-placeholder-not-used-by-running-service
 RUN npm run build
 
 FROM node:22-bookworm-slim

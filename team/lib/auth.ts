@@ -7,6 +7,9 @@ export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL,
   secret: process.env.BETTER_AUTH_SECRET,
   database: pool,
+  // The container image is built before its database starts. Schema is applied by the
+  // one-shot migration service before the application is exposed.
+  advanced: { database: { validateSchema: false } },
   user: {
     validateUserInfo: async ({ user }) => {
       const email = user.email?.trim().toLowerCase();

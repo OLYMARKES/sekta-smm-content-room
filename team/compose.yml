@@ -25,7 +25,7 @@ services:
     depends_on:
       database:
         condition: service_healthy
-    command: ["sh", "-c", "npm run auth:migrate && npm run db:migrate"]
+    command: ["sh", "-c", "npm run auth:migrate && npm run db:migrate && npm run auth:check"]
   database:
     image: postgres:17-bookworm
     environment:
