@@ -132,7 +132,7 @@ async function main() {
   browser = await browserType.launch({ headless: true });
 
   await check("real catalogue, navigation and typography", async ({ page }) => {
-    assert.equal(await page.evaluate(() => window.SEKTA_LIBRARY.items.length), 2450);
+    assert.equal(await page.evaluate(() => window.SEKTA_LIBRARY.items.length), await page.evaluate(() => window.SEKTA_LIBRARY.uniqueCount));
     const inventory = JSON.parse(await fs.readFile(path.join(root, "docs/system-surface.json"), "utf8"));
     const mounted = inventory.sections.filter((section) => ["active", "partial"].includes(section.status)).map((section) => section.id);
     const navigation = await page.locator('.primary-nav .nav-item[data-view]').evaluateAll((buttons) => buttons.map((button) => button.dataset.view));
@@ -503,6 +503,80 @@ async function main() {
     await page.waitForFunction(() => document.querySelector("#builderStatus").textContent.includes("добавлена"));
     await view(page, "planner");
     assert.equal(await page.locator("#sandboxGrid [data-remove]").count(), 2);
+  });
+
+  await check("restored post builder saves series, splits text and protects another tab", async ({ page }) => {
+    await page.locator('a[href="postbuilder.html"]').first().click();
+    await page.waitForFunction(() => Number(document.querySelector("#carouselCoverMedia")?.dataset.mediaTotal) > 0);
+    await page.locator("#carouselCoverCollection").selectOption("portraits");
+    await page.locator("#carouselCoverMedia [data-carousel-photo]").first().waitFor();
+    assert(await page.locator("#carouselCoverMedia [data-carousel-photo]").evaluateAll((buttons) => buttons.every((button) => {
+      const item = window.SEKTA_LIBRARY.items.find((photo) => photo.id === button.dataset.carouselPhoto);
+      return item?.collections?.includes("portraits") && item.mediaType !== "video" && item.publicationStatus !== "not-public";
+    })));
+    await page.locator("#carouselSeriesName").fill("Серия для приёмки");
+    await page.locator("#carouselSaveSeries").click();
+    assert((await stored(page, "sekta-carousel-studio-series-v1")).some((item) => item.name === "Серия для приёмки"));
+    const savedId = (await stored(page, "sekta-carousel-studio-draft-v2")).id;
+    await page.locator('[data-carousel-stage="saved"]').click();
+    await page.locator("#carouselImportSeriesFile").setInputFiles({
+      name: "series.json", mimeType: "application/json",
+      buffer: Buffer.from(JSON.stringify((await stored(page, "sekta-carousel-studio-series-v1"))[0])),
+    });
+    await page.waitForFunction((id) => JSON.parse(localStorage.getItem("sekta-carousel-studio-draft-v2")).id !== id, savedId);
+    assert.equal((await stored(page, "sekta-carousel-studio-series-v1")).length, 1);
+    await page.locator('[data-carousel-stage="longread"]').click();
+    await page.locator("#carouselLongreadText").fill("Первый тезис о возвращении. Второй тезис о поддержке. Третий тезис о следующем шаге.");
+    await page.locator("#carouselSplitText").click();
+    await page.waitForFunction(() => JSON.parse(localStorage.getItem("sekta-carousel-studio-draft-v2")).longread.includes("Первый тезис"));
+    await page.reload();
+    assert.equal(await page.locator("#carouselSeriesName").inputValue(), "Серия для приёмки");
+    const coverPhotoId = (await stored(page, "sekta-carousel-studio-draft-v2")).slides[0].photoId;
+    await page.evaluate(({ id, url }) => {
+      const photo = window.SEKTA_LIBRARY.items.find((item) => item.id === id);
+      photo.exportImage = url;
+      photo.publicationStatus = "approved";
+    }, { id: coverPhotoId, url: sourceOrigin + "/image.png" });
+    const postPng = await download(page, "#carouselDownloadSlide", "post-cover.png");
+    assert.equal(postPng.readUInt32BE(16), 1080);
+    assert.equal(postPng.readUInt32BE(20), 1350);
+    await page.evaluate(() => localStorage.setItem("sekta-carousel-studio-draft-v2", JSON.stringify({ ...JSON.parse(localStorage.getItem("sekta-carousel-studio-draft-v2")), name: "Правка другой вкладки" })));
+    await page.locator("#carouselSeriesName").fill("Не должно затереть чужую версию");
+    await page.waitForFunction(() => document.querySelector("#carouselSaveState").classList.contains("is-error"));
+    assert.equal((await stored(page, "sekta-carousel-studio-draft-v2")).name, "Правка другой вкладки");
+  });
+
+  await check("saved cover opens in the post builder after confirmation", async ({ page }) => {
+    await view(page, "builder");
+    await page.locator("#builderHook").fill("Новая обложка для серии");
+    await page.locator("#builderSubtitle").fill("Подстрочник для серии");
+    await page.locator("#builderOpenPost").click();
+    await page.waitForFunction(() => document.querySelector("#carouselCoverTitle")?.value === "Новая обложка для серии");
+    assert.equal(await page.locator("#carouselCoverTitle").inputValue(), "Новая обложка для серии");
+    assert.equal(await page.locator("#carouselCoverSubtitle").inputValue(), "Подстрочник для серии");
+    assert.equal((await stored(page, "sekta-cover-builder-draft-v1")).hook, "Новая обложка для серии");
+  });
+
+  await check("declining a saved series keeps the current post draft", async (state) => {
+    const { page } = state;
+    await page.locator('a[href="postbuilder.html"]').first().click();
+    await page.waitForFunction(() => Number(document.querySelector("#carouselCoverMedia")?.dataset.mediaTotal) > 0);
+    await page.locator("#carouselSaveSeries").click();
+    await page.locator("#carouselSeriesName").fill("Несохранённая редактура");
+    await page.locator('[data-carousel-stage="saved"]').click();
+    state.dialogs = "dismiss";
+    await page.locator("#carouselSavedSeries [data-load-series]").first().click();
+    assert.equal(await page.locator("#carouselSeriesName").inputValue(), "Несохранённая редактура");
+  });
+
+  await check("post builder leaves damaged saved series untouched", async ({ page }) => {
+    const damaged = "{damaged series";
+    await page.evaluate((raw) => localStorage.setItem("sekta-carousel-studio-series-v1", raw), damaged);
+    await page.goto(origin + prefix + "postbuilder.html", { waitUntil: "load" });
+    await page.waitForFunction(() => document.querySelector("#carouselSavedCount")?.textContent === "серии не прочитаны");
+    assert.equal(await page.locator("#carouselSavedCount").textContent(), "серии не прочитаны");
+    await page.locator("#carouselSaveSeries").click();
+    assert.equal(await page.evaluate(() => localStorage.getItem("sekta-carousel-studio-series-v1")), damaged);
   });
 
   await check("mobile controls, keyboard and layout", async ({ page }) => {

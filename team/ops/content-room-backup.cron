@@ -1,0 +1,2 @@
+# Daily database archive. Uses a lock so overlapping runs cannot overwrite files.
+15 3 * * * root /usr/bin/flock -n /run/lock/content-room-backup.lock /usr/bin/python3 /opt/sekta-content-room-source/team/scripts/backup-db.py >> /var/log/content-room-backup.log 2>&1

@@ -9,3 +9,6 @@
 *.key
 .DS_Store
 node_modules/
+team/.next/
+team/public/editor/
+team/tsconfig.tsbuildinfo
