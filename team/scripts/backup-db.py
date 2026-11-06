@@ -48,10 +48,10 @@ if "--verify-restore" in sys.argv:
         with destination.open("rb") as archive:
             run("docker", "exec", "-i", container, "pg_restore", "-U", "content_room", "-d", database, "--no-owner", "--no-acl", stdin=archive, stdout=subprocess.DEVNULL)
         result = subprocess.check_output(
-            ["docker", "exec", container, "psql", "-U", "content_room", "-d", database, "-At", "-c", "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='public' AND table_name IN ('user','team_member','content_series','content_series_history')"],
+            ["docker", "exec", container, "psql", "-U", "content_room", "-d", database, "-At", "-c", "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='public' AND table_name IN ('user','team_member','content_series','content_series_history','content_series_comment','content_media','content_format_draft')"],
             text=True,
         ).strip()
-        if result != "4":
+        if result != "7":
             raise RuntimeError("Restored schema is missing Content Room tables")
     finally:
         run("docker", "exec", container, "psql", "-U", "content_room", "-d", "postgres", "-v", "ON_ERROR_STOP=1", "-c", f"DROP DATABASE {database} WITH (FORCE)", stdout=subprocess.DEVNULL)

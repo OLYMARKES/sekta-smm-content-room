@@ -534,3 +534,8 @@
 .carousel-png-dialog::backdrop { background: rgb(23 24 20 / 65%); }
 .carousel-png-dialog img { display: block; width: auto; max-width: 100%; max-height: 68vh; margin: 12px auto 0; }
 .carousel-png-dialog p:empty { display: none; }
+
+.team-comment-list { display: grid; gap: 12px; padding-inline-start: 24px; }
+.team-comment-list p { margin: 4px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.team-media-drop { border: 1px dashed #aaa99f; border-radius: 8px; padding: 12px; }

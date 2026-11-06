@@ -687,7 +687,7 @@
         transferredCover: slide.transferredCover === true,
         customLayers: Array.isArray(slide.customLayers) ? slide.customLayers.map((layer) => ({
           id: layer.id || `custom-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-          text: layer.text || "Новый текст",
+          text: typeof layer.text === "string" ? layer.text : "",
           visible: layer.visible !== false,
           x: Number(layer.x) || 0,
           y: Number(layer.y) || 0,
@@ -1232,8 +1232,8 @@
   const layerContent = {
     title: { text: "title", visible: "showTitle", fallback: () => "" },
     body: { text: "body", visible: "showBody", fallback: () => "" },
-    label: { text: "labelText", visible: "showSeriesLabel", fallback: () => series.name },
-    counter: { text: "counterText", visible: "showCounter", fallback: (index) => `${String(index + 1).padStart(2, "0")} / ${String(series.slides.length).padStart(2, "0")}` },
+    label: { text: "labelText", visible: "showSeriesLabel", fallback: (_index, document) => document.name },
+    counter: { text: "counterText", visible: "showCounter", fallback: (index, document) => `${String(index + 1).padStart(2, "0")} / ${String(document.slides.length).padStart(2, "0")}` },
   };
 
   const isCustomTarget = (target) => String(target || "").startsWith("custom:");
@@ -1349,10 +1349,10 @@
     };
   }
 
-  function layerText(slide, target, index = series.activeSlide) {
+  function layerText(slide, target, index = series.activeSlide, document = series) {
     if (isCustomTarget(target)) return String(customLayer(slide, target)?.text || "");
     const layer = layerContent[target];
-    return String(slide[layer.text] || layer.fallback(index));
+    return String(slide[layer.text] || layer.fallback(index, document));
   }
 
   function layerVisible(slide, target) {
@@ -1911,7 +1911,7 @@
     const photo = photoById(slide.photoId);
     const image = photo && !["paper", "field", "dark", "quote"].includes(slide.scene) ? `<img src="${escapeHtml(photo.thumb)}" alt="">` : "";
     const label = slide.title || slide.body || roleLabels[slide.role];
-    return `<button type="button" class="carousel-mini-slide${index === series.activeSlide ? " is-active" : ""}${slide.savedAt ? " is-saved" : ""}" data-carousel-slide-index="${index}" data-scene="${escapeHtml(slide.scene)}" data-template="${escapeHtml(slide.template || "")}" data-plaque="${slide.plaqueEnabled ? "on" : "off"}" style="--mini-bg:${slide.backgroundColor || palette.background};--mini-fg:${slideForeground(slide)};--mini-font:'${escapeHtml(slideFont.family)}';--mini-plaque:${colorWithAlpha(slide.plaqueColor || palette.background, slide.plaqueOpacity)}"><span>${String(index + 1).padStart(2, "0")}</span><div>${image}<strong>${escapeHtml(label)}</strong></div><small>${escapeHtml(roleLabels[slide.role] || slide.role)}</small></button>`;
+    return `<button type="button" class="carousel-mini-slide${index === series.activeSlide ? " is-active" : ""}${slide.savedAt ? " is-saved" : ""}" draggable="true" data-carousel-slide-index="${index}" data-scene="${escapeHtml(slide.scene)}" data-template="${escapeHtml(slide.template || "")}" data-plaque="${slide.plaqueEnabled ? "on" : "off"}" style="--mini-bg:${slide.backgroundColor || palette.background};--mini-fg:${slideForeground(slide)};--mini-font:'${escapeHtml(slideFont.family)}';--mini-plaque:${colorWithAlpha(slide.plaqueColor || palette.background, slide.plaqueOpacity)}"><span>${String(index + 1).padStart(2, "0")}</span><div>${image}<strong>${escapeHtml(label)}</strong></div><small>${escapeHtml(roleLabels[slide.role] || slide.role)}</small></button>`;
   }
 
   function renderRail() {
@@ -2687,7 +2687,7 @@
       return;
     }
     const total = Number(ui.slideCount.value);
-    if (!total || !confirm("Пересобрать слайды из текста? Ручные правки текущих макетов могут измениться.")) return;
+    if (!total) return;
     series.longread = text;
     series = splitSeries(series, total, ui.keepParagraphs.checked, ui.photoRhythm.checked);
     ui.splitHint.textContent = `Текст разложен на ${total} слайдов без сокращений. Каждый кадр можно править отдельно.`;
@@ -2775,7 +2775,33 @@
     if ("letterSpacing" in context) context.letterSpacing = `${Number(tracking || 0) * Number(size || 0)}px`;
   }
 
+  function colorLuminance(color) {
+    const match = /^#([0-9a-f]{6})$/i.exec(color);
+    if (!match) return null;
+    const [red, green, blue] = match[1].match(/../g).map((part) => {
+      const channel = parseInt(part, 16) / 255;
+      return channel <= .04045 ? channel / 12.92 : ((channel + .055) / 1.055) ** 2.4;
+    });
+    return .2126 * red + .7152 * green + .0722 * blue;
+  }
+
   function drawCanvasStyledText(context, text, x, y, maxWidth, effects) {
+    if (text.trim()) {
+      const metrics = context.measureText(text);
+      const scale = Number.isFinite(maxWidth) && metrics.width > maxWidth ? maxWidth / metrics.width : 1;
+      const { canvas } = context;
+      if (x - metrics.actualBoundingBoxLeft * scale < 48 || x + metrics.actualBoundingBoxRight * scale > canvas.width - 48
+        || y - metrics.actualBoundingBoxAscent < 48 || y + metrics.actualBoundingBoxDescent > canvas.height - 48) {
+        canvas.dataset.safeArea = "outside";
+      }
+      if (canvas.dataset.flatBackground) {
+        const background = Number(canvas.dataset.flatBackground);
+        const foreground = colorLuminance(context.fillStyle);
+        if (foreground !== null && (Math.max(foreground, background) + .05) / (Math.min(foreground, background) + .05) < 4.5) {
+          canvas.dataset.contrast = "low";
+        }
+      }
+    }
     effects ||= { shadowOpacity: 0, shadowColor: "#000000", outlineWidth: 0, outlineColor: "#000000" };
     const draw = (method) => Number.isFinite(maxWidth) ? context[method](text, x, y, maxWidth) : context[method](text, x, y);
     context.save();
@@ -2868,14 +2894,14 @@
     return { size, lines, overflow: richCanvasHeight(lines, size, type.lineHeight) > maxHeight };
   }
 
-  async function makeSlideCanvas(slide, index) {
+  async function makeSlideCanvas(slide, index, sourceSeries) {
     const canvas = document.createElement("canvas");
     canvas.width = 1080;
     canvas.height = 1350;
     const context = canvas.getContext("2d");
     const palette = paletteFor(slide.palette);
     const photo = photoById(slide.photoId);
-    const slideFont = slide.font?.family ? normalizeFontSystem(slide.font) : series.font;
+    const slideFont = slide.font?.family ? normalizeFontSystem(slide.font) : sourceSeries.font;
     const importedCover = slide.template === "imported-cover";
     const usesPhoto = photo && !["paper", "field", "dark", "quote"].includes(slide.scene);
     const surfaceColor = slide.backgroundColor || palette.background;
@@ -2938,6 +2964,12 @@
       context.fillRect(0, 1188, 1080, 162);
     }
     drawCanvasTexture(context, slide.texture);
+    if (!usesPhoto && !slide.plaqueEnabled && (!slide.texture || slide.texture === "none")
+      && !["split", "photo-field", "photo-window"].includes(slide.scene)
+      && !["side-plaque", "top-plaque", "accent-thought", "color-final"].includes(slide.template)) {
+      const luminance = colorLuminance(surfaceColor);
+      if (luminance !== null) canvas.dataset.flatBackground = String(luminance);
+    }
     const lightScene = ["paper", "quote", "field", "dark"].includes(slide.scene) || slide.scene === "split";
     const foreground = slideForeground(slide);
     context.fillStyle = foreground;
@@ -2957,7 +2989,7 @@
     const counterType = layerTypography(slide, "counter");
     const fontFamily = `"${titleType.resolvedFamily}", Arial, sans-serif`;
     const bodyFontFamily = `"${bodyType.resolvedFamily}", Arial, sans-serif`;
-    const titleText = layerVisible(slide, "title") ? displayText(stripInlineMarkup(layerText(slide, "title", index)), slide.caseKind || slideFont.caseKind) : "";
+    const titleText = layerVisible(slide, "title") ? displayText(stripInlineMarkup(layerText(slide, "title", index, sourceSeries)), slide.caseKind || slideFont.caseKind) : "";
     const titleBox = layerBox(slide, "title");
     const bodyBox = layerBox(slide, "body");
     const sceneWidthLimit = importedCover ? (slide.coverStyle === "rail" ? 368 : 980) : slide.scene === "split" ? 440 : 1036;
@@ -2966,7 +2998,7 @@
     const fittedTitle = fitPlainCanvasBox(context, titleText, titleType, fontFamily, titleMaxWidth, titleBox.height * 13.5);
     const titleSize = fittedTitle.size;
     const titleLines = fittedTitle.lines;
-    const fittedBody = layerVisible(slide, "body") ? fitRichCanvasBox(context, layerText(slide, "body", index), bodyType, bodyFontFamily, bodyMaxWidth, bodyBox.height * 13.5) : { size: bodyType.size, lines: [] };
+    const fittedBody = layerVisible(slide, "body") ? fitRichCanvasBox(context, layerText(slide, "body", index, sourceSeries), bodyType, bodyFontFamily, bodyMaxWidth, bodyBox.height * 13.5) : { size: bodyType.size, lines: [] };
     canvas.dataset.textOverflow = fittedTitle.overflow || fittedBody.overflow ? "true" : "false";
     const bodySize = fittedBody.size;
     const bodyLines = fittedBody.lines;
@@ -3031,7 +3063,7 @@
     const counterYShift = (Number(slide.counterOffsetY) || 0) * 13.5;
     const labelBox = layerBox(slide, "label");
     const labelFamily = `"${labelType.resolvedFamily}", Arial, sans-serif`;
-    const fittedLabel = fitPlainCanvasBox(context, layerText(slide, "label", index), labelType, labelFamily, labelBox.width * 10.8, labelBox.height * 13.5);
+    const fittedLabel = fitPlainCanvasBox(context, layerText(slide, "label", index, sourceSeries), labelType, labelFamily, labelBox.width * 10.8, labelBox.height * 13.5);
     context.font = `${labelType.weight} ${fittedLabel.size}px ${labelFamily}`;
     setCanvasTracking(context, labelType.tracking, fittedLabel.size);
     context.fillStyle = resolvedLayerColor(slide, "label");
@@ -3041,7 +3073,7 @@
     context.textAlign = "right";
     const counterBox = layerBox(slide, "counter");
     const counterFamily = `"${counterType.resolvedFamily}", Arial, sans-serif`;
-    const fittedCounter = fitPlainCanvasBox(context, layerText(slide, "counter", index), counterType, counterFamily, counterBox.width * 10.8, counterBox.height * 13.5);
+    const fittedCounter = fitPlainCanvasBox(context, layerText(slide, "counter", index, sourceSeries), counterType, counterFamily, counterBox.width * 10.8, counterBox.height * 13.5);
     context.font = `${counterType.weight} ${fittedCounter.size}px ${counterFamily}`;
     setCanvasTracking(context, counterType.tracking, fittedCounter.size);
     context.fillStyle = resolvedLayerColor(slide, "counter");
@@ -3074,8 +3106,8 @@
     return photo;
   }
 
-  async function renderSlidePng(slide, index, font) {
-    const snapshot = { ...slide, font: slide.font?.family ? slide.font : font };
+  async function renderSlidePng(slide, index, sourceSeries) {
+    const snapshot = { ...slide, font: slide.font?.family ? slide.font : sourceSeries.font };
     ensureFont(normalizeFontSystem(snapshot.font));
     const layers = [
       ...Object.keys(typographyLayers),
@@ -3083,14 +3115,18 @@
     ].map((layer) => layerTypography(snapshot, layer));
     layers.forEach((type) => ensureFontFamily(type.resolvedFamily));
     await Promise.allSettled(layers.map((type) => document.fonts.load(`${type.weight} ${type.size}px "${type.resolvedFamily}"`)));
-    const canvas = await makeSlideCanvas(snapshot, index);
+    const canvas = await makeSlideCanvas(snapshot, index, sourceSeries);
     try {
       if (canvas.dataset.textOverflow === "true") {
         throw new Error(`Слайд ${index + 1}: сократите текст, увеличьте рамку или уменьшите кегль.`);
       }
       const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
       if (!blob) throw new Error(`Слайд ${index + 1}: не удалось собрать PNG.`);
-      return { blob, preview: canvas.dataset.sourceKind === "preview" };
+      const warnings = [];
+      if (canvas.dataset.sourceKind === "preview") warnings.push("использовано превью фото");
+      if (canvas.dataset.safeArea === "outside") warnings.push("текст выходит за безопасные поля");
+      if (canvas.dataset.contrast === "low") warnings.push("низкий контраст текста на однотонном фоне");
+      return { blob, warnings };
     } finally {
       canvas.width = canvas.height = 0;
     }
@@ -3110,7 +3146,7 @@
 
   async function downloadSlide(slide, index) {
     const snapshot = deepClone(slide);
-    const { name, font } = series;
+    const sourceSeries = { name: series.name, slides: series.slides.slice(), font: deepClone(series.font) };
     try {
       const photo = exportPhoto(snapshot, index);
       if (photo?.publicationStatus === "review" && !confirm("Фотография отмечена «Проверить». Редактор согласовал её для этого поста?")) {
@@ -3118,9 +3154,9 @@
         return;
       }
       setStatus("Собираем PNG 1080 × 1350…");
-      const { blob, preview } = await renderSlidePng(snapshot, index, font);
-      downloadFile(blob, `${exportName(name)}-${String(index + 1).padStart(2, "0")}.png`);
-      setStatus(`Слайд ${index + 1} скачан в PNG.${preview ? " Использовано превью фото. Проверьте детализацию." : ""}`);
+      const { blob, warnings } = await renderSlidePng(snapshot, index, sourceSeries);
+      downloadFile(blob, `${exportName(sourceSeries.name)}-${String(index + 1).padStart(2, "0")}.png`);
+      setStatus(`Слайд ${index + 1} скачан в PNG.${warnings.length ? ` Проверьте: ${warnings.join(", ")}.` : ""}`);
     } catch (error) {
       setStatus(error.message || "PNG не собрался. Проверьте источник фотографии и попробуйте снова.");
     }
@@ -3128,17 +3164,17 @@
 
   async function downloadPostZip() {
     const snapshot = deepClone(series);
-    const { slides, font, caption, brief, name } = snapshot;
+    const { slides, caption, brief, name } = snapshot;
     ui.downloadZip.disabled = true;
     try {
       if (!window.fflate) throw new Error("Модуль ZIP не загрузился. Обновите страницу и повторите.");
       if (slides.length > 20) throw new Error("Для экспорта поста оставьте до 20 слайдов.");
       if (!caption?.trim()) throw new Error("Добавьте подпись к публикации во вкладке «Лонгрид».");
       if (slides[0].role !== "cover") throw new Error("Первый слайд должен быть обложкой.");
-      if (slides.length > 1 && (slides.at(-1).role !== "cta" || ![slides.at(-1).title, slides.at(-1).body].some((text) => text?.trim()))) {
+      if (slides.length > 1 && (slides.at(-1).role !== "cta" || ![slides.at(-1).title, slides.at(-1).body].some((text) => typeof text === "string" && text.trim()))) {
         throw new Error("Добавьте финальный слайд с CTA.");
       }
-      const emptyIndex = slides.findIndex((slide) => !slide.photoId && ![slide.title, slide.body, ...(slide.customLayers || []).map((layer) => layer.text)].some((text) => text?.trim()));
+      const emptyIndex = slides.findIndex((slide) => !slide.photoId && ![slide.title, slide.body, ...(slide.customLayers || []).map((layer) => layer.text)].some((text) => typeof text === "string" && text.trim()));
       if (emptyIndex !== -1) throw new Error(`Слайд ${emptyIndex + 1} пуст. Заполните его или удалите из серии.`);
       const photos = slides.map(exportPhoto);
       const needsReview = photos.some((photo) => photo?.publicationStatus === "review");
@@ -3151,17 +3187,21 @@
         "caption.txt": encoder.encode(caption.trim() + "\n"),
         "brief.txt": encoder.encode(briefText(snapshot) + "\n"),
       };
-      const previews = [];
+      const review = [];
       for (const [index, slide] of slides.entries()) {
         const number = String(index + 1).padStart(2, "0");
         setStatus(`Готовим ZIP · слайд ${index + 1} из ${slides.length}…`);
-        const { blob, preview } = await renderSlidePng(slide, index, font);
+        const { blob, warnings } = await renderSlidePng(slide, index, snapshot);
         files[`${number}${index === 0 ? "-cover" : ""}.png`] = new Uint8Array(await blob.arrayBuffer());
-        if (preview) previews.push(index + 1);
+        if (warnings.length) review.push(`Слайд ${index + 1} — ${warnings.join(", ")}`);
+      }
+      if (review.length && !confirm(`Проверьте материалы перед публикацией:\n\n${review.join("\n")}\n\nСкачать ZIP для ревью?`)) {
+        setStatus("Экспорт отменён. Поправьте отмеченные слайды.");
+        return;
       }
       const archive = window.fflate.zipSync(files, { level: 0 });
       downloadFile(new Blob([archive], { type: "application/zip" }), `${exportName(name)}.zip`);
-      setStatus(previews.length ? `ZIP скачан. Проверьте качество фото на слайдах ${previews.join(", ")}.` : "ZIP скачан: слайды, подпись и бриф.");
+      setStatus(review.length ? "ZIP скачан для ревью. Проверьте отмеченные слайды перед публикацией." : "ZIP скачан: слайды, подпись и бриф.");
     } catch (error) {
       setStatus(error.message || "Не удалось собрать ZIP. Попробуйте снова.");
     } finally {
@@ -3425,12 +3465,45 @@
     setStage("slides");
   });
 
+  function moveSlide(from, to) {
+    if (from === to || !Number.isInteger(from) || !Number.isInteger(to)
+      || !series.slides[from] || !series.slides[to]) return;
+    const [slide] = series.slides.splice(from, 1);
+    series.slides.splice(to, 0, slide);
+    series.activeSlide = to;
+    renderAll();
+    markChanged();
+    setStatus(`Слайд перемещён на позицию ${to + 1}.`);
+  }
+
+  let draggedSlide = null;
+  ui.slideRail.addEventListener("dragstart", (event) => {
+    const button = event.target.closest("[data-carousel-slide-index]");
+    if (!button || !event.dataTransfer) return;
+    draggedSlide = { seriesId: series.id, slideId: series.slides[Number(button.dataset.carouselSlideIndex)]?.id };
+    event.dataTransfer.setData("text/plain", button.dataset.carouselSlideIndex);
+    event.dataTransfer.effectAllowed = "move";
+  });
+  ui.slideRail.addEventListener("dragover", (event) => {
+    if (!draggedSlide || !event.target.closest("[data-carousel-slide-index]")) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  });
+  ui.slideRail.addEventListener("drop", (event) => {
+    const button = event.target.closest("[data-carousel-slide-index]");
+    if (!button || !draggedSlide || draggedSlide.seriesId !== series.id) return;
+    event.preventDefault();
+    const from = series.slides.findIndex((slide) => slide.id === draggedSlide.slideId);
+    draggedSlide = null;
+    moveSlide(from, Number(button.dataset.carouselSlideIndex));
+  });
+  ui.slideRail.addEventListener("dragend", () => { draggedSlide = null; });
+
   ui.slideRail.addEventListener("click", (event) => {
     const button = event.target.closest("[data-carousel-slide-index]");
     if (!button) return;
     series.activeSlide = Number(button.dataset.carouselSlideIndex);
     renderActiveEditor();
-    markChanged();
   });
   ui.quickPalettePresets.addEventListener("click", (event) => {
     const button = event.target.closest("[data-carousel-quick-palette]");
@@ -3587,6 +3660,14 @@
     renderMediaStrip(ui.slideMedia, activeSlide().photoId, ui.slideMediaSearch.value, slideMediaOrder);
     ui.slideMedia.scrollTop = 0;
   });
+  window.addEventListener("sekta:team-media", (event) => {
+    const known = new Set(library.map((item) => item.id));
+    const newItems = event.detail.filter((item) => !known.has(item.id));
+    library.unshift(...newItems);
+    publishablePhotos.unshift(...newItems);
+    window.dispatchEvent(new Event("sekta:library-updated"));
+    renderAll();
+  });
   window.addEventListener("sekta:library-updated", () => {
     slideMediaOrder = [...library];
     renderMediaStrip(ui.coverMedia, coverSlide().photoId, ui.coverMediaSearch.value);
@@ -3635,10 +3716,8 @@
         slides.splice(index, 1);
         series.activeSlide = Math.min(index, slides.length - 1);
       } else {
-        const position = index + (action === "earlier" ? -1 : 1);
-        if (position < 0 || position >= slides.length) return;
-        [slides[index], slides[position]] = [slides[position], slides[index]];
-        series.activeSlide = position;
+        moveSlide(index, index + (action === "earlier" ? -1 : 1));
+        return;
       }
       series.totalSlides = slides.length;
       renderAll();
@@ -3689,22 +3768,29 @@
     series.caption = ui.caption.value;
     markChanged();
   });
+  document.querySelector("#carouselCopyCaption")?.addEventListener("click", async () => {
+    if (!series.caption?.trim()) { setStatus("Добавьте подпись к публикации."); return; }
+    try {
+      await navigator.clipboard.writeText(series.caption);
+      setStatus("Подпись скопирована.");
+    } catch { setStatus("Не удалось скопировать подпись. Выделите и скопируйте текст вручную."); }
+  });
   ui.downloadZip?.addEventListener("click", downloadPostZip);
   document.querySelector("#carouselClosePng")?.addEventListener("click", () => ui.pngDialog.close());
   ui.previewPng?.addEventListener("click", async () => {
     const index = series.activeSlide;
     const slide = deepClone(activeSlide());
-    const font = deepClone(series.font);
+    const sourceSeries = { name: series.name, slides: series.slides.slice(), font: deepClone(series.font) };
     ui.previewPng.disabled = true;
     try {
       exportPhoto(slide, index);
       setStatus("Собираем предпросмотр PNG…");
-      const { blob, preview } = await renderSlidePng(slide, index, font);
+      const { blob, warnings } = await renderSlidePng(slide, index, sourceSeries);
       const url = URL.createObjectURL(blob);
       const image = ui.pngDialog.querySelector("img");
       image.src = url;
       ui.pngDialog.querySelector("#carouselPngTitle").textContent = `Слайд ${index + 1} · PNG 1080 × 1350`;
-      ui.pngDialog.querySelector("#carouselPngNote").textContent = preview ? "Использовано превью фото. Проверьте детализацию." : "";
+      ui.pngDialog.querySelector("#carouselPngNote").textContent = warnings.length ? `Проверьте: ${warnings.join(", ")}.` : "";
       ui.pngDialog.addEventListener("close", () => {
         image.removeAttribute("src");
         URL.revokeObjectURL(url);
@@ -3841,7 +3927,7 @@
       renderAll();
       ui.saveState.classList.remove("is-error", "is-saving");
       ui.saveState.lastChild.textContent = "общая серия открыта · локальная копия сохранена";
-      setStatus("Общая серия открыта. Изменения сохраняются локально; для коллег нажмите «Сохранить в команде».");
+      setStatus("Общая серия открыта. Для общих черновиков включено автосохранение. Серии на ревью сохраняются вручную.");
       receive?.(true);
     } catch (error) { receive?.(false, error.message || "Не удалось открыть серию."); }
   });

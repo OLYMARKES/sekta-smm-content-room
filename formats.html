@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>#Sekta — Email и Threads</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="formats.css">
+</head>
+<body>
+  <main class="format-workspace">
+    <header>
+      <a href="/team">Материалы команды</a>
+      <h1>Email и Threads</h1>
+      <p>Соберите публикацию, сохраните общий черновик и скачайте материалы.</p>
+    </header>
+    <nav aria-label="Формат публикации"><a href="?kind=email" id="emailLink">Email</a><a href="?kind=threads" id="threadsLink">Threads</a></nav>
+    <section class="format-library" aria-label="Общие черновики">
+      <label>Черновики команды<select id="drafts"><option value="">Новый черновик</option></select></label>
+      <button type="button" id="openDraft">Открыть</button>
+      <button type="button" id="refreshDrafts">Обновить список</button>
+    </section>
+    <div class="format-columns">
+      <section class="format-editor" aria-label="Редактор">
+        <label>Название черновика<input id="title" maxlength="160"></label>
+        <div id="emailFields">
+          <label>Тема письма<input id="subject" maxlength="180"></label>
+          <label>Прехедер<input id="preheader" maxlength="180"></label>
+          <label>Заголовок<input id="heading" maxlength="180"></label>
+          <label>URL изображения<input id="image" type="url" maxlength="2000"></label>
+          <label>Описание изображения<input id="imageAlt" maxlength="250"></label>
+          <label>Текст письма<textarea id="emailBody" rows="9" maxlength="15000"></textarea></label>
+          <label>Текст кнопки<input id="cta" maxlength="100"></label>
+          <label>Ссылка кнопки<input id="ctaUrl" type="url" maxlength="2000"></label>
+        </div>
+        <div id="threadsFields" hidden>
+          <label>Аккаунт<input id="account" maxlength="80"></label>
+          <label>Текст треда<textarea id="threadsBody" rows="13" maxlength="15000" aria-describedby="threadsHint"></textarea></label>
+          <p id="threadsHint">Разделяйте публикации строкой из трёх дефисов. Длинные части можно разбить автоматически.</p>
+          <label>Максимум символов в части<input id="limit" type="number" min="100" max="1000" value="500"></label>
+          <button type="button" id="splitThreads">Разбить длинные части</button>
+        </div>
+        <div class="format-actions">
+          <button type="button" id="saveDraft" hidden>Сохранить в команде</button>
+          <button type="button" id="downloadFormat">Скачать</button>
+          <button type="button" id="downloadDraft">Скачать черновик JSON</button>
+          <button type="button" id="importDraft">Импортировать JSON</button>
+          <input type="file" id="draftFile" accept=".json,application/json" hidden>
+        </div>
+        <p id="formatStatus" role="status" aria-live="polite"></p>
+      </section>
+      <section aria-label="Предпросмотр" class="format-preview">
+        <h2>Предпросмотр</h2>
+        <iframe id="emailPreview" title="Предпросмотр письма" sandbox referrerpolicy="no-referrer"></iframe>
+        <ol id="threadsPreview" hidden></ol>
+      </section>
+    </div>
+  </main>
+  <script src="formats.js"></script>
+</body>
+</html>

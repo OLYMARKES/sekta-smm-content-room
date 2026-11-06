@@ -31,13 +31,31 @@ export function canEdit(role: Role) { return role === "owner" || role === "admin
 export function canReview(role: Role) { return role === "owner" || role === "admin" || role === "reviewer"; }
 export function canAdmin(role: Role) { return role === "owner" || role === "admin"; }
 
+export async function readBody(request: Request, maxBytes: number) {
+  if (!request.body || Number(request.headers.get("content-length")) > maxBytes) throw new Error("Файл слишком большой.");
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  try {
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > maxBytes) {
+        await reader.cancel();
+        throw new Error("Файл слишком большой.");
+      }
+      chunks.push(value);
+    }
+    return Buffer.concat(chunks, size);
+  } finally {
+    reader.releaseLock();
+  }
+}
+
 export async function readJson(request: Request, maxBytes = 2_000_000) {
   if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) throw new Error("Нужен JSON.");
-  const declared = Number(request.headers.get("content-length") || 0);
-  if (declared > maxBytes) throw new Error("Файл слишком большой.");
-  const text = await request.text();
-  if (new TextEncoder().encode(text).length > maxBytes) throw new Error("Файл слишком большой.");
-  return JSON.parse(text) as unknown;
+  return JSON.parse((await readBody(request, maxBytes)).toString("utf8")) as unknown;
 }
 
 export function seriesDocument(value: unknown): { name: string; slides: unknown[]; [key: string]: unknown } | null {

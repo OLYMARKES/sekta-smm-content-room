@@ -1,0 +1,20 @@
+.format-workspace { max-width: 1120px; margin: 0 auto; padding: 32px 20px; }
+.format-workspace h1 { margin-block: 10px; }
+.format-workspace nav, .format-library, .format-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin: 18px 0; }
+.format-workspace nav a[aria-current] { font-weight: 700; text-decoration-thickness: 3px; }
+.format-workspace button, .format-workspace input, .format-workspace textarea, .format-workspace select { padding: 8px; font: inherit; }
+.format-workspace button { border: 1px solid #171814; border-radius: 6px; background: #fff; color: #171814; cursor: pointer; }
+.format-workspace button:disabled { opacity: .55; cursor: default; }
+.format-workspace button#saveDraft { background: #171814; color: #fff; }
+.format-workspace label { display: grid; gap: 4px; }
+.format-columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.format-editor label { margin-block: 10px; }
+.format-editor input, .format-editor textarea { width: 100%; box-sizing: border-box; }
+.format-preview { border-inline-start: 1px solid #ddd; padding-inline-start: 20px; }
+.format-preview iframe { width: 100%; min-height: 550px; border: 1px solid #ddd; }
+.format-preview ol li { margin-block: 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.format-preview ol small { display: block; }
+@media (max-width: 720px) {
+  .format-columns { grid-template-columns: 1fr; }
+  .format-preview { border-inline-start: 0; padding-inline-start: 0; }
+}

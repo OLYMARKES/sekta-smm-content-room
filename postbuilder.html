@@ -9,7 +9,7 @@
   <title>#Sekta — конструктор поста</title>
   <link rel="stylesheet" href="styles.css?v=20260926-1">
   <link rel="stylesheet" href="type-studio/fonts.css">
-  <link rel="stylesheet" href="postbuilder.css?v=20261106-1">
+  <link rel="stylesheet" href="postbuilder.css?v=20261106-2">
 </head>
 <body>
   <a class="skip-link" href="#postbuilderMain">К конструктору поста</a>
@@ -26,6 +26,7 @@
             </div>
             <div class="carousel-studio-heading-actions">
               <span class="carousel-save-state" id="carouselSaveState"><i></i>черновик сохранён локально</span>
+              <span id="carouselTeamSaveState" role="status"></span>
               <button class="button button-primary" id="carouselSaveToTeam" type="button" hidden>Сохранить в команде</button>
               <button class="button button-secondary" id="carouselImportCover" type="button">Взять текст и фото обложки</button>
               <button class="button button-secondary" id="carouselNewSeries" type="button">Новая серия</button>
@@ -177,6 +178,7 @@
 
 Выберите один знакомый формат, уменьшите объём и заранее разрешите себе остановиться. Устойчивость начинается не с подвига, а с возможности вернуться ещё раз.</textarea>
                   <label class="carousel-field"><span>Подпись к публикации</span><textarea id="carouselCaption" rows="5" maxlength="10000" placeholder="Подпись, CTA и хэштеги"></textarea></label>
+                  <button class="button button-secondary" type="button" id="carouselCopyCaption">Скопировать подпись</button>
                 </div>
                 <aside class="carousel-split-settings">
                   <h3>Как разложить</h3>
@@ -193,7 +195,7 @@
           </div>
 
           <div class="carousel-stage-panel" id="carouselStageSlidesPanel" role="tabpanel" aria-labelledby="carouselStageSlidesTab" data-carousel-stage-panel="slides" hidden>
-            <div class="carousel-slide-rail" id="carouselSlideRail" aria-label="Все слайды серии"></div>
+            <div class="carousel-slide-rail" id="carouselSlideRail" aria-label="Все слайды серии. Для перестановки перетащите кадр или используйте кнопки порядка."></div>
             <div class="carousel-slide-editor">
               <section class="carousel-canvas-column" aria-label="Активный слайд">
                 <div class="carousel-slide-canvas" id="carouselActiveCanvas"></div>
@@ -298,6 +300,34 @@
             </section>
           </div>
 
+          <details class="carousel-handoff" id="teamMediaPanel" hidden>
+            <summary>Фото команды</summary>
+            <div class="carousel-handoff-body">
+              <p>JPG, PNG или WebP до 5 МБ. Загруженные фото появятся в выборе кадров у команды.</p>
+              <label class="carousel-field team-media-drop" id="teamMediaDrop"><span>Выберите или перетащите фото</span><input id="teamMediaFile" type="file" accept="image/jpeg,image/png,image/webp"></label>
+              <label class="carousel-field"><span>Теги</span><input id="teamMediaTags" maxlength="250"></label>
+              <label class="carousel-field"><span>Источник и разрешение</span><input id="teamMediaCredit" maxlength="300"></label>
+              <button class="button button-secondary" id="teamMediaUpload" type="button">Добавить в медиатеку</button>
+              <button class="button button-quiet" id="teamMediaRefresh" type="button">Обновить медиатеку</button>
+              <p id="teamMediaStatus" role="status"></p>
+            </div>
+          </details>
+          <details class="carousel-handoff" id="teamCommentsPanel" hidden>
+            <summary>Комментарии команды</summary>
+            <div class="carousel-handoff-body">
+              <div id="teamCommentComposer" hidden>
+                <label class="carousel-field"><span>Комментарий</span><textarea id="teamCommentBody" rows="3" maxlength="2000" placeholder="Можно указать коллегу через @имя"></textarea></label>
+                <label class="carousel-field"><span>Упомянуть коллегу</span><select id="teamMention"><option value="">Выберите участника</option></select></label>
+                <button class="button button-primary" id="teamCommentPost" type="button">К серии</button>
+                <button class="button button-secondary" id="teamCommentSlide" type="button">К выбранному слайду</button>
+              </div>
+              <button class="button button-secondary" id="teamCommentRefresh" type="button">Обновить</button>
+              <p id="teamCommentStatus" role="status"></p>
+              <ol id="teamCommentList" class="team-comment-list"></ol>
+              <button class="button button-secondary" id="teamCommentMore" type="button" hidden>Показать более ранние</button>
+            </div>
+          </details>
+
           <div class="carousel-studio-status" id="carouselStudioStatus" role="status" aria-live="polite">Черновик готов к монтажу.</div>
         </section>
   </main>
@@ -316,7 +346,8 @@
   <script src="type-studio/font-data.js"></script>
   <script src="media-source.js?v=20260904-1"></script>
   <script src="assets/vendor/fflate/fflate-0.8.2.js"></script>
-  <script src="carousel-studio.js?v=20261106-1"></script>
-  <script src="team-bridge.js?v=20260926-2"></script>
+  <script src="carousel-studio.js?v=20261106-2"></script>
+  <script src="team-collaboration.js?v=20261106-1"></script>
+  <script src="team-bridge.js?v=20261106-1"></script>
 </body>
 </html>

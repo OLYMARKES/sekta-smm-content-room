@@ -30,3 +30,37 @@ CREATE TABLE IF NOT EXISTS content_series_history (
   changed_at timestamptz NOT NULL DEFAULT now(),
   UNIQUE (series_id, revision)
 );
+
+CREATE TABLE IF NOT EXISTS content_series_comment (
+  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  series_id uuid NOT NULL REFERENCES content_series(id) ON DELETE CASCADE,
+  slide_id text,
+  author_name text NOT NULL,
+  body text NOT NULL CHECK (char_length(body) BETWEEN 1 AND 2000),
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS content_series_comment_series_idx ON content_series_comment (series_id, id DESC);
+
+CREATE TABLE IF NOT EXISTS content_media (
+  id uuid PRIMARY KEY,
+  name text NOT NULL,
+  mime text NOT NULL CHECK (mime IN ('image/jpeg', 'image/png', 'image/webp')),
+  data bytea NOT NULL CHECK (octet_length(data) BETWEEN 12 AND 5000000),
+  preview bytea NOT NULL CHECK (octet_length(preview) BETWEEN 12 AND 250000),
+  tags text NOT NULL,
+  credit text NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS content_format_draft (
+  id uuid PRIMARY KEY,
+  kind text NOT NULL CHECK (kind IN ('email', 'threads')),
+  title text NOT NULL CHECK (char_length(title) BETWEEN 1 AND 160),
+  document jsonb NOT NULL,
+  revision integer NOT NULL DEFAULT 1,
+  updated_by text NOT NULL,
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS content_format_draft_kind_idx ON content_format_draft (kind, updated_at DESC);
