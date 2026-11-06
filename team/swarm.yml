@@ -1,0 +1,70 @@
+services:
+  content-room:
+    image: sekta-content-room:${CONTENT_ROOM_IMAGE_TAG:-review}
+    env_file: .env
+    environment:
+      HOSTNAME: 0.0.0.0
+      DATABASE_URL: postgres://content_room:${CONTENT_ROOM_DB_PASSWORD}@database:5432/content_room
+      SMTP_SERVER_FILE: /run/secrets/smtp_server
+    secrets:
+      - smtp_server
+    networks:
+      - private
+      - main_net
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == sekta2
+      restart_policy:
+        condition: any
+        delay: 5s
+      update_config:
+        order: start-first
+        failure_action: rollback
+      labels:
+        traefik.enable: "true"
+        traefik.swarm.network: main_net
+        traefik.http.routers.content-room.rule: Host(`content.sekta2.ru`)
+        traefik.http.routers.content-room.entrypoints: https
+        traefik.http.routers.content-room.tls.certresolver: le
+        traefik.http.services.content-room.loadbalancer.server.port: "3000"
+  database:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_DB: content_room
+      POSTGRES_USER: content_room
+      POSTGRES_PASSWORD: ${CONTENT_ROOM_DB_PASSWORD}
+    volumes:
+      - content-room-pg:/var/lib/postgresql/data
+    networks:
+      - private
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U content_room -d content_room"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == sekta2
+      restart_policy:
+        condition: any
+        delay: 5s
+
+networks:
+  private:
+    driver: overlay
+  main_net:
+    external: true
+
+volumes:
+  content-room-pg:
+    external: true
+    name: content-room_content-room-pg
+
+secrets:
+  smtp_server:
+    external: true
+    name: sektabot-stage_v1_smtp_server

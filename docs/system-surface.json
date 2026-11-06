@@ -62,8 +62,9 @@
     {
       "id": "postbuilder",
       "label": "Конструктор поста",
-      "status": "source-only",
-      "decision": "restore-first",
+      "status": "standalone",
+      "decision": "restore-in-standalone-editor",
+      "page": "postbuilder.html",
       "sourceFiles": ["carousel-studio.js", "data/visual-canon.js"]
     },
     {
