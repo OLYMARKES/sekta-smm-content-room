@@ -18,3 +18,15 @@
   .format-columns { grid-template-columns: 1fr; }
   .format-preview { border-inline-start: 0; padding-inline-start: 0; }
 }
+
+#threadsDesk > details { margin: 14px 0; border-block-start: 1px solid #ddd; padding-block: 10px; }
+#threadsDesk summary { cursor: pointer; font-weight: 650; }
+.threads-toolbar, .threads-schedule { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; margin-block: 12px; }
+.threads-calendar { display: grid; grid-template-columns: repeat(7, minmax(130px, 1fr)); gap: 8px; overflow-x: auto; }
+.threads-calendar h3, .threads-themes h3 { margin-block: 6px; }
+.threads-slot { display: grid; gap: 5px; align-content: start; min-height: 100px; padding: 8px; border-top: 1px solid #ddd; }
+.threads-slot button { white-space: normal; text-align: start; }
+.threads-themes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 245px), 1fr)); gap: 16px; }
+.threads-themes article { border-top: 1px solid #ddd; padding-top: 8px; }
+.threads-angles { margin-top: 8px; }
+.threads-angles details { padding-block: 4px; }

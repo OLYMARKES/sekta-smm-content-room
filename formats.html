@@ -21,6 +21,30 @@
       <button type="button" id="openDraft">Открыть</button>
       <button type="button" id="refreshDrafts">Обновить список</button>
     </section>
+    <div id="threadsDesk" hidden>
+      <details>
+        <summary>Календарь Threads</summary>
+        <div class="threads-toolbar">
+          <button type="button" id="weekEarlier">← Неделя</button>
+          <label>Неделя с даты<input type="date" id="weekDate"></label>
+          <button type="button" id="weekLater">Неделя →</button>
+          <button type="button" id="weekToday">Сегодня</button>
+          <label>Аккаунт<select id="calendarAccount"></select></label>
+        </div>
+        <p>Пустой слот можно заполнить идеей из банка. Запись появится у команды после сохранения.</p>
+        <div id="threadsCalendar" class="threads-calendar"></div>
+      </details>
+      <details id="threadsBank">
+        <summary>Банк тем Threads Desk</summary>
+        <div class="threads-toolbar">
+          <label>Найти тему<input id="themeSearch" type="search" placeholder="Название, рубрика, ключевое слово"></label>
+          <label>Аккаунт<select id="themeAccount"></select></label>
+          <label>Рубрика<select id="themeKind"><option value="">Все</option></select></label>
+        </div>
+        <p id="themeCount" role="status"></p>
+        <div id="threadsThemes" class="threads-themes"></div>
+      </details>
+    </div>
     <div class="format-columns">
       <section class="format-editor" aria-label="Редактор">
         <label>Название черновика<input id="title" maxlength="160"></label>
@@ -35,7 +59,14 @@
           <label>Ссылка кнопки<input id="ctaUrl" type="url" maxlength="2000"></label>
         </div>
         <div id="threadsFields" hidden>
-          <label>Аккаунт<input id="account" maxlength="80"></label>
+          <label>Аккаунт<input id="account" maxlength="80" list="threadsAccounts"></label>
+          <datalist id="threadsAccounts"><option value="Sekta School"><option value="Sekta Мама"><option value="Sekta Pregnancy"><option value="Sekta GLP‑1"></datalist>
+          <div class="threads-schedule">
+            <label>Дата публикации<input id="publishDate" type="date"></label>
+            <label>Слот<select id="publishSlot"><option value="">Без слота</option><option value="morning">Утро</option><option value="day">День</option><option value="evening">Вечер</option></select></label>
+            <label>Статус<select id="editorialStatus"><option value="idea">Идея</option><option value="review">На проверке</option><option value="ready">Готово</option><option value="published">Вышел</option><option value="rejected">Не берём</option></select></label>
+          </div>
+          <input type="hidden" id="themeId" maxlength="100">
           <label>Текст треда<textarea id="threadsBody" rows="13" maxlength="15000" aria-describedby="threadsHint"></textarea></label>
           <p id="threadsHint">Разделяйте публикации строкой из трёх дефисов. Длинные части можно разбить автоматически.</p>
           <label>Максимум символов в части<input id="limit" type="number" min="100" max="1000" value="500"></label>

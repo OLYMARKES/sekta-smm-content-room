@@ -8,12 +8,20 @@
   const importButton = find("importDraft");
   const importFile = find("draftFile");
   const draftSelect = find("drafts");
-  const fields = (isEmail ? ["subject", "preheader", "heading", "image", "imageAlt", "emailBody", "cta", "ctaUrl"] : ["account", "threadsBody", "limit"]).map(find);
+  const fields = (isEmail ? ["subject", "preheader", "heading", "image", "imageAlt", "emailBody", "cta", "ctaUrl"] : ["account", "threadsBody", "limit", "publishDate", "publishSlot", "editorialStatus", "themeId"]).map(find);
   let id = null;
   let revision = null;
   let dirty = false;
   let busy = false;
   let renderTimer;
+  let drafts = [];
+  let themes = [];
+  const accounts = {
+    school: "Sekta School", mama: "Sekta Мама", pregnancy: "Sekta Pregnancy", glp1: "Sekta GLP‑1",
+  };
+  const slots = { morning: "Утро", day: "День", evening: "Вечер" };
+  const stages = { idea: "Идея", review: "На проверке", ready: "Готово", published: "Вышел", rejected: "Не берём" };
+  const angleLabels = { q: "Вопрос", take: "Тезис", scene: "Сцена" };
 
   find("emailFields").hidden = !isEmail;
   find("emailPreview").hidden = !isEmail;
@@ -94,8 +102,170 @@ ${url && data.cta.trim() ? `<a href="${preview ? "#preview" : escaped(url)}" sty
     find("threadsPreview").replaceChildren(...items);
   }
 
+  function fillDraft(draft) {
+    id = draft?.id || null;
+    revision = draft?.revision || null;
+    find("title").value = draft?.title || "";
+    fields.forEach((field) => {
+      const fallback = field instanceof HTMLSelectElement ? field.options[0].value : field.defaultValue;
+      field.value = draft?.document[field.id] ?? fallback;
+    });
+  }
+
+  function element(tag, value) {
+    const node = document.createElement(tag);
+    if (value !== undefined) node.textContent = value;
+    return node;
+  }
+
+  function action(label, handler) {
+    const button = element("button", label);
+    button.type = "button";
+    button.addEventListener("click", handler);
+    return button;
+  }
+
+  const asDate = (value) => new Date(value + "T12:00:00Z");
+  const dayKey = (date) => date.toISOString().slice(0, 10);
+
+  function shiftDay(date, days) {
+    const copy = new Date(date);
+    copy.setUTCDate(copy.getUTCDate() + days);
+    return copy;
+  }
+
+  function monday(date) {
+    return shiftDay(date, -((date.getUTCDay() + 6) % 7));
+  }
+
+  function renderCalendar() {
+    if (isEmail) return;
+    const start = monday(asDate(find("weekDate").value));
+    if (!Number.isFinite(start.getTime())) return;
+    const accountKey = find("calendarAccount").value;
+    const account = accounts[accountKey];
+    const byDay = new Intl.DateTimeFormat("ru", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
+    const days = Array.from({ length: 7 }, (_, index) => {
+      const date = shiftDay(start, index);
+      const key = dayKey(date);
+      const column = element("section");
+      column.append(element("h3", byDay.format(date)));
+      for (const [slot, label] of Object.entries(slots)) {
+        const cell = element("div");
+        cell.className = "threads-slot";
+        cell.append(element("strong", label));
+        const matching = drafts.filter((draft) => draft.publishDate === key && draft.publishSlot === slot && draft.account === account);
+        if (!matching.length) cell.append(action("+ Запланировать", () => {
+          if (busy || (dirty && !confirm("Создать черновик для этого слота? Сначала можно сохранить текущий текст."))) return;
+          fillDraft(null);
+          draftSelect.value = "";
+          find("account").value = account;
+          find("publishDate").value = key;
+          find("publishSlot").value = slot;
+          find("themeAccount").value = accountKey;
+          find("threadsBank").open = true;
+          dirty = true;
+          renderThemes();
+          render();
+          find("themeSearch").focus();
+        }));
+        for (const draft of matching) {
+          cell.append(action(draft.title, () => {
+            draftSelect.value = draft.id;
+            openButton.click();
+          }), element("small", stages[draft.editorialStatus] || stages.idea));
+        }
+        column.append(cell);
+      }
+      return column;
+    });
+    find("threadsCalendar").replaceChildren(...days);
+  }
+
+  function useTheme(theme, angle) {
+    if (busy || (find("threadsBody").value.trim() && !confirm("Заменить текущий текст выбранной подачей?"))) return;
+    const current = read();
+    const account = theme.accounts.some((key) => accounts[key] === current.account) ? current.account : accounts[theme.accounts[0]] || "";
+    find("title").value = theme.title;
+    find("account").value = account;
+    find("threadsBody").value = theme[angle];
+    find("themeId").value = theme.id;
+    dirty = true;
+    render();
+    status.textContent = theme.kind === "Sekta Science" ? "Тема добавлена. Проверьте фактуру с экспертом перед публикацией." : "Подача добавлена в черновик.";
+    find("threadsBody").focus();
+  }
+
+  function renderThemes() {
+    const query = find("themeSearch").value.trim().toLocaleLowerCase("ru");
+    const account = find("themeAccount").value;
+    const category = find("themeKind").value;
+    const matching = themes.filter((theme) => (!account || theme.accounts.includes(account))
+      && (!category || theme.kind === category)
+      && (!query || [theme.title, theme.summary, theme.kind, theme.fact].join(" ").toLocaleLowerCase("ru").includes(query)));
+    find("themeCount").textContent = `Тем: ${matching.length} из ${themes.length}`;
+    find("threadsThemes").replaceChildren(...matching.map((theme) => {
+      const card = element("article");
+      card.append(element("small", `${theme.kind} · ${theme.accounts.map((key) => accounts[key]).filter(Boolean).join(", ")}`),
+        element("h3", theme.title), element("p", theme.summary));
+      if (theme.fact) card.append(element("p", theme.fact));
+      if (theme.source?.label) {
+        const url = httpsUrl(theme.source.url || "");
+        const source = element(url ? "a" : "small", theme.source.label);
+        if (url) { source.href = url; source.target = "_blank"; source.rel = "noreferrer"; }
+        card.append(source);
+      }
+      const angles = element("div");
+      angles.className = "threads-angles";
+      for (const [key, label] of Object.entries(angleLabels)) {
+        const detail = element("details");
+        detail.append(element("summary", label), element("p", theme[key]), action("В черновик", () => useTheme(theme, key)));
+        angles.append(detail);
+      }
+      card.append(angles);
+      return card;
+    }));
+  }
+
+  function initThreads() {
+    find("threadsDesk").hidden = false;
+    const calendarAccount = find("calendarAccount");
+    const themeAccount = find("themeAccount");
+    themeAccount.add(new Option("Все", ""));
+    for (const [key, label] of Object.entries(accounts)) {
+      calendarAccount.add(new Option(label, key));
+      themeAccount.add(new Option(label, key));
+    }
+    const dateField = find("weekDate");
+    const today = () => new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Moscow", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+    dateField.value = dayKey(monday(asDate(today())));
+    function navigate(delta) {
+      const selected = dateField.value || today();
+      dateField.value = dayKey(shiftDay(monday(asDate(selected)), delta));
+      renderCalendar();
+    }
+    find("weekEarlier").addEventListener("click", () => navigate(-7));
+    find("weekLater").addEventListener("click", () => navigate(7));
+    find("weekToday").addEventListener("click", () => { dateField.value = today(); navigate(0); });
+    dateField.addEventListener("change", () => navigate(0));
+    calendarAccount.addEventListener("change", renderCalendar);
+    find("themeSearch").addEventListener("input", renderThemes);
+    themeAccount.addEventListener("change", renderThemes);
+    find("themeKind").addEventListener("change", renderThemes);
+    request("data/threads-desk-themes.json").then((data) => {
+      themes = data;
+      for (const kind of [...new Set(themes.map((theme) => theme.kind))].sort((a, b) => a.localeCompare(b, "ru"))) {
+        find("themeKind").add(new Option(kind));
+      }
+      renderThemes();
+    }).catch(() => { find("themeCount").textContent = "Банк тем не загрузился. Обновите страницу."; });
+    renderCalendar();
+  }
+
   async function refreshDrafts() {
     const { items } = await request(`/api/formats?kind=${kind}`);
+    drafts = items;
+    renderCalendar();
     const selected = draftSelect.value;
     draftSelect.replaceChildren(new Option("Новый черновик", ""), ...items.map((item) => new Option(item.title, item.id)));
     draftSelect.value = items.some((item) => item.id === (id || selected)) ? id || selected : "";
@@ -114,10 +284,7 @@ ${url && data.cta.trim() ? `<a href="${preview ? "#preview" : escaped(url)}" sty
     try {
       const draft = selected ? await request(`/api/formats?kind=${kind}&id=${encodeURIComponent(selected)}`) : null;
       if (before !== JSON.stringify([find("title").value, read()])) return;
-      id = draft?.id || null;
-      revision = draft?.revision || null;
-      find("title").value = draft?.title || "";
-      fields.forEach((field) => { field.value = draft?.document[field.id] ?? field.defaultValue; });
+      fillDraft(draft);
       dirty = false;
       render();
       status.textContent = draft ? "Открыт общий черновик." : "Новый черновик.";
@@ -183,13 +350,12 @@ ${url && data.cta.trim() ? `<a href="${preview ? "#preview" : escaped(url)}" sty
         || !draft.document || typeof draft.document !== "object" || Array.isArray(draft.document)
         || Object.entries(draft.document).some(([key, value]) => {
           const field = fields.find((candidate) => candidate.id === key);
-          return !field || typeof value !== "string" || value.length > (field.maxLength > 0 ? field.maxLength : 4);
+          const max = field instanceof HTMLSelectElement ? 12 : field?.maxLength > 0 ? field.maxLength : field?.type === "date" ? 10 : 4;
+          return !field || typeof value !== "string" || value.length > max;
         })) throw new Error("Выберите JSON этого формата.");
       if (before !== JSON.stringify([find("title").value, read()])) return;
-      id = revision = null;
+      fillDraft(draft);
       draftSelect.value = "";
-      find("title").value = draft.title;
-      fields.forEach((field) => { field.value = draft.document[field.id] ?? field.defaultValue; });
       dirty = true;
       render();
       status.textContent = "Копия открыта. Её можно сохранить как новый общий черновик.";
@@ -220,6 +386,7 @@ ${url && data.cta.trim() ? `<a href="${preview ? "#preview" : escaped(url)}" sty
     renderTimer = setTimeout(render, 250);
   });
   window.addEventListener("beforeunload", (event) => { if (dirty) { event.preventDefault(); event.returnValue = ""; } });
+  if (!isEmail) initThreads();
   request("/api/me").then((user) => {
     saveButton.hidden = !["owner", "admin", "editor"].includes(user.role);
     return refreshDrafts();

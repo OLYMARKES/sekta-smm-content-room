@@ -6,7 +6,7 @@ function headers() { return { "Cache-Control": "no-store" }; }
 function validId(value: unknown) { return typeof value === "string" && /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i.test(value); }
 const limits = {
   email: { subject: 180, preheader: 180, heading: 180, image: 2000, imageAlt: 250, emailBody: 15000, cta: 100, ctaUrl: 2000 },
-  threads: { account: 80, threadsBody: 15000, limit: 4 },
+  threads: { account: 80, threadsBody: 15000, limit: 4, publishDate: 10, publishSlot: 7, editorialStatus: 9, themeId: 100 },
 };
 function validKind(value: unknown): value is keyof typeof limits { return value === "email" || value === "threads"; }
 function validDocument(value: unknown, kind: keyof typeof limits) {
@@ -27,7 +27,10 @@ export async function GET(request: Request) {
     return rows[0] ? Response.json(rows[0], { headers: headers() }) : jsonError("Черновик не найден.", 404);
   }
   const { rows } = await pool.query(
-    'SELECT id, title, updated_at AS "updatedAt" FROM content_format_draft WHERE kind=$1 ORDER BY updated_at DESC, id',
+    `SELECT id, title, updated_at AS "updatedAt", document->>'account' AS account,
+      document->>'publishDate' AS "publishDate", document->>'publishSlot' AS "publishSlot",
+      document->>'editorialStatus' AS "editorialStatus"
+      FROM content_format_draft WHERE kind=$1 ORDER BY updated_at DESC, id`,
     [kind],
   );
   return Response.json({ items: rows }, { headers: headers() });

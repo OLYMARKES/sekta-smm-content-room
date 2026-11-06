@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import { randomBytes } from "node:crypto";
 
-const origin = "http://127.0.0.1:3000";
+const origin = process.env.CONTENT_ROOM_ACCEPTANCE_ORIGIN || "http://127.0.0.1:3000";
 const mailpit = "http://content-room-acceptance-mail:8025";
 const password = () => randomBytes(24).toString("hex");
 const ownerEmail = "qa2@example.invalid";
@@ -92,6 +92,84 @@ const history = status(await request(`/api/series/${seriesId}/history`, "GET", u
 assert.equal(history.revisions.length, 5);
 const restored = status(await request(`/api/series/${seriesId}/history`, "POST", { revision: 2, expectedRevision: 5 }, ownerCookie), 200, "restore history");
 assert.equal(restored.revision, 6);
+if (process.env.CONTENT_ROOM_ACCEPTANCE_BROWSER === "1") {
+  const { chromium } = await import("playwright");
+  const { createRequire } = await import("node:module");
+  const { readFile } = await import("node:fs/promises");
+  const { unzipSync } = createRequire(import.meta.url)("../../assets/vendor/fflate/fflate-0.8.2.js");
+  const browser = await chromium.launch({ args: ["--no-sandbox"] });
+  try {
+    async function participant(cookie) {
+      const context = await browser.newContext();
+      await context.addCookies(cookie.split("; ").map((pair) => {
+        const index = pair.indexOf("=");
+        return { name: pair.slice(0, index), value: pair.slice(index + 1), url: origin };
+      }));
+      const page = await context.newPage();
+      page.on("dialog", (dialog) => void dialog.accept());
+      page.setDefaultTimeout(15_000);
+      return page;
+    }
+
+    const author = await participant(ownerCookie);
+    const reviewer = await participant(reviewerCookie);
+    const draft = {
+      name: "Stage single post", caption: "Initial stage caption",
+      brief: { textReviewed: true, photosCleared: true, slidesReviewed: true },
+      slides: [{ id: "qa-cover", role: "cover", scene: "paper", template: "light-column", title: "SEKTA", body: "Stage export" }],
+    };
+    const shared = status(await request("/api/series", "POST", draft, ownerCookie), 201, "create shared browser draft");
+    const editor = `${origin}/editor/postbuilder.html?team=${shared.id}`;
+    await author.goto(editor);
+    await author.getByText("Открыта общая версия", { exact: true }).waitFor();
+    await author.locator("#carouselStageLongreadTab").click();
+    await author.locator("#carouselCaption").fill("Caption saved by participant one");
+    await author.getByText("Сохранено для команды", { exact: true }).waitFor();
+    await reviewer.goto(editor);
+    await reviewer.getByText("Открыта общая версия", { exact: true }).waitFor();
+    await reviewer.locator("#carouselStageLongreadTab").click();
+    assert.equal(await reviewer.locator("#carouselCaption").inputValue(), "Caption saved by participant one");
+    await reviewer.locator("#teamCommentsPanel summary").click();
+    await reviewer.locator("#teamMention").selectOption(ownerEmail);
+    await reviewer.locator("#teamCommentBody").fill("Stage reviewer feedback");
+    await reviewer.locator("#teamCommentSlide").click();
+    await reviewer.locator("#teamCommentList").getByText("Stage reviewer feedback", { exact: true }).waitFor();
+    await author.locator("#teamCommentsPanel summary").click();
+    await author.locator("#teamCommentRefresh").click();
+    await author.locator("#teamCommentList").getByText("Stage reviewer feedback", { exact: true }).waitFor();
+    await author.locator("#carouselStageSlidesTab").click();
+    const zip = author.waitForEvent("download");
+    await author.locator("#carouselDownloadZip").click();
+    const files = unzipSync(await readFile(await (await zip).path()));
+    assert.equal(new TextDecoder().decode(files["caption.txt"]).trim(), "Caption saved by participant one");
+    assert.equal(new DataView(files["01-cover.png"].buffer, files["01-cover.png"].byteOffset).getUint32(16), 1080);
+    assert.equal(new DataView(files["01-cover.png"].buffer, files["01-cover.png"].byteOffset).getUint32(20), 1350);
+    assert.ok(files["brief.txt"]);
+
+    const formats = origin + "/editor/formats.html?kind=threads";
+    await author.goto(formats);
+    await author.locator("#threadsBank > summary").click();
+    await author.locator("#themeSearch").fill("Весы испортили утро");
+    const theme = author.locator("#threadsThemes article").filter({ hasText: "Весы испортили утро" });
+    await theme.locator("summary").first().click();
+    await theme.getByRole("button", { name: "В черновик" }).first().click();
+    assert.match(await author.locator("#threadsBody").inputValue(), /вес/i);
+    const week = await author.locator("#weekDate").inputValue();
+    await author.locator("#publishDate").fill(week);
+    await author.locator("#publishSlot").selectOption("morning");
+    await author.locator("#saveDraft").click();
+    await author.getByText("Черновик сохранён для команды.", { exact: true }).waitFor();
+    await reviewer.goto(formats);
+    await reviewer.locator("#threadsDesk > details").first().locator("summary").click();
+    await reviewer.locator("#threadsCalendar").getByRole("button", { name: "Весы испортили утро" }).click();
+    await reviewer.getByText("Открыт общий черновик.", { exact: true }).waitFor();
+    assert.match(await reviewer.locator("#threadsBody").inputValue(), /вес/i);
+    console.log("Two-browser acceptance passed: autosave, reviewer visibility and comment, ZIP dimensions and caption, Threads topic and shared calendar");
+  } finally {
+    await browser.close();
+  }
+}
+
 status(await request("/api/members", "DELETE", { email: reviewerEmail }, ownerCookie), 200, "revoke reviewer");
 status(await request("/api/series", "GET", undefined, reviewerCookie), 403, "revoked session blocked");
 console.log("Acceptance passed: invitation, email verification, roles, revision conflict, review, history, revocation");
