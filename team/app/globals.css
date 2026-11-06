@@ -91,3 +91,5 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 .member-row button{grid-column:1 / -1;justify-self:start;padding:4px 0 10px}
 }
 
+
+.team-list-filters { display: flex; flex-wrap: wrap; align-items: end; gap: 8px; }

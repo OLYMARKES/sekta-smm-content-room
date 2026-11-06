@@ -176,6 +176,10 @@
     downloadCover: document.querySelector("#carouselDownloadSlide"),
     longread: document.querySelector("#carouselLongreadText"),
     longreadWords: document.querySelector("#carouselLongreadWords"),
+    caption: document.querySelector("#carouselCaption"),
+    downloadZip: document.querySelector("#carouselDownloadZip"),
+    previewPng: document.querySelector("#carouselPreviewPng"),
+    pngDialog: document.querySelector("#carouselPngDialog"),
     slideCount: document.querySelector("#carouselSlideCount"),
     splitMath: document.querySelector("#carouselSplitMath"),
     keepParagraphs: document.querySelector("#carouselKeepParagraphs"),
@@ -270,6 +274,7 @@
     saveSlide: document.querySelector("#carouselSaveSlide"),
     downloadActive: document.querySelector("#carouselDownloadActive"),
     duplicateSlide: document.querySelector("#carouselDuplicateSlide"),
+    slideActions: [...document.querySelectorAll("[data-slide-action]")],
     savedSeries: document.querySelector("#carouselSavedSeries"),
     exportSeries: document.querySelector("#carouselExportSeries"),
     sourceTitle: document.querySelector("#postSourceTitle"),
@@ -291,7 +296,7 @@
   const storageBlocked = new Set();
   const validSeriesShape = (value) => value && typeof value === "object" && !Array.isArray(value)
     && typeof value.name === "string" && value.name.length <= 10000
-    && Array.isArray(value.slides) && value.slides.length >= 2 && value.slides.length <= 30
+    && Array.isArray(value.slides) && value.slides.length >= 1 && value.slides.length <= 30
     && value.slides.every((slide) => slide && typeof slide === "object" && !Array.isArray(slide)
       && (slide.title == null || typeof slide.title === "string")
       && (slide.body == null || typeof slide.body === "string")
@@ -575,14 +580,16 @@
     };
   }
 
-  const briefFields = { owner: 80, reviewer: 80, publicationDate: 10, account: 80, objective: 500, cta: 500, notes: 2000 };
+  const briefFields = { owner: 80, reviewer: 80, publicationDate: 10, deadline: 10, account: 80, category: 80, objective: 500, audience: 500, keyMessage: 500, sourceUrl: 2000, cta: 500, notes: 2000 };
   const briefChecks = ["textReviewed", "photosCleared", "slidesReviewed"];
 
   function normalizeBrief(value) {
     const source = value && typeof value === "object" && !Array.isArray(value) ? value : {};
     const brief = {};
     Object.entries(briefFields).forEach(([key, limit]) => { brief[key] = typeof source[key] === "string" ? source[key].slice(0, limit) : ""; });
-    if (brief.publicationDate && !/^\d{4}-\d{2}-\d{2}$/.test(brief.publicationDate)) brief.publicationDate = "";
+    for (const key of ["publicationDate", "deadline"]) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(brief[key])) brief[key] = "";
+    }
     briefChecks.forEach((key) => { brief[key] = source[key] === true; });
     return brief;
   }
@@ -597,7 +604,8 @@
       palette: "ink",
       brief: normalizeBrief(),
       longread: DEFAULT_LONGREAD,
-      totalSlides: 10,
+      caption: "",
+      totalSlides: 8,
       activeSlide: 0,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -607,17 +615,18 @@
         makeSlide({ ...montageTemplates.final, title: "Возвращение не требует наказания", body: "Сохраните, чтобы вернуться к этой мысли в нужный день." }),
       ],
     };
-    return splitSeries(series, 10, true, true);
+    return splitSeries(series, 8, true, true);
   }
 
   function normalizeSeries(candidate) {
-    if (!candidate || !Array.isArray(candidate.slides) || candidate.slides.length < 2) return defaultSeries();
+    if (!candidate || !Array.isArray(candidate.slides) || candidate.slides.length < 1) return defaultSeries();
     return {
       ...candidate,
       font: normalizeFontSystem(candidate.font?.family ? candidate.font : { family: canonType.family, body: canonType.body, caseKind: canonType.caseKind, recipe: "утверждённый канон #Sekta" }),
       palette: paletteChoices()[candidate.palette] ? candidate.palette : "ink",
       brief: normalizeBrief(candidate.brief),
-      longread: candidate.longread || DEFAULT_LONGREAD,
+      caption: typeof candidate.caption === "string" ? candidate.caption.slice(0, 10000) : "",
+      longread: typeof candidate.longread === "string" ? candidate.longread : DEFAULT_LONGREAD,
       totalSlides: candidate.slides.length,
       activeSlide: Math.min(Math.max(Number(candidate.activeSlide) || 0, 0), candidate.slides.length - 1),
       slides: candidate.slides.map((slide) => makeSlide({
@@ -872,6 +881,12 @@
       ...themedTemplate(montageTemplates.final, next),
       ...(previousFinal?.role === "cta" ? previousFinal : { title: "Сохраните эту мысль", body: "Вернитесь к ней, когда снова захочется начать с наказания." }),
     });
+    cover.role = "cover";
+    if (total <= 2) {
+      cover.body = next.longread;
+      if (total === 1 && next.brief?.cta?.trim()) cover.body += `\n\n${next.brief.cta.trim()}`;
+      cover.savedAt = null;
+    }
     const chunks = distributeText(next.longread, total - 2, keepParagraphs);
     const photos = rankedSeriesPhotos(next);
     const usedPhotos = new Set([cover.photoId].filter(Boolean));
@@ -894,7 +909,7 @@
       return ensureGeneratedSlideIntegrity(slide, index + 1, next, usedPhotos);
     });
     ensureGeneratedSlideIntegrity(finalSlide, total - 1, next, usedPhotos);
-    next.slides = [cover, ...bodySlides, finalSlide];
+    next.slides = total === 1 ? [cover] : [cover, ...bodySlides, finalSlide];
     next.montageVersion = MONTAGE_VERSION;
     next.totalSlides = next.slides.length;
     next.activeSlide = Math.min(next.activeSlide || 0, next.slides.length - 1);
@@ -997,7 +1012,8 @@
     const idea = activeIdea();
     series.longread = generatedLongread(idea, generationVariant);
     ui.longread.value = series.longread;
-    series = splitSeries(series, Number(ui.slideCount.value || 10), ui.keepParagraphs.checked, ui.photoRhythm.checked);
+    if (ui.caption) ui.caption.value = series.caption || "";
+    series = splitSeries(series, Number(ui.slideCount.value || 8), ui.keepParagraphs.checked, ui.photoRhythm.checked);
     ui.longreadDraftState.textContent = `Черновик ${generationVariant + 1} · требует редакторской проверки`;
     renderAll();
     markChanged();
@@ -1038,6 +1054,7 @@
 
   function loadIdea(detail) {
     const idea = { ...fallbackIdea, ...detail };
+    if (series.idea?.id !== idea.id) series.caption = "";
     series.idea = idea;
     series.name = idea.title;
     series.brief = normalizeBrief({ objective: idea.objective, cta: idea.cta });
@@ -1046,7 +1063,7 @@
       series.font = normalizeFontSystem(idea.font);
       ensureFont(series.font);
     }
-    const requestedSlides = Math.min(20, Math.max(5, Number(idea.slideCount) || 10));
+    const requestedSlides = Math.min(20, Math.max(1, Number(idea.slideCount) || 8));
     ui.slideCount.value = String(requestedSlides);
     const cover = coverSlide();
     cover.title = idea.hook;
@@ -1063,6 +1080,7 @@
     if (idea.longread?.trim()) {
       series.longread = idea.longread.trim();
       ui.longread.value = series.longread;
+    if (ui.caption) ui.caption.value = series.caption || "";
       series = splitSeries(series, requestedSlides, ui.keepParagraphs.checked, ui.photoRhythm.checked);
       if (Array.isArray(idea.slides) && idea.slides.length === series.slides.length) {
         series.slides = series.slides.map((slide, index) => makeSlide({
@@ -1848,7 +1866,8 @@
     syncTypographyControls("cover");
     syncLayerContentControls("cover");
     ui.longread.value = series.longread;
-    ui.slideCount.value = String(series.totalSlides || series.slides.length);
+    if (ui.caption) ui.caption.value = series.caption || "";
+    ui.slideCount.value = String(Math.min(20, series.slides.length));
     document.querySelectorAll("[data-carousel-scene]").forEach((button) => button.classList.toggle("is-active", button.dataset.carouselScene === slide.scene));
     const photo = photoById(slide.photoId);
     ui.coverPhotoName.textContent = photo?.fileName || "без фотографии";
@@ -1880,8 +1899,8 @@
       const wordCount = words(previewText).length;
       return `<button type="button" data-edit-split="${index + 1}"><span>${String(index + 2).padStart(2, "0")}</span><strong>${escapeHtml(templateDefinitions[slide.template]?.name || sceneLabels[slide.scene] || slide.scene)}</strong><p>${escapeHtml(previewText || "Пустой слайд")}</p><small>${wordCount} ${plural(wordCount, "слово", "слова", "слов")}</small></button>`;
     }).join("");
-    const count = Number(ui.slideCount.value || series.totalSlides || 10);
-    ui.splitMath.innerHTML = `<strong>1 + ${Math.max(0, count - 2)} + 1</strong><span>обложка · текст · финал</span>`;
+    const count = Number(ui.slideCount.value || series.totalSlides || 8);
+    ui.splitMath.innerHTML = count === 1 ? "<strong>1</strong><span>одиночный пост</span>" : `<strong>1 + ${Math.max(0, count - 2)} + 1</strong><span>обложка · текст · финал</span>`;
     const countWords = words(ui.longread.value).length;
     ui.longreadWords.textContent = `${countWords} ${plural(countWords, "слово", "слова", "слов")}`;
   }
@@ -2009,6 +2028,14 @@
 
   function syncActiveForm() {
     const slide = activeSlide();
+    const actionDisabled = {
+      earlier: series.activeSlide === 0,
+      later: series.activeSlide === series.slides.length - 1,
+      add: series.slides.length >= 20,
+      remove: series.slides.length === 1,
+    };
+    for (const button of ui.slideActions) button.disabled = actionDisabled[button.dataset.slideAction];
+    ui.duplicateSlide.disabled = actionDisabled.add;
     ui.activeTitle.textContent = `Слайд ${series.activeSlide + 1}`;
     ui.activeMeta.textContent = `${roleLabels[slide.role] || slide.role} · ${slide.savedAt ? "сохранён" : "есть изменения"}`;
     ui.slideTitle.value = slide.title || "";
@@ -2660,12 +2687,13 @@
       return;
     }
     const total = Number(ui.slideCount.value);
+    if (!total || !confirm("Пересобрать слайды из текста? Ручные правки текущих макетов могут измениться.")) return;
     series.longread = text;
     series = splitSeries(series, total, ui.keepParagraphs.checked, ui.photoRhythm.checked);
     ui.splitHint.textContent = `Текст разложен на ${total} слайдов без сокращений. Каждый кадр можно править отдельно.`;
     renderAll();
     markChanged();
-    setStatus(`Лонгрид разложен: обложка, ${total - 2} текстовых слайдов и финал.`);
+    setStatus(total === 1 ? "Текст перенесён в одиночный пост." : `Лонгрид разложен на ${total} слайдов.`);
   }
 
   function cropImage(context, image, x, y, width, height, focusX = 50, focusY = 50, zoom = 1) {
@@ -3035,49 +3063,109 @@
     return canvas;
   }
 
-  async function downloadSlide(slide, index) {
+  function exportPhoto(slide, index) {
+    const photo = photoById(slide.photoId);
+    if ((slide.photoId || templateDefinitions[slide.template]?.usesPhoto) && !photo) {
+      throw new Error(`Слайд ${index + 1}: добавьте доступное фото или выберите текстовый макет.`);
+    }
+    if (photo && !isUsablePhoto(photo)) {
+      throw new Error(`Слайд ${index + 1}: выберите фото, доступное для публикации.`);
+    }
+    return photo;
+  }
+
+  async function renderSlidePng(slide, index, font) {
+    const snapshot = { ...slide, font: slide.font?.family ? slide.font : font };
+    ensureFont(normalizeFontSystem(snapshot.font));
+    const layers = [
+      ...Object.keys(typographyLayers),
+      ...(snapshot.customLayers || []).map((layer) => `custom:${layer.id}`),
+    ].map((layer) => layerTypography(snapshot, layer));
+    layers.forEach((type) => ensureFontFamily(type.resolvedFamily));
+    await Promise.allSettled(layers.map((type) => document.fonts.load(`${type.weight} ${type.size}px "${type.resolvedFamily}"`)));
+    const canvas = await makeSlideCanvas(snapshot, index);
     try {
-      const snapshot = deepClone(slide);
-      snapshot.font = snapshot.font?.family ? snapshot.font : deepClone(series.font);
-      const seriesName = series.name;
-      const photo = photoById(snapshot.photoId);
-      if (templateDefinitions[snapshot.template]?.usesPhoto === true && !photo) {
-        setStatus(`Слайд ${index + 1} не экспортирован: сначала добавьте фотографию или выберите текстовую композицию.`);
-        return;
+      if (canvas.dataset.textOverflow === "true") {
+        throw new Error(`Слайд ${index + 1}: сократите текст, увеличьте рамку или уменьшите кегль.`);
       }
-      if (photo && !isUsablePhoto(photo)) {
-        setStatus(`Слайд ${index + 1} не экспортирован: изображение недоступно для публикации или не является фотографией. Выберите другое.`);
-        return;
-      }
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+      if (!blob) throw new Error(`Слайд ${index + 1}: не удалось собрать PNG.`);
+      return { blob, preview: canvas.dataset.sourceKind === "preview" };
+    } finally {
+      canvas.width = canvas.height = 0;
+    }
+  }
+
+  function downloadFile(blob, name) {
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = name;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+  }
+
+  function exportName(name) {
+    return name.toLocaleLowerCase("ru-RU").replace(/[^a-zа-яё0-9]+/gi, "-").replace(/^-|-$/g, "") || "carousel";
+  }
+
+  async function downloadSlide(slide, index) {
+    const snapshot = deepClone(slide);
+    const { name, font } = series;
+    try {
+      const photo = exportPhoto(snapshot, index);
       if (photo?.publicationStatus === "review" && !confirm("Фотография отмечена «Проверить». Редактор согласовал её для этого поста?")) {
         setStatus("Экспорт отменён до редакционного согласования фотографии.");
         return;
       }
       setStatus("Собираем PNG 1080 × 1350…");
-      const slideFont = normalizeFontSystem(snapshot.font);
-      ensureFont(slideFont);
-      const textLayers = [
-        ...Object.keys(typographyLayers).map((layer) => layerTypography(snapshot, layer)),
-        ...(snapshot.customLayers || []).map((layer) => layerTypography(snapshot, `custom:${layer.id}`)),
-      ];
-      textLayers.forEach((type) => ensureFontFamily(type.resolvedFamily));
-      try { await Promise.all(textLayers.map((type) => document.fonts.load(`${type.weight} ${type.size}px "${type.resolvedFamily}"`))); } catch {}
-      const canvas = await makeSlideCanvas(snapshot, index);
-      if (canvas.dataset.textOverflow === "true") {
-        setStatus(`Слайд ${index + 1} не экспортирован: текст не помещается. Увеличьте рамку, сократите текст или выберите другой кегль.`);
-        return;
-      }
-      const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
-      if (!blob) throw new Error("empty PNG");
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = `${seriesName.toLocaleLowerCase("ru-RU").replace(/[^a-zа-яё0-9]+/gi, "-").replace(/^-|-$/g, "") || "carousel"}-${String(index + 1).padStart(2, "0")}.png`;
-      link.click();
-      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-      const quality = canvas.dataset.sourceKind === "preview" ? ` Использовано превью ${canvas.dataset.sourceSize}: проверьте детализацию.` : "";
-      setStatus(`Слайд ${index + 1} скачан в PNG.${quality}`);
+      const { blob, preview } = await renderSlidePng(snapshot, index, font);
+      downloadFile(blob, `${exportName(name)}-${String(index + 1).padStart(2, "0")}.png`);
+      setStatus(`Слайд ${index + 1} скачан в PNG.${preview ? " Использовано превью фото. Проверьте детализацию." : ""}`);
     } catch (error) {
       setStatus(error.message || "PNG не собрался. Проверьте источник фотографии и попробуйте снова.");
+    }
+  }
+
+  async function downloadPostZip() {
+    const snapshot = deepClone(series);
+    const { slides, font, caption, brief, name } = snapshot;
+    ui.downloadZip.disabled = true;
+    try {
+      if (!window.fflate) throw new Error("Модуль ZIP не загрузился. Обновите страницу и повторите.");
+      if (slides.length > 20) throw new Error("Для экспорта поста оставьте до 20 слайдов.");
+      if (!caption?.trim()) throw new Error("Добавьте подпись к публикации во вкладке «Лонгрид».");
+      if (slides[0].role !== "cover") throw new Error("Первый слайд должен быть обложкой.");
+      if (slides.length > 1 && (slides.at(-1).role !== "cta" || ![slides.at(-1).title, slides.at(-1).body].some((text) => text?.trim()))) {
+        throw new Error("Добавьте финальный слайд с CTA.");
+      }
+      const emptyIndex = slides.findIndex((slide) => !slide.photoId && ![slide.title, slide.body, ...(slide.customLayers || []).map((layer) => layer.text)].some((text) => text?.trim()));
+      if (emptyIndex !== -1) throw new Error(`Слайд ${emptyIndex + 1} пуст. Заполните его или удалите из серии.`);
+      const photos = slides.map(exportPhoto);
+      const needsReview = photos.some((photo) => photo?.publicationStatus === "review");
+      if ((needsReview || briefChecks.some((key) => !brief[key])) && !confirm("Есть фото или пункты чеклиста, ожидающие проверки. Скачать материалы для ревью?")) {
+        setStatus("Экспорт отменён. Продолжите проверку в брифе.");
+        return;
+      }
+      const encoder = new TextEncoder();
+      const files = {
+        "caption.txt": encoder.encode(caption.trim() + "\n"),
+        "brief.txt": encoder.encode(briefText(snapshot) + "\n"),
+      };
+      const previews = [];
+      for (const [index, slide] of slides.entries()) {
+        const number = String(index + 1).padStart(2, "0");
+        setStatus(`Готовим ZIP · слайд ${index + 1} из ${slides.length}…`);
+        const { blob, preview } = await renderSlidePng(slide, index, font);
+        files[`${number}${index === 0 ? "-cover" : ""}.png`] = new Uint8Array(await blob.arrayBuffer());
+        if (preview) previews.push(index + 1);
+      }
+      const archive = window.fflate.zipSync(files, { level: 0 });
+      downloadFile(new Blob([archive], { type: "application/zip" }), `${exportName(name)}.zip`);
+      setStatus(previews.length ? `ZIP скачан. Проверьте качество фото на слайдах ${previews.join(", ")}.` : "ZIP скачан: слайды, подпись и бриф.");
+    } catch (error) {
+      setStatus(error.message || "Не удалось собрать ZIP. Попробуйте снова.");
+    } finally {
+      ui.downloadZip.disabled = false;
     }
   }
 
@@ -3516,8 +3604,8 @@
   ui.saveSlide.addEventListener("click", () => saveCurrentSlide());
   ui.downloadActive.addEventListener("click", () => downloadSlide(activeSlide(), series.activeSlide));
   ui.duplicateSlide.addEventListener("click", () => {
-    if (series.slides.length >= 30) {
-      setStatus("В серии уже 30 слайдов — это предел для сохранения и переноса через JSON.");
+    if (series.slides.length >= 20) {
+      setStatus("В серии 20 или больше слайдов. Удалите лишние перед дублированием.");
       return;
     }
     const source = deepClone(activeSlide());
@@ -3531,6 +3619,34 @@
     setStatus(`Слайд продублирован. В серии теперь ${series.slides.length}.`);
   });
 
+  for (const button of ui.slideActions) {
+    button.addEventListener("click", () => {
+      const index = series.activeSlide;
+      const slides = series.slides;
+      const action = button.dataset.slideAction;
+      if (action === "add") {
+        if (slides.length >= 20) return;
+        const position = slides[index].role === "cta" ? index : index + 1;
+        const template = themedTemplate(quickLayoutPresets["light-column"]);
+        slides.splice(position, 0, makeSlide({ ...template, role: "longread", title: "", body: "" }));
+        series.activeSlide = position;
+      } else if (action === "remove") {
+        if (slides.length <= 1 || !confirm(`Удалить слайд ${index + 1} из серии?`)) return;
+        slides.splice(index, 1);
+        series.activeSlide = Math.min(index, slides.length - 1);
+      } else {
+        const position = index + (action === "earlier" ? -1 : 1);
+        if (position < 0 || position >= slides.length) return;
+        [slides[index], slides[position]] = [slides[position], slides[index]];
+        series.activeSlide = position;
+      }
+      series.totalSlides = slides.length;
+      renderAll();
+      markChanged();
+      setStatus(`Структура обновлена. Слайдов в серии: ${slides.length}.`);
+    });
+  }
+
   ui.saveSeries.addEventListener("click", saveWholeSeries);
   ui.briefFields.forEach((field) => field.addEventListener("input", () => {
     series.brief[field.dataset.briefField] = field.value;
@@ -3540,26 +3656,65 @@
     series.brief[check.dataset.briefCheck] = check.checked;
     markChanged();
   }));
-  ui.copyBrief.addEventListener("click", async () => {
-    const brief = series.brief;
-    const lines = [
-      `Серия: ${series.name}`,
+  function briefText(document, includeNotes = false) {
+    const brief = document.brief;
+    return [
+      `Серия: ${document.name}`,
       `Ответственный: ${brief.owner || "—"}`,
       `Ревью: ${brief.reviewer || "—"}`,
       `Дата публикации: ${brief.publicationDate || "—"}`,
       `Аккаунт: ${brief.account || "—"}`,
       `Задача: ${brief.objective || "—"}`,
+      `Рубрика: ${brief.category || "—"}`,
+      `Аудитория: ${brief.audience || "—"}`,
+      `Ключевая мысль: ${brief.keyMessage || "—"}`,
+      `Источник: ${brief.sourceUrl || "—"}`,
+      `Дедлайн: ${brief.deadline || "—"}`,
       `CTA: ${brief.cta || "—"}`,
-      `Комментарий: ${brief.notes || "—"}`,
+      ...(includeNotes ? [`Комментарий: ${brief.notes || "—"}`] : []),
       `Текст вычитан: ${brief.textReviewed ? "да" : "нет"}`,
       `Фото согласованы: ${brief.photosCleared ? "да" : "нет"}`,
       `Кадры просмотрены: ${brief.slidesReviewed ? "да" : "нет"}`,
-    ];
+    ].join("\n");
+  }
+  ui.copyBrief?.addEventListener("click", async () => {
     try {
-      await navigator.clipboard.writeText(lines.join("\n"));
+      await navigator.clipboard.writeText(briefText(series, true));
       setStatus("Бриф скопирован. Для передачи всей серии экспортируйте JSON.");
     } catch {
       setStatus("Не удалось скопировать бриф. Проверьте разрешение браузера на доступ к буферу обмена.");
+    }
+  });
+  ui.caption?.addEventListener("input", () => {
+    series.caption = ui.caption.value;
+    markChanged();
+  });
+  ui.downloadZip?.addEventListener("click", downloadPostZip);
+  document.querySelector("#carouselClosePng")?.addEventListener("click", () => ui.pngDialog.close());
+  ui.previewPng?.addEventListener("click", async () => {
+    const index = series.activeSlide;
+    const slide = deepClone(activeSlide());
+    const font = deepClone(series.font);
+    ui.previewPng.disabled = true;
+    try {
+      exportPhoto(slide, index);
+      setStatus("Собираем предпросмотр PNG…");
+      const { blob, preview } = await renderSlidePng(slide, index, font);
+      const url = URL.createObjectURL(blob);
+      const image = ui.pngDialog.querySelector("img");
+      image.src = url;
+      ui.pngDialog.querySelector("#carouselPngTitle").textContent = `Слайд ${index + 1} · PNG 1080 × 1350`;
+      ui.pngDialog.querySelector("#carouselPngNote").textContent = preview ? "Использовано превью фото. Проверьте детализацию." : "";
+      ui.pngDialog.addEventListener("close", () => {
+        image.removeAttribute("src");
+        URL.revokeObjectURL(url);
+      }, { once: true });
+      ui.pngDialog.showModal();
+      setStatus(`Предпросмотр слайда ${index + 1} готов.`);
+    } catch (error) {
+      setStatus(error.message || "Не удалось собрать предпросмотр PNG.");
+    } finally {
+      ui.previewPng.disabled = false;
     }
   });
   ui.exportSeries.addEventListener("click", exportSeries);

@@ -255,7 +255,7 @@
 .carousel-grid-cell.is-draft .carousel-render-content p { margin-top: 5px; font-size: clamp(4px, .75vw, 7px); }
 .carousel-grid-new, .carousel-grid-kind { position: absolute; z-index: 8; top: 5px; right: 5px; min-width: 17px; height: 17px; display: grid; place-items: center; padding: 0 4px; border-radius: 4px; color: #fff; background: rgba(9,16,14,.76); font-size: 6px; font-weight: 850; }
 .carousel-grid-new { color: #10201a; background: #63dda7; }
-.carousel-canvas-actions { display: flex; gap: 7px; width: min(100%, 520px); margin: 14px auto 0; }
+.carousel-canvas-actions { display: flex; flex-wrap: wrap; gap: 7px; width: min(100%, 520px); margin: 14px auto 0; }
 .carousel-canvas-actions .button { flex: 1; }
 
 .carousel-controls-panel { padding: 17px; }
@@ -519,3 +519,18 @@
   .carousel-lab-link { align-items: stretch; flex-direction: column; }
   .carousel-lab-link > div:last-child { display: grid; grid-template-columns: 1fr 1fr; }
 }
+
+.carousel-slide-actions { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+
+.carousel-png-dialog {
+  width: min(92vw, 560px);
+  max-height: 90vh;
+  padding: 16px;
+  border: 1px solid #dddcd6;
+  border-radius: 16px;
+  background: #fff;
+  color: #171814;
+}
+.carousel-png-dialog::backdrop { background: rgb(23 24 20 / 65%); }
+.carousel-png-dialog img { display: block; width: auto; max-width: 100%; max-height: 68vh; margin: 12px auto 0; }
+.carousel-png-dialog p:empty { display: none; }

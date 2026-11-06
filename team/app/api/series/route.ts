@@ -18,7 +18,7 @@ export async function POST(request: Request) {
   let document;
   try { document = seriesDocument(await readJson(request)); }
   catch { return jsonError("Не удалось прочитать JSON серии.", 400); }
-  if (!document) return jsonError("Ожидается серия с названием и 2–30 слайдами.", 400);
+  if (!document) return jsonError("Ожидается серия с названием и 1–30 слайдами.", 400);
   const id = randomUUID();
   const client = await pool.connect();
   try {

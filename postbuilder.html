@@ -9,7 +9,7 @@
   <title>#Sekta — конструктор поста</title>
   <link rel="stylesheet" href="styles.css?v=20260926-1">
   <link rel="stylesheet" href="type-studio/fonts.css">
-  <link rel="stylesheet" href="postbuilder.css?v=20260926-2">
+  <link rel="stylesheet" href="postbuilder.css?v=20261106-1">
 </head>
 <body>
   <a class="skip-link" href="#postbuilderMain">К конструктору поста</a>
@@ -51,7 +51,7 @@
           </section>
 
           <details class="carousel-handoff" id="carouselHandoff">
-            <summary><span><strong>Бриф для передачи</strong><small>Кто готовит, когда нужен пост и что проверить</small></span><span class="carousel-handoff-scope">Локально · входит в JSON</span></summary>
+            <summary><span><strong>Бриф для передачи</strong><small>Кто готовит, когда нужен пост и что проверить</small></span><span class="carousel-handoff-scope">Входит в проект и экспорт</span></summary>
             <div class="carousel-handoff-body">
               <div class="carousel-handoff-fields">
                 <label><span>Ответственный</span><input data-brief-field="owner" type="text" maxlength="80" placeholder="Имя редактора"></label>
@@ -59,11 +59,16 @@
                 <label><span>Дата публикации</span><input data-brief-field="publicationDate" type="date"></label>
                 <label><span>Аккаунт</span><input data-brief-field="account" type="text" maxlength="80" placeholder="@sektaschool"></label>
                 <label class="carousel-handoff-wide"><span>Задача поста</span><input data-brief-field="objective" type="text" maxlength="500" placeholder="Какое действие или мысль ждём от читателя"></label>
+                <label><span>Рубрика</span><input data-brief-field="category" type="text" maxlength="80"></label>
+                <label><span>Дедлайн</span><input data-brief-field="deadline" type="date"></label>
+                <label class="carousel-handoff-wide"><span>Аудитория</span><input data-brief-field="audience" type="text" maxlength="500"></label>
+                <label class="carousel-handoff-wide"><span>Ключевая мысль</span><input data-brief-field="keyMessage" type="text" maxlength="500"></label>
+                <label class="carousel-handoff-full"><span>Ссылка на источник</span><input data-brief-field="sourceUrl" type="url" maxlength="2000"></label>
                 <label class="carousel-handoff-wide"><span>CTA</span><input data-brief-field="cta" type="text" maxlength="500" placeholder="Что предложить читателю в конце"></label>
                 <label class="carousel-handoff-full"><span>Комментарий для коллеги</span><textarea data-brief-field="notes" rows="2" maxlength="2000" placeholder="Что уточнить перед выпуском"></textarea></label>
               </div>
               <fieldset class="carousel-handoff-checks"><legend>Перед публикацией</legend><label><input data-brief-check="textReviewed" type="checkbox">Текст вычитан</label><label><input data-brief-check="photosCleared" type="checkbox">Фото согласованы</label><label><input data-brief-check="slidesReviewed" type="checkbox">Кадры просмотрены</label></fieldset>
-              <div class="carousel-handoff-actions"><button class="button button-secondary" id="carouselCopyBrief" type="button">Скопировать бриф</button><span>Отметки относятся только к этой копии. Для передачи всей серии экспортируйте JSON во вкладке «Сохранённые».</span></div>
+              <div class="carousel-handoff-actions"><button class="button button-secondary" id="carouselCopyBrief" type="button">Скопировать бриф</button><span>Сохраните серию в команде, чтобы передать бриф коллегам.</span></div>
             </div>
           </details>
 
@@ -171,11 +176,12 @@
 Первая тренировка после паузы может быть короче и легче обычной. Её задача — не компенсировать пропущенное, а снова сделать движение частью дня.
 
 Выберите один знакомый формат, уменьшите объём и заранее разрешите себе остановиться. Устойчивость начинается не с подвига, а с возможности вернуться ещё раз.</textarea>
+                  <label class="carousel-field"><span>Подпись к публикации</span><textarea id="carouselCaption" rows="5" maxlength="10000" placeholder="Подпись, CTA и хэштеги"></textarea></label>
                 </div>
                 <aside class="carousel-split-settings">
                   <h3>Как разложить</h3>
-                  <label><span>Всего слайдов</span><select id="carouselSlideCount"><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option selected>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option></select></label>
-                  <div class="carousel-split-math" id="carouselSplitMath"><strong>1 + 8 + 1</strong><span>обложка · текст · финал</span></div>
+                  <label><span>Всего слайдов</span><select id="carouselSlideCount"><option value="1">1 · одиночный пост</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option selected>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option></select></label>
+                  <div class="carousel-split-math" id="carouselSplitMath"><strong>1 + 6 + 1</strong><span>обложка · текст · финал</span></div>
                   <label class="carousel-check"><input id="carouselKeepParagraphs" type="checkbox" checked><span>Сохранять абзацы целиком, когда это возможно</span></label>
                   <label class="carousel-check"><input id="carouselPhotoRhythm" type="checkbox" checked><span>Использовать разные фотографии на внутренних слайдах</span></label>
                   <button class="button button-primary" id="carouselSplitText" type="button">Разбить текст на слайды</button>
@@ -194,11 +200,19 @@
                 <p class="carousel-direct-hint">Боковые ручки меняют перенос строк, угловые — размер самого текста. Свободное место двигает фото.</p>
                 <div class="carousel-canvas-actions">
                   <button class="button button-primary" id="carouselSaveSlide" type="button">Сохранить слайд</button>
+                  <button class="button button-secondary" id="carouselPreviewPng" type="button">Превью PNG</button>
                   <button class="button button-secondary" id="carouselDownloadActive" type="button">Скачать PNG</button>
+                  <button class="button button-primary" id="carouselDownloadZip" type="button">Скачать пост ZIP</button>
                 </div>
               </section>
               <section class="panel carousel-controls-panel">
                 <div class="section-head"><div><h2 id="carouselActiveTitle">Слайд 1</h2><p id="carouselActiveMeta">обложка · не сохранён</p></div><button class="button button-quiet" id="carouselDuplicateSlide" type="button">Дублировать</button></div>
+                <div class="carousel-slide-actions" role="group" aria-label="Порядок и состав серии">
+                  <button class="button button-secondary" type="button" data-slide-action="earlier">Раньше</button>
+                  <button class="button button-secondary" type="button" data-slide-action="later">Позже</button>
+                  <button class="button button-secondary" type="button" data-slide-action="add">Добавить слайд</button>
+                  <button class="button button-quiet" type="button" data-slide-action="remove">Удалить</button>
+                </div>
                 <section class="carousel-quick-inspector" aria-labelledby="carouselQuickInspectorTitle">
                   <div class="carousel-quick-inspector-head"><div><h3 id="carouselQuickInspectorTitle">Быстрые настройки кадра</h3><p>Канон серии: полноформатное фото, затемнение и один цветовой акцент.</p></div><button class="button button-secondary" id="carouselSuggestSlideStyle" type="button">Вернуть базовый стиль</button></div>
                   <div class="carousel-quick-photo-picker">
@@ -287,13 +301,22 @@
           <div class="carousel-studio-status" id="carouselStudioStatus" role="status" aria-live="polite">Черновик готов к монтажу.</div>
         </section>
   </main>
+  <dialog id="carouselPngDialog" class="carousel-png-dialog" aria-labelledby="carouselPngTitle">
+    <div class="section-head">
+      <h2 id="carouselPngTitle">Предпросмотр PNG</h2>
+      <button class="button button-secondary" id="carouselClosePng" type="button" autofocus>Закрыть</button>
+    </div>
+    <img alt="Слайд в том виде, в котором он будет экспортирован">
+    <p id="carouselPngNote"></p>
+  </dialog>
   <script src="data/current-grid.js?v=20260904-1"></script>
-  <script src="data/library-data.js?v=20260916-1"></script>
+  <script src="data/library-data.js?v=20261022-1"></script>
   <script src="data/science-library.js?v=20260826-1"></script>
   <script src="data/visual-canon.js?v=20260828-1"></script>
   <script src="type-studio/font-data.js"></script>
   <script src="media-source.js?v=20260904-1"></script>
-  <script src="carousel-studio.js?v=20260926-2"></script>
+  <script src="assets/vendor/fflate/fflate-0.8.2.js"></script>
+  <script src="carousel-studio.js?v=20261106-1"></script>
   <script src="team-bridge.js?v=20260926-2"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@ import type { ChangeEvent, FormEvent } from "react";
 import { authClient } from "@/lib/auth-client";
 import type { Actor, Role } from "@/lib/access";
 
-type Item = { id: string; name: string; status: string; revision: number; createdBy: string; updatedBy: string; updatedAt: string; brief?: { owner?: string; reviewer?: string; publicationDate?: string; account?: string } };
+type Item = { id: string; name: string; status: string; revision: number; createdBy: string; updatedBy: string; updatedAt: string; brief?: { category?: string; owner?: string; reviewer?: string; publicationDate?: string; account?: string } };
 type Member = { email: string; role: Role; invitedBy: string; createdAt: string };
 type Revision = { revision: number; status: string; changedBy: string; changedAt: string };
 const statusLabels: Record<string, string> = { draft: "Черновик", review: "На ревью", approved: "Согласовано", scheduled: "Запланировано", published: "Опубликовано" };
@@ -24,6 +24,7 @@ export function TeamRoom({ actor }: { actor: Actor }) {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
   const [historyItem, setHistoryItem] = useState<Item | null>(null);
   const [revisions, setRevisions] = useState<Revision[]>([]);
   const isAdmin = actor.role === "owner" || actor.role === "admin";
@@ -118,19 +119,24 @@ export function TeamRoom({ actor }: { actor: Actor }) {
     } catch (error) { setMessage(error instanceof Error ? error.message : "Не удалось изменить роль."); }
   }
 
-  const visible = filter === "all" ? items : items.filter((item) => item.status === filter);
+  const query = search.trim().toLocaleLowerCase("ru");
+  const visible = items.filter((item) => {
+    if (filter !== "all" && item.status !== filter) return false;
+    return !query || [item.name, item.createdBy, item.brief?.category, item.brief?.account, item.brief?.owner, item.brief?.publicationDate]
+      .some((value) => value?.toLocaleLowerCase("ru").includes(query));
+  });
   return <div className="team-app">
     <header className="team-header"><a className="team-brand" href="/team">#Sekta <span>Content Room</span></a><div className="team-header-right"><span>{actor.name} · {roleLabels[actor.role]}</span><button className="text-button" type="button" onClick={async () => { await authClient.signOut(); window.location.assign("/sign-in"); }}>Выйти</button></div></header>
     <main className="team-main">
       <div className="eyebrow">Редакция #Sekta / общее пространство</div>
       <section className="team-intro"><div><h1>Материалы команды</h1><p>Собирайте серию, передавайте на ревью и храните одну актуальную версию для всех.</p></div><div className="team-intro-actions">{canEdit && <><a className="button primary" href="/editor/postbuilder.html">Новая серия</a><label className="button secondary upload-button">Импортировать JSON<input type="file" accept=".json,application/json" onChange={importFile} /></label></>}</div></section>
       {message && <div className="notice" role="status"><span>{message}</span><button type="button" aria-label="Закрыть сообщение" onClick={() => setMessage("")}>×</button></div>}
-      <section className="room-section" aria-labelledby="series-title"><div className="section-top"><div><h2 id="series-title">Публикации</h2><p>{loading ? "Загружаем…" : `${items.length} в команде`}</p></div><label className="filter-label">Этап<select value={filter} onChange={(event) => setFilter(event.target.value)}><option value="all">Все</option>{Object.entries(statusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label></div>
+      <section className="room-section" aria-labelledby="series-title"><div className="section-top"><div><h2 id="series-title">Публикации</h2><p>{loading ? "Загружаем…" : `${items.length} в команде`}</p></div><div className="team-list-filters"><label className="filter-label">Поиск<input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Название, автор, рубрика или дата" /></label><label className="filter-label">Этап<select value={filter} onChange={(event) => setFilter(event.target.value)}><option value="all">Все</option>{Object.entries(statusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label><button className="button secondary small" type="button" onClick={() => void refresh()}>Обновить</button></div></div>
         {visible.length ? <div className="series-list">{visible.map((item) => {
           const next = item.status === "draft" && canEdit ? "review" : item.status === "review" && (isAdmin || actor.role === "reviewer") ? "approved" : item.status === "approved" && isAdmin ? "scheduled" : item.status === "scheduled" && isAdmin ? "published" : "";
           const nextLabel = next === "review" ? "На ревью" : next === "approved" ? "Согласовать" : next === "scheduled" ? "Запланировать" : "Отметить опубликованным";
           return <article className="series-row" key={item.id}><div className="series-primary"><span className={`status status-${item.status}`}>{statusLabels[item.status] || item.status}</span><h3><a href={`/editor/postbuilder.html?team=${encodeURIComponent(item.id)}`}>{item.name}</a></h3><p>{item.brief?.account || "Аккаунт не указан"}{item.brief?.publicationDate ? ` · ${item.brief.publicationDate}` : ""} · изменено {new Date(item.updatedAt).toLocaleDateString("ru-RU")}</p></div><div className="series-people"><span>Автор: {item.createdBy}</span>{item.brief?.reviewer && <span>Ревью: {item.brief.reviewer}</span>}</div><div className="series-actions"><a className="button secondary small" href={`/editor/postbuilder.html?team=${encodeURIComponent(item.id)}`}>Открыть</a><button className="button quiet small" type="button" onClick={() => openHistory(item)}>История</button>{next && <button className="button quiet small" type="button" onClick={() => changeStatus(item, next)}>{nextLabel}</button>}</div></article>;
-        })}</div> : <div className="empty-list">{loading ? "Загружаем материалы…" : filter !== "all" ? "На этом этапе пока нет материалов." : "Пока нет общих серий. Создайте первую или импортируйте JSON из конструктора."}</div>}
+        })}</div> : <div className="empty-list">{loading ? "Загружаем материалы…" : filter !== "all" || query ? "По этим условиям материалов нет." : "Пока нет общих серий. Создайте первую или импортируйте JSON из конструктора."}</div>}
         <p className="section-footnote">«Опубликовано» — ручная отметка команды. Публикация в Instagram из Content Room пока не выполняется.</p>
       </section>
       {isAdmin && <section className="room-section people-section" aria-labelledby="people-title"><div className="section-top"><div><h2 id="people-title">Команда</h2><p>Доступ по подтверждённому адресу почты</p></div></div><form className="invite-form" onSubmit={invite}><label>Почта коллеги<input name="email" type="email" placeholder="name@sekta.work" required /></label><label>Роль<select name="role" defaultValue="editor"><option value="editor">Редактор</option><option value="reviewer">Ревьюер</option><option value="viewer">Просмотр</option><option value="admin">Администратор</option></select></label><button className="button primary" type="submit">Пригласить</button></form><div className="member-list"><div className="member-row"><strong>{actor.role === "owner" ? actor.email : "Владелец команды"}</strong><span>Владелец</span></div>{members.map((member) => <div className="member-row" key={member.email}><strong>{member.email}</strong><select aria-label={`Роль ${member.email}`} value={member.role} onChange={(event) => changeMemberRole(member, event.target.value as Role)}><option value="editor">Редактор</option><option value="reviewer">Ревьюер</option><option value="viewer">Просмотр</option><option value="admin">Администратор</option></select><button className="text-button" type="button" onClick={() => removeMember(member)}>Убрать доступ</button></div>)}</div></section>}

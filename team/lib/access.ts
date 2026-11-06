@@ -44,7 +44,7 @@ export function seriesDocument(value: unknown): { name: string; slides: unknown[
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   const document = value as Record<string, unknown>;
   if (typeof document.name !== "string" || !document.name.trim() || document.name.length > 200) return null;
-  if (!Array.isArray(document.slides) || document.slides.length < 2 || document.slides.length > 30) return null;
+  if (!Array.isArray(document.slides) || document.slides.length < 1 || document.slides.length > 30) return null;
   if (!document.slides.every((slide) => {
     if (!slide || typeof slide !== "object" || Array.isArray(slide)) return false;
     const item = slide as Record<string, unknown>;
