@@ -35,6 +35,9 @@ jobs:
   browser:
     needs: regressions
     runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble
+      options: --ipc=host
     timeout-minutes: 20
     strategy:
       fail-fast: false
@@ -50,15 +53,10 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '22'
-      - name: Use primary Ubuntu archive for browser dependencies
-        run: |
-          # Regional EC2 mirrors can stall apt downloads on hosted runners.
-          sudo sed -i -E 's|https?://[a-z0-9.-]+\.ec2\.archive\.ubuntu\.com/ubuntu|http://archive.ubuntu.com/ubuntu|g' /etc/apt/sources.list.d/ubuntu.sources
       - name: Install isolated browser tools on the server
         run: |
           command -v npx >/dev/null 2>&1
           npm install --prefix "$RUNNER_TEMP/sekta-check-tools" --no-audit --no-fund --ignore-scripts --package-lock=false playwright@1.62.1
-          node "$RUNNER_TEMP/sekta-check-tools/node_modules/playwright/cli.js" install --with-deps "$BROWSER"
       - name: Browser acceptance against an isolated server
         run: NODE_PATH="$RUNNER_TEMP/sekta-check-tools/node_modules" node tests/release-smoke.cjs
       - name: Verify published files and browser startup
