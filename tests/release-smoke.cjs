@@ -579,6 +579,15 @@ async function main() {
     assert.equal(await page.evaluate(() => localStorage.getItem("sekta-carousel-studio-series-v1")), damaged);
   });
 
+  await check("photo library resolves a real archived HEIC original", async ({ page }) => {
+    await page.goto(origin + prefix + "media-library.html", { waitUntil: "load" });
+    await page.locator("#librarySearch").fill("IMG_7520.HEIC");
+    await page.getByRole("button", { name: "Открыть IMG_7520.HEIC крупно", exact: true }).click();
+    assert.equal(await page.getByRole("link", { name: "Открыть оригинал ↗" }).getAttribute("href"), "https://drive.google.com/uc?export=download&id=12lBFd4SdKzAfhLLVTkWM17qlwzOI1Sy8");
+    assert.match(await page.locator("#dialogContent").innerText(), /Оригинал на Google Drive/);
+    await page.screenshot({ path: path.join(output, "photo-original-link.png"), fullPage: false });
+  });
+
   await check("photo library downloads preview bytes and handles missing originals", async ({ page }) => {
     await page.goto(origin + prefix + "media-library.html", { waitUntil: "load" });
     await page.locator(".media-card-open").first().waitFor();
@@ -586,6 +595,7 @@ async function main() {
     await page.evaluate((id) => {
       const item = window.SEKTA_LIBRARY.items.find((entry) => entry.id === id);
       delete window.SEKTA_DRIVE_ORIGINALS.items[id];
+      delete window.SEKTA_PHOTO_ORIGINALS.items[id];
       item.originalResolution = {};
       item.originalUrl = "javascript:alert(1)";
     }, id);
