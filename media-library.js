@@ -202,7 +202,7 @@
 
   function downloadActions(item) {
     const preview = mediaLink(item.thumb);
-    const drive = window.SEKTA_DRIVE_ORIGINALS?.items?.[item.id];
+    const drive = window.SEKTA_PHOTO_ORIGINALS?.items?.[item.id] || window.SEKTA_DRIVE_ORIGINALS?.items?.[item.id];
     const original = mediaLink(drive?.id ? `https://drive.google.com/uc?export=download&id=${encodeURIComponent(drive.id)}` : null)
       || mediaLink(item.originalResolution?.remoteUrl) || mediaLink(item.originalUrl);
     const base = String(item.fileName || item.id || "photo").replace(/\.[^.]+$/, "").replace(/[^a-z0-9_-]/gi, "_").toLowerCase() || "photo";
@@ -223,7 +223,7 @@
     const status = ({ approved: "Можно публиковать", review: "Проверить перед публикацией", "not-public": "Не публиковать" })[item.publicationStatus] || "Не указан";
     const captureDate = item.captureDate ? new Date(item.captureDate).toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" }) : "не определена";
     const camera = [item.camera?.make, item.camera?.model].filter(Boolean).join(" · ") || "не определена";
-    const originalStatus = ({ "verified-local": "Локальный оригинал проверен", "verified-local-and-remote": "Локальный и Drive-оригинал", "remote-only": "Только удалённый оригинал", unresolved: "Оригинал не найден" })[item.originalResolution?.status] || "Не проверено";
+    const originalStatus = window.SEKTA_PHOTO_ORIGINALS?.items?.[item.id] ? "Оригинал на Google Drive" : ({ "verified-local": "Локальный оригинал проверен", "verified-local-and-remote": "Локальный и Drive-оригинал", "remote-only": "Только удалённый оригинал", unresolved: "Оригинал не найден" })[item.originalResolution?.status] || "Не проверено";
     const pathAvailable = isLocal && item.originalPath && !String(item.originalPath).includes("скрыт в публичной версии");
     const topics = (item.topics || []).length ? `<div class="media-taxonomy"><span>Темы</span><p>${item.topics.map((topic) => escapeHtml(payload.taxonomy?.topics?.[topic] || formatTaxonomy(topic))).join(" · ")}</p></div>` : "";
     const projects = (item.projects || []).length ? `<div class="media-taxonomy"><span>Проекты</span><p>${item.projects.map(escapeHtml).join(" · ")}</p></div>` : "";
