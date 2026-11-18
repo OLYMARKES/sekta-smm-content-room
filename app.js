@@ -354,7 +354,7 @@
   }
 
   function filteredLibrary() {
-    const query = ui.librarySearch.value.trim().toLocaleLowerCase("ru");
+    const query = ui.librarySearch.value.trim().replaceAll("_", " ").toLocaleLowerCase("ru");
     const project = ui.projectFilter.value;
     const materialType = ui.materialTypeFilter.value;
     const publication = ui.publicationFilter.value;

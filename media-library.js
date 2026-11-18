@@ -122,7 +122,7 @@
   }
 
   function filteredLibrary() {
-    const query = ui.search.value.trim().toLocaleLowerCase("ru");
+    const query = ui.search.value.trim().replaceAll("_", " ").toLocaleLowerCase("ru");
     const filtered = order.filter((item) => {
       const collections = item.collections || [];
       const inSection = section === "all" ? true : section === "top" ? item.isTop : collections.includes(section);
@@ -192,6 +192,31 @@
     return String(value).split("/").map((part) => part.replace(/^\d+_/, "").replaceAll("_", " ")).join(" / ");
   }
 
+  function mediaLink(value) {
+    if (typeof value !== "string" || !value.trim()) return null;
+    try {
+      const url = new URL(value, document.baseURI);
+      return ["http:", "https:"].includes(url.protocol) && !url.username && !url.password ? url : null;
+    } catch { return null; }
+  }
+
+  function downloadActions(item) {
+    const preview = mediaLink(item.thumb);
+    const drive = window.SEKTA_DRIVE_ORIGINALS?.items?.[item.id];
+    const original = mediaLink(drive?.id ? `https://drive.google.com/uc?export=download&id=${encodeURIComponent(drive.id)}` : null)
+      || mediaLink(item.originalResolution?.remoteUrl) || mediaLink(item.originalUrl);
+    const base = String(item.fileName || item.id || "photo").replace(/\.[^.]+$/, "").replace(/[^a-z0-9_-]/gi, "_").toLowerCase() || "photo";
+    const extension = preview?.pathname.match(/\.(jpe?g|png|webp|avif|gif)$/i)?.[1]?.toLowerCase();
+    const previewName = `${base}_preview${extension ? `.${extension}` : ""}`;
+    const previewAction = !preview ? "" : preview.origin === location.origin
+      ? `<a class="button button-primary" href="${escapeHtml(preview.href)}" download="${escapeHtml(previewName)}">Скачать превью</a>`
+      : `<a class="button button-primary" href="${escapeHtml(preview.href)}" target="_blank" rel="noopener noreferrer">Открыть превью для скачивания ↗</a>`;
+    const originalAction = original
+      ? `<a class="button button-secondary" href="${escapeHtml(original.href)}" target="_blank" rel="noopener noreferrer">Открыть оригинал ↗</a>`
+      : '<button class="button button-secondary" type="button" disabled>Оригинал не подключён</button>';
+    return `${previewAction}${originalAction}`;
+  }
+
   function openMedia(item) {
     if (!item) return;
     const type = item.materialType === "neuro-photo" ? "Нейрофотография" : "Реальная фотография";
@@ -208,23 +233,24 @@
       <div class="detail-copy">
         <p class="eyebrow">${escapeHtml(item.folderLabel || "Фотомедиатека")}</p>
         <h2>${escapeHtml(item.fileName)}</h2>
-        <p>${isLocal ? "Здесь показано превью; путь ведёт к локальному оригиналу." : "Публичная версия показывает только превью; оригинал хранится в защищённой медиатеке."}</p>
+        <p>${isLocal ? "Здесь показано превью; путь ведёт к локальному оригиналу." : "Можно скачать превью в доступном качестве. Для полного качества используйте ссылку на оригинал, если она подключена."}</p>
         <div class="meta-list">
           <div class="meta-row"><span>Тип</span><strong>${type}</strong></div>
           <div class="meta-row"><span>Публикация</span><strong>${status}</strong></div>
           <div class="meta-row"><span>Дата съёмки</span><strong>${escapeHtml(captureDate)}</strong></div>
           <div class="meta-row"><span>Камера</span><strong>${escapeHtml(camera)}</strong></div>
           <div class="meta-row"><span>Оригинал</span><strong>${escapeHtml(originalStatus)}</strong></div>
-          <div class="meta-row"><span>Размер</span><strong>${Number(item.width || 0)} × ${Number(item.height || 0)}</strong></div>
+          <div class="meta-row"><span>Размер оригинала</span><strong>${Number(item.width || 0)} × ${Number(item.height || 0)}</strong></div>
           <div class="meta-row"><span>Ориентация</span><strong>${({ portrait: "вертикальная", landscape: "горизонтальная", square: "квадратная" })[item.orientation] || "не определена"}</strong></div>
           <div class="meta-row"><span>Точные дубли</span><strong>${duplicates || "нет"}</strong></div>
         </div>
         ${projects}${peopleEditor(item)}${topics}
         <div class="detail-actions">
+          ${downloadActions(item)}
           <button class="button ${item.isTop ? "button-top-active" : "button-secondary"}" data-toggle-top="${escapeHtml(item.id)}">${item.isTop ? "В топе" : "Добавить в топ"}</button>
           ${pathAvailable ? `<button class="button button-secondary" data-copy-path="${escapeHtml(item.originalPath)}">Скопировать путь к оригиналу</button>` : ""}
         </div>
-        <div class="path-box">${pathAvailable ? escapeHtml(item.originalPath) : "Оригинал доступен через защищённый реестр медиатеки."}</div>
+        <div class="path-box">${pathAvailable ? escapeHtml(item.originalPath) : "Превью — уменьшенная копия. Ссылка на оригинал, если подключена, открывается отдельно; для Drive может понадобиться вход."}</div>
       </div>
     </div>`;
     ui.dialog.classList.toggle("is-landscape", item.orientation === "landscape");

@@ -579,6 +579,37 @@ async function main() {
     assert.equal(await page.evaluate(() => localStorage.getItem("sekta-carousel-studio-series-v1")), damaged);
   });
 
+  await check("photo library downloads preview bytes and handles missing originals", async ({ page }) => {
+    await page.goto(origin + prefix + "media-library.html", { waitUntil: "load" });
+    await page.locator(".media-card-open").first().waitFor();
+    const id = await page.locator(".media-card-open").first().getAttribute("data-media-id");
+    await page.evaluate((id) => {
+      const item = window.SEKTA_LIBRARY.items.find((entry) => entry.id === id);
+      delete window.SEKTA_DRIVE_ORIGINALS.items[id];
+      item.originalResolution = {};
+      item.originalUrl = "javascript:alert(1)";
+    }, id);
+    await page.locator(".media-card-open").first().click();
+    assert(await page.getByRole("button", { name: "Оригинал не подключён", exact: true }).isDisabled());
+    const link = page.getByRole("link", { name: "Скачать превью", exact: true });
+    const href = await link.getAttribute("href");
+    const pending = page.waitForEvent("download");
+    await link.click();
+    const file = await pending;
+    assert.match(file.suggestedFilename(), /_preview\.(jpe?g|png|webp|avif|gif)$/i);
+    const target = path.join(output, "photo-preview-download");
+    await file.saveAs(target);
+    const expected = await page.request.get(href);
+    assert.deepEqual(await fs.readFile(target), await expected.body());
+    await page.screenshot({ path: path.join(output, "photo-download-controls.png"), fullPage: true });
+    await page.getByRole("button", { name: "Закрыть фотографию" }).click();
+    await page.evaluate((id) => {
+      window.SEKTA_LIBRARY.items.find((entry) => entry.id === id).originalUrl = "https://example.com/original.jpg";
+    }, id);
+    await page.locator(".media-card-open").first().click();
+    assert.equal(await page.getByRole("link", { name: "Открыть оригинал ↗" }).getAttribute("href"), "https://example.com/original.jpg");
+  });
+
   await check("mobile controls, keyboard and layout", async ({ page }) => {
     await view(page, "builder");
     await page.locator("#builderHook").fill("Движение в своём темпе");
