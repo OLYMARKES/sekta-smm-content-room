@@ -122,7 +122,7 @@
   }
 
   function filteredLibrary() {
-    const query = ui.search.value.trim().toLocaleLowerCase("ru");
+    const query = ui.search.value.trim().replaceAll("_", " ").toLocaleLowerCase("ru");
     const filtered = order.filter((item) => {
       const collections = item.collections || [];
       const inSection = section === "all" ? true : section === "top" ? item.isTop : collections.includes(section);
